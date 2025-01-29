@@ -1,0 +1,27 @@
+{
+  "name": "comfort/email-logger",
+  "description": "Various SMTP protocol, Logs email, tracks sent or failed status and more",
+  "type": "library",
+  "license": "MIT",
+  "config": {
+    "vendor-dir": "lib"
+  },
+  "autoload": {
+    "psr-4": {
+      "Comfort\\Crm\\Smtp\\": "includes/"
+    },
+    "files": [
+      "includes/Helpers/comfortsmtp-functions.php",
+      "includes/Helpers/comfortsmtp-tpl-loader.php"
+    ]
+  },
+  "require": {
+    "illuminate/database": "^8.83",
+    "illuminate/pagination": "^8.83",
+    "rakit/validation": "^1.4",
+    "enshrined/svg-sanitize": "dev-master"
+  },
+  "replace": {
+    "symfony/console": "*"
+  }
+}
