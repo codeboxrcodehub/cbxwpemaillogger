@@ -3,8 +3,8 @@ Contributors: codeboxr, manchumahara
 Tags: wordpress smtp,wordpress email log,smtp
 Requires at least: 5.3
 Requires PHP: 8.2
-Tested up to: 6.7.1
-Stable tag: 2.0.5
+Tested up to: 6.7.2
+Stable tag: 2.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,12 @@ e.g.
 
 
 == Changelog ==
+= 2.0.6 =
+* [updated] Miscellaneous changes and improvement(+ Some methods moved to helper class)
+* [new] Pro addon V1.0.4 released
+* [updated] WordPress Core V6.7.2 compatible
+* [updated] Language file is now loaded using 'init'  hook
+
 = 2.0.5 =
 * [updated] Miscellaneous changes and improvement
 * [new] Pro addon V1.0.3 released (Mail api support added)

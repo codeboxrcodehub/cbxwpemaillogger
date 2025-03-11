@@ -84,6 +84,17 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                     <div class="content">
                         <div class="cbx-backend-settings-row">
                             <p>
+                                Version - 2.0.6
+                            </p>
+                            <ul>
+                                <li>[updated] Miscellaneous changes and improvement(+ Some methods moved to helper class)</li>
+                                <li>[new] Pro addon V1.0.4 released</li>
+                                <li>[updated] WordPress Core V6.7.2 compatible</li>
+                                <li>[updated] Language file is now loaded using 'init'  hook</li>
+                            </ul>
+                        </div>
+                        <div class="cbx-backend-settings-row">
+                            <p>
                                 Version - 2.0.5
                             </p>
                             <ul>
@@ -100,16 +111,6 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                                 <li>[fixed] On log delete attachment delete fixed</li>
                             </ul>
                         </div>
-                        <div class="cbx-backend-settings-row">
-                            <p>
-                                Version - 2.0.3
-                            </p>
-                            <ul>
-                                <li>[improvement] Upgrade system improved</li>
-                                <li>[fixed] Fixed corrupted svg image</li>
-                                <li>[fixed] Error fixed if tables were created using old method dbdelta or non migration way</li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
                 <div class="cbx-backend-card dashboard-changelog">
@@ -119,6 +120,17 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                         </div>
                     </div>
                     <div class="content">
+                        <div class="cbx-backend-settings-row">
+                            <p>
+                                Version - 1.0.4
+                            </p>
+                            <ul>
+                                <li>[updated] Misc. improvements (+ Some methods moved to helper class)</li>
+                                <li>[updated] Core plugin V2.0.6 released</li>
+                                <li>[updated] WordPress Core V6.7.2 compatible</li>
+                                <li>[updated] Language file is now loaded using 'init'  hook</li>
+                            </ul>
+                        </div>
                         <div class="cbx-backend-settings-row">
                             <p>
                                 Version - 1.0.3
@@ -135,17 +147,6 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                             <ul>
                                 <li>[updated] Plugin's main php file renamed to cbxwpemailloggerpro.php</li>
                                 <li>[updated] Plugin's main php file renamed to cbxwpemailloggerpro.php</li>
-                            </ul>
-                        </div>
-                        <div class="cbx-backend-settings-row">
-                            <p>
-                                Version - 1.0.1
-                            </p>
-                            <ul>
-                                <li>[updated] Core plugin new version(2.0.2) released</li>
-                                <li>[added] Added new method for plugin update checker</li>
-                                <li>[improvement] Minor improvements and WordPress latest version 6.7.1 compatible</li>
-                                <li>[new] Plugin checker used and plugin checker plugin version 1.3.1 used last</li>
                             </ul>
                         </div>
                     </div>
@@ -293,7 +294,7 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
 							'https://codeboxr.com/product/cbx-currency-converter-for-wordpress/'                  => 'CBX Currency Converter',
 							//'https://codeboxr.com/product/cbx-email-logger-for-wordpress/'                        => 'CBX Email SMTP & Logger',
 							'https://codeboxr.com/product/cbx-petition-for-wordpress/'                            => 'CBX Petition',
-							'https://codeboxr.com/product/cbx-accounting/'                                        => 'CBX Accounting',
+							//'https://codeboxr.com/product/cbx-accounting/'                                        => 'CBX Accounting',
 							'https://codeboxr.com/product/cbx-poll-for-wordpress/'                                => 'CBX Poll',
 							'https://codeboxr.com/product/show-next-previous-article-for-wordpress'               => 'CBX Next Previous Article ',
 							'https://codeboxr.com/product/cbx-multi-criteria-rating-review-for-wordpress/'        => 'CBX Multi Criteria Rating & Review',
@@ -322,42 +323,28 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                         </div>
                     </div>
                     <div class="content">
-						<?php
+	                    <?php
+	                    $items = ComfortSmtpHelpers::codeboxr_news_feed();
+	                    if ( $items !== false && count( $items ) > 0 ) {
+		                    foreach ( $items as $item ) {
+			                    $url   = $item['url'];
+			                    $title = $item['title'];
 
-						include_once( ABSPATH . WPINC . '/feed.php' );
-						if ( function_exists( 'fetch_feed' ) ) {
-							//$feed = fetch_feed( 'https://codeboxr.com/feed?post_type=product' );
-							$feed = fetch_feed( 'https://codeboxr.com/feed?post_type=post' );
-							if ( ! is_wp_error( $feed ) ) : $feed->init();
-								$feed->set_output_encoding( 'UTF-8' );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   // this is the encoding parameter, and can be left unchanged in almost every case
-								$feed->handle_content_type();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            // this double-checks the encoding type
-								$feed->set_cache_duration( 21600 );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      // 21,600 seconds is six hours
-								$limit  = $feed->get_item_quantity( 10 );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 // fetches the 18 most recent RSS feed stories
-								$items  = $feed->get_items( 0,
-									$limit );                                                                                                                                                                                                                                                                                                                                                                                                                  // this sets the limit and array for parsing the feed
-								$blocks = array_slice( $items, 0, 10 );
-
-								foreach ( $blocks as $block ) {
-									$url = $block->get_permalink();
-									$url = ComfortSmtpHelpers::url_utmy( esc_url( $url ) ); ?>
-                                    <div class="cbx-backend-settings-row">
-                                        <a href="<?php echo esc_url( $url ) ?>" target="_blank">
-                                            <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+			                    echo '<div class="cbx-backend-settings-row">';
+			                    echo '<a href="' . esc_url( $url ) . '" target="_blank">';
+			                    echo '<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                                 <defs/>
                                                 <path d="M16.4 9.1L12.2 5c-.3-.3-.7-.3-1-.2s-.6.5-.6.9v1.7H4.2c-.5 0-.9.4-.9.9v3.4c0 .2.1.5.3.7.2.2.4.3.7.3h6.4v1.7c0 .4.2.7.6.9.4.1.8.1 1-.2l4.1-4.2c.4-.5.4-1.3 0-1.8z"
                                                       fill="currentColor"/>
-                                            </svg>
-											<?php
-											//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-											echo $block->get_title();
-											?>
-                                        </a>
-                                    </div>
-									<?php
-								}//end foreach
-							endif;
-						}
-						?>
+                                            </svg>';
+
+			                    //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			                    echo $title;
+			                    echo '</a>';
+			                    echo '</div>';
+		                    }//end for loop
+	                    }//if data found
+	                    ?>
                     </div>
                 </div>
             </div>

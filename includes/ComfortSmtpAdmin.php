@@ -499,6 +499,7 @@ class ComfortSmtpAdmin {
 
 		$to = $atts['to'];
 		if ( ! is_array( $to ) ) {
+            if(is_null($to)) $to = '';
 			$to = explode( ',', $to );
 		}
 
@@ -1031,7 +1032,7 @@ class ComfortSmtpAdmin {
 			ComfortSmtpHelpers::load_orm();
 
 			// Run the upgrade routine
-			comfortsmtp()->migration_and_defaults();
+			ComfortSmtpHelpers::migration_and_defaults();
 
 			// Update the saved version
 			update_option( 'comfortsmtp_version', COMFORTSMTP_PLUGIN_VERSION );
@@ -1046,36 +1047,35 @@ class ComfortSmtpAdmin {
 	public function plugin_activate_upgrade_notices() {
 		$activation_notice_shown = false;
 
+
+		$kiss_html_arr = [
+			'strong' => [],
+			'a'      => [
+				'href'  => [],
+				'class' => []
+			]
+		];
+
 		// Check the transient to see if we've just activated the plugin
 		if ( get_transient( 'comfortsmtp_activated_notice' ) ) {
 			echo '<div class="notice notice-success is-dismissible" style="border-color: #6648fe !important;">';
 
-			//phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
-			echo '<p><img alt="icon" style="float: left; display: inline-block; margin-right: 20px;" src="' . esc_url( plugins_url( 'assets/images/icon_c_48.png',
-					dirname( __FILE__ ) ) ) . '"/>';
+            echo '<p>';
 
-			/* translators: 1: plugin version 2. team url  */
-			echo wp_kses( sprintf( __( 'Thanks for installing/deactivating <strong>CBX Email SMTP & Logger</strong> V%1$s - <a href="%2$s" target="_blank">Codeboxr Team</a>',
-				'cbxwpemaillogger' ), esc_attr( COMFORTSMTP_PLUGIN_VERSION ), 'https://codeboxr.com' ), [
-				'strong' => [],
-				'a'      => [
-					'href'  => [],
-					'class' => []
-				]
-			] );
+			//phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
+			echo '<img alt="icon" style="float: left; display: inline-block; margin-right: 20px;" src="' . esc_url( plugins_url( 'assets/images/icon_c_48.png',
+					dirname( __FILE__ ) ) ) . '" />';
+
+			/* translators: 1: plugin version 2. codeboxr website url  */
+            echo sprintf(wp_kses(__( 'Thanks for installing/deactivating <strong>CBX Email SMTP & Logger</strong> V%1$s - <a href="%2$s" target="_blank">Codeboxr Team</a>',
+	            'cbxwpemaillogger' ), $kiss_html_arr), esc_attr( COMFORTSMTP_PLUGIN_VERSION ), 'https://codeboxr.com');
 
 			echo '</p>';
 
 			/* translators: 1: Settings url 2. plugin url  */
-			echo '<p>' . wp_kses( sprintf( __( 'Check Plugin <a href="%1$s">Setting</a> and <a href="%2$s" target="_blank"><span class="dashicons dashicons-external"></span> Documentation</a>',
-					'cbxwpemaillogger' ), esc_attr( admin_url( 'admin.php?page=comfortsmtp_settings' ) ),
-					'https://codeboxr.com/product/cbx-email-logger-for-wordpress/' ), [
-					'strong' => [],
-					'a'      => [
-						'href' => [],
-						'span' => []
-					]
-				] ) . '</p>';
+			echo '<p>' . sprintf( wp_kses(__( 'Check Plugin <a href="%1$s">Setting</a> and <a href="%2$s" target="_blank"><span class="dashicons dashicons-external"></span> Documentation</a>',
+					'cbxwpemaillogger' ), $kiss_html_arr), esc_attr( admin_url( 'admin.php?page=comfortsmtp_settings' ) ),
+					'https://codeboxr.com/product/cbx-email-logger-for-wordpress/' ) . '</p>';
 			echo '</div>';
 
 
@@ -1092,33 +1092,27 @@ class ComfortSmtpAdmin {
 			if(!$activation_notice_shown){
 				echo '<div class="notice notice-success is-dismissible" style="border-color: #6648fe !important;">';
 
+                echo '<p>';
+
 				//phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
-				echo '<p><img alt="icon" style="float: left; display: inline-block;  margin-right: 20px;" src="' . esc_url( plugins_url( 'assets/images/icon_c_48.png',
+				echo '<img alt="icon" style="float: left; display: inline-block;  margin-right: 20px;" src="' . esc_url( plugins_url( 'assets/images/icon_c_48.png',
 						dirname( __FILE__ ) ) ) . '"/>';
 
 				/* translators: 1: plugin version 2. team url  */
-				echo wp_kses( sprintf( __( 'Thanks for upgrading <strong>CBX Email SMTP & Logger</strong> V%1$s - <a href="%2$s" target="_blank">Codeboxr Team</a>',
-					'cbxwpemaillogger' ), esc_attr( COMFORTSMTP_PLUGIN_VERSION ), 'https://codeboxr.com' ), [
-					'strong' => [],
-					'a'      => [
-						'href'  => [],
-						'class' => []
-					]
-				] );
+				echo sprintf(wp_kses(__( 'Thanks for upgrading <strong>CBX Email SMTP & Logger</strong> V%1$s - <a href="%2$s" target="_blank">Codeboxr Team</a>',
+					'cbxwpemaillogger' ), $kiss_html_arr), esc_attr( COMFORTSMTP_PLUGIN_VERSION ), 'https://codeboxr.com' ) ;
 
 				echo '</p>';
 
 
+                echo '<p>';
+
 				/* translators: 1: Settings url 2. plugin url  */
-				echo '<p>' . wp_kses( sprintf( __( 'Check Plugin <a href="%1$s">Setting</a> and <a href="%2$s" target="_blank"><span class="dashicons dashicons-external"></span> Documentation</a>',
-						'cbxwpemaillogger' ), esc_attr( admin_url( 'admin.php?page=comfortsmtp_settings' ) ),
-						'https://codeboxr.com/product/cbx-email-logger-for-wordpress/' ), [
-						'strong' => [],
-						'a'      => [
-							'href' => [],
-							'span' => []
-						]
-					] ) . '</p>';
+				echo sprintf(wp_kses( __( 'Check Plugin <a href="%1$s">Setting</a> and <a href="%2$s" target="_blank"><span class="dashicons dashicons-external"></span> Documentation</a>',
+					'cbxwpemaillogger' ), $kiss_html_arr), esc_attr( admin_url( 'admin.php?page=comfortsmtp_settings' ) ),
+						'https://codeboxr.com/product/cbx-email-logger-for-wordpress/' );
+
+				echo '</p>';
 
 				echo '</div>';
 

@@ -16,7 +16,7 @@
  * Plugin Name:       Comfort Email SMTP, Logger & Email Api
  * Plugin URI:        https://codeboxr.com/product/cbx-email-logger-for-wordpress/
  * Description:       Various SMTP protocol, Logs email, tracks sent or failed status and more.
- * Version:           2.0.5
+ * Version:           2.0.6
  * Requires at least: 5.3
  * Requires PHP:      8.2
  * Author:            Codeboxr
@@ -35,7 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 defined( 'COMFORTSMTP_PLUGIN_NAME' ) or define( 'COMFORTSMTP_PLUGIN_NAME', 'cbxwpemaillogger' );
-defined( 'COMFORTSMTP_PLUGIN_VERSION' ) or define( 'COMFORTSMTP_PLUGIN_VERSION', '2.0.5' );
+defined( 'COMFORTSMTP_PLUGIN_VERSION' ) or define( 'COMFORTSMTP_PLUGIN_VERSION', '2.0.6' );
 defined( 'COMFORTSMTP_BASE_NAME' ) or define( 'COMFORTSMTP_BASE_NAME', plugin_basename( __FILE__ ) );
 defined( 'COMFORTSMTP_ROOT_PATH' ) or define( 'COMFORTSMTP_ROOT_PATH', plugin_dir_path( __FILE__ ) );
 defined( 'COMFORTSMTP_ROOT_URL' ) or define( 'COMFORTSMTP_ROOT_URL', plugin_dir_url( __FILE__ ) );
@@ -99,7 +99,7 @@ function activate_comfortsmtp() {
 
 	ComfortSmtpHelpers::load_orm();
 
-	ComfortSmtp::activate();
+	ComfortSmtpHelpers::activate();
 }//end function activate_comfortsmtp
 
 register_activation_hook( __FILE__, 'activate_comfortsmtp' );
@@ -109,7 +109,7 @@ register_activation_hook( __FILE__, 'activate_comfortsmtp' );
  * The code that runs during plugin deactivation.
  */
 function deactivate_comfortsmtp() {
-	ComfortSmtp::deactivate();
+	ComfortSmtpHelpers::deactivate();
 }//end function deactivate_comfortsmtp
 
 register_deactivation_hook( __FILE__, 'deactivate_comfortsmtp' );
@@ -120,14 +120,14 @@ register_deactivation_hook( __FILE__, 'deactivate_comfortsmtp' );
  *
  * @since  1.0
  */
-function comfortsmtp() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
+function comfortsmtp_core() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 	global $comfortsmtp_core;
 	if ( ! isset( $comfortsmtp_core ) ) {
 		$comfortsmtp_core = run_comfortsmtp_core();
 	}
 
 	return $comfortsmtp_core;
-}//end method comfortsmtp
+}//end method comfortsmtp_core
 
 /**
  * Begins execution of the plugin.

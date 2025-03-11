@@ -35,8 +35,8 @@ class ComfortSmtpSettings {
 	private static $_instance;
 
 	/**
-     * return instance
-     *
+	 * return instance
+	 *
 	 * @return object|self
 	 */
 	public static function instance() {
@@ -195,6 +195,7 @@ class ComfortSmtpSettings {
 
 		// creates our settings in the options table
 		foreach ( $this->settings_sections as $section ) {
+			//phpcs:ignore PluginCheck.CodeAnalysis.SettingSanitization.register_settingDynamic
 			register_setting( $section['id'], $section['id'], [ $this, 'sanitize_options' ] );
 		}
 	} //end admin_init
@@ -258,7 +259,7 @@ class ComfortSmtpSettings {
 	/**
 	 * Displays a textarea for a settings field
 	 *
-	 * @param array $args
+	 * @param  array  $args
 	 * @param $value
 	 *
 	 * @return void
@@ -270,7 +271,7 @@ class ComfortSmtpSettings {
 	/**
 	 * Displays heading field using h3
 	 *
-	 * @param array $args
+	 * @param  array  $args
 	 *
 	 * @return void
 	 */
@@ -289,7 +290,7 @@ class ComfortSmtpSettings {
 	/**
 	 * Displays sub heading field using h4
 	 *
-	 * @param array $args
+	 * @param  array  $args
 	 *
 	 * @return void
 	 */
@@ -304,7 +305,7 @@ class ComfortSmtpSettings {
 	/**
 	 * Displays a text field for a settings field
 	 *
-	 * @param array $args
+	 * @param  array  $args
 	 * @param $value
 	 *
 	 * @return void
@@ -329,8 +330,8 @@ class ComfortSmtpSettings {
 	/**
 	 * Displays an url field for a settings field
 	 *
-	 * @param array $args
-	 * @param null $value
+	 * @param  array  $args
+	 * @param  null  $value
 	 *
 	 * @return void
 	 */
@@ -341,7 +342,7 @@ class ComfortSmtpSettings {
 	/**
 	 * Displays a number field for a settings field
 	 *
-	 * @param array $args
+	 * @param  array  $args
 	 *
 	 * @return void
 	 */
@@ -369,7 +370,7 @@ class ComfortSmtpSettings {
 	/**
 	 * Displays a multicheckbox a settings field
 	 *
-	 * @param array $args
+	 * @param  array  $args
 	 * @param $value
 	 *
 	 * @return void
@@ -408,7 +409,7 @@ class ComfortSmtpSettings {
 	/**
 	 * Displays a checkbox for a settings field
 	 *
-	 * @param array $args
+	 * @param  array  $args
 	 * @param $value
 	 *
 	 * @return void
@@ -460,7 +461,7 @@ class ComfortSmtpSettings {
 	/**
 	 * Displays a multicheckbox settings field
 	 *
-	 * @param array $args
+	 * @param  array  $args
 	 * @param $value
 	 *
 	 * @return void
@@ -566,7 +567,7 @@ class ComfortSmtpSettings {
 
 		//$html = sprintf( '<input type="hidden" name="%1$s[%2$s]'.$multi_name.'" value="" />', $args['section'], $args['id'] );
 
-        $html = sprintf( '<div class="selecttwo-select-wrapper" data-placeholder="' . $placeholder . '" data-allow-clear="' . $allow_clear . '"><select ' . $multi_attr . ' class="%1$s" name="%2$s[%3$s]' . $multi_name . '" id="%2$s[%3$s]" style="min-width: 150px !important;"  placeholder="%4$s" data-placeholder="%4$s">',
+		$html = sprintf( '<div class="selecttwo-select-wrapper" data-placeholder="' . $placeholder . '" data-allow-clear="' . $allow_clear . '"><select ' . $multi_attr . ' class="%1$s" name="%2$s[%3$s]' . $multi_name . '" id="%2$s[%3$s]" style="min-width: 150px !important;"  placeholder="%4$s" data-placeholder="%4$s">',
 			$size, $args['section'], $args['id'], $args['placeholder'] );
 
 		if ( isset( $args['optgroup'] ) && $args['optgroup'] ) {
@@ -612,8 +613,8 @@ class ComfortSmtpSettings {
 	 * @return void
 	 */
 	function callback_page( $args ) {
-		$edit_svg     = comfortsmtp_esc_svg( comfortsmtp_load_svg( 'icon_edit' ) );
-		$external_svg = comfortsmtp_esc_svg( comfortsmtp_load_svg( 'icon_external' ) );
+		$edit_svg     = comfortsmtp_load_svg( 'icon_edit' );
+		$external_svg = comfortsmtp_load_svg( 'icon_external' );
 
 		$value         = $this->get_field( $args['id'], $args['section'], intval( $args['default'] ) );
 		$size          = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular selecttwo-select';
@@ -672,35 +673,13 @@ class ComfortSmtpSettings {
 			$placeholder = esc_attr( $args['placeholder'] );
 		}
 
+		$html .= sprintf( '<div class="selecttwo-select-wrapper" data-placeholder="' . $placeholder . '" data-allow-clear="' . $allow_clear . '"><select ' . $multi_attr . '  class="%1$s" name="%2$s[%3$s]' . $multi_name . '" id="%2$s[%3$s]" style="min-width: 150px !important;" >', $size, $args['section'], $args['id'] );
 
-		//$html .= sprintf( '<input type="hidden" name="%1$s[%2$s]' . $multi_name . '" value="" />', $args['section'], $args['id'] );
-
-        $html .= sprintf( '<div class="selecttwo-select-wrapper" data-placeholder="' . $placeholder . '" data-allow-clear="' . $allow_clear . '"><select ' . $multi_attr . '  class="%1$s" name="%2$s[%3$s]' . $multi_name . '" id="%2$s[%3$s]" style="min-width: 150px !important;" >', $size, $args['section'], $args['id'] );
-
-		if ( isset( $args['optgroup'] ) && $args['optgroup'] ) {
-			foreach ( $args['options'] as $opt_grouplabel => $option_vals ) {
-				$html .= '<optgroup label="' . esc_attr( $opt_grouplabel ) . '">';
-
-				if ( ! is_array( $option_vals ) ) {
-					$option_vals = [];
-				} else {
-					//$option_vals = $option_vals;
-				}
-
-				foreach ( $option_vals as $key => $val ) {
-					$selected = in_array( $key, $value ) ? ' selected="selected" ' : '';
-					$html     .= sprintf( '<option value="%s" ' . $selected . '>%s</option>', $key, $val );
-				}
-
-				$html .= '</optgroup>';
-			}
-		} else {
-			$option_vals = $args['options'];
-			foreach ( $option_vals as $key => $val ) {
-				$html .= sprintf( '<option value="%s"%s>%s</option>', $key, selected( $value, $key, false ), $val );
-
-			}
+		$option_vals = $args['options'];
+		foreach ( $option_vals as $key => $val ) {
+			$html .= sprintf( '<option value="%s"%s>%s</option>', $key, selected( $value, $key, false ), $val );
 		}
+
 
 		$html .= '</select></div>' . $page_html;
 		$html .= '</div>'; //.setting_pages_actions_wrapper
@@ -717,7 +696,7 @@ class ComfortSmtpSettings {
 	/**
 	 * Displays a textarea for a settings field
 	 *
-	 * @param array $args
+	 * @param  array  $args
 	 * @param $value
 	 *
 	 * @return void
@@ -741,7 +720,7 @@ class ComfortSmtpSettings {
 	/**
 	 * Displays a rich text textarea for a settings field
 	 *
-	 * @param array $args
+	 * @param  array  $args
 	 * @param $value
 	 *
 	 * @return void
@@ -777,7 +756,7 @@ class ComfortSmtpSettings {
 	/**
 	 * Displays a file upload field for a settings field
 	 *
-	 * @param array $args settings field args
+	 * @param  array  $args  settings field args
 	 */
 	function callback_file( $args ) {
 		$value = esc_attr( $this->get_field( $args['id'], $args['section'], $args['default'] ) );
@@ -788,7 +767,7 @@ class ComfortSmtpSettings {
 		$html_id = $this->settings_clean_label_for( $html_id );
 
 
-		$label = isset( $args['options']['button_label'] ) ?	$args['options']['button_label'] :	esc_html__( 'Choose File', 'cbxwpemaillogger' );
+		$label = isset( $args['options']['button_label'] ) ? $args['options']['button_label'] : esc_html__( 'Choose File', 'cbxwpemaillogger' );
 
 		$html = '<div class="wpsa-browse-wrap">';
 		$html .= sprintf( '<input type="text" class="chota-inline %1$s-text wpsa-url" id="%5$s" name="%2$s[%3$s]" value="%4$s"/>',
@@ -803,7 +782,7 @@ class ComfortSmtpSettings {
 	/**
 	 * Displays a color picker field for a settings field
 	 *
-	 * @param array $args
+	 * @param  array  $args
 	 * @param $value
 	 *
 	 * @return void
@@ -839,9 +818,9 @@ class ComfortSmtpSettings {
 	 * @return void
 	 */
 	function callback_repeat( $args ) {
-		$delete_svg = '<i class="cbx-icon">'.comfortsmtp_esc_svg( comfortsmtp_load_svg( 'icon_delete' ) ).'</i>';
-		$edit_svg = '<i class="cbx-icon">'.comfortsmtp_esc_svg( comfortsmtp_load_svg( 'icon_edit' ) ).'</i>';
-		$sort_svg = '<i class="cbx-icon">'.comfortsmtp_esc_svg( comfortsmtp_load_svg( 'icon_move' ) ).'</i>';
+		$delete_svg = '<i class="cbx-icon">' . comfortsmtp_esc_svg( comfortsmtp_load_svg( 'icon_delete' ) ) . '</i>';
+		$edit_svg   = '<i class="cbx-icon">' . comfortsmtp_esc_svg( comfortsmtp_load_svg( 'icon_edit' ) ) . '</i>';
+		$sort_svg   = '<i class="cbx-icon">' . comfortsmtp_esc_svg( comfortsmtp_load_svg( 'icon_move' ) ) . '</i>';
 
 		$section_name = esc_attr( $args['section'] );
 		$option_name  = esc_attr( $args['id'] );
@@ -869,12 +848,12 @@ class ComfortSmtpSettings {
 				}
 
 				$html .= '<div class="form-table-fields-parent-item">';
-				$html .= '<h5><p class="form-table-fields-parent-item-heading">' . $args['name'] . ' #' . ( $index + 1 ).'</p>';
-				$html .= '<span class="form-table-fields-parent-item-icon form-table-fields-parent-item-sort icon icon-only">'.$sort_svg.'</span>';
-				$html .= '<span class="form-table-fields-parent-item-icon form-table-fields-parent-item-control icon icon-only">'.$edit_svg.'</span>';
+				$html .= '<h5><p class="form-table-fields-parent-item-heading">' . $args['name'] . ' #' . ( $index + 1 ) . '</p>';
+				$html .= '<span class="form-table-fields-parent-item-icon form-table-fields-parent-item-sort icon icon-only">' . $sort_svg . '</span>';
+				$html .= '<span class="form-table-fields-parent-item-icon form-table-fields-parent-item-control icon icon-only">' . $edit_svg . '</span>';
 				if ( $allow_new ) {
 					//if allow new then allow delete
-					$html .= '<span class="form-table-fields-parent-item-icon form-table-fields-parent-item-delete icon icon-only">'.$delete_svg.'</span>';
+					$html .= '<span class="form-table-fields-parent-item-icon form-table-fields-parent-item-delete icon icon-only">' . $delete_svg . '</span>';
 				}
 				$html .= '</h5>';
 				$html .= '<div class="form-table-fields-parent-item-wrap">';
@@ -949,7 +928,7 @@ class ComfortSmtpSettings {
 	/**
 	 * Displays a password field for a settings field
 	 *
-	 * @param array $args
+	 * @param  array  $args
 	 *
 	 * @return void
 	 */
@@ -969,7 +948,7 @@ class ComfortSmtpSettings {
 	/**
 	 * Displays a email field for a settings field
 	 *
-	 * @param array $args settings field args
+	 * @param  array  $args  settings field args
 	 */
 	function callback_email( $args ) {
 		$value = esc_attr( $this->get_field( $args['id'], $args['section'], $args['default'] ) );
@@ -1027,7 +1006,7 @@ class ComfortSmtpSettings {
 	/**
 	 * check if any array is associative
 	 *
-	 * @param array $array
+	 * @param  array  $array
 	 *
 	 * @return bool
 	 */
@@ -1038,7 +1017,7 @@ class ComfortSmtpSettings {
 	/**
 	 * Get sanitization callback for given option slug
 	 *
-	 * @param string $slug option slug
+	 * @param  string  $slug  option slug
 	 *
 	 * @return mixed string or bool false
 	 */
@@ -1100,9 +1079,9 @@ class ComfortSmtpSettings {
 	/**
 	 * Get the value of a settings field
 	 *
-	 * @param string $option settings field name
-	 * @param string $section the section name this field belongs to
-	 * @param string $default default text if it's not found
+	 * @param  string  $option  settings field name
+	 * @param  string  $section  the section name this field belongs to
+	 * @param  string  $default  default text if it's not found
 	 *
 	 * @return string
 	 */

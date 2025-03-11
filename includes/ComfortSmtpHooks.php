@@ -31,7 +31,8 @@ class ComfortSmtpHooks {
 		$route = $this->api_routes;
 		$helper = new ComfortSmtpHelpers();
 
-		add_action( 'plugins_loaded', [ $this, 'load_plugin_textdomain' ] );
+		//add_action( 'plugins_loaded', [ $this, 'load_plugin_textdomain' ] );
+		add_action( 'init', [ $this, 'load_plugin_textdomain' ] );
 		add_filter( 'script_loader_tag', [ $this, 'add_module_to_script' ], 10, 3 );
 
 		add_action( 'rest_api_init', [ $route, 'init' ] );

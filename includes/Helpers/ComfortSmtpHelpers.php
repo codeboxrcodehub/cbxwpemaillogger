@@ -1345,4 +1345,171 @@ class ComfortSmtpHelpers {
 			return false;
 		}
 	} //end of method is_comfortsmtppro_active
+
+	/**
+	 * Returns codeboxr news feeds using transient cache
+	 *
+	 * @return false|mixed|\SimplePie\Item[]|null
+	 */
+	public static function codeboxr_news_feed() {
+		$cache_key   = 'codeboxr_news_feed_cache';
+		$cached_feed = get_transient( $cache_key );
+
+		$news = false;
+
+		if ( false === $cached_feed ) {
+			include_once ABSPATH . WPINC . '/feed.php'; // Ensure feed functions are available
+			$feed = fetch_feed( 'https://codeboxr.com/feed?post_type=post' );
+
+			if ( is_wp_error( $feed ) ) {
+				return false; // Return false if there's an error
+			}
+
+			$feed->init();
+
+			$feed->set_output_encoding( 'UTF-8' );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        // this is the encoding parameter, and can be left unchanged in almost every case
+			$feed->handle_content_type();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                // this double-checks the encoding type
+			$feed->set_cache_duration( 21600 );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          // 21,600 seconds is six hours
+			$limit  = $feed->get_item_quantity( 10 );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     // fetches the 18 most recent RSS feed stories
+			$items  = $feed->get_items( 0, $limit );
+			$blocks = array_slice( $items, 0, 10 );
+
+			$news = [];
+			foreach ( $blocks as $block ) {
+				$url   = $block->get_permalink();
+				$url   = ComfortSmtpHelpers::url_utmy( esc_url( $url ) );
+				$title = $block->get_title();
+
+				$news[] = ['url' => $url, 'title' => $title];
+			}
+
+			set_transient( $cache_key, $news, HOUR_IN_SECONDS * 6 ); // Cache for 6 hours
+		} else {
+			$news = $cached_feed;
+		}
+
+		return $news;
+	}//end method codeboxr_news_feed
+
+	/**
+	 * On plugin activate
+	 */
+	public static function activate() {
+		//set the current version
+		update_option('comfortsmtp_version', COMFORTSMTP_PLUGIN_VERSION);
+
+		ComfortSmtpHelpers::migration_and_defaults();
+		ComfortSmtpHelpers::create_cron_job();
+
+		set_transient('comfortsmtp_activated_notice', 1);
+	}//end method activate
+
+	/**
+	 * On plugin deactivate
+	 */
+	public static function deactivate() {
+		wp_clear_scheduled_hook( 'cbxwpemaillogger_daily_event' );
+	}//end method activate
+
+	/**
+	 * On plugin active or reset data set default data for this plugin
+	 *
+	 * @since 1.0.0
+	 */
+	public static function default_data_set() {
+		// create base/main upload directories
+		ComfortSmtpHelpers::checkUploadDir();
+
+		// add role and custom capability
+		ComfortSmtpHelpers::defaultRoleCapability();
+	}//end method default_data_set
+
+	/**
+	 * Create default role and capability on plugin activation and rest
+	 *
+	 * @since 1.0.0
+	 */
+	public static function defaultRoleCapability() {
+		//smtp capabilities list
+		$caps = comfortsmtp_all_caps();
+
+		//add the caps to the administrator role
+		$role = get_role( 'administrator' );
+
+		foreach ( $caps as $cap ) {
+			//add cap to the role
+			if ( ! $role->has_cap( $cap ) ) {
+				// add a custom capability
+				$role->add_cap( $cap, true );
+
+			}
+
+			//update the same cap for the current user who is installing or updating if logged in
+			ComfortSmtpHelpers::update_user_capability($cap);
+		}
+	}//end method defaultRoleCapability
+
+	/**
+	 * Add any capability to the current user
+	 *
+	 * @param $capability_to_add
+	 *
+	 * @return void
+	 */
+	public static function update_user_capability( $capability_to_add ) {
+		// Check if a user is logged in.
+		if ( is_user_logged_in() ) {
+			// Get the current user object.
+			$user = wp_get_current_user();
+
+			// Check if the user already has the capability.
+			if ( ! $user->has_cap( $capability_to_add ) ) {
+				// Add the capability.
+				$user->add_cap( $capability_to_add );
+
+				// Optional: Log the capability addition (for debugging or auditing).
+				//error_log( 'Added capability "' . $capability_to_add . '" to user: ' . $user->user_login );
+
+				// Optional: Force a refresh of the user's capabilities (sometimes needed).
+				wp_cache_delete( $user->ID, 'users' );
+				wp_cache_delete( 'user_meta', $user->ID );
+
+			} else {
+				// Optional: Log that the user already has the capability.
+				//error_log( 'User: ' . $user->user_login . ' already has capability: ' . $capability_to_add );
+			}
+		} else {
+			// Optional: Handle the case where no user is logged in.
+			//error_log( 'No user is logged in.' );
+		}
+	}//end method update_user_capability
+
+	/**
+	 * On plugin activate
+	 */
+	public static function migration_and_defaults() {
+		MigrationManage::run();
+
+		//set default data
+		ComfortSmtpHelpers::default_data_set();
+
+		//ComfortSmtpHelpers::upload_folder();
+
+		MigrationManage::migrate_old_options();
+	}//end method activate
+
+	/**
+	 * create cron job
+	 */
+	public static function create_cron_job() {
+		$settings = new ComfortSmtpSettings();
+
+		$delete_old_log = $settings->get_option( 'delete_old_log', 'comfortsmtp_log', 'no' );
+
+		if ( $delete_old_log == 'yes' ) {
+			if ( ! wp_next_scheduled( 'cbxwpemaillogger_daily_event' ) ) {
+				wp_schedule_event( time(), 'daily', 'cbxwpemaillogger_daily_event' );
+			}
+		}
+	}//end method create_cron_job
 }//end class ComfortSmtpHelpers
