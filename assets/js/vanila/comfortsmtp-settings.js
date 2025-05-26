@@ -15,7 +15,7 @@
                 confirm: comfortsmtp_setting.awn_options.confirm,
                 confirmOk: comfortsmtp_setting.awn_options.confirmOk,
                 confirmCancel: comfortsmtp_setting.awn_options.confirmCancel,
-            },
+            }
         };
 
         $('.setting-color-picker-wrapper').each(function (index, element) {

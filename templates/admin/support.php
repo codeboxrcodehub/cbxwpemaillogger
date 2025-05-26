@@ -84,6 +84,15 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                     <div class="content">
                         <div class="cbx-backend-settings-row">
                             <p>
+                                Version - 2.0.7
+                            </p>
+                            <ul>
+                                <li>[updated] WordPress Core V6.8 compatible</li>
+                                <li>[new] Pro addon V1.0.5 released</li>
+                            </ul>
+                        </div>
+                        <div class="cbx-backend-settings-row">
+                            <p>
                                 Version - 2.0.6
                             </p>
                             <ul>
@@ -102,15 +111,6 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                                 <li>[new] Pro addon V1.0.3 released (Mail api support added)</li>
                             </ul>
                         </div>
-                        <div class="cbx-backend-settings-row">
-                            <p>
-                                Version - 2.0.4
-                            </p>
-                            <ul>
-                                <li>[improvement] Optimization to create the installable size smaller</li>
-                                <li>[fixed] On log delete attachment delete fixed</li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
                 <div class="cbx-backend-card dashboard-changelog">
@@ -120,6 +120,15 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                         </div>
                     </div>
                     <div class="content">
+                        <div class="cbx-backend-settings-row">
+                            <p>
+                                Version - 1.0.5
+                            </p>
+                            <ul>
+                                <li>[updated] WordPress Core V6.8 compatible</li>
+                                <li>[updated] Core plugin V2.0.7 released</li>
+                            </ul>
+                        </div>
                         <div class="cbx-backend-settings-row">
                             <p>
                                 Version - 1.0.4
@@ -138,15 +147,6 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                             <ul>
                                 <li>[new] Added Six email api services</li>
                                 <li>[updated] Core plugin V2.0.5 released</li>
-                            </ul>
-                        </div>
-                        <div class="cbx-backend-settings-row">
-                            <p>
-                                Version - 1.0.2
-                            </p>
-                            <ul>
-                                <li>[updated] Plugin's main php file renamed to cbxwpemailloggerpro.php</li>
-                                <li>[updated] Plugin's main php file renamed to cbxwpemailloggerpro.php</li>
                             </ul>
                         </div>
                     </div>

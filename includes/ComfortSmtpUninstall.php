@@ -93,6 +93,14 @@ class ComfortSmtpUninstall {
 					$query_result = $wpdb->query( "DROP TABLE IF EXISTS {$table_name}" );
 				}
 
+				$wpdb->query( 
+					$wpdb->prepare( 
+						"DELETE FROM {$wpdb->prefix}cbxmigrations WHERE plugin IN (%s, %s)",  
+						'cbxwpemaillogger',  'cbxwpemailloggerpro' 
+						)
+					);
+
+
 				do_action( 'comfortsmtp_plugin_tables_deleted_after', $table_names );
 				do_action( 'comfortsmtp_plugin_tables_deleted' );
 			}

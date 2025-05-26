@@ -1063,8 +1063,8 @@ class ComfortSmtpAdmin {
             echo '<p>';
 
 			//phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
-			echo '<img alt="icon" style="float: left; display: inline-block; margin-right: 20px;" src="' . esc_url( plugins_url( 'assets/images/icon_c_48.png',
-					dirname( __FILE__ ) ) ) . '" />';
+			/*echo '<img alt="icon" style="float: left; display: inline-block; margin-right: 20px;" src="' . esc_url( plugins_url( 'assets/images/icon_c_48.png',
+					dirname( __FILE__ ) ) ) . '" />';*/
 
 			/* translators: 1: plugin version 2. codeboxr website url  */
             echo sprintf(wp_kses(__( 'Thanks for installing/deactivating <strong>CBX Email SMTP & Logger</strong> V%1$s - <a href="%2$s" target="_blank">Codeboxr Team</a>',
@@ -1095,8 +1095,8 @@ class ComfortSmtpAdmin {
                 echo '<p>';
 
 				//phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
-				echo '<img alt="icon" style="float: left; display: inline-block;  margin-right: 20px;" src="' . esc_url( plugins_url( 'assets/images/icon_c_48.png',
-						dirname( __FILE__ ) ) ) . '"/>';
+				/*echo '<img alt="icon" style="float: left; display: inline-block;  margin-right: 20px;" src="' . esc_url( plugins_url( 'assets/images/icon_c_48.png',
+						dirname( __FILE__ ) ) ) . '"/>';*/
 
 				/* translators: 1: plugin version 2. team url  */
 				echo sprintf(wp_kses(__( 'Thanks for upgrading <strong>CBX Email SMTP & Logger</strong> V%1$s - <a href="%2$s" target="_blank">Codeboxr Team</a>',
