@@ -22,7 +22,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
  * The code that runs during plugin uninstall.
  */
 function uninstall_cbxwpemaillogger() {
-	require_once plugin_dir_path( __FILE__ ) . 'lib/autoload.php';
+	require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 	ComfortSmtpUninstall::uninstall();
 }//end function uninstall_cbxwpemaillogger
 

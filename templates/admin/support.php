@@ -84,6 +84,15 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                     <div class="content">
                         <div class="cbx-backend-settings-row">
                             <p>
+                                Version - 2.0.8
+                            </p>
+                            <ul>
+                                <li>[updated] PHP version compatibility check</li>
+                                <li>[new] Pro addon V1.0.6 released</li>
+                            </ul>
+                        </div>
+                        <div class="cbx-backend-settings-row">
+                            <p>
                                 Version - 2.0.7
                             </p>
                             <ul>
@@ -102,15 +111,6 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                                 <li>[updated] Language file is now loaded using 'init'  hook</li>
                             </ul>
                         </div>
-                        <div class="cbx-backend-settings-row">
-                            <p>
-                                Version - 2.0.5
-                            </p>
-                            <ul>
-                                <li>[updated] Miscellaneous changes and improvement</li>
-                                <li>[new] Pro addon V1.0.3 released (Mail api support added)</li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
                 <div class="cbx-backend-card dashboard-changelog">
@@ -120,6 +120,15 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                         </div>
                     </div>
                     <div class="content">
+                        <div class="cbx-backend-settings-row">
+                            <p>
+                                Version - 1.0.6
+                            </p>
+                            <ul>
+                                <li>[updated] PHP version compatibility check</li>
+                                <li>[new] Core plugin V2.0.8 released</li>
+                            </ul>
+                        </div>
                         <div class="cbx-backend-settings-row">
                             <p>
                                 Version - 1.0.5
@@ -138,15 +147,6 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                                 <li>[updated] Core plugin V2.0.6 released</li>
                                 <li>[updated] WordPress Core V6.7.2 compatible</li>
                                 <li>[updated] Language file is now loaded using 'init'  hook</li>
-                            </ul>
-                        </div>
-                        <div class="cbx-backend-settings-row">
-                            <p>
-                                Version - 1.0.3
-                            </p>
-                            <ul>
-                                <li>[new] Added Six email api services</li>
-                                <li>[updated] Core plugin V2.0.5 released</li>
                             </ul>
                         </div>
                     </div>

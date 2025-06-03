@@ -93,6 +93,8 @@ class ComfortSmtpUninstall {
 					$query_result = $wpdb->query( "DROP TABLE IF EXISTS {$table_name}" );
 				}
 
+
+				//phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$wpdb->query( 
 					$wpdb->prepare( 
 						"DELETE FROM {$wpdb->prefix}cbxmigrations WHERE plugin IN (%s, %s)",  

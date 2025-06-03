@@ -16,7 +16,7 @@
  * Plugin Name:       Comfort Email SMTP, Logger & Email Api
  * Plugin URI:        https://codeboxr.com/product/cbx-email-logger-for-wordpress/
  * Description:       Various SMTP protocol, Logs email, tracks sent or failed status and more.
- * Version:           2.0.7
+ * Version:           2.0.8
  * Requires at least: 5.3
  * Requires PHP:      8.2
  * Author:            Codeboxr
@@ -35,10 +35,13 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 defined( 'COMFORTSMTP_PLUGIN_NAME' ) or define( 'COMFORTSMTP_PLUGIN_NAME', 'cbxwpemaillogger' );
-defined( 'COMFORTSMTP_PLUGIN_VERSION' ) or define( 'COMFORTSMTP_PLUGIN_VERSION', '2.0.7' );
+defined( 'COMFORTSMTP_PLUGIN_VERSION' ) or define( 'COMFORTSMTP_PLUGIN_VERSION', '2.0.8' );
 defined( 'COMFORTSMTP_BASE_NAME' ) or define( 'COMFORTSMTP_BASE_NAME', plugin_basename( __FILE__ ) );
 defined( 'COMFORTSMTP_ROOT_PATH' ) or define( 'COMFORTSMTP_ROOT_PATH', plugin_dir_path( __FILE__ ) );
 defined( 'COMFORTSMTP_ROOT_URL' ) or define( 'COMFORTSMTP_ROOT_URL', plugin_dir_url( __FILE__ ) );
+
+defined( 'COMFORTSMTP_WP_MIN_VERSION' ) or define( 'COMFORTSMTP_WP_MIN_VERSION', '5.3' );
+defined( 'COMFORTSMTP_PHP_MIN_VERSION' ) or define( 'COMFORTSMTP_PHP_MIN_VERSION', '8.2' );
 
 
 defined( 'CBX_DEBUG' ) or define( 'CBX_DEBUG', false );
@@ -55,7 +58,9 @@ if ( ! class_exists( 'ComfortSmtp', false ) ) {
  *
  * @return bool
  */
-function comfortsmtp_compatible_wp_version( $version = '5.3' ) {
+function comfortsmtp_compatible_wp_version( $version = '' ) {
+	if($version == '') $version = COMFORTSMTP_WP_MIN_VERSION;
+
 	if ( version_compare( $GLOBALS['wp_version'], $version, '<' ) ) {
 		return false;
 	}
@@ -70,8 +75,10 @@ function comfortsmtp_compatible_wp_version( $version = '5.3' ) {
  *
  * @return bool
  */
-function comfortsmtp_compatible_php_version( $version = '8.2' ) {
-	if ( version_compare( PHP_VERSION, $version, '<=' ) ) {
+function comfortsmtp_compatible_php_version( $version = '' ) {
+	if($version == '') $version = COMFORTSMTP_PHP_MIN_VERSION;
+
+	if ( version_compare( PHP_VERSION, $version, '<' ) ) {
 		return false;
 	}
 
@@ -82,24 +89,31 @@ function comfortsmtp_compatible_php_version( $version = '8.2' ) {
  * The code that runs during plugin activation.
  */
 function activate_comfortsmtp() {
-	$wp_version  = '5.3';
-	$php_version = '8.2';
+	$wp_version  = COMFORTSMTP_WP_MIN_VERSION;
+	$php_version = COMFORTSMTP_PHP_MIN_VERSION;
+
+	$activate_ok = true;
 
 	if ( ! comfortsmtp_compatible_wp_version( $wp_version ) ) {
+		$activate_ok = false;
+
 		deactivate_plugins( plugin_basename( __FILE__ ) );
 		/* Translators:  WordPress Version */
 		wp_die( sprintf( esc_html__( 'Comfort form plugin requires WordPress %s or higher!', 'cbxwpemaillogger' ), esc_html($wp_version) ) );
 	}
 
 	if ( ! comfortsmtp_compatible_php_version( $php_version ) ) {
+		$activate_ok = false;
+
 		deactivate_plugins( plugin_basename( __FILE__ ) );
 		/* Translators:  PHP Version */
 		wp_die( sprintf( esc_html__( 'Comfort form plugin requires PHP %s or higher!', 'cbxwpemaillogger' ), esc_html($php_version) ) );
 	}
 
-	ComfortSmtpHelpers::load_orm();
-
-	ComfortSmtpHelpers::activate();
+	if($activate_ok){
+		ComfortSmtpHelpers::load_orm();
+		ComfortSmtpHelpers::activate();
+	}
 }//end function activate_comfortsmtp
 
 register_activation_hook( __FILE__, 'activate_comfortsmtp' );

@@ -3,9 +3,6 @@
   "description": "Various SMTP protocol, Logs email, tracks sent or failed status and more",
   "type": "library",
   "license": "MIT",
-  "config": {
-    "vendor-dir": "lib"
-  },
   "autoload": {
     "psr-4": {
       "Comfort\\Crm\\Smtp\\": "includes/"

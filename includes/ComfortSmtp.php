@@ -32,9 +32,12 @@ final class ComfortSmtp {
 		$this->plugin_name = COMFORTSMTP_PLUGIN_NAME;
 		$this->version     = COMFORTSMTP_PLUGIN_VERSION;
 
-		$this->include_files();
-
-		$this->hooks = new ComfortSmtpHooks();
+		if ( comfortsmtp_compatible_php_version() ) {
+			$this->include_files();
+			$this->hooks = new ComfortSmtpHooks();
+		} else {
+			add_action( 'admin_notices', [ $this, 'php_version_notice' ] );
+		}		
 	}//end constructor
 
 	/**
@@ -103,17 +106,19 @@ final class ComfortSmtp {
 	 * @return void
 	 */
 	private function include_files() {
-		require_once __DIR__ . '/../lib/autoload.php';
+		require_once __DIR__ . '/../vendor/autoload.php';
 		// include_once __DIR__ . '/ComfortSmtpEmails.php';
 	}//end method include_files
 
-
-
-
-
-
-
-
-
-
+	/**
+	 * Show php version notice in dashboard
+	 *
+	 * @return void
+	 */
+	public function php_version_notice() {
+		echo '<div class="error"><p>';
+		/* Translators:  PHP Version */
+		echo sprintf(esc_html__( 'Comfort Email SMTP, Logger & Email Api requires at least PHP %s. Please upgrade PHP to run Comfort Email SMTP, Logger & Email Api.', 'cbxwpemaillogger' ), esc_attr(COMFORTSMTP_PHP_MIN_VERSION));
+		echo '</p></div>';
+	}//end method php_version_notice
 }//end class ComfortSmtp
