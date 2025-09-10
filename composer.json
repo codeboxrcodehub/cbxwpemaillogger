@@ -19,6 +19,8 @@
     "enshrined/svg-sanitize": "dev-master"
   },
   "replace": {
-    "symfony/console": "*"
+    "symfony/console": "*",
+    "symfony/translation": "*",
+    "symfony/translation-contracts": "*"
   }
 }

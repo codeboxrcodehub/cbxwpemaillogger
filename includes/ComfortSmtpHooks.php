@@ -32,7 +32,7 @@ class ComfortSmtpHooks {
 		$helper = new ComfortSmtpHelpers();
 
 		//add_action( 'plugins_loaded', [ $this, 'load_plugin_textdomain' ] );
-		add_action( 'init', [ $this, 'load_plugin_textdomain' ] );
+		//add_action( 'init', [ $this, 'load_plugin_textdomain' ] );
 		add_filter( 'script_loader_tag', [ $this, 'add_module_to_script' ], 10, 3 );
 
 		add_action( 'rest_api_init', [ $route, 'init' ] );
@@ -125,9 +125,9 @@ class ComfortSmtpHooks {
 	/**
 	 * Plugin textdomain
 	 */
-	public function load_plugin_textdomain() {
+	/*public function load_plugin_textdomain() {
 		load_plugin_textdomain( 'cbxwpemaillogger', false, COMFORTSMTP_ROOT_PATH . 'languages/' );
-	} //load_plugin_textdomain
+	} //load_plugin_textdomain*/
 
 	/**
 	 * Add module attribute to script loader
@@ -169,7 +169,7 @@ class ComfortSmtpHooks {
 	 *
 	 * @return string
 	 */
-	private function custom_robots_txt( $output ) {
+	public function custom_robots_txt( $output ) {
 		$site_url = wp_parse_url( site_url() );
 		$path     = ( ! empty( $site_url['path'] ) ) ? $site_url['path'] : '';
 

@@ -129,7 +129,7 @@
                 .select2({
                     placeholder: $placeholder,
                     allowClear: $allow_clear ? true : false,
-                    theme: 'default select2-container--cbx',
+                    //theme: 'default select2-container--cbx',
                     dropdownParent: $(element)
                 })
                 .on('select2:open', function () {

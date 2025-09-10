@@ -3,7 +3,7 @@
         'name' => 'comfort/email-logger',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'f232705ddebfd5645d59d5b89a4dc246805f0cc7',
+        'reference' => 'bdcb0f032d12655d7c78045e23354d87314394d6',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'comfort/email-logger' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'f232705ddebfd5645d59d5b89a4dc246805f0cc7',
+            'reference' => 'bdcb0f032d12655d7c78045e23354d87314394d6',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -174,15 +174,6 @@
                 0 => '*',
             ),
         ),
-        'symfony/deprecation-contracts' => array(
-            'pretty_version' => 'v2.5.4',
-            'version' => '2.5.4.0',
-            'reference' => '605389f2a7e5625f273b53960dc46aeaf9c62918',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../symfony/deprecation-contracts',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
         'symfony/polyfill-mbstring' => array(
             'pretty_version' => 'v1.32.0',
             'version' => '1.32.0.0',
@@ -202,27 +193,15 @@
             'dev_requirement' => false,
         ),
         'symfony/translation' => array(
-            'pretty_version' => 'v5.3.14',
-            'version' => '5.3.14.0',
-            'reference' => '945066809dc18f6e26123098e1b6e1d7a948660b',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../symfony/translation',
-            'aliases' => array(),
             'dev_requirement' => false,
+            'replaced' => array(
+                0 => '*',
+            ),
         ),
         'symfony/translation-contracts' => array(
-            'pretty_version' => 'v2.5.4',
-            'version' => '2.5.4.0',
-            'reference' => '450d4172653f38818657022252f9d81be89ee9a8',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../symfony/translation-contracts',
-            'aliases' => array(),
             'dev_requirement' => false,
-        ),
-        'symfony/translation-implementation' => array(
-            'dev_requirement' => false,
-            'provided' => array(
-                0 => '2.3',
+            'replaced' => array(
+                0 => '*',
             ),
         ),
         'voku/portable-ascii' => array(
