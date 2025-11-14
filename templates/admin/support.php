@@ -2,6 +2,8 @@
 
 use Comfort\Crm\Smtp\Helpers\ComfortSmtpHelpers;
 
+//phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 /**
  * This template provides the Dashboard view of the plugin
  *
@@ -88,6 +90,18 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                     <div class="content">
                         <div class="cbx-backend-settings-row">
                             <p>
+                                Version - 2.0.10
+                            </p>
+                            <ul>
+                                <li>[updated] Pro addon V1.0.7 released</li>
+                                <li>[fixed] Composer platform check issue fixed</li>
+                                <li>[fixed] Custom db connect issue solved if mysql port not default</li>
+                                <li>[improvement] DB Table name escape improved</li>
+                                <li>[updated] Plugin Check V1.7.0 compatible</li>
+                            </ul>
+                        </div>
+                        <div class="cbx-backend-settings-row">
+                            <p>
                                 Version - 2.0.9
                             </p>
                             <ul>
@@ -103,26 +117,6 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                                 <li>[new] Pro addon V1.0.6 released</li>
                             </ul>
                         </div>
-                        <div class="cbx-backend-settings-row">
-                            <p>
-                                Version - 2.0.7
-                            </p>
-                            <ul>
-                                <li>[updated] WordPress Core V6.8 compatible</li>
-                                <li>[new] Pro addon V1.0.5 released</li>
-                            </ul>
-                        </div>
-                        <div class="cbx-backend-settings-row">
-                            <p>
-                                Version - 2.0.6
-                            </p>
-                            <ul>
-                                <li>[updated] Miscellaneous changes and improvement(+ Some methods moved to helper class)</li>
-                                <li>[new] Pro addon V1.0.4 released</li>
-                                <li>[updated] WordPress Core V6.7.2 compatible</li>
-                                <li>[updated] Language file is now loaded using 'init' hook</li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
                 <div class="cbx-backend-card dashboard-changelog">
@@ -132,6 +126,17 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                         </div>
                     </div>
                     <div class="content">
+                        <div class="cbx-backend-settings-row">
+                            <p>
+                                Version - 1.0.7
+                            </p>
+                            <ul>
+                                <li>[updated] Core plugin V2.0.10 released</li>
+                                <li>[fixed] Composer platform check issue fixed</li>
+                                <li>[improvement] DB Table name escape improved</li>
+                                <li>[updated] Plugin Check V1.7.0 compatible</li>
+                            </ul>
+                        </div>
                         <div class="cbx-backend-settings-row">
                             <p>
                                 Version - 1.0.6
@@ -148,17 +153,6 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                             <ul>
                                 <li>[updated] WordPress Core V6.8 compatible</li>
                                 <li>[updated] Core plugin V2.0.7 released</li>
-                            </ul>
-                        </div>
-                        <div class="cbx-backend-settings-row">
-                            <p>
-                                Version - 1.0.4
-                            </p>
-                            <ul>
-                                <li>[updated] Misc. improvements (+ Some methods moved to helper class)</li>
-                                <li>[updated] Core plugin V2.0.6 released</li>
-                                <li>[updated] WordPress Core V6.7.2 compatible</li>
-                                <li>[updated] Language file is now loaded using 'init' hook</li>
                             </ul>
                         </div>
                     </div>
@@ -221,76 +215,31 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                         </div>
                     </div>
                 </div>
-                <!--Third Party plugin Integration-->
-                <div class="cbx-backend-card dashboard-plugin-Integration">
+                <div class="cbx-backend-card dashboard-hrm-erp">
                     <div class="header">
                         <div class="text">
-                            <h2><?php esc_html_e( 'Third Party plugin Integration(Pro)', 'cbxwpemaillogger' ); ?></h2>
+                            <h2><?php esc_html_e( 'New Plugins: HRM & ERP ', 'cbxwpemaillogger' ); ?></h2>
                         </div>
                     </div>
                     <div class="content">
                         <div class="cbx-backend-settings-row">
-                            <p>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                    <defs/>
-                                    <path d="M9.4 11.9c-2 0-3.5-1.6-3.5-3.5V5.9c0-.2.2-.4.4-.4s.4.2.4.4v2.5c0 1.5 1.3 2.8 2.8 2.8s2.8-1.3 2.8-2.8v-.7c0-.2.2-.4.4-.4s.4.2.4.4v.6c-.1 2-1.7 3.6-3.7 3.6z"
-                                          fill="currentColor"/>
-                                    <path d="M13.2 6.2H5.6c-.2 0-.4-.2-.4-.4s.2-.4.4-.4h7.6c.2 0 .4.2.4.4 0 .3-.2.4-.4.4z"
-                                          fill="currentColor"/>
-                                    <path d="M8.3 6.2H7c-.2 0-.4-.2-.4-.4V4.3c0-.6.5-1 1-1 .6 0 1 .5 1 1v1.5c0 .3-.1.4-.3.4zm-1-.7h.6V4.3c0-.2-.1-.3-.3-.3-.2 0-.3.1-.3.3v1.2zM11.9 6.2h-1.3c-.2 0-.4-.2-.4-.4V4.3c0-.6.5-1 1-1 .6 0 1 .5 1 1v1.5c0 .3-.1.4-.3.4zm-1-.7h.6V4.3c0-.2-.1-.3-.3-.3-.2 0-.3.1-.3.3v1.2zM10.8 13.2H8c-.2 0-.4-.2-.4-.4v-1.6c0-.2.2-.4.4-.4h2.8c.2 0 .4.2.4.4v1.6c0 .2-.2.4-.4.4zm-2.4-.8h2v-.9h-2v.9z"
-                                          fill="currentColor"/>
-                                    <path d="M10.7 16.7c-.9 0-1.6-.7-1.6-1.6v-2.3c0-.2.2-.4.4-.4s.4.2.4.4v2.3c0 .5.4.9.9.9s.9-.4.9-.9v-.3c0-.2.2-.4.4-.4s.4.2.4.4v.3c-.2.8-1 1.6-1.8 1.6zM14.4 14.9c-.2 0-.4-.2-.4-.4v-1.9c0-.5-.4-.9-.9-.9s-.9.4-.9.9v.4c0 .2-.2.4-.4.4s-.4-.2-.4-.4v-.5c0-.9.7-1.6 1.6-1.6.9 0 1.6.7 1.6 1.6v1.9c.2.3 0 .5-.2.5zM10.8 7.7H6.2c-.2 0-.3-.2-.3-.4s.2-.4.4-.4h4.5c.2 0 .4.2.4.4s-.2.4-.4.4z"
-                                          fill="currentColor"/>
-                                </svg>
-                                <?php esc_html_e( 'WPForms', 'cbxwpemaillogger' ); ?></p>
-                        </div>
-                        <div class="cbx-backend-settings-row">
-                            <p>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                    <defs/>
-                                    <path d="M9.4 11.9c-2 0-3.5-1.6-3.5-3.5V5.9c0-.2.2-.4.4-.4s.4.2.4.4v2.5c0 1.5 1.3 2.8 2.8 2.8s2.8-1.3 2.8-2.8v-.7c0-.2.2-.4.4-.4s.4.2.4.4v.6c-.1 2-1.7 3.6-3.7 3.6z"
-                                          fill="currentColor"/>
-                                    <path d="M13.2 6.2H5.6c-.2 0-.4-.2-.4-.4s.2-.4.4-.4h7.6c.2 0 .4.2.4.4 0 .3-.2.4-.4.4z"
-                                          fill="currentColor"/>
-                                    <path d="M8.3 6.2H7c-.2 0-.4-.2-.4-.4V4.3c0-.6.5-1 1-1 .6 0 1 .5 1 1v1.5c0 .3-.1.4-.3.4zm-1-.7h.6V4.3c0-.2-.1-.3-.3-.3-.2 0-.3.1-.3.3v1.2zM11.9 6.2h-1.3c-.2 0-.4-.2-.4-.4V4.3c0-.6.5-1 1-1 .6 0 1 .5 1 1v1.5c0 .3-.1.4-.3.4zm-1-.7h.6V4.3c0-.2-.1-.3-.3-.3-.2 0-.3.1-.3.3v1.2zM10.8 13.2H8c-.2 0-.4-.2-.4-.4v-1.6c0-.2.2-.4.4-.4h2.8c.2 0 .4.2.4.4v1.6c0 .2-.2.4-.4.4zm-2.4-.8h2v-.9h-2v.9z"
-                                          fill="currentColor"/>
-                                    <path d="M10.7 16.7c-.9 0-1.6-.7-1.6-1.6v-2.3c0-.2.2-.4.4-.4s.4.2.4.4v2.3c0 .5.4.9.9.9s.9-.4.9-.9v-.3c0-.2.2-.4.4-.4s.4.2.4.4v.3c-.2.8-1 1.6-1.8 1.6zM14.4 14.9c-.2 0-.4-.2-.4-.4v-1.9c0-.5-.4-.9-.9-.9s-.9.4-.9.9v.4c0 .2-.2.4-.4.4s-.4-.2-.4-.4v-.5c0-.9.7-1.6 1.6-1.6.9 0 1.6.7 1.6 1.6v1.9c.2.3 0 .5-.2.5zM10.8 7.7H6.2c-.2 0-.3-.2-.3-.4s.2-.4.4-.4h4.5c.2 0 .4.2.4.4s-.2.4-.4.4z"
-                                          fill="currentColor"/>
-                                </svg>
-                                <?php esc_html_e( 'WooCommerce', 'cbxwpemaillogger' ); ?></p>
-                        </div>
-                        <div class="cbx-backend-settings-row">
-                            <p>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                    <defs/>
-                                    <path d="M9.4 11.9c-2 0-3.5-1.6-3.5-3.5V5.9c0-.2.2-.4.4-.4s.4.2.4.4v2.5c0 1.5 1.3 2.8 2.8 2.8s2.8-1.3 2.8-2.8v-.7c0-.2.2-.4.4-.4s.4.2.4.4v.6c-.1 2-1.7 3.6-3.7 3.6z"
-                                          fill="currentColor"/>
-                                    <path d="M13.2 6.2H5.6c-.2 0-.4-.2-.4-.4s.2-.4.4-.4h7.6c.2 0 .4.2.4.4 0 .3-.2.4-.4.4z"
-                                          fill="currentColor"/>
-                                    <path d="M8.3 6.2H7c-.2 0-.4-.2-.4-.4V4.3c0-.6.5-1 1-1 .6 0 1 .5 1 1v1.5c0 .3-.1.4-.3.4zm-1-.7h.6V4.3c0-.2-.1-.3-.3-.3-.2 0-.3.1-.3.3v1.2zM11.9 6.2h-1.3c-.2 0-.4-.2-.4-.4V4.3c0-.6.5-1 1-1 .6 0 1 .5 1 1v1.5c0 .3-.1.4-.3.4zm-1-.7h.6V4.3c0-.2-.1-.3-.3-.3-.2 0-.3.1-.3.3v1.2zM10.8 13.2H8c-.2 0-.4-.2-.4-.4v-1.6c0-.2.2-.4.4-.4h2.8c.2 0 .4.2.4.4v1.6c0 .2-.2.4-.4.4zm-2.4-.8h2v-.9h-2v.9z"
-                                          fill="currentColor"/>
-                                    <path d="M10.7 16.7c-.9 0-1.6-.7-1.6-1.6v-2.3c0-.2.2-.4.4-.4s.4.2.4.4v2.3c0 .5.4.9.9.9s.9-.4.9-.9v-.3c0-.2.2-.4.4-.4s.4.2.4.4v.3c-.2.8-1 1.6-1.8 1.6zM14.4 14.9c-.2 0-.4-.2-.4-.4v-1.9c0-.5-.4-.9-.9-.9s-.9.4-.9.9v.4c0 .2-.2.4-.4.4s-.4-.2-.4-.4v-.5c0-.9.7-1.6 1.6-1.6.9 0 1.6.7 1.6 1.6v1.9c.2.3 0 .5-.2.5zM10.8 7.7H6.2c-.2 0-.3-.2-.3-.4s.2-.4.4-.4h4.5c.2 0 .4.2.4.4s-.2.4-.4.4z"
-                                          fill="currentColor"/>
-                                </svg>
-                                <?php esc_html_e( 'Easy Digital Downloads', 'cbxwpemaillogger' ); ?></p>
-                        </div>
-                        <div class="cbx-backend-settings-row">
-                            <p>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                    <defs/>
-                                    <path d="M9.4 11.9c-2 0-3.5-1.6-3.5-3.5V5.9c0-.2.2-.4.4-.4s.4.2.4.4v2.5c0 1.5 1.3 2.8 2.8 2.8s2.8-1.3 2.8-2.8v-.7c0-.2.2-.4.4-.4s.4.2.4.4v.6c-.1 2-1.7 3.6-3.7 3.6z"
-                                          fill="currentColor"/>
-                                    <path d="M13.2 6.2H5.6c-.2 0-.4-.2-.4-.4s.2-.4.4-.4h7.6c.2 0 .4.2.4.4 0 .3-.2.4-.4.4z"
-                                          fill="currentColor"/>
-                                    <path d="M8.3 6.2H7c-.2 0-.4-.2-.4-.4V4.3c0-.6.5-1 1-1 .6 0 1 .5 1 1v1.5c0 .3-.1.4-.3.4zm-1-.7h.6V4.3c0-.2-.1-.3-.3-.3-.2 0-.3.1-.3.3v1.2zM11.9 6.2h-1.3c-.2 0-.4-.2-.4-.4V4.3c0-.6.5-1 1-1 .6 0 1 .5 1 1v1.5c0 .3-.1.4-.3.4zm-1-.7h.6V4.3c0-.2-.1-.3-.3-.3-.2 0-.3.1-.3.3v1.2zM10.8 13.2H8c-.2 0-.4-.2-.4-.4v-1.6c0-.2.2-.4.4-.4h2.8c.2 0 .4.2.4.4v1.6c0 .2-.2.4-.4.4zm-2.4-.8h2v-.9h-2v.9z"
-                                          fill="currentColor"/>
-                                    <path d="M10.7 16.7c-.9 0-1.6-.7-1.6-1.6v-2.3c0-.2.2-.4.4-.4s.4.2.4.4v2.3c0 .5.4.9.9.9s.9-.4.9-.9v-.3c0-.2.2-.4.4-.4s.4.2.4.4v.3c-.2.8-1 1.6-1.8 1.6zM14.4 14.9c-.2 0-.4-.2-.4-.4v-1.9c0-.5-.4-.9-.9-.9s-.9.4-.9.9v.4c0 .2-.2.4-.4.4s-.4-.2-.4-.4v-.5c0-.9.7-1.6 1.6-1.6.9 0 1.6.7 1.6 1.6v1.9c.2.3 0 .5-.2.5zM10.8 7.7H6.2c-.2 0-.3-.2-.3-.4s.2-.4.4-.4h4.5c.2 0 .4.2.4.4s-.2.4-.4.4z"
-                                          fill="currentColor"/>
-                                </svg>
-                                <?php esc_html_e( 'Contact Form(s)', 'cbxwpemaillogger' ); ?></p>
+                            <ul>
+                                <li>
+                                    <a rel="external" target="_blank" href="https://comforterp.com/product/comfort-accounting-accounting-solution-for-wordpress">Comfort
+                                        Accounting</a></li>
+                                <li>
+                                    <a rel="external" target="_blank" href="https://comforterp.com/product/comfort-inventory-and-invoice-complete-invoice-plugin-for-wordpress">Comfort
+                                        Inventory & Invoice</a></li>
+                                <li><a rel="external" target="_blank" href="https://comforthrm.com/product/comfort-resume-wordpress-resume-builder-plugin">Comfort
+                                        Resume</a></li>
+                                <li><a rel="external" target="_blank" href="https://comforthrm.com/product/comfort-job-wordpress-job-board-plugin">Comfort
+                                        Job Board</a></li>
+                                <li><a rel="external" target="_blank" href="https://comforthrm.com/product/comfort-job-application-plugin-for-wordpress">Comfort
+                                        Job Application</a></li>
+                            </ul>
                         </div>
                     </div>
-                </div><!--End Third Party plugin Integration-->
+                </div>
                 <div class="cbx-backend-card dashboard-wp-plugin">
                     <div class="header">
                         <div class="text">
@@ -303,15 +252,15 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                                 'https://codeboxr.com/product/cbx-wordpress-bookmark/'                                => 'CBX Bookmark & Favorite',
                                 'https://codeboxr.com/product/cbx-changelog-for-wordpress/'                           => 'CBX Changelog',
                                 'https://codeboxr.com/product/cbx-tour-user-walkthroughs-guided-tours-for-wordpress/' => 'CBX Tour – User Walkthroughs/Guided Tours',
-                                'https://codeboxr.com/product/cbx-currency-converter-for-wordpress/'                  => 'CBX Currency Converter',
+                                //'https://codeboxr.com/product/cbx-currency-converter-for-wordpress/'                  => 'CBX Currency Converter',
                             //'https://codeboxr.com/product/cbx-email-logger-for-wordpress/'                        => 'CBX Email SMTP & Logger',
                                 'https://codeboxr.com/product/cbx-petition-for-wordpress/'                            => 'CBX Petition',
                             //'https://codeboxr.com/product/cbx-accounting/'                                        => 'CBX Accounting',
                                 'https://codeboxr.com/product/cbx-poll-for-wordpress/'                                => 'CBX Poll',
-                                'https://codeboxr.com/product/show-next-previous-article-for-wordpress'               => 'CBX Next Previous Article ',
+                                //'https://codeboxr.com/product/show-next-previous-article-for-wordpress'               => 'CBX Next Previous Article ',
                                 'https://codeboxr.com/product/cbx-multi-criteria-rating-review-for-wordpress/'        => 'CBX Multi Criteria Rating & Review',
                                 'https://codeboxr.com/product/cbx-user-online-for-wordpress/'                         => 'CBX User Online & Last Login',
-                                'https://codeboxr.com/product/woocommerce-product-dropdown-field-for-contact-form7/'  => 'Woocommerce Product Dropdown field for Contact Form7',
+                                //'https://codeboxr.com/product/woocommerce-product-dropdown-field-for-contact-form7/'  => 'Woocommerce Product Dropdown field for Contact Form7',
                         ];
 
                         foreach ( $top_plugins as $link => $title ) {

@@ -125,9 +125,7 @@ class ComfortDashboardWidget {
             <a class="button button-primary button-small" style="float: left; display: inline-block;"
                href="<?php echo esc_url( admin_url( 'admin.php?page=comfortsmtp_log' ) ) ?>"><?php esc_html_e( 'View All', 'cbxwpemaillogger' ); ?></a>
 			<?php
-			if ( in_array( 'cbxwpemailloggerpro/cbxwpemailloggerpro.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) || defined( 'CBXWPEMAILLOGGERPROADDON_PLUGIN_NAME' ) ) {
-				//active
-			} else {
+            if ( ! defined( 'COMFORTSMTPPROADDON_PLUGIN_NAME' ) ) {
 				?>
                 <a class="button button-secondary button-small" style="float: right; display: inline-block;"
                    target="_blank"

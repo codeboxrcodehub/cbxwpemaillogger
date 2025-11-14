@@ -3,7 +3,7 @@
 namespace Comfort\Crm\Smtp\Helpers;
 
 use Comfort\Crm\Smtp\ComfortSmtpSettings;
-//use Comfort\Crm\Smtp\Models\ComfortSmtp;
+
 use Comfort\Crm\Smtp\Models\SmtpLog;
 //use Exception;
 use Illuminate\Database\Capsule\Manager;
@@ -20,29 +20,41 @@ class ComfortSmtpHelpers {
 	 * @since  1.0.0
 	 */
 	public static function load_orm() {
-
+		global $wpdb;
 		/**
 		 * Init DB in ORM
 		 */
-		global $wpdb;
-
 		$capsule = new Manager();
 
 		$connection_params = [
 			'driver'   => 'mysql',
-			'host'     => DB_HOST,
 			'database' => DB_NAME,
 			'username' => DB_USER,
 			'password' => DB_PASSWORD,
 			'prefix'   => $wpdb->prefix,
 		];
 
+		// Parse host and port
+		$host = DB_HOST;
+		$port = null;
+
+		// Handle host like "localhost:3307"
+		if ( strpos( $host, ':' ) !== false ) {
+			[ $host, $port ] = explode( ':', $host, 2 );
+		}
+
+		$connection_params['host'] = $host;
+
+		if ( ! empty( $port ) ) {
+			$connection_params['port'] = (int) $port;
+		}
+
+		// Handle charset and collation
 		if ( $wpdb->has_cap( 'collation' ) ) {
-			if ( DB_CHARSET != '' ) {
+			if ( ! empty( DB_CHARSET ) ) {
 				$connection_params['charset'] = DB_CHARSET;
 			}
-
-			if ( DB_COLLATE != '' ) {
+			if ( ! empty( DB_COLLATE ) ) {
 				$connection_params['collation'] = DB_COLLATE;
 			}
 		}

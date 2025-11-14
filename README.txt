@@ -4,7 +4,7 @@ Tags: wordpress smtp,wordpress email log,smtp
 Requires at least: 5.3
 Requires PHP: 8.2
 Tested up to: 6.8
-Stable tag: 2.0.9
+Stable tag: 2.0.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,13 @@ e.g.
 
 
 == Changelog ==
+= 2.0.10 =
+* [updated] Pro addon V1.0.7 released
+* [fixed] Composer platform check issue fixed
+* [fixed] Custom db connect issue solved if mysql port not default
+* [improvement] DB Table name escape improved
+* [updated] Plugin Check V1.7.0 compatible
+
 = 2.0.9 =
 * [fixed] Fixed method callback for 'custom_robots_txt'
 

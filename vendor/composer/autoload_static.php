@@ -116,7 +116,7 @@ class ComposerStaticInitad00a5861b26299dd1f8f968c389d418
         ),
         'Doctrine\\Inflector\\' => 
         array (
-            0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector',
+            0 => __DIR__ . '/..' . '/doctrine/inflector/src',
         ),
         'Comfort\\Crm\\Smtp\\' => 
         array (

@@ -89,7 +89,8 @@ class ComfortSmtpUninstall {
 				global $wpdb;
 
 				foreach ( $table_names as $table_name ) {
-					//phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+					$table_name = esc_sql( $table_name );
+					//phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
 					$query_result = $wpdb->query( "DROP TABLE IF EXISTS {$table_name}" );
 				}
 

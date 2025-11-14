@@ -18,6 +18,8 @@ if ( ! defined( 'WPINC' ) ) {
 }
 ?>
 <?php
+//phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 $plugin_url = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-email-logger-for-wordpress/' );
 $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-email-logger-for-wordpress/' );
 $more_v_svg = comfortsmtp_esc_svg( comfortsmtp_load_svg( 'icon_more_v' ) );

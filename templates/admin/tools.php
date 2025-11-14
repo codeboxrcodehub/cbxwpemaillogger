@@ -11,6 +11,8 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+//phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
 ?>
 <div class="wrap cbx-chota cbxchota-setting-common cbx-page-wrapper comfortsmtp-page-wrapper comfortsmtp-tools-wrapper"
      id="comfortsmtp-tools">

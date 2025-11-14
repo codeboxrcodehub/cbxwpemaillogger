@@ -16,7 +16,7 @@
  * Plugin Name:       Comfort Email SMTP, Logger & Email Api
  * Plugin URI:        https://codeboxr.com/product/cbx-email-logger-for-wordpress/
  * Description:       Various SMTP protocol, Logs email, tracks sent or failed status and more.
- * Version:           2.0.9
+ * Version:           2.0.10
  * Requires at least: 5.3
  * Requires PHP:      8.2
  * Author:            Codeboxr
@@ -35,7 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 defined( 'COMFORTSMTP_PLUGIN_NAME' ) or define( 'COMFORTSMTP_PLUGIN_NAME', 'cbxwpemaillogger' );
-defined( 'COMFORTSMTP_PLUGIN_VERSION' ) or define( 'COMFORTSMTP_PLUGIN_VERSION', '2.0.9' );
+defined( 'COMFORTSMTP_PLUGIN_VERSION' ) or define( 'COMFORTSMTP_PLUGIN_VERSION', '2.0.10' );
 defined( 'COMFORTSMTP_BASE_NAME' ) or define( 'COMFORTSMTP_BASE_NAME', plugin_basename( __FILE__ ) );
 defined( 'COMFORTSMTP_ROOT_PATH' ) or define( 'COMFORTSMTP_ROOT_PATH', plugin_dir_path( __FILE__ ) );
 defined( 'COMFORTSMTP_ROOT_URL' ) or define( 'COMFORTSMTP_ROOT_URL', plugin_dir_url( __FILE__ ) );
@@ -44,8 +44,8 @@ defined( 'COMFORTSMTP_WP_MIN_VERSION' ) or define( 'COMFORTSMTP_WP_MIN_VERSION',
 defined( 'COMFORTSMTP_PHP_MIN_VERSION' ) or define( 'COMFORTSMTP_PHP_MIN_VERSION', '8.2' );
 
 
-defined( 'CBX_DEBUG' ) or define( 'CBX_DEBUG', false );
-defined( 'COMFORTSMTP_DEV_MODE' ) or define( 'COMFORTSMTP_DEV_MODE', CBX_DEBUG );
+defined( 'COMFORTSMTP_DEV_MODE' ) or define( 'COMFORTSMTP_DEV_MODE', false );
+defined( 'COMFORTSMTP_PRO_VERSION' ) or define( 'COMFORTSMTP_PRO_VERSION', '1.0.7' );
 
 
 // Include the main Cbx class.
@@ -88,7 +88,7 @@ function comfortsmtp_compatible_php_version( $version = '' ) {
 /**
  * The code that runs during plugin activation.
  */
-function activate_comfortsmtp() {
+function comfortsmtp_activate() {
 	$wp_version  = COMFORTSMTP_WP_MIN_VERSION;
 	$php_version = COMFORTSMTP_PHP_MIN_VERSION;
 
@@ -114,19 +114,19 @@ function activate_comfortsmtp() {
 		ComfortSmtpHelpers::load_orm();
 		ComfortSmtpHelpers::activate();
 	}
-}//end function activate_comfortsmtp
+}//end function comfortsmtp_activate
 
-register_activation_hook( __FILE__, 'activate_comfortsmtp' );
+register_activation_hook( __FILE__, 'comfortsmtp_activate' );
 
 
 /**
  * The code that runs during plugin deactivation.
  */
-function deactivate_comfortsmtp() {
+function comfortsmtp_deactivate() {
 	ComfortSmtpHelpers::deactivate();
-}//end function deactivate_comfortsmtp
+}//end function comfortsmtp_deactivate
 
-register_deactivation_hook( __FILE__, 'deactivate_comfortsmtp' );
+register_deactivation_hook( __FILE__, 'comfortsmtp_deactivate' );
 
 
 /**
@@ -137,7 +137,7 @@ register_deactivation_hook( __FILE__, 'deactivate_comfortsmtp' );
 function comfortsmtp_core() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid
 	global $comfortsmtp_core;
 	if ( ! isset( $comfortsmtp_core ) ) {
-		$comfortsmtp_core = run_comfortsmtp_core();
+		$comfortsmtp_core = comfortsmtp_run__core();
 	}
 
 	return $comfortsmtp_core;
@@ -152,8 +152,8 @@ function comfortsmtp_core() { // phpcs:ignore WordPress.NamingConventions.ValidF
  *
  * @since    1.0.0
  */
-function run_comfortsmtp_core() {
+function comfortsmtp_run__core() {
 	return ComfortSmtp::instance();
-}//end function run_comfortsmtp_core
+}//end function comfortsmtp_run__core
 
-$GLOBALS['comfortsmtp_core'] = run_comfortsmtp_core();
+$GLOBALS['comfortsmtp_core'] = comfortsmtp_run__core();

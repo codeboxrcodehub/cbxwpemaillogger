@@ -28,11 +28,9 @@ class ComfortSmtpHooks {
 	 * Define common hooks
 	 */
 	private function define_common_hooks() {
-		$route = $this->api_routes;
+		$route  = $this->api_routes;
 		$helper = new ComfortSmtpHelpers();
 
-		//add_action( 'plugins_loaded', [ $this, 'load_plugin_textdomain' ] );
-		//add_action( 'init', [ $this, 'load_plugin_textdomain' ] );
 		add_filter( 'script_loader_tag', [ $this, 'add_module_to_script' ], 10, 3 );
 
 		add_action( 'rest_api_init', [ $route, 'init' ] );
@@ -75,7 +73,7 @@ class ComfortSmtpHooks {
 
 		//for upgrade process
 		//add_action( 'upgrader_process_complete', [ $plugin_admin, 'plugin_upgrader_process_complete' ], 10, 2 );
-		add_action('plugins_loaded', [$plugin_admin, 'plugin_upgrader_process_complete']);
+		add_action( 'plugins_loaded', [ $plugin_admin, 'plugin_upgrader_process_complete' ] );
 		add_action( 'admin_notices', [ $plugin_admin, 'plugin_activate_upgrade_notices' ] );
 		add_filter( 'plugin_action_links_' . COMFORTSMTP_BASE_NAME, [ $plugin_admin, 'plugin_action_links' ] );
 		add_filter( 'plugin_row_meta', [ $plugin_admin, 'plugin_row_meta' ], 10, 4 );
@@ -121,14 +119,6 @@ class ComfortSmtpHooks {
 		], 10, 2 );
 	}//end method define_plugin_hooks
 
-
-	/**
-	 * Plugin textdomain
-	 */
-	/*public function load_plugin_textdomain() {
-		load_plugin_textdomain( 'cbxwpemaillogger', false, COMFORTSMTP_ROOT_PATH . 'languages/' );
-	} //load_plugin_textdomain*/
-
 	/**
 	 * Add module attribute to script loader
 	 *
@@ -165,7 +155,7 @@ class ComfortSmtpHooks {
 	 * it's possible that some bots will only interpret the first group of rules if there are multiple groups with
 	 * the same user agent.
 	 *
-	 * @param string $output The contents that WordPress will output in a robots.txt file.
+	 * @param  string  $output  The contents that WordPress will output in a robots.txt file.
 	 *
 	 * @return string
 	 */
@@ -186,7 +176,16 @@ class ComfortSmtpHooks {
 			$above[] = 'User-agent: *';
 		}
 
-		$above[] = "Disallow: $path/wp-content/uploads/cbxwpemaillogger/";
+		//$above[] = "Disallow: $path/wp-content/uploads/cbxwpemaillogger/";
+		$upload_dir   = wp_upload_dir();
+		$uploads_path = trailingslashit( $upload_dir['baseurl'] ); // e.g. https://example.com/wp-content/uploads/
+
+		// Get relative path for robots.txt (should be relative, not full URL)
+		$uploads_relative_path = str_replace( home_url( '/' ), '/', $uploads_path );
+
+		// Build your disallow path dynamically
+		$above[] = 'Disallow: ' . trailingslashit( $uploads_relative_path ) . 'cbxwpemaillogger/';
+
 
 		$lines = array_merge( $above, $below );
 
@@ -201,33 +200,24 @@ class ComfortSmtpHooks {
 	 *
 	 * @return void
 	 */
-	public function custom_message_after_plugin_row_proaddon( $plugin_file, $plugin_data ) {
+	public function custom_message_after_plugin_row_proaddon($plugin_file, $plugin_data){
 		if ( $plugin_file !== 'cbxwpemailloggerpro/cbxwpemailloggerpro.php' ) {
 			return;
 		}
 
-		if ( defined( 'COMFORTSMTPPRO_PLUGIN_NAME' ) ) {
-			return;
-		}
+		//if pro addon is active then ignore this notification from core
+		if(defined('COMFORTSMTPPRO_PLUGIN_NAME')) return;
 
-		//$pro_addon_version = ComfortSmtpHelpers::get_any_plugin_version('cbxwpemailloggerpro/cbxwpemailloggerpro.php');
-		$pro_addon_version = isset( $plugin_data['Version'] ) ? $plugin_data['Version'] : '';
+		$pro_addon_version = ComfortSmtpHelpers::get_any_plugin_version('cbxwpemailloggerpro/cbxwpemailloggerpro.php');
+		$pro_latest_version  = COMFORTSMTP_PRO_VERSION;
 
+		if($pro_addon_version != '' && version_compare( $pro_addon_version, $pro_latest_version, '<' ) ){
 
-		if ( $pro_addon_version != '' && version_compare( $pro_addon_version, '1.0.1', '<' ) ) {
-			// Custom message to display
-
-			//$plugin_setting_url = admin_url( 'admin.php?page=cbxwpbookmark_settings#cbxwpbookmark_licences' );
 			$plugin_manual_update = 'https://codeboxr.com/manual-update-pro-addon/';
 
+
 			/* translators:translators: %s: plugin setting url for licence */
-			$custom_message = wp_kses( sprintf( __( '<strong>Note:</strong> Comfort Email SMTP, Logger & Email Api Pro Addon is custom plugin. This plugin can not be auto update from dashboard/plugin manager. For manual update please check <a target="_blank" href="%1$s">documentation</a>. <strong style="color: red;">It seems this plugin\'s current version is older than 1.0.1. To get the latest pro addon features, this plugin needs to upgrade to 1.0.1 or later.</strong>', 'cbxwpemaillogger' ), esc_url( $plugin_manual_update ) ), [
-				'strong' => [ 'style' => [] ],
-				'a'      => [
-					'href'   => [],
-					'target' => []
-				]
-			] );
+			$custom_message     = wp_kses(sprintf( __( '<strong>Note:</strong> Comfort Email SMTP, Logger & Email Api Pro Addon is custom plugin. This plugin can not be auto update from dashboard/plugin manager. For manual update please check <a target="_blank" href="%1$s">documentation</a>. <strong style="color: red;">It seems this plugin\'s current version is older than %2$s . To get the latest pro addon features, this plugin needs to upgrade to %2$s or later.</strong>', 'cbxwpemaillogger' ), esc_url( $plugin_manual_update ), $pro_latest_version ), ['strong' => ['style' => []],'a' => ['href' => [], 'target' => []]]);
 
 			// Output a row with custom content
 			echo '<tr class="plugin-update-tr">

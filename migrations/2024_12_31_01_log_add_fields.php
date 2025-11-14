@@ -3,13 +3,13 @@
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Schema;
 
-if ( ! class_exists( 'AddFieldsComfortSmtpLog' ) ) {
+if ( ! class_exists( 'ComfortsmtpAddFieldsLog' ) ) {
 	/**
-	 * Class AddFieldsComfortSmtpLog
+	 * Class ComfortsmtpAddFieldsLog
 	 * @package Comfort\Form\Migrations
 	 * @since 1.0.0
 	 */
-	class AddFieldsComfortSmtpLog {
+	class ComfortsmtpAddFieldsLog {
 
 		/**
 		 * Migration run
@@ -55,12 +55,12 @@ if ( ! class_exists( 'AddFieldsComfortSmtpLog' ) ) {
 			}
 		}//end method down
 
-	}//end class AddFieldsComfortSmtpLog
+	}//end class ComfortsmtpAddFieldsLog
 }
 
 
 if ( isset( $action ) && $action == 'up' ) {
-	AddFieldsComfortSmtpLog::up();
+	ComfortsmtpAddFieldsLog::up();
 } elseif ( isset( $action ) && $action == 'drop' ) {
-	AddFieldsComfortSmtpLog::down();
+	ComfortsmtpAddFieldsLog::down();
 }

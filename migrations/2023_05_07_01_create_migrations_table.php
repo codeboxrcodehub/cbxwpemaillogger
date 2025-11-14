@@ -3,14 +3,14 @@
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 
-if ( ! class_exists( 'CreateComfortMigrationsTable' ) ) {
+if ( ! class_exists( 'ComfortsmtpCreateMigrationsTable' ) ) {
 	/**
 	 * Common migration class for migration table and other tables(codeboxr's plugin or 3rd party if anyone use)
 	 *
 	 * Class ComfortWPMigrationsTable
 	 * @since 1.0.0
 	 */
-	class CreateComfortMigrationsTable {
+	class ComfortsmtpCreateMigrationsTable {
 
 		/**
 		 * Run migrations
@@ -52,12 +52,12 @@ if ( ! class_exists( 'CreateComfortMigrationsTable' ) ) {
 			}
 		}//end method down
 
-	}//end class CreateComfortMigrationsTable
+	}//end class ComfortsmtpCreateMigrationsTable
 }
 
 
 if ( isset( $action ) && $action == 'up' ) {
-	CreateComfortMigrationsTable::up();
+	ComfortsmtpCreateMigrationsTable::up();
 } elseif ( isset( $action ) && $action == 'drop' ) {
-	CreateComfortMigrationsTable::down();
+	ComfortsmtpCreateMigrationsTable::down();
 }

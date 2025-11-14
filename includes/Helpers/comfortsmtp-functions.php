@@ -232,7 +232,7 @@ if(!function_exists('comfortsmtp_deprecated_function')){
 	 */
 	function comfortsmtp_deprecated_function( $function, $version, $replacement = null ) {
 		if ( defined( 'DOING_AJAX' ) ) {
-			do_action( 'deprecated_function_run', $function, $replacement, $version );
+			do_action( 'deprecated_function_run', $function, $replacement, $version ); //phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 			$log_string = "The {$function} function is deprecated since version {$version}."; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			$log_string .= $replacement ? " Replace with {$replacement}." : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
