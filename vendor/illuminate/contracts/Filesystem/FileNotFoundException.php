@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Contracts\Filesystem;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Filesystem;
 
 use Exception;
-
 class FileNotFoundException extends Exception
 {
     //

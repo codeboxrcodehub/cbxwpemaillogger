@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Support\Facades;
+namespace ComfortSmtpScoped\Illuminate\Support\Facades;
 
 /**
  * @method static \Illuminate\Contracts\Foundation\Application loadEnvironmentFrom(string $file)

@@ -1,16 +1,15 @@
 <?php
 
-namespace Illuminate\Support\Testing\Fakes;
+namespace ComfortSmtpScoped\Illuminate\Support\Testing\Fakes;
 
-use Carbon\CarbonImmutable;
+use ComfortSmtpScoped\Carbon\CarbonImmutable;
 use Closure;
-use Illuminate\Bus\Batch;
-use Illuminate\Bus\BatchRepository;
-use Illuminate\Bus\PendingBatch;
-use Illuminate\Bus\UpdatedBatchJobCounts;
-use Illuminate\Support\Facades\Facade;
-use Illuminate\Support\Str;
-
+use ComfortSmtpScoped\Illuminate\Bus\Batch;
+use ComfortSmtpScoped\Illuminate\Bus\BatchRepository;
+use ComfortSmtpScoped\Illuminate\Bus\PendingBatch;
+use ComfortSmtpScoped\Illuminate\Bus\UpdatedBatchJobCounts;
+use ComfortSmtpScoped\Illuminate\Support\Facades\Facade;
+use ComfortSmtpScoped\Illuminate\Support\Str;
 class BatchRepositoryFake implements BatchRepository
 {
     /**
@@ -24,7 +23,6 @@ class BatchRepositoryFake implements BatchRepository
     {
         return [];
     }
-
     /**
      * Retrieve information about an existing batch.
      *
@@ -35,7 +33,6 @@ class BatchRepositoryFake implements BatchRepository
     {
         //
     }
-
     /**
      * Store a new pending batch.
      *
@@ -44,22 +41,8 @@ class BatchRepositoryFake implements BatchRepository
      */
     public function store(PendingBatch $batch)
     {
-        return new Batch(
-            new QueueFake(Facade::getFacadeApplication()),
-            $this,
-            (string) Str::orderedUuid(),
-            $batch->name,
-            count($batch->jobs),
-            count($batch->jobs),
-            0,
-            [],
-            $batch->options,
-            CarbonImmutable::now(),
-            null,
-            null
-        );
+        return new Batch(new QueueFake(Facade::getFacadeApplication()), $this, (string) Str::orderedUuid(), $batch->name, \count($batch->jobs), \count($batch->jobs), 0, [], $batch->options, CarbonImmutable::now(), null, null);
     }
-
     /**
      * Increment the total number of jobs within the batch.
      *
@@ -71,7 +54,6 @@ class BatchRepositoryFake implements BatchRepository
     {
         //
     }
-
     /**
      * Decrement the total number of pending jobs for the batch.
      *
@@ -81,9 +63,8 @@ class BatchRepositoryFake implements BatchRepository
      */
     public function decrementPendingJobs(string $batchId, string $jobId)
     {
-        return new UpdatedBatchJobCounts;
+        return new UpdatedBatchJobCounts();
     }
-
     /**
      * Increment the total number of failed jobs for the batch.
      *
@@ -93,9 +74,8 @@ class BatchRepositoryFake implements BatchRepository
      */
     public function incrementFailedJobs(string $batchId, string $jobId)
     {
-        return new UpdatedBatchJobCounts;
+        return new UpdatedBatchJobCounts();
     }
-
     /**
      * Mark the batch that has the given ID as finished.
      *
@@ -106,7 +86,6 @@ class BatchRepositoryFake implements BatchRepository
     {
         //
     }
-
     /**
      * Cancel the batch that has the given ID.
      *
@@ -117,7 +96,6 @@ class BatchRepositoryFake implements BatchRepository
     {
         //
     }
-
     /**
      * Delete the batch that has the given ID.
      *
@@ -128,7 +106,6 @@ class BatchRepositoryFake implements BatchRepository
     {
         //
     }
-
     /**
      * Execute the given Closure within a storage specific transaction.
      *

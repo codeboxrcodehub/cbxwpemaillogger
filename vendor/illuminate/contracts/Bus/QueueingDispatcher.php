@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Bus;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Bus;
 
 interface QueueingDispatcher extends Dispatcher
 {
@@ -11,7 +11,6 @@ interface QueueingDispatcher extends Dispatcher
      * @return \Illuminate\Bus\Batch|null
      */
     public function findBatch(string $batchId);
-
     /**
      * Create a new batch of queueable jobs.
      *
@@ -19,7 +18,6 @@ interface QueueingDispatcher extends Dispatcher
      * @return \Illuminate\Bus\PendingBatch
      */
     public function batch($jobs);
-
     /**
      * Dispatch a command to its appropriate handler behind a queue.
      *

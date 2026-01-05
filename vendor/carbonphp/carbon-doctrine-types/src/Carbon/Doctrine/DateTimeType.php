@@ -1,23 +1,20 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace ComfortSmtpScoped\Carbon\Doctrine;
 
-namespace Carbon\Doctrine;
-
-use Carbon\Carbon;
+use ComfortSmtpScoped\Carbon\Carbon;
 use DateTime;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\VarDateTimeType;
-
+use ComfortSmtpScoped\Doctrine\DBAL\Platforms\AbstractPlatform;
+use ComfortSmtpScoped\Doctrine\DBAL\Types\VarDateTimeType;
 class DateTimeType extends VarDateTimeType implements CarbonDoctrineType
 {
     /** @use CarbonTypeConverter<Carbon> */
     use CarbonTypeConverter;
-
     /**
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?Carbon
+    public function convertToPHPValue(mixed $value, AbstractPlatform $platform) : ?Carbon
     {
         return $this->doConvertToPHPValue($value);
     }

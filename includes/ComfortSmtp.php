@@ -1,4 +1,8 @@
 <?php
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
 
 use Comfort\Crm\Smtp\Helpers\ComfortSmtpHelpers;
 use Comfort\Crm\Smtp\ComfortSmtpHooks;
@@ -88,7 +92,7 @@ final class ComfortSmtp {
 	 * @since 2.0.5
 	 */
 	public function __clone() {
-		cbxmcratingreview_doing_it_wrong( __FUNCTION__, esc_html__( 'Cloning is forbidden.', 'cbxwpemaillogger' ), '2.0.5' );
+		comfortsmtp_doing_it_wrong( __FUNCTION__, esc_html__( 'Cloning is forbidden.', 'cbxwpemaillogger' ), '2.0.5' );
 	}//end method clone
 
 	/**
@@ -97,7 +101,7 @@ final class ComfortSmtp {
 	 * @since 2.0.5
 	 */
 	public function __wakeup() {
-		cbxmcratingreview_doing_it_wrong( __FUNCTION__, esc_html__( 'Unserializing instances of this class is forbidden.', 'cbxwpemaillogger' ), '2.0.5' );
+		comfortsmtp_doing_it_wrong( __FUNCTION__, esc_html__( 'Unserializing instances of this class is forbidden.', 'cbxwpemaillogger' ), '2.0.5' );
 	}//end method wakeup
 
 	/**

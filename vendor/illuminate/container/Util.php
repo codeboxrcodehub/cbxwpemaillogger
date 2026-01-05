@@ -1,10 +1,9 @@
 <?php
 
-namespace Illuminate\Container;
+namespace ComfortSmtpScoped\Illuminate\Container;
 
 use Closure;
 use ReflectionNamedType;
-
 /**
  * @internal
  */
@@ -20,13 +19,11 @@ class Util
      */
     public static function arrayWrap($value)
     {
-        if (is_null($value)) {
+        if (\is_null($value)) {
             return [];
         }
-
-        return is_array($value) ? $value : [$value];
+        return \is_array($value) ? $value : [$value];
     }
-
     /**
      * Return the default value of the given value.
      *
@@ -39,7 +36,6 @@ class Util
     {
         return $value instanceof Closure ? $value() : $value;
     }
-
     /**
      * Get the class name of the given parameter's type, if possible.
      *
@@ -51,23 +47,18 @@ class Util
     public static function getParameterClassName($parameter)
     {
         $type = $parameter->getType();
-
-        if (! $type instanceof ReflectionNamedType || $type->isBuiltin()) {
+        if (!$type instanceof ReflectionNamedType || $type->isBuiltin()) {
             return null;
         }
-
         $name = $type->getName();
-
-        if (! is_null($class = $parameter->getDeclaringClass())) {
+        if (!\is_null($class = $parameter->getDeclaringClass())) {
             if ($name === 'self') {
                 return $class->getName();
             }
-
-            if ($name === 'parent' && $parent = $class->getParentClass()) {
+            if ($name === 'parent' && ($parent = $class->getParentClass())) {
                 return $parent->getName();
             }
         }
-
         return $name;
     }
 }

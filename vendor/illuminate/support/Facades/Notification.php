@@ -1,11 +1,10 @@
 <?php
 
-namespace Illuminate\Support\Facades;
+namespace ComfortSmtpScoped\Illuminate\Support\Facades;
 
-use Illuminate\Notifications\AnonymousNotifiable;
-use Illuminate\Notifications\ChannelManager;
-use Illuminate\Support\Testing\Fakes\NotificationFake;
-
+use ComfortSmtpScoped\Illuminate\Notifications\AnonymousNotifiable;
+use ComfortSmtpScoped\Illuminate\Notifications\ChannelManager;
+use ComfortSmtpScoped\Illuminate\Support\Testing\Fakes\NotificationFake;
 /**
  * @method static \Illuminate\Notifications\ChannelManager locale(string|null $locale)
  * @method static \Illuminate\Support\Collection sent(mixed $notifiable, string $notification, callable $callback = null)
@@ -32,11 +31,9 @@ class Notification extends Facade
      */
     public static function fake()
     {
-        static::swap($fake = new NotificationFake);
-
+        static::swap($fake = new NotificationFake());
         return $fake;
     }
-
     /**
      * Begin sending a notification to an anonymous notifiable.
      *
@@ -46,9 +43,8 @@ class Notification extends Facade
      */
     public static function route($channel, $route)
     {
-        return (new AnonymousNotifiable)->route($channel, $route);
+        return (new AnonymousNotifiable())->route($channel, $route);
     }
-
     /**
      * Get the registered name of the component.
      *

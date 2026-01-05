@@ -1,12 +1,11 @@
 <?php
 
-namespace Illuminate\Database;
+namespace ComfortSmtpScoped\Illuminate\Database;
 
-use Illuminate\Console\Command;
-use Illuminate\Container\Container;
-use Illuminate\Support\Arr;
+use ComfortSmtpScoped\Illuminate\Console\Command;
+use ComfortSmtpScoped\Illuminate\Container\Container;
+use ComfortSmtpScoped\Illuminate\Support\Arr;
 use InvalidArgumentException;
-
 abstract class Seeder
 {
     /**
@@ -15,14 +14,12 @@ abstract class Seeder
      * @var \Illuminate\Container\Container
      */
     protected $container;
-
     /**
      * The console command instance.
      *
      * @var \Illuminate\Console\Command
      */
     protected $command;
-
     /**
      * Run the given seeder class.
      *
@@ -31,33 +28,24 @@ abstract class Seeder
      * @param  array  $parameters
      * @return $this
      */
-    public function call($class, $silent = false, array $parameters = [])
+    public function call($class, $silent = \false, array $parameters = [])
     {
         $classes = Arr::wrap($class);
-
         foreach ($classes as $class) {
             $seeder = $this->resolve($class);
-
-            $name = get_class($seeder);
-
-            if ($silent === false && isset($this->command)) {
+            $name = \get_class($seeder);
+            if ($silent === \false && isset($this->command)) {
                 $this->command->getOutput()->writeln("<comment>Seeding:</comment> {$name}");
             }
-
-            $startTime = microtime(true);
-
+            $startTime = \microtime(\true);
             $seeder->__invoke($parameters);
-
-            $runTime = number_format((microtime(true) - $startTime) * 1000, 2);
-
-            if ($silent === false && isset($this->command)) {
+            $runTime = \number_format((\microtime(\true) - $startTime) * 1000, 2);
+            if ($silent === \false && isset($this->command)) {
                 $this->command->getOutput()->writeln("<info>Seeded:</info>  {$name} ({$runTime}ms)");
             }
         }
-
         return $this;
     }
-
     /**
      * Run the given seeder class.
      *
@@ -67,9 +55,8 @@ abstract class Seeder
      */
     public function callWith($class, array $parameters = [])
     {
-        $this->call($class, false, $parameters);
+        $this->call($class, \false, $parameters);
     }
-
     /**
      * Silently run the given seeder class.
      *
@@ -79,9 +66,8 @@ abstract class Seeder
      */
     public function callSilent($class, array $parameters = [])
     {
-        $this->call($class, true, $parameters);
+        $this->call($class, \true, $parameters);
     }
-
     /**
      * Resolve an instance of the given seeder class.
      *
@@ -92,19 +78,15 @@ abstract class Seeder
     {
         if (isset($this->container)) {
             $instance = $this->container->make($class);
-
             $instance->setContainer($this->container);
         } else {
-            $instance = new $class;
+            $instance = new $class();
         }
-
         if (isset($this->command)) {
             $instance->setCommand($this->command);
         }
-
         return $instance;
     }
-
     /**
      * Set the IoC container instance.
      *
@@ -114,10 +96,8 @@ abstract class Seeder
     public function setContainer(Container $container)
     {
         $this->container = $container;
-
         return $this;
     }
-
     /**
      * Set the console command instance.
      *
@@ -127,10 +107,8 @@ abstract class Seeder
     public function setCommand(Command $command)
     {
         $this->command = $command;
-
         return $this;
     }
-
     /**
      * Run the database seeds.
      *
@@ -141,12 +119,9 @@ abstract class Seeder
      */
     public function __invoke(array $parameters = [])
     {
-        if (! method_exists($this, 'run')) {
-            throw new InvalidArgumentException('Method [run] missing from '.get_class($this));
+        if (!\method_exists($this, 'run')) {
+            throw new InvalidArgumentException('Method [run] missing from ' . \get_class($this));
         }
-
-        return isset($this->container)
-                    ? $this->container->call([$this, 'run'], $parameters)
-                    : $this->run(...$parameters);
+        return isset($this->container) ? $this->container->call([$this, 'run'], $parameters) : $this->run(...$parameters);
     }
 }

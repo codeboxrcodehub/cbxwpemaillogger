@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Support\Facades;
+namespace ComfortSmtpScoped\Illuminate\Support\Facades;
 
 /**
  * @method static \Illuminate\Cache\RateLimiter for(string $name, \Closure $callback)
@@ -25,6 +25,6 @@ class RateLimiter extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'Illuminate\Cache\RateLimiter';
+        return 'ComfortSmtpScoped\\Illuminate\\Cache\\RateLimiter';
     }
 }

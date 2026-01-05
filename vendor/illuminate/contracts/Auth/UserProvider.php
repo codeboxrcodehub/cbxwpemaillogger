@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Auth;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Auth;
 
 interface UserProvider
 {
@@ -11,7 +11,6 @@ interface UserProvider
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function retrieveById($identifier);
-
     /**
      * Retrieve a user by their unique identifier and "remember me" token.
      *
@@ -20,7 +19,6 @@ interface UserProvider
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByToken($identifier, $token);
-
     /**
      * Update the "remember me" token for the given user in storage.
      *
@@ -29,7 +27,6 @@ interface UserProvider
      * @return void
      */
     public function updateRememberToken(Authenticatable $user, $token);
-
     /**
      * Retrieve a user by the given credentials.
      *
@@ -37,7 +34,6 @@ interface UserProvider
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByCredentials(array $credentials);
-
     /**
      * Validate a user against the given credentials.
      *

@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Support\Facades;
+namespace ComfortSmtpScoped\Illuminate\Support\Facades;
 
-use Illuminate\Contracts\Console\Kernel as ConsoleKernelContract;
-
+use ComfortSmtpScoped\Illuminate\Contracts\Console\Kernel as ConsoleKernelContract;
 /**
  * @method static \Illuminate\Foundation\Bus\PendingDispatch queue(string $command, array $parameters = [])
  * @method static \Illuminate\Foundation\Console\ClosureCommand command(string $command, callable $callback)

@@ -1,12 +1,11 @@
 <?php
 
-namespace Illuminate\Support;
+namespace ComfortSmtpScoped\Illuminate\Support;
 
 use ArrayAccess;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Contracts\Support\Jsonable;
+use ComfortSmtpScoped\Illuminate\Contracts\Support\Arrayable;
+use ComfortSmtpScoped\Illuminate\Contracts\Support\Jsonable;
 use JsonSerializable;
-
 class Fluent implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
 {
     /**
@@ -15,7 +14,6 @@ class Fluent implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
      * @var array
      */
     protected $attributes = [];
-
     /**
      * Create a new fluent instance.
      *
@@ -28,7 +26,6 @@ class Fluent implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
             $this->attributes[$key] = $value;
         }
     }
-
     /**
      * Get an attribute from the fluent instance.
      *
@@ -38,13 +35,11 @@ class Fluent implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
      */
     public function get($key, $default = null)
     {
-        if (array_key_exists($key, $this->attributes)) {
+        if (\array_key_exists($key, $this->attributes)) {
             return $this->attributes[$key];
         }
-
-        return value($default);
+        return \value($default);
     }
-
     /**
      * Get the attributes from the fluent instance.
      *
@@ -54,7 +49,6 @@ class Fluent implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
     {
         return $this->attributes;
     }
-
     /**
      * Convert the fluent instance to an array.
      *
@@ -64,7 +58,6 @@ class Fluent implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
     {
         return $this->attributes;
     }
-
     /**
      * Convert the object into something JSON serializable.
      *
@@ -75,7 +68,6 @@ class Fluent implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
     {
         return $this->toArray();
     }
-
     /**
      * Convert the fluent instance to JSON.
      *
@@ -84,9 +76,8 @@ class Fluent implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
      */
     public function toJson($options = 0)
     {
-        return json_encode($this->jsonSerialize(), $options);
+        return \json_encode($this->jsonSerialize(), $options);
     }
-
     /**
      * Determine if the given offset exists.
      *
@@ -98,7 +89,6 @@ class Fluent implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
     {
         return isset($this->attributes[$offset]);
     }
-
     /**
      * Get the value for a given offset.
      *
@@ -110,7 +100,6 @@ class Fluent implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
     {
         return $this->get($offset);
     }
-
     /**
      * Set the value at the given offset.
      *
@@ -123,7 +112,6 @@ class Fluent implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
     {
         $this->attributes[$offset] = $value;
     }
-
     /**
      * Unset the value at the given offset.
      *
@@ -135,7 +123,6 @@ class Fluent implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
     {
         unset($this->attributes[$offset]);
     }
-
     /**
      * Handle dynamic calls to the fluent instance to set attributes.
      *
@@ -145,11 +132,9 @@ class Fluent implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
      */
     public function __call($method, $parameters)
     {
-        $this->attributes[$method] = count($parameters) > 0 ? $parameters[0] : true;
-
+        $this->attributes[$method] = \count($parameters) > 0 ? $parameters[0] : \true;
         return $this;
     }
-
     /**
      * Dynamically retrieve the value of an attribute.
      *
@@ -160,7 +145,6 @@ class Fluent implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
     {
         return $this->get($key);
     }
-
     /**
      * Dynamically set the value of an attribute.
      *
@@ -172,7 +156,6 @@ class Fluent implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
     {
         $this->offsetSet($key, $value);
     }
-
     /**
      * Dynamically check if an attribute is set.
      *
@@ -183,7 +166,6 @@ class Fluent implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
     {
         return $this->offsetExists($key);
     }
-
     /**
      * Dynamically unset an attribute.
      *

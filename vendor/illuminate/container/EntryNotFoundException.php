@@ -1,10 +1,9 @@
 <?php
 
-namespace Illuminate\Container;
+namespace ComfortSmtpScoped\Illuminate\Container;
 
 use Exception;
-use Psr\Container\NotFoundExceptionInterface;
-
+use ComfortSmtpScoped\Psr\Container\NotFoundExceptionInterface;
 class EntryNotFoundException extends Exception implements NotFoundExceptionInterface
 {
     //

@@ -1,11 +1,10 @@
 <?php
 
-namespace Illuminate\Support;
+namespace ComfortSmtpScoped\Illuminate\Support;
 
-use Illuminate\Filesystem\Filesystem;
-use Symfony\Component\Process\PhpExecutableFinder;
-use Symfony\Component\Process\Process;
-
+use ComfortSmtpScoped\Illuminate\Filesystem\Filesystem;
+use ComfortSmtpScoped\Symfony\Component\Process\PhpExecutableFinder;
+use ComfortSmtpScoped\Symfony\Component\Process\Process;
 class Composer
 {
     /**
@@ -14,14 +13,12 @@ class Composer
      * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
-
     /**
      * The working path to regenerate from.
      *
      * @var string|null
      */
     protected $workingPath;
-
     /**
      * Create a new Composer manager instance.
      *
@@ -34,7 +31,6 @@ class Composer
         $this->files = $files;
         $this->workingPath = $workingPath;
     }
-
     /**
      * Regenerate the Composer autoloader files.
      *
@@ -44,12 +40,9 @@ class Composer
     public function dumpAutoloads($extra = '')
     {
         $extra = $extra ? (array) $extra : [];
-
-        $command = array_merge($this->findComposer(), ['dump-autoload'], $extra);
-
+        $command = \array_merge($this->findComposer(), ['dump-autoload'], $extra);
         return $this->getProcess($command)->run();
     }
-
     /**
      * Regenerate the optimized Composer autoloader files.
      *
@@ -59,7 +52,6 @@ class Composer
     {
         return $this->dumpAutoloads('--optimize');
     }
-
     /**
      * Get the composer command for the environment.
      *
@@ -67,13 +59,11 @@ class Composer
      */
     protected function findComposer()
     {
-        if ($this->files->exists($this->workingPath.'/composer.phar')) {
+        if ($this->files->exists($this->workingPath . '/composer.phar')) {
             return [$this->phpBinary(), 'composer.phar'];
         }
-
         return ['composer'];
     }
-
     /**
      * Get the PHP binary.
      *
@@ -81,9 +71,8 @@ class Composer
      */
     protected function phpBinary()
     {
-        return ProcessUtils::escapeArgument((new PhpExecutableFinder)->find(false));
+        return ProcessUtils::escapeArgument((new PhpExecutableFinder())->find(\false));
     }
-
     /**
      * Get a new Symfony process instance.
      *
@@ -94,7 +83,6 @@ class Composer
     {
         return (new Process($command, $this->workingPath))->setTimeout(null);
     }
-
     /**
      * Set the working path used by the class.
      *
@@ -103,8 +91,7 @@ class Composer
      */
     public function setWorkingPath($path)
     {
-        $this->workingPath = realpath($path);
-
+        $this->workingPath = \realpath($path);
         return $this;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Routing;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Routing;
 
 interface Registrar
 {
@@ -12,7 +12,6 @@ interface Registrar
      * @return \Illuminate\Routing\Route
      */
     public function get($uri, $action);
-
     /**
      * Register a new POST route with the router.
      *
@@ -21,7 +20,6 @@ interface Registrar
      * @return \Illuminate\Routing\Route
      */
     public function post($uri, $action);
-
     /**
      * Register a new PUT route with the router.
      *
@@ -30,7 +28,6 @@ interface Registrar
      * @return \Illuminate\Routing\Route
      */
     public function put($uri, $action);
-
     /**
      * Register a new DELETE route with the router.
      *
@@ -39,7 +36,6 @@ interface Registrar
      * @return \Illuminate\Routing\Route
      */
     public function delete($uri, $action);
-
     /**
      * Register a new PATCH route with the router.
      *
@@ -48,7 +44,6 @@ interface Registrar
      * @return \Illuminate\Routing\Route
      */
     public function patch($uri, $action);
-
     /**
      * Register a new OPTIONS route with the router.
      *
@@ -57,7 +52,6 @@ interface Registrar
      * @return \Illuminate\Routing\Route
      */
     public function options($uri, $action);
-
     /**
      * Register a new route with the given verbs.
      *
@@ -67,7 +61,6 @@ interface Registrar
      * @return \Illuminate\Routing\Route
      */
     public function match($methods, $uri, $action);
-
     /**
      * Route a resource to a controller.
      *
@@ -77,7 +70,6 @@ interface Registrar
      * @return \Illuminate\Routing\PendingResourceRegistration
      */
     public function resource($name, $controller, array $options = []);
-
     /**
      * Create a route group with shared attributes.
      *
@@ -86,7 +78,6 @@ interface Registrar
      * @return void
      */
     public function group(array $attributes, $routes);
-
     /**
      * Substitute the route bindings onto the route.
      *
@@ -94,7 +85,6 @@ interface Registrar
      * @return \Illuminate\Routing\Route
      */
     public function substituteBindings($route);
-
     /**
      * Substitute the implicit Eloquent model bindings for the route.
      *

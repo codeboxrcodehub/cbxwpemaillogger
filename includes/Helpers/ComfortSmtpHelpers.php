@@ -2,11 +2,16 @@
 
 namespace Comfort\Crm\Smtp\Helpers;
 
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
+
 use Comfort\Crm\Smtp\ComfortSmtpSettings;
 
 use Comfort\Crm\Smtp\Models\SmtpLog;
 //use Exception;
-use Illuminate\Database\Capsule\Manager;
+use ComfortSmtpScoped\Illuminate\Database\Capsule\Manager;
 use Comfort\Crm\Smtp\MigrationManage;
 use DateTime;
 

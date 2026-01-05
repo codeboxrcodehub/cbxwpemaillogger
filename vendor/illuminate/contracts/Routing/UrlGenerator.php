@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Routing;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Routing;
 
 interface UrlGenerator
 {
@@ -10,15 +10,13 @@ interface UrlGenerator
      * @return string
      */
     public function current();
-
     /**
      * Get the URL for the previous request.
      *
      * @param  mixed  $fallback
      * @return string
      */
-    public function previous($fallback = false);
-
+    public function previous($fallback = \false);
     /**
      * Generate an absolute URL to the given path.
      *
@@ -28,7 +26,6 @@ interface UrlGenerator
      * @return string
      */
     public function to($path, $extra = [], $secure = null);
-
     /**
      * Generate a secure, absolute URL to the given path.
      *
@@ -37,7 +34,6 @@ interface UrlGenerator
      * @return string
      */
     public function secure($path, $parameters = []);
-
     /**
      * Generate the URL to an application asset.
      *
@@ -46,7 +42,6 @@ interface UrlGenerator
      * @return string
      */
     public function asset($path, $secure = null);
-
     /**
      * Get the URL to a named route.
      *
@@ -57,8 +52,7 @@ interface UrlGenerator
      *
      * @throws \InvalidArgumentException
      */
-    public function route($name, $parameters = [], $absolute = true);
-
+    public function route($name, $parameters = [], $absolute = \true);
     /**
      * Get the URL to a controller action.
      *
@@ -67,8 +61,7 @@ interface UrlGenerator
      * @param  bool  $absolute
      * @return string
      */
-    public function action($action, $parameters = [], $absolute = true);
-
+    public function action($action, $parameters = [], $absolute = \true);
     /**
      * Set the root controller namespace.
      *

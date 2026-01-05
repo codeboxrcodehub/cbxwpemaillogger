@@ -8,8 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Carbon\Traits;
+namespace ComfortSmtpScoped\Carbon\Traits;
 
 /**
  * Trait Macros.
@@ -19,21 +18,18 @@ namespace Carbon\Traits;
 trait Macro
 {
     use Mixin;
-
     /**
      * The registered macros.
      *
      * @var array
      */
     protected static $globalMacros = [];
-
     /**
      * The registered generic macros.
      *
      * @var array
      */
     protected static $globalGenericMacros = [];
-
     /**
      * Register a custom macro.
      *
@@ -58,7 +54,6 @@ trait Macro
     {
         static::$globalMacros[$name] = $macro;
     }
-
     /**
      * Remove all macros and generic macros.
      */
@@ -67,7 +62,6 @@ trait Macro
         static::$globalMacros = [];
         static::$globalGenericMacros = [];
     }
-
     /**
      * Register a custom macro.
      *
@@ -80,12 +74,10 @@ trait Macro
     {
         if (!isset(static::$globalGenericMacros[$priority])) {
             static::$globalGenericMacros[$priority] = [];
-            krsort(static::$globalGenericMacros, SORT_NUMERIC);
+            \krsort(static::$globalGenericMacros, \SORT_NUMERIC);
         }
-
         static::$globalGenericMacros[$priority][] = $macro;
     }
-
     /**
      * Checks if macro is registered globally.
      *
@@ -97,7 +89,6 @@ trait Macro
     {
         return isset(static::$globalMacros[$name]);
     }
-
     /**
      * Get the raw callable macro registered globally for a given name.
      *
@@ -109,7 +100,6 @@ trait Macro
     {
         return static::$globalMacros[$name] ?? null;
     }
-
     /**
      * Checks if macro is registered globally or locally.
      *
@@ -119,9 +109,8 @@ trait Macro
      */
     public function hasLocalMacro($name)
     {
-        return ($this->localMacros && isset($this->localMacros[$name])) || static::hasMacro($name);
+        return $this->localMacros && isset($this->localMacros[$name]) || static::hasMacro($name);
     }
-
     /**
      * Get the raw callable macro registered globally or locally for a given name.
      *

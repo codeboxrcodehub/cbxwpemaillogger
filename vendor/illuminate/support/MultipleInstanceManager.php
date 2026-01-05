@@ -1,11 +1,10 @@
 <?php
 
-namespace Illuminate\Support;
+namespace ComfortSmtpScoped\Illuminate\Support;
 
 use Closure;
 use InvalidArgumentException;
 use RuntimeException;
-
 abstract class MultipleInstanceManager
 {
     /**
@@ -14,21 +13,18 @@ abstract class MultipleInstanceManager
      * @var \Illuminate\Contracts\Foundation\Application
      */
     protected $app;
-
     /**
      * The array of resolved instances.
      *
      * @var array
      */
     protected $instances = [];
-
     /**
      * The registered custom instance creators.
      *
      * @var array
      */
     protected $customCreators = [];
-
     /**
      * Create a new manager instance.
      *
@@ -39,30 +35,26 @@ abstract class MultipleInstanceManager
     {
         $this->app = $app;
     }
-
     /**
      * Get the default instance name.
      *
      * @return string
      */
-    abstract public function getDefaultInstance();
-
+    public abstract function getDefaultInstance();
     /**
      * Set the default instance name.
      *
      * @param  string  $name
      * @return void
      */
-    abstract public function setDefaultInstance($name);
-
+    public abstract function setDefaultInstance($name);
     /**
      * Get the instance specific configuration.
      *
      * @param  string  $name
      * @return array
      */
-    abstract public function getInstanceConfig($name);
-
+    public abstract function getInstanceConfig($name);
     /**
      * Get an instance instance by name.
      *
@@ -72,10 +64,8 @@ abstract class MultipleInstanceManager
     public function instance($name = null)
     {
         $name = $name ?: $this->getDefaultInstance();
-
         return $this->instances[$name] = $this->get($name);
     }
-
     /**
      * Attempt to get an instance from the local cache.
      *
@@ -86,7 +76,6 @@ abstract class MultipleInstanceManager
     {
         return $this->instances[$name] ?? $this->resolve($name);
     }
-
     /**
      * Resolve the given instance.
      *
@@ -98,28 +87,23 @@ abstract class MultipleInstanceManager
     protected function resolve($name)
     {
         $config = $this->getInstanceConfig($name);
-
-        if (is_null($config)) {
+        if (\is_null($config)) {
             throw new InvalidArgumentException("Instance [{$name}] is not defined.");
         }
-
-        if (! array_key_exists('driver', $config)) {
+        if (!\array_key_exists('driver', $config)) {
             throw new RuntimeException("Instance [{$name}] does not specify a driver.");
         }
-
         if (isset($this->customCreators[$config['driver']])) {
             return $this->callCustomCreator($config);
         } else {
-            $driverMethod = 'create'.ucfirst($config['driver']).'Driver';
-
-            if (method_exists($this, $driverMethod)) {
+            $driverMethod = 'create' . \ucfirst($config['driver']) . 'Driver';
+            if (\method_exists($this, $driverMethod)) {
                 return $this->{$driverMethod}($config);
             } else {
                 throw new InvalidArgumentException("Instance driver [{$config['driver']}] is not supported.");
             }
         }
     }
-
     /**
      * Call a custom instance creator.
      *
@@ -130,7 +114,6 @@ abstract class MultipleInstanceManager
     {
         return $this->customCreators[$config['driver']]($this->app, $config);
     }
-
     /**
      * Unset the given instances.
      *
@@ -140,16 +123,13 @@ abstract class MultipleInstanceManager
     public function forgetInstance($name = null)
     {
         $name = $name ?? $this->getDefaultInstance();
-
         foreach ((array) $name as $instanceName) {
             if (isset($this->instances[$instanceName])) {
                 unset($this->instances[$instanceName]);
             }
         }
-
         return $this;
     }
-
     /**
      * Disconnect the given instance and remove from local cache.
      *
@@ -159,10 +139,8 @@ abstract class MultipleInstanceManager
     public function purge($name = null)
     {
         $name = $name ?? $this->getDefaultInstance();
-
         unset($this->instances[$name]);
     }
-
     /**
      * Register a custom instance creator Closure.
      *
@@ -173,10 +151,8 @@ abstract class MultipleInstanceManager
     public function extend($name, Closure $callback)
     {
         $this->customCreators[$name] = $callback->bindTo($this, $this);
-
         return $this;
     }
-
     /**
      * Dynamically call the default instance.
      *
@@ -186,6 +162,6 @@ abstract class MultipleInstanceManager
      */
     public function __call($method, $parameters)
     {
-        return $this->instance()->$method(...$parameters);
+        return $this->instance()->{$method}(...$parameters);
     }
 }

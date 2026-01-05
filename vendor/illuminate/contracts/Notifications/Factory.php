@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Notifications;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Notifications;
 
 interface Factory
 {
@@ -11,7 +11,6 @@ interface Factory
      * @return mixed
      */
     public function channel($name = null);
-
     /**
      * Send the given notification to the given notifiable entities.
      *
@@ -20,7 +19,6 @@ interface Factory
      * @return void
      */
     public function send($notifiables, $notification);
-
     /**
      * Send the given notification immediately.
      *

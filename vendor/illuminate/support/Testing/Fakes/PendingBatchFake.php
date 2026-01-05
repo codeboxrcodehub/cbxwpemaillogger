@@ -1,10 +1,9 @@
 <?php
 
-namespace Illuminate\Support\Testing\Fakes;
+namespace ComfortSmtpScoped\Illuminate\Support\Testing\Fakes;
 
-use Illuminate\Bus\PendingBatch;
-use Illuminate\Support\Collection;
-
+use ComfortSmtpScoped\Illuminate\Bus\PendingBatch;
+use ComfortSmtpScoped\Illuminate\Support\Collection;
 class PendingBatchFake extends PendingBatch
 {
     /**
@@ -13,7 +12,6 @@ class PendingBatchFake extends PendingBatch
      * @var \Illuminate\Support\Testing\Fakes\BusFake
      */
     protected $bus;
-
     /**
      * Create a new pending batch instance.
      *
@@ -26,7 +24,6 @@ class PendingBatchFake extends PendingBatch
         $this->bus = $bus;
         $this->jobs = $jobs;
     }
-
     /**
      * Dispatch the batch.
      *

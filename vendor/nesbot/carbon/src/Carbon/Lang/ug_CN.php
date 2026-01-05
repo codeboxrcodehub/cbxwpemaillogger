@@ -1,5 +1,7 @@
 <?php
 
+namespace ComfortSmtpScoped;
+
 /**
  * This file is part of the Carbon package.
  *
@@ -8,10 +10,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 /*
  * Authors:
  * - Kunal Marwaha
  * - Alim Boyaq
  */
-return require __DIR__.'/ug.php';
+return require __DIR__ . '/ug.php';

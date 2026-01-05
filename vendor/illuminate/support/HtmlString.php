@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Support;
+namespace ComfortSmtpScoped\Illuminate\Support;
 
-use Illuminate\Contracts\Support\Htmlable;
-
+use ComfortSmtpScoped\Illuminate\Contracts\Support\Htmlable;
 class HtmlString implements Htmlable
 {
     /**
@@ -12,7 +11,6 @@ class HtmlString implements Htmlable
      * @var string
      */
     protected $html;
-
     /**
      * Create a new HTML string instance.
      *
@@ -23,7 +21,6 @@ class HtmlString implements Htmlable
     {
         $this->html = $html;
     }
-
     /**
      * Get the HTML string.
      *
@@ -33,7 +30,6 @@ class HtmlString implements Htmlable
     {
         return $this->html;
     }
-
     /**
      * Determine if the given HTML string is empty.
      *
@@ -43,7 +39,6 @@ class HtmlString implements Htmlable
     {
         return $this->html === '';
     }
-
     /**
      * Determine if the given HTML string is not empty.
      *
@@ -51,9 +46,8 @@ class HtmlString implements Htmlable
      */
     public function isNotEmpty()
     {
-        return ! $this->isEmpty();
+        return !$this->isEmpty();
     }
-
     /**
      * Get the HTML string.
      *

@@ -1,11 +1,11 @@
 {
-    "name": "illuminate/macroable",
+    "name": "illuminate\/macroable",
     "description": "The Illuminate Macroable package.",
     "license": "MIT",
-    "homepage": "https://laravel.com",
+    "homepage": "https:\/\/laravel.com",
     "support": {
-        "issues": "https://github.com/laravel/framework/issues",
-        "source": "https://github.com/laravel/framework"
+        "issues": "https:\/\/github.com\/laravel\/framework\/issues",
+        "source": "https:\/\/github.com\/laravel\/framework"
     },
     "authors": [
         {
@@ -18,7 +18,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Illuminate\\Support\\": ""
+            "ComfortSmtpScoped\\Illuminate\\Support\\": ""
         }
     },
     "extra": {

@@ -1,5 +1,6 @@
 <?php
-namespace enshrined\svgSanitize\ElementReference;
+
+namespace ComfortSmtpScoped\enshrined\svgSanitize\ElementReference;
 
 class Usage
 {
@@ -7,12 +8,10 @@ class Usage
      * @var Subject
      */
     protected $subject;
-
     /**
      * @var int
      */
     protected $count;
-
     /**
      * @param Subject $subject
      * @param int $count
@@ -20,17 +19,15 @@ class Usage
     public function __construct(Subject $subject, $count = 1)
     {
         $this->subject = $subject;
-        $this->count = (int)$count;
+        $this->count = (int) $count;
     }
-
     /**
      * @param int $by
      */
     public function increment($by = 1)
     {
-        $this->count += (int)$by;
+        $this->count += (int) $by;
     }
-
     /**
      * @return Subject
      */
@@ -38,7 +35,6 @@ class Usage
     {
         return $this->subject;
     }
-
     /**
      * @return int
      */

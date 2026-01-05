@@ -8,11 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Carbon\Traits;
+namespace ComfortSmtpScoped\Carbon\Traits;
 
 use Closure;
-
 /**
  * Trait ToStringFormat.
  *
@@ -26,7 +24,6 @@ trait ToStringFormat
      * @var string|Closure|null
      */
     protected static $toStringFormat;
-
     /**
      * Reset the format used to the default when type juggling a Carbon instance to a string
      *
@@ -36,7 +33,6 @@ trait ToStringFormat
     {
         static::setToStringFormat(null);
     }
-
     /**
      * @deprecated To avoid conflict between different third-party libraries, static setters should not be used.
      *             You should rather let Carbon object being cast to string with DEFAULT_TO_STRING_FORMAT, and

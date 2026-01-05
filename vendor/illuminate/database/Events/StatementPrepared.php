@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database\Events;
+namespace ComfortSmtpScoped\Illuminate\Database\Events;
 
 class StatementPrepared
 {
@@ -10,14 +10,12 @@ class StatementPrepared
      * @var \Illuminate\Database\Connection
      */
     public $connection;
-
     /**
      * The PDO statement.
      *
      * @var \PDOStatement
      */
     public $statement;
-
     /**
      * Create a new event instance.
      *

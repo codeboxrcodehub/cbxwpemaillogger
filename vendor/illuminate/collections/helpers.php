@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
+use ComfortSmtpScoped\Illuminate\Support\Arr;
+use ComfortSmtpScoped\Illuminate\Support\Collection;
 
 if (! function_exists('collect')) {
     /**

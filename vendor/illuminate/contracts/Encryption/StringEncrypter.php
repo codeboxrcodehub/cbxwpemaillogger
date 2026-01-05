@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Encryption;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Encryption;
 
 interface StringEncrypter
 {
@@ -13,7 +13,6 @@ interface StringEncrypter
      * @throws \Illuminate\Contracts\Encryption\EncryptException
      */
     public function encryptString($value);
-
     /**
      * Decrypt the given string without unserialization.
      *

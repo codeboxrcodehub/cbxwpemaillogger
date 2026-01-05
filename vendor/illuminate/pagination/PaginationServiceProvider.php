@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Pagination;
+namespace ComfortSmtpScoped\Illuminate\Pagination;
 
-use Illuminate\Support\ServiceProvider;
-
+use ComfortSmtpScoped\Illuminate\Support\ServiceProvider;
 class PaginationServiceProvider extends ServiceProvider
 {
     /**
@@ -13,15 +12,11 @@ class PaginationServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__.'/resources/views', 'pagination');
-
+        $this->loadViewsFrom(__DIR__ . '/resources/views', 'pagination');
         if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__.'/resources/views' => $this->app->resourcePath('views/vendor/pagination'),
-            ], 'laravel-pagination');
+            $this->publishes([__DIR__ . '/resources/views' => $this->app->resourcePath('views/vendor/pagination')], 'laravel-pagination');
         }
     }
-
     /**
      * Register the service provider.
      *

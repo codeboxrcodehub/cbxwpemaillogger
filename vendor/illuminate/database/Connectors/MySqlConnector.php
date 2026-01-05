@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Connectors;
+namespace ComfortSmtpScoped\Illuminate\Database\Connectors;
 
 use PDO;
-
 class MySqlConnector extends Connector implements ConnectorInterface
 {
     /**
@@ -15,32 +14,23 @@ class MySqlConnector extends Connector implements ConnectorInterface
     public function connect(array $config)
     {
         $dsn = $this->getDsn($config);
-
         $options = $this->getOptions($config);
-
         // We need to grab the PDO options that should be used while making the brand
         // new connection instance. The PDO options control various aspects of the
         // connection's behavior, and some might be specified by the developers.
         $connection = $this->createConnection($dsn, $config, $options);
-
-        if (! empty($config['database'])) {
+        if (!empty($config['database'])) {
             $connection->exec("use `{$config['database']}`;");
         }
-
         $this->configureIsolationLevel($connection, $config);
-
         $this->configureEncoding($connection, $config);
-
         // Next, we will check to see if a timezone has been specified in this config
         // and if it has we will issue a statement to modify the timezone with the
         // database. Setting this DB timezone is an optional configuration item.
         $this->configureTimezone($connection, $config);
-
         $this->setModes($connection, $config);
-
         return $connection;
     }
-
     /**
      * Set the connection transaction isolation level.
      *
@@ -50,15 +40,11 @@ class MySqlConnector extends Connector implements ConnectorInterface
      */
     protected function configureIsolationLevel($connection, array $config)
     {
-        if (! isset($config['isolation_level'])) {
+        if (!isset($config['isolation_level'])) {
             return;
         }
-
-        $connection->prepare(
-            "SET SESSION TRANSACTION ISOLATION LEVEL {$config['isolation_level']}"
-        )->execute();
+        $connection->prepare("SET SESSION TRANSACTION ISOLATION LEVEL {$config['isolation_level']}")->execute();
     }
-
     /**
      * Set the connection character set and collation.
      *
@@ -68,15 +54,11 @@ class MySqlConnector extends Connector implements ConnectorInterface
      */
     protected function configureEncoding($connection, array $config)
     {
-        if (! isset($config['charset'])) {
+        if (!isset($config['charset'])) {
             return $connection;
         }
-
-        $connection->prepare(
-            "set names '{$config['charset']}'".$this->getCollation($config)
-        )->execute();
+        $connection->prepare("set names '{$config['charset']}'" . $this->getCollation($config))->execute();
     }
-
     /**
      * Get the collation for the configuration.
      *
@@ -87,7 +69,6 @@ class MySqlConnector extends Connector implements ConnectorInterface
     {
         return isset($config['collation']) ? " collate '{$config['collation']}'" : '';
     }
-
     /**
      * Set the timezone on the connection.
      *
@@ -98,10 +79,9 @@ class MySqlConnector extends Connector implements ConnectorInterface
     protected function configureTimezone($connection, array $config)
     {
         if (isset($config['timezone'])) {
-            $connection->prepare('set time_zone="'.$config['timezone'].'"')->execute();
+            $connection->prepare('set time_zone="' . $config['timezone'] . '"')->execute();
         }
     }
-
     /**
      * Create a DSN string from a configuration.
      *
@@ -112,11 +92,8 @@ class MySqlConnector extends Connector implements ConnectorInterface
      */
     protected function getDsn(array $config)
     {
-        return $this->hasSocket($config)
-                            ? $this->getSocketDsn($config)
-                            : $this->getHostDsn($config);
+        return $this->hasSocket($config) ? $this->getSocketDsn($config) : $this->getHostDsn($config);
     }
-
     /**
      * Determine if the given configuration array has a UNIX socket value.
      *
@@ -125,9 +102,8 @@ class MySqlConnector extends Connector implements ConnectorInterface
      */
     protected function hasSocket(array $config)
     {
-        return isset($config['unix_socket']) && ! empty($config['unix_socket']);
+        return isset($config['unix_socket']) && !empty($config['unix_socket']);
     }
-
     /**
      * Get the DSN string for a socket configuration.
      *
@@ -138,7 +114,6 @@ class MySqlConnector extends Connector implements ConnectorInterface
     {
         return "mysql:unix_socket={$config['unix_socket']};dbname={$config['database']}";
     }
-
     /**
      * Get the DSN string for a host / port configuration.
      *
@@ -147,13 +122,9 @@ class MySqlConnector extends Connector implements ConnectorInterface
      */
     protected function getHostDsn(array $config)
     {
-        extract($config, EXTR_SKIP);
-
-        return isset($port)
-                    ? "mysql:host={$host};port={$port};dbname={$database}"
-                    : "mysql:host={$host};dbname={$database}";
+        \extract($config, \EXTR_SKIP);
+        return isset($port) ? "mysql:host={$host};port={$port};dbname={$database}" : "mysql:host={$host};dbname={$database}";
     }
-
     /**
      * Set the modes for the connection.
      *
@@ -173,7 +144,6 @@ class MySqlConnector extends Connector implements ConnectorInterface
             }
         }
     }
-
     /**
      * Set the custom modes on the connection.
      *
@@ -183,11 +153,9 @@ class MySqlConnector extends Connector implements ConnectorInterface
      */
     protected function setCustomModes(PDO $connection, array $config)
     {
-        $modes = implode(',', $config['modes']);
-
+        $modes = \implode(',', $config['modes']);
         $connection->prepare("set session sql_mode='{$modes}'")->execute();
     }
-
     /**
      * Get the query to enable strict mode.
      *
@@ -198,11 +166,9 @@ class MySqlConnector extends Connector implements ConnectorInterface
     protected function strictMode(PDO $connection, $config)
     {
         $version = $config['version'] ?? $connection->getAttribute(PDO::ATTR_SERVER_VERSION);
-
-        if (version_compare($version, '8.0.11') >= 0) {
+        if (\version_compare($version, '8.0.11') >= 0) {
             return "set session sql_mode='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION'";
         }
-
         return "set session sql_mode='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'";
     }
 }

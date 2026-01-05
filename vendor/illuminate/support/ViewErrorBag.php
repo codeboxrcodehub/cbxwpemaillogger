@@ -1,10 +1,9 @@
 <?php
 
-namespace Illuminate\Support;
+namespace ComfortSmtpScoped\Illuminate\Support;
 
 use Countable;
-use Illuminate\Contracts\Support\MessageBag as MessageBagContract;
-
+use ComfortSmtpScoped\Illuminate\Contracts\Support\MessageBag as MessageBagContract;
 /**
  * @mixin \Illuminate\Contracts\Support\MessageBag
  */
@@ -16,7 +15,6 @@ class ViewErrorBag implements Countable
      * @var array
      */
     protected $bags = [];
-
     /**
      * Checks if a named MessageBag exists in the bags.
      *
@@ -27,7 +25,6 @@ class ViewErrorBag implements Countable
     {
         return isset($this->bags[$key]);
     }
-
     /**
      * Get a MessageBag instance from the bags.
      *
@@ -36,9 +33,8 @@ class ViewErrorBag implements Countable
      */
     public function getBag($key)
     {
-        return Arr::get($this->bags, $key) ?: new MessageBag;
+        return Arr::get($this->bags, $key) ?: new MessageBag();
     }
-
     /**
      * Get all the bags.
      *
@@ -48,7 +44,6 @@ class ViewErrorBag implements Countable
     {
         return $this->bags;
     }
-
     /**
      * Add a new MessageBag instance to the bags.
      *
@@ -59,10 +54,8 @@ class ViewErrorBag implements Countable
     public function put($key, MessageBagContract $bag)
     {
         $this->bags[$key] = $bag;
-
         return $this;
     }
-
     /**
      * Determine if the default message bag has any messages.
      *
@@ -72,7 +65,6 @@ class ViewErrorBag implements Countable
     {
         return $this->count() > 0;
     }
-
     /**
      * Get the number of messages in the default bag.
      *
@@ -83,7 +75,6 @@ class ViewErrorBag implements Countable
     {
         return $this->getBag('default')->count();
     }
-
     /**
      * Dynamically call methods on the default bag.
      *
@@ -93,9 +84,8 @@ class ViewErrorBag implements Countable
      */
     public function __call($method, $parameters)
     {
-        return $this->getBag('default')->$method(...$parameters);
+        return $this->getBag('default')->{$method}(...$parameters);
     }
-
     /**
      * Dynamically access a view error bag.
      *
@@ -106,7 +96,6 @@ class ViewErrorBag implements Countable
     {
         return $this->getBag($key);
     }
-
     /**
      * Dynamically set a view error bag.
      *
@@ -118,7 +107,6 @@ class ViewErrorBag implements Countable
     {
         $this->put($key, $value);
     }
-
     /**
      * Convert the default bag to its string representation.
      *

@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database\Schema;
+namespace ComfortSmtpScoped\Illuminate\Database\Schema;
 
 class SqlServerBuilder extends Builder
 {
@@ -12,11 +12,8 @@ class SqlServerBuilder extends Builder
      */
     public function createDatabase($name)
     {
-        return $this->connection->statement(
-            $this->grammar->compileCreateDatabase($name, $this->connection)
-        );
+        return $this->connection->statement($this->grammar->compileCreateDatabase($name, $this->connection));
     }
-
     /**
      * Drop a database from the schema if the database exists.
      *
@@ -25,11 +22,8 @@ class SqlServerBuilder extends Builder
      */
     public function dropDatabaseIfExists($name)
     {
-        return $this->connection->statement(
-            $this->grammar->compileDropDatabaseIfExists($name)
-        );
+        return $this->connection->statement($this->grammar->compileDropDatabaseIfExists($name));
     }
-
     /**
      * Drop all tables from the database.
      *
@@ -38,10 +32,8 @@ class SqlServerBuilder extends Builder
     public function dropAllTables()
     {
         $this->connection->statement($this->grammar->compileDropAllForeignKeys());
-
         $this->connection->statement($this->grammar->compileDropAllTables());
     }
-
     /**
      * Drop all views from the database.
      *

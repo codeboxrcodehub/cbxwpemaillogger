@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Broadcasting;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Broadcasting;
 
 interface Factory
 {

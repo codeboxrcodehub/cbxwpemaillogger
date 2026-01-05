@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Connectors;
+namespace ComfortSmtpScoped\Illuminate\Database\Connectors;
 
 use PDO;
-
 class PostgresConnector extends Connector implements ConnectorInterface
 {
     /**
@@ -11,13 +10,7 @@ class PostgresConnector extends Connector implements ConnectorInterface
      *
      * @var array
      */
-    protected $options = [
-        PDO::ATTR_CASE => PDO::CASE_NATURAL,
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_ORACLE_NULLS => PDO::NULL_NATURAL,
-        PDO::ATTR_STRINGIFY_FETCHES => false,
-    ];
-
+    protected $options = [PDO::ATTR_CASE => PDO::CASE_NATURAL, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_ORACLE_NULLS => PDO::NULL_NATURAL, PDO::ATTR_STRINGIFY_FETCHES => \false];
     /**
      * Establish a database connection.
      *
@@ -29,31 +22,21 @@ class PostgresConnector extends Connector implements ConnectorInterface
         // First we'll create the basic DSN and connection instance connecting to the
         // using the configuration option specified by the developer. We will also
         // set the default character set on the connections to UTF-8 by default.
-        $connection = $this->createConnection(
-            $this->getDsn($config), $config, $this->getOptions($config)
-        );
-
+        $connection = $this->createConnection($this->getDsn($config), $config, $this->getOptions($config));
         $this->configureIsolationLevel($connection, $config);
-
         $this->configureEncoding($connection, $config);
-
         // Next, we will check to see if a timezone has been specified in this config
         // and if it has we will issue a statement to modify the timezone with the
         // database. Setting this DB timezone is an optional configuration item.
         $this->configureTimezone($connection, $config);
-
         $this->configureSchema($connection, $config);
-
         // Postgres allows an application_name to be set by the user and this name is
         // used to when monitoring the application with pg_stat_activity. So we'll
         // determine if the option has been specified and run a statement if so.
         $this->configureApplicationName($connection, $config);
-
         $this->configureSynchronousCommit($connection, $config);
-
         return $connection;
     }
-
     /**
      * Set the connection transaction isolation level.
      *
@@ -67,7 +50,6 @@ class PostgresConnector extends Connector implements ConnectorInterface
             $connection->prepare("set session characteristics as transaction isolation level {$config['isolation_level']}")->execute();
         }
     }
-
     /**
      * Set the connection character set and collation.
      *
@@ -77,13 +59,11 @@ class PostgresConnector extends Connector implements ConnectorInterface
      */
     protected function configureEncoding($connection, $config)
     {
-        if (! isset($config['charset'])) {
+        if (!isset($config['charset'])) {
             return;
         }
-
         $connection->prepare("set names '{$config['charset']}'")->execute();
     }
-
     /**
      * Set the timezone on the connection.
      *
@@ -95,11 +75,9 @@ class PostgresConnector extends Connector implements ConnectorInterface
     {
         if (isset($config['timezone'])) {
             $timezone = $config['timezone'];
-
             $connection->prepare("set time zone '{$timezone}'")->execute();
         }
     }
-
     /**
      * Set the schema on the connection.
      *
@@ -111,11 +89,9 @@ class PostgresConnector extends Connector implements ConnectorInterface
     {
         if (isset($config['schema'])) {
             $schema = $this->formatSchema($config['schema']);
-
             $connection->prepare("set search_path to {$schema}")->execute();
         }
     }
-
     /**
      * Format the schema for the DSN.
      *
@@ -124,13 +100,11 @@ class PostgresConnector extends Connector implements ConnectorInterface
      */
     protected function formatSchema($schema)
     {
-        if (is_array($schema)) {
-            return '"'.implode('", "', $schema).'"';
+        if (\is_array($schema)) {
+            return '"' . \implode('", "', $schema) . '"';
         }
-
-        return '"'.$schema.'"';
+        return '"' . $schema . '"';
     }
-
     /**
      * Set the schema on the connection.
      *
@@ -142,11 +116,9 @@ class PostgresConnector extends Connector implements ConnectorInterface
     {
         if (isset($config['application_name'])) {
             $applicationName = $config['application_name'];
-
-            $connection->prepare("set application_name to '$applicationName'")->execute();
+            $connection->prepare("set application_name to '{$applicationName}'")->execute();
         }
     }
-
     /**
      * Create a DSN string from a configuration.
      *
@@ -158,22 +130,17 @@ class PostgresConnector extends Connector implements ConnectorInterface
         // First we will create the basic DSN setup as well as the port if it is in
         // in the configuration options. This will give us the basic DSN we will
         // need to establish the PDO connections and return them back for use.
-        extract($config, EXTR_SKIP);
-
+        \extract($config, \EXTR_SKIP);
         $host = isset($host) ? "host={$host};" : '';
-
         $dsn = "pgsql:{$host}dbname='{$database}'";
-
         // If a port was specified, we will add it to this Postgres DSN connections
         // format. Once we have done that we are ready to return this connection
         // string back out for usage, as this has been fully constructed here.
         if (isset($config['port'])) {
             $dsn .= ";port={$port}";
         }
-
         return $this->addSslOptions($dsn, $config);
     }
-
     /**
      * Add the SSL options to the DSN.
      *
@@ -188,10 +155,8 @@ class PostgresConnector extends Connector implements ConnectorInterface
                 $dsn .= ";{$option}={$config[$option]}";
             }
         }
-
         return $dsn;
     }
-
     /**
      * Configure the synchronous_commit setting.
      *
@@ -201,10 +166,9 @@ class PostgresConnector extends Connector implements ConnectorInterface
      */
     protected function configureSynchronousCommit($connection, array $config)
     {
-        if (! isset($config['synchronous_commit'])) {
+        if (!isset($config['synchronous_commit'])) {
             return;
         }
-
         $connection->prepare("set synchronous_commit to '{$config['synchronous_commit']}'")->execute();
     }
 }

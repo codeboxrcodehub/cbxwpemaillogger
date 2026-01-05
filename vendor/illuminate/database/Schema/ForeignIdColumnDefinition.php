@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Schema;
+namespace ComfortSmtpScoped\Illuminate\Database\Schema;
 
-use Illuminate\Support\Str;
-
+use ComfortSmtpScoped\Illuminate\Support\Str;
 class ForeignIdColumnDefinition extends ColumnDefinition
 {
     /**
@@ -12,7 +11,6 @@ class ForeignIdColumnDefinition extends ColumnDefinition
      * @var \Illuminate\Database\Schema\Blueprint
      */
     protected $blueprint;
-
     /**
      * Create a new foreign ID column definition.
      *
@@ -23,10 +21,8 @@ class ForeignIdColumnDefinition extends ColumnDefinition
     public function __construct(Blueprint $blueprint, $attributes = [])
     {
         parent::__construct($attributes);
-
         $this->blueprint = $blueprint;
     }
-
     /**
      * Create a foreign key constraint on this column referencing the "id" column of the conventionally related table.
      *
@@ -36,9 +32,8 @@ class ForeignIdColumnDefinition extends ColumnDefinition
      */
     public function constrained($table = null, $column = 'id')
     {
-        return $this->references($column)->on($table ?? Str::plural(Str::beforeLast($this->name, '_'.$column)));
+        return $this->references($column)->on($table ?? Str::plural(Str::beforeLast($this->name, '_' . $column)));
     }
-
     /**
      * Specify which column this foreign ID references on another table.
      *

@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Support\Traits;
+namespace ComfortSmtpScoped\Illuminate\Support\Traits;
 
 trait Tappable
 {
@@ -12,6 +12,6 @@ trait Tappable
      */
     public function tap($callback = null)
     {
-        return tap($this, $callback);
+        return \tap($this, $callback);
     }
 }

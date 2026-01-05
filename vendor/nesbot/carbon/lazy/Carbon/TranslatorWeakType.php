@@ -8,10 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace ComfortSmtpScoped\Carbon;
 
-namespace Carbon;
-
-if (!class_exists(LazyTranslator::class, false)) {
+if (!\class_exists(LazyTranslator::class, \false)) {
     class LazyTranslator extends AbstractTranslator
     {
         /**

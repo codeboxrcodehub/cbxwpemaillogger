@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Database;
+namespace ComfortSmtpScoped\Illuminate\Database;
 
 use RuntimeException;
-
 class LazyLoadingViolationException extends RuntimeException
 {
     /**
@@ -12,14 +11,12 @@ class LazyLoadingViolationException extends RuntimeException
      * @var string
      */
     public $model;
-
     /**
      * The name of the relation.
      *
      * @var string
      */
     public $relation;
-
     /**
      * Create a new exception instance.
      *
@@ -29,10 +26,8 @@ class LazyLoadingViolationException extends RuntimeException
      */
     public function __construct($model, $relation)
     {
-        $class = get_class($model);
-
+        $class = \get_class($model);
         parent::__construct("Attempted to lazy load [{$relation}] on model [{$class}] but lazy loading is disabled.");
-
         $this->model = $class;
         $this->relation = $relation;
     }

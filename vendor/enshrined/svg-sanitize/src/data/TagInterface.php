@@ -1,5 +1,6 @@
 <?php
-namespace enshrined\svgSanitize\data;
+
+namespace ComfortSmtpScoped\enshrined\svgSanitize\data;
 
 /**
  * Interface TagInterface
@@ -8,12 +9,10 @@ namespace enshrined\svgSanitize\data;
  */
 interface TagInterface
 {
-
     /**
      * Returns an array of tags
      *
      * @return array
      */
     public static function getTags();
-
 }

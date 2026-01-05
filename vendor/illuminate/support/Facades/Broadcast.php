@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Support\Facades;
+namespace ComfortSmtpScoped\Illuminate\Support\Facades;
 
-use Illuminate\Contracts\Broadcasting\Factory as BroadcastingFactoryContract;
-
+use ComfortSmtpScoped\Illuminate\Contracts\Broadcasting\Factory as BroadcastingFactoryContract;
 /**
  * @method static \Illuminate\Broadcasting\Broadcasters\Broadcaster channel(string $channel, callable|string  $callback, array $options = [])
  * @method static mixed auth(\Illuminate\Http\Request $request)

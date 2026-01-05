@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Hashing;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Hashing;
 
 interface Hasher
 {
@@ -11,7 +11,6 @@ interface Hasher
      * @return array
      */
     public function info($hashedValue);
-
     /**
      * Hash the given value.
      *
@@ -20,7 +19,6 @@ interface Hasher
      * @return string
      */
     public function make($value, array $options = []);
-
     /**
      * Check the given plain value against a hash.
      *
@@ -30,7 +28,6 @@ interface Hasher
      * @return bool
      */
     public function check($value, $hashedValue, array $options = []);
-
     /**
      * Check if the given hash has been hashed using the given options.
      *

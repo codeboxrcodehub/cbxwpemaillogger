@@ -1,15 +1,14 @@
 <?php
 
-namespace Illuminate\Database;
+namespace ComfortSmtpScoped\Illuminate\Database;
 
-use Faker\Factory as FakerFactory;
-use Faker\Generator as FakerGenerator;
-use Illuminate\Contracts\Queue\EntityResolver;
-use Illuminate\Database\Connectors\ConnectionFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\QueueEntityResolver;
-use Illuminate\Support\ServiceProvider;
-
+use ComfortSmtpScoped\Faker\Factory as FakerFactory;
+use ComfortSmtpScoped\Faker\Generator as FakerGenerator;
+use ComfortSmtpScoped\Illuminate\Contracts\Queue\EntityResolver;
+use ComfortSmtpScoped\Illuminate\Database\Connectors\ConnectionFactory;
+use ComfortSmtpScoped\Illuminate\Database\Eloquent\Model;
+use ComfortSmtpScoped\Illuminate\Database\Eloquent\QueueEntityResolver;
+use ComfortSmtpScoped\Illuminate\Support\ServiceProvider;
 class DatabaseServiceProvider extends ServiceProvider
 {
     /**
@@ -18,7 +17,6 @@ class DatabaseServiceProvider extends ServiceProvider
      * @var array
      */
     protected static $fakers = [];
-
     /**
      * Bootstrap the application events.
      *
@@ -27,10 +25,8 @@ class DatabaseServiceProvider extends ServiceProvider
     public function boot()
     {
         Model::setConnectionResolver($this->app['db']);
-
         Model::setEventDispatcher($this->app['events']);
     }
-
     /**
      * Register the service provider.
      *
@@ -39,12 +35,10 @@ class DatabaseServiceProvider extends ServiceProvider
     public function register()
     {
         Model::clearBootedModels();
-
         $this->registerConnectionServices();
         $this->registerEloquentFactory();
         $this->registerQueueableEntityResolver();
     }
-
     /**
      * Register the primary database bindings.
      *
@@ -58,23 +52,19 @@ class DatabaseServiceProvider extends ServiceProvider
         $this->app->singleton('db.factory', function ($app) {
             return new ConnectionFactory($app);
         });
-
         // The database manager is used to resolve various connections, since multiple
         // connections might be managed. It also implements the connection resolver
         // interface which may be used by other components requiring connections.
         $this->app->singleton('db', function ($app) {
             return new DatabaseManager($app, $app['db.factory']);
         });
-
         $this->app->bind('db.connection', function ($app) {
             return $app['db']->connection();
         });
-
         $this->app->singleton('db.transactions', function ($app) {
-            return new DatabaseTransactionsManager;
+            return new DatabaseTransactionsManager();
         });
     }
-
     /**
      * Register the Eloquent factory instance in the container.
      *
@@ -84,17 +74,13 @@ class DatabaseServiceProvider extends ServiceProvider
     {
         $this->app->singleton(FakerGenerator::class, function ($app, $parameters) {
             $locale = $parameters['locale'] ?? $app['config']->get('app.faker_locale', 'en_US');
-
-            if (! isset(static::$fakers[$locale])) {
+            if (!isset(static::$fakers[$locale])) {
                 static::$fakers[$locale] = FakerFactory::create($locale);
             }
-
-            static::$fakers[$locale]->unique(true);
-
+            static::$fakers[$locale]->unique(\true);
             return static::$fakers[$locale];
         });
     }
-
     /**
      * Register the queueable entity resolver implementation.
      *
@@ -103,7 +89,7 @@ class DatabaseServiceProvider extends ServiceProvider
     protected function registerQueueableEntityResolver()
     {
         $this->app->singleton(EntityResolver::class, function () {
-            return new QueueEntityResolver;
+            return new QueueEntityResolver();
         });
     }
 }

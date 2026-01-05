@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Support;
+namespace ComfortSmtpScoped\Illuminate\Support;
 
 /**
  * @mixin \Illuminate\Support\Enumerable
@@ -13,14 +13,12 @@ class HigherOrderWhenProxy
      * @var \Illuminate\Support\Enumerable
      */
     protected $collection;
-
     /**
      * The condition for proxying.
      *
      * @var bool
      */
     protected $condition;
-
     /**
      * Create a new proxy instance.
      *
@@ -33,7 +31,6 @@ class HigherOrderWhenProxy
         $this->condition = $condition;
         $this->collection = $collection;
     }
-
     /**
      * Proxy accessing an attribute onto the collection.
      *
@@ -42,11 +39,8 @@ class HigherOrderWhenProxy
      */
     public function __get($key)
     {
-        return $this->condition
-            ? $this->collection->{$key}
-            : $this->collection;
+        return $this->condition ? $this->collection->{$key} : $this->collection;
     }
-
     /**
      * Proxy a method call onto the collection.
      *
@@ -56,8 +50,6 @@ class HigherOrderWhenProxy
      */
     public function __call($method, $parameters)
     {
-        return $this->condition
-            ? $this->collection->{$method}(...$parameters)
-            : $this->collection;
+        return $this->condition ? $this->collection->{$method}(...$parameters) : $this->collection;
     }
 }

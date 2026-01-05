@@ -1,11 +1,13 @@
 <?php
 
-use Comfort\Crm\Smtp\Helpers\ComfortSmtpHelpers;
-use enshrined\svgSanitize\Sanitizer;
-
+// If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
+
+use Comfort\Crm\Smtp\Helpers\ComfortSmtpHelpers;
+use ComfortSmtpScoped\enshrined\svgSanitize\Sanitizer;
+
 
 if(!function_exists('comfortsmtp_is_rest_api_request')){
 	/**

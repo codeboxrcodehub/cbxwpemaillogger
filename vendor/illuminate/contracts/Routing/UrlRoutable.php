@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Routing;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Routing;
 
 interface UrlRoutable
 {
@@ -10,14 +10,12 @@ interface UrlRoutable
      * @return mixed
      */
     public function getRouteKey();
-
     /**
      * Get the route key for the model.
      *
      * @return string
      */
     public function getRouteKeyName();
-
     /**
      * Retrieve the model for a bound value.
      *
@@ -26,7 +24,6 @@ interface UrlRoutable
      * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function resolveRouteBinding($value, $field = null);
-
     /**
      * Retrieve the child model for a bound value.
      *

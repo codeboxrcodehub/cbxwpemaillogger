@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database;
+namespace ComfortSmtpScoped\Illuminate\Database;
 
 class DatabaseTransactionsManager
 {
@@ -10,7 +10,6 @@ class DatabaseTransactionsManager
      * @var \Illuminate\Support\Collection
      */
     protected $transactions;
-
     /**
      * Create a new database transactions manager instance.
      *
@@ -20,7 +19,6 @@ class DatabaseTransactionsManager
     {
         $this->transactions = collect();
     }
-
     /**
      * Start a new database transaction.
      *
@@ -30,11 +28,8 @@ class DatabaseTransactionsManager
      */
     public function begin($connection, $level)
     {
-        $this->transactions->push(
-            new DatabaseTransactionRecord($connection, $level)
-        );
+        $this->transactions->push(new DatabaseTransactionRecord($connection, $level));
     }
-
     /**
      * Rollback the active database transaction.
      *
@@ -44,12 +39,10 @@ class DatabaseTransactionsManager
      */
     public function rollback($connection, $level)
     {
-        $this->transactions = $this->transactions->reject(function ($transaction) use ($connection, $level) {
-            return $transaction->connection == $connection &&
-                   $transaction->level > $level;
+        $this->transactions = $this->transactions->reject(function ($transaction) use($connection, $level) {
+            return $transaction->connection == $connection && $transaction->level > $level;
         })->values();
     }
-
     /**
      * Commit the active database transaction.
      *
@@ -58,17 +51,12 @@ class DatabaseTransactionsManager
      */
     public function commit($connection)
     {
-        [$forThisConnection, $forOtherConnections] = $this->transactions->partition(
-            function ($transaction) use ($connection) {
-                return $transaction->connection == $connection;
-            }
-        );
-
+        [$forThisConnection, $forOtherConnections] = $this->transactions->partition(function ($transaction) use($connection) {
+            return $transaction->connection == $connection;
+        });
         $this->transactions = $forOtherConnections->values();
-
         $forThisConnection->map->executeCallbacks();
     }
-
     /**
      * Register a transaction callback.
      *
@@ -80,10 +68,8 @@ class DatabaseTransactionsManager
         if ($current = $this->transactions->last()) {
             return $current->addCallback($callback);
         }
-
-        call_user_func($callback);
+        \call_user_func($callback);
     }
-
     /**
      * Get all the transactions.
      *

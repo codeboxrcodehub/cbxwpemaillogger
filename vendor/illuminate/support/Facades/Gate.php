@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Support\Facades;
+namespace ComfortSmtpScoped\Illuminate\Support\Facades;
 
-use Illuminate\Contracts\Auth\Access\Gate as GateContract;
-
+use ComfortSmtpScoped\Illuminate\Contracts\Auth\Access\Gate as GateContract;
 /**
  * @method static \Illuminate\Auth\Access\Gate guessPolicyNamesUsing(callable $callback)
  * @method static \Illuminate\Auth\Access\Response authorize(string $ability, array|mixed $arguments = [])

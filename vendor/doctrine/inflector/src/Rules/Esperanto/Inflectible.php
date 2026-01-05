@@ -1,31 +1,27 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace ComfortSmtpScoped\Doctrine\Inflector\Rules\Esperanto;
 
-namespace Doctrine\Inflector\Rules\Esperanto;
-
-use Doctrine\Inflector\Rules\Pattern;
-use Doctrine\Inflector\Rules\Substitution;
-use Doctrine\Inflector\Rules\Transformation;
-use Doctrine\Inflector\Rules\Word;
-
+use ComfortSmtpScoped\Doctrine\Inflector\Rules\Pattern;
+use ComfortSmtpScoped\Doctrine\Inflector\Rules\Substitution;
+use ComfortSmtpScoped\Doctrine\Inflector\Rules\Transformation;
+use ComfortSmtpScoped\Doctrine\Inflector\Rules\Word;
 class Inflectible
 {
     /** @return Transformation[] */
-    public static function getSingular(): iterable
+    public static function getSingular() : iterable
     {
-        yield new Transformation(new Pattern('oj$'), 'o');
+        (yield new Transformation(new Pattern('oj$'), 'o'));
     }
-
     /** @return Transformation[] */
-    public static function getPlural(): iterable
+    public static function getPlural() : iterable
     {
-        yield new Transformation(new Pattern('o$'), 'oj');
+        (yield new Transformation(new Pattern('o$'), 'oj'));
     }
-
     /** @return Substitution[] */
-    public static function getIrregular(): iterable
+    public static function getIrregular() : iterable
     {
-        yield new Substitution(new Word(''), new Word(''));
+        (yield new Substitution(new Word(''), new Word('')));
     }
 }

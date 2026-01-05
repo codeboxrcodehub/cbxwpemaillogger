@@ -1,11 +1,11 @@
 <?php
 
-use Illuminate\Contracts\Support\DeferringDisplayableValue;
-use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Env;
-use Illuminate\Support\HigherOrderTapProxy;
-use Illuminate\Support\Optional;
+use ComfortSmtpScoped\Illuminate\Contracts\Support\DeferringDisplayableValue;
+use ComfortSmtpScoped\Illuminate\Contracts\Support\Htmlable;
+use ComfortSmtpScoped\Illuminate\Support\Arr;
+use ComfortSmtpScoped\Illuminate\Support\Env;
+use ComfortSmtpScoped\Illuminate\Support\HigherOrderTapProxy;
+use ComfortSmtpScoped\Illuminate\Support\Optional;
 
 if (! function_exists('append_config')) {
     /**

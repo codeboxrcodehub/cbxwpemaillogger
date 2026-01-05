@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Auth\Middleware;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Auth\Middleware;
 
 interface AuthenticatesRequests
 {

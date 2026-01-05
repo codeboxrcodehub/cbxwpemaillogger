@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Concerns;
+namespace ComfortSmtpScoped\Illuminate\Database\Eloquent\Concerns;
 
 use Closure;
-
 trait HidesAttributes
 {
     /**
@@ -12,14 +11,12 @@ trait HidesAttributes
      * @var array
      */
     protected $hidden = [];
-
     /**
      * The attributes that should be visible in serialization.
      *
      * @var array
      */
     protected $visible = [];
-
     /**
      * Get the hidden attributes for the model.
      *
@@ -29,7 +26,6 @@ trait HidesAttributes
     {
         return $this->hidden;
     }
-
     /**
      * Set the hidden attributes for the model.
      *
@@ -39,10 +35,8 @@ trait HidesAttributes
     public function setHidden(array $hidden)
     {
         $this->hidden = $hidden;
-
         return $this;
     }
-
     /**
      * Get the visible attributes for the model.
      *
@@ -52,7 +46,6 @@ trait HidesAttributes
     {
         return $this->visible;
     }
-
     /**
      * Set the visible attributes for the model.
      *
@@ -62,10 +55,8 @@ trait HidesAttributes
     public function setVisible(array $visible)
     {
         $this->visible = $visible;
-
         return $this;
     }
-
     /**
      * Make the given, typically hidden, attributes visible.
      *
@@ -74,17 +65,13 @@ trait HidesAttributes
      */
     public function makeVisible($attributes)
     {
-        $attributes = is_array($attributes) ? $attributes : func_get_args();
-
-        $this->hidden = array_diff($this->hidden, $attributes);
-
-        if (! empty($this->visible)) {
-            $this->visible = array_merge($this->visible, $attributes);
+        $attributes = \is_array($attributes) ? $attributes : \func_get_args();
+        $this->hidden = \array_diff($this->hidden, $attributes);
+        if (!empty($this->visible)) {
+            $this->visible = \array_merge($this->visible, $attributes);
         }
-
         return $this;
     }
-
     /**
      * Make the given, typically hidden, attributes visible if the given truth test passes.
      *
@@ -94,9 +81,8 @@ trait HidesAttributes
      */
     public function makeVisibleIf($condition, $attributes)
     {
-        return value($condition, $this) ? $this->makeVisible($attributes) : $this;
+        return \value($condition, $this) ? $this->makeVisible($attributes) : $this;
     }
-
     /**
      * Make the given, typically visible, attributes hidden.
      *
@@ -105,13 +91,9 @@ trait HidesAttributes
      */
     public function makeHidden($attributes)
     {
-        $this->hidden = array_merge(
-            $this->hidden, is_array($attributes) ? $attributes : func_get_args()
-        );
-
+        $this->hidden = \array_merge($this->hidden, \is_array($attributes) ? $attributes : \func_get_args());
         return $this;
     }
-
     /**
      * Make the given, typically visible, attributes hidden if the given truth test passes.
      *
@@ -121,6 +103,6 @@ trait HidesAttributes
      */
     public function makeHiddenIf($condition, $attributes)
     {
-        return value($condition, $this) ? $this->makeHidden($attributes) : $this;
+        return \value($condition, $this) ? $this->makeHidden($attributes) : $this;
     }
 }

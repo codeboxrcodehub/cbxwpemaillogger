@@ -1,18 +1,17 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Relations;
+namespace ComfortSmtpScoped\Illuminate\Database\Eloquent\Relations;
 
 use Closure;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\MultipleRecordsFoundException;
-use Illuminate\Database\Query\Expression;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Traits\ForwardsCalls;
-use Illuminate\Support\Traits\Macroable;
-
+use ComfortSmtpScoped\Illuminate\Database\Eloquent\Builder;
+use ComfortSmtpScoped\Illuminate\Database\Eloquent\Collection;
+use ComfortSmtpScoped\Illuminate\Database\Eloquent\Model;
+use ComfortSmtpScoped\Illuminate\Database\Eloquent\ModelNotFoundException;
+use ComfortSmtpScoped\Illuminate\Database\MultipleRecordsFoundException;
+use ComfortSmtpScoped\Illuminate\Database\Query\Expression;
+use ComfortSmtpScoped\Illuminate\Support\Arr;
+use ComfortSmtpScoped\Illuminate\Support\Traits\ForwardsCalls;
+use ComfortSmtpScoped\Illuminate\Support\Traits\Macroable;
 /**
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
@@ -21,56 +20,48 @@ abstract class Relation
     use ForwardsCalls, Macroable {
         __call as macroCall;
     }
-
     /**
      * The Eloquent query builder instance.
      *
      * @var \Illuminate\Database\Eloquent\Builder
      */
     protected $query;
-
     /**
      * The parent model instance.
      *
      * @var \Illuminate\Database\Eloquent\Model
      */
     protected $parent;
-
     /**
      * The related model instance.
      *
      * @var \Illuminate\Database\Eloquent\Model
      */
     protected $related;
-
     /**
      * Indicates if the relation is adding constraints.
      *
      * @var bool
      */
-    protected static $constraints = true;
-
+    protected static $constraints = \true;
     /**
      * An array to map class names to their morph names in the database.
      *
      * @var array
      */
     public static $morphMap = [];
-
     /**
      * Prevents morph relationships without a morph map.
      *
      * @var bool
      */
-    protected static $requireMorphMap = false;
-
+    protected static $requireMorphMap = \false;
     /**
      * The count of self joins.
      *
      * @var int
      */
     protected static $selfJoinCount = 0;
-
     /**
      * Create a new relation instance.
      *
@@ -83,10 +74,8 @@ abstract class Relation
         $this->query = $query;
         $this->parent = $parent;
         $this->related = $query->getModel();
-
         $this->addConstraints();
     }
-
     /**
      * Run a callback with constraints disabled on the relation.
      *
@@ -96,9 +85,7 @@ abstract class Relation
     public static function noConstraints(Closure $callback)
     {
         $previous = static::$constraints;
-
-        static::$constraints = false;
-
+        static::$constraints = \false;
         // When resetting the relation where clause, we want to shift the first element
         // off of the bindings, leaving only the constraints that the developers put
         // as "extra" on the relationships, and not original relation constraints.
@@ -108,22 +95,19 @@ abstract class Relation
             static::$constraints = $previous;
         }
     }
-
     /**
      * Set the base constraints on the relation query.
      *
      * @return void
      */
-    abstract public function addConstraints();
-
+    public abstract function addConstraints();
     /**
      * Set the constraints for an eager load of the relation.
      *
      * @param  array  $models
      * @return void
      */
-    abstract public function addEagerConstraints(array $models);
-
+    public abstract function addEagerConstraints(array $models);
     /**
      * Initialize the relation on a set of models.
      *
@@ -131,8 +115,7 @@ abstract class Relation
      * @param  string  $relation
      * @return array
      */
-    abstract public function initRelation(array $models, $relation);
-
+    public abstract function initRelation(array $models, $relation);
     /**
      * Match the eagerly loaded results to their parents.
      *
@@ -141,15 +124,13 @@ abstract class Relation
      * @param  string  $relation
      * @return array
      */
-    abstract public function match(array $models, Collection $results, $relation);
-
+    public abstract function match(array $models, Collection $results, $relation);
     /**
      * Get the results of the relationship.
      *
      * @return mixed
      */
-    abstract public function getResults();
-
+    public abstract function getResults();
     /**
      * Get the relationship for eager loading.
      *
@@ -159,7 +140,6 @@ abstract class Relation
     {
         return $this->get();
     }
-
     /**
      * Execute the query and get the first result if it's the sole matching record.
      *
@@ -172,18 +152,14 @@ abstract class Relation
     public function sole($columns = ['*'])
     {
         $result = $this->take(2)->get($columns);
-
         if ($result->isEmpty()) {
-            throw (new ModelNotFoundException)->setModel(get_class($this->related));
+            throw (new ModelNotFoundException())->setModel(\get_class($this->related));
         }
-
         if ($result->count() > 1) {
-            throw new MultipleRecordsFoundException;
+            throw new MultipleRecordsFoundException();
         }
-
         return $result->first();
     }
-
     /**
      * Execute the query as a "select" statement.
      *
@@ -194,7 +170,6 @@ abstract class Relation
     {
         return $this->query->get($columns);
     }
-
     /**
      * Touch all of the related models for the relationship.
      *
@@ -203,14 +178,10 @@ abstract class Relation
     public function touch()
     {
         $model = $this->getRelated();
-
-        if (! $model::isIgnoringTouch()) {
-            $this->rawUpdate([
-                $model->getUpdatedAtColumn() => $model->freshTimestampString(),
-            ]);
+        if (!$model::isIgnoringTouch()) {
+            $this->rawUpdate([$model->getUpdatedAtColumn() => $model->freshTimestampString()]);
         }
     }
-
     /**
      * Run a raw update against the base query.
      *
@@ -221,7 +192,6 @@ abstract class Relation
     {
         return $this->query->withoutGlobalScopes()->update($attributes);
     }
-
     /**
      * Add the constraints for a relationship count query.
      *
@@ -231,11 +201,8 @@ abstract class Relation
      */
     public function getRelationExistenceCountQuery(Builder $query, Builder $parentQuery)
     {
-        return $this->getRelationExistenceQuery(
-            $query, $parentQuery, new Expression('count(*)')
-        )->setBindings([], 'select');
+        return $this->getRelationExistenceQuery($query, $parentQuery, new Expression('count(*)'))->setBindings([], 'select');
     }
-
     /**
      * Add the constraints for an internal relationship existence query.
      *
@@ -248,22 +215,18 @@ abstract class Relation
      */
     public function getRelationExistenceQuery(Builder $query, Builder $parentQuery, $columns = ['*'])
     {
-        return $query->select($columns)->whereColumn(
-            $this->getQualifiedParentKeyName(), '=', $this->getExistenceCompareKey()
-        );
+        return $query->select($columns)->whereColumn($this->getQualifiedParentKeyName(), '=', $this->getExistenceCompareKey());
     }
-
     /**
      * Get a relationship join table hash.
      *
      * @param  bool  $incrementJoinCount
      * @return string
      */
-    public function getRelationCountHash($incrementJoinCount = true)
+    public function getRelationCountHash($incrementJoinCount = \true)
     {
-        return 'laravel_reserved_'.($incrementJoinCount ? static::$selfJoinCount++ : static::$selfJoinCount);
+        return 'laravel_reserved_' . ($incrementJoinCount ? static::$selfJoinCount++ : static::$selfJoinCount);
     }
-
     /**
      * Get all of the primary keys for an array of models.
      *
@@ -273,11 +236,10 @@ abstract class Relation
      */
     protected function getKeys(array $models, $key = null)
     {
-        return collect($models)->map(function ($value) use ($key) {
+        return collect($models)->map(function ($value) use($key) {
             return $key ? $value->getAttribute($key) : $value->getKey();
-        })->values()->unique(null, true)->sort()->all();
+        })->values()->unique(null, \true)->sort()->all();
     }
-
     /**
      * Get the query builder that will contain the relationship constraints.
      *
@@ -287,7 +249,6 @@ abstract class Relation
     {
         return $this->query;
     }
-
     /**
      * Get the underlying query for the relation.
      *
@@ -297,7 +258,6 @@ abstract class Relation
     {
         return $this->query;
     }
-
     /**
      * Get the base query builder driving the Eloquent builder.
      *
@@ -307,7 +267,6 @@ abstract class Relation
     {
         return $this->query->getQuery();
     }
-
     /**
      * Get the parent model of the relation.
      *
@@ -317,7 +276,6 @@ abstract class Relation
     {
         return $this->parent;
     }
-
     /**
      * Get the fully qualified parent key name.
      *
@@ -327,7 +285,6 @@ abstract class Relation
     {
         return $this->parent->getQualifiedKeyName();
     }
-
     /**
      * Get the related model of the relation.
      *
@@ -337,7 +294,6 @@ abstract class Relation
     {
         return $this->related;
     }
-
     /**
      * Get the name of the "created at" column.
      *
@@ -347,7 +303,6 @@ abstract class Relation
     {
         return $this->parent->getCreatedAtColumn();
     }
-
     /**
      * Get the name of the "updated at" column.
      *
@@ -357,7 +312,6 @@ abstract class Relation
     {
         return $this->parent->getUpdatedAtColumn();
     }
-
     /**
      * Get the name of the related model's "updated at" column.
      *
@@ -367,7 +321,6 @@ abstract class Relation
     {
         return $this->related->getUpdatedAtColumn();
     }
-
     /**
      * Get the name of the "where in" method for eager loading.
      *
@@ -377,23 +330,18 @@ abstract class Relation
      */
     protected function whereInMethod(Model $model, $key)
     {
-        return $model->getKeyName() === last(explode('.', $key))
-                    && in_array($model->getKeyType(), ['int', 'integer'])
-                        ? 'whereIntegerInRaw'
-                        : 'whereIn';
+        return $model->getKeyName() === \last(\explode('.', $key)) && \in_array($model->getKeyType(), ['int', 'integer']) ? 'whereIntegerInRaw' : 'whereIn';
     }
-
     /**
      * Prevent polymorphic relationships from being used without model mappings.
      *
      * @param  bool  $requireMorphMap
      * @return void
      */
-    public static function requireMorphMap($requireMorphMap = true)
+    public static function requireMorphMap($requireMorphMap = \true)
     {
         static::$requireMorphMap = $requireMorphMap;
     }
-
     /**
      * Determine if polymorphic relationships require explicit model mapping.
      *
@@ -403,7 +351,6 @@ abstract class Relation
     {
         return static::$requireMorphMap;
     }
-
     /**
      * Define the morph map for polymorphic relations and require all morphed models to be explicitly mapped.
      *
@@ -411,13 +358,11 @@ abstract class Relation
      * @param  bool  $merge
      * @return array
      */
-    public static function enforceMorphMap(array $map, $merge = true)
+    public static function enforceMorphMap(array $map, $merge = \true)
     {
         static::requireMorphMap();
-
         return static::morphMap($map, $merge);
     }
-
     /**
      * Set or get the morph map for polymorphic relations.
      *
@@ -425,18 +370,14 @@ abstract class Relation
      * @param  bool  $merge
      * @return array
      */
-    public static function morphMap(array $map = null, $merge = true)
+    public static function morphMap(array $map = null, $merge = \true)
     {
         $map = static::buildMorphMapFromModels($map);
-
-        if (is_array($map)) {
-            static::$morphMap = $merge && static::$morphMap
-                            ? $map + static::$morphMap : $map;
+        if (\is_array($map)) {
+            static::$morphMap = $merge && static::$morphMap ? $map + static::$morphMap : $map;
         }
-
         return static::$morphMap;
     }
-
     /**
      * Builds a table-keyed array from model class names.
      *
@@ -445,15 +386,13 @@ abstract class Relation
      */
     protected static function buildMorphMapFromModels(array $models = null)
     {
-        if (is_null($models) || Arr::isAssoc($models)) {
+        if (\is_null($models) || Arr::isAssoc($models)) {
             return $models;
         }
-
-        return array_combine(array_map(function ($model) {
-            return (new $model)->getTable();
+        return \array_combine(\array_map(function ($model) {
+            return (new $model())->getTable();
         }, $models), $models);
     }
-
     /**
      * Get the model associated with a custom polymorphic type.
      *
@@ -464,7 +403,6 @@ abstract class Relation
     {
         return static::$morphMap[$alias] ?? null;
     }
-
     /**
      * Handle dynamic method calls to the relationship.
      *
@@ -477,10 +415,8 @@ abstract class Relation
         if (static::hasMacro($method)) {
             return $this->macroCall($method, $parameters);
         }
-
         return $this->forwardDecoratedCallTo($this->query, $method, $parameters);
     }
-
     /**
      * Force a clone of the underlying query builder when cloning.
      *

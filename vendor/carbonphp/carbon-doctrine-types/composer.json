@@ -1,5 +1,5 @@
 {
-    "name": "carbonphp/carbon-doctrine-types",
+    "name": "carbonphp\/carbon-doctrine-types",
     "description": "Types to use Carbon in Doctrine",
     "type": "library",
     "keywords": [
@@ -13,17 +13,17 @@
         "php": "^8.1"
     },
     "require-dev": {
-        "doctrine/dbal": "^4.0.0",
-        "nesbot/carbon": "^2.71.0 || ^3.0.0",
-        "phpunit/phpunit": "^10.3"
+        "doctrine\/dbal": "^4.0.0",
+        "nesbot\/carbon": "^2.71.0 || ^3.0.0",
+        "phpunit\/phpunit": "^10.3"
     },
     "conflict": {
-        "doctrine/dbal": "<4.0.0 || >=5.0.0"
+        "doctrine\/dbal": "<4.0.0 || >=5.0.0"
     },
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Carbon\\Doctrine\\": "src/Carbon/Doctrine/"
+            "ComfortSmtpScoped\\Carbon\\Doctrine\\": "src\/Carbon\/Doctrine\/"
         }
     },
     "authors": [

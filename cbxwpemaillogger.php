@@ -16,9 +16,9 @@
  * Plugin Name:       Comfort Email SMTP, Logger & Email Api
  * Plugin URI:        https://codeboxr.com/product/cbx-email-logger-for-wordpress/
  * Description:       Various SMTP protocol, Logs email, tracks sent or failed status and more.
- * Version:           2.0.10
+ * Version:           2.0.11
  * Requires at least: 5.3
- * Requires PHP:      8.2
+ * Requires PHP:      7.4
  * Author:            Codeboxr
  * Author URI:        https://codeboxr.com
  * License:           GPL-2.0+
@@ -35,17 +35,18 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 defined( 'COMFORTSMTP_PLUGIN_NAME' ) or define( 'COMFORTSMTP_PLUGIN_NAME', 'cbxwpemaillogger' );
-defined( 'COMFORTSMTP_PLUGIN_VERSION' ) or define( 'COMFORTSMTP_PLUGIN_VERSION', '2.0.10' );
+defined( 'COMFORTSMTP_PLUGIN_VERSION' ) or define( 'COMFORTSMTP_PLUGIN_VERSION', '2.0.11' );
 defined( 'COMFORTSMTP_BASE_NAME' ) or define( 'COMFORTSMTP_BASE_NAME', plugin_basename( __FILE__ ) );
 defined( 'COMFORTSMTP_ROOT_PATH' ) or define( 'COMFORTSMTP_ROOT_PATH', plugin_dir_path( __FILE__ ) );
 defined( 'COMFORTSMTP_ROOT_URL' ) or define( 'COMFORTSMTP_ROOT_URL', plugin_dir_url( __FILE__ ) );
 
 defined( 'COMFORTSMTP_WP_MIN_VERSION' ) or define( 'COMFORTSMTP_WP_MIN_VERSION', '5.3' );
-defined( 'COMFORTSMTP_PHP_MIN_VERSION' ) or define( 'COMFORTSMTP_PHP_MIN_VERSION', '8.2' );
+defined( 'COMFORTSMTP_PHP_MIN_VERSION' ) or define( 'COMFORTSMTP_PHP_MIN_VERSION', '7.4' );
 
+
+defined( 'COMFORTSMTP_PRO_VERSION' ) or define( 'COMFORTSMTP_PRO_VERSION', '1.0.8' );
 
 defined( 'COMFORTSMTP_DEV_MODE' ) or define( 'COMFORTSMTP_DEV_MODE', false );
-defined( 'COMFORTSMTP_PRO_VERSION' ) or define( 'COMFORTSMTP_PRO_VERSION', '1.0.7' );
 
 
 // Include the main Cbx class.

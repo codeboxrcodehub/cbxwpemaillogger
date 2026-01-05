@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Events;
+namespace ComfortSmtpScoped\Illuminate\Database\Events;
 
-use Illuminate\Contracts\Database\Events\MigrationEvent as MigrationEventContract;
-
+use ComfortSmtpScoped\Illuminate\Contracts\Database\Events\MigrationEvent as MigrationEventContract;
 abstract class MigrationsEvent implements MigrationEventContract
 {
     /**
@@ -12,7 +11,6 @@ abstract class MigrationsEvent implements MigrationEventContract
      * @var string
      */
     public $method;
-
     /**
      * Create a new event instance.
      *

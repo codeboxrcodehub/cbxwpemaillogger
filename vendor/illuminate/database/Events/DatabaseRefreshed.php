@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Events;
+namespace ComfortSmtpScoped\Illuminate\Database\Events;
 
-use Illuminate\Contracts\Database\Events\MigrationEvent as MigrationEventContract;
-
+use ComfortSmtpScoped\Illuminate\Contracts\Database\Events\MigrationEvent as MigrationEventContract;
 class DatabaseRefreshed implements MigrationEventContract
 {
     //

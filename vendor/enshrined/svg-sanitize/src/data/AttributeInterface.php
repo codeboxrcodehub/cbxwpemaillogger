@@ -1,5 +1,6 @@
 <?php
-namespace enshrined\svgSanitize\data;
+
+namespace ComfortSmtpScoped\enshrined\svgSanitize\data;
 
 /**
  * Class AttributeInterface
@@ -8,7 +9,6 @@ namespace enshrined\svgSanitize\data;
  */
 interface AttributeInterface
 {
-
     /**
      * Returns an array of attributes
      *

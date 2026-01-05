@@ -1,11 +1,10 @@
 <?php
 
-namespace Illuminate\Support;
+namespace ComfortSmtpScoped\Illuminate\Support;
 
 use ArrayIterator;
-use Illuminate\Contracts\Support\ValidatedData;
+use ComfortSmtpScoped\Illuminate\Contracts\Support\ValidatedData;
 use stdClass;
-
 class ValidatedInput implements ValidatedData
 {
     /**
@@ -14,7 +13,6 @@ class ValidatedInput implements ValidatedData
      * @var array
      */
     protected $input;
-
     /**
      * Create a new validated input container.
      *
@@ -25,7 +23,6 @@ class ValidatedInput implements ValidatedData
     {
         $this->input = $input;
     }
-
     /**
      * Get a subset containing the provided keys with values from the input data.
      *
@@ -35,22 +32,16 @@ class ValidatedInput implements ValidatedData
     public function only($keys)
     {
         $results = [];
-
         $input = $this->input;
-
-        $placeholder = new stdClass;
-
-        foreach (is_array($keys) ? $keys : func_get_args() as $key) {
-            $value = data_get($input, $key, $placeholder);
-
+        $placeholder = new stdClass();
+        foreach (\is_array($keys) ? $keys : \func_get_args() as $key) {
+            $value = \data_get($input, $key, $placeholder);
             if ($value !== $placeholder) {
                 Arr::set($results, $key, $value);
             }
         }
-
         return $results;
     }
-
     /**
      * Get all of the input except for a specified array of items.
      *
@@ -59,15 +50,11 @@ class ValidatedInput implements ValidatedData
      */
     public function except($keys)
     {
-        $keys = is_array($keys) ? $keys : func_get_args();
-
+        $keys = \is_array($keys) ? $keys : \func_get_args();
         $results = $this->input;
-
         Arr::forget($results, $keys);
-
         return $results;
     }
-
     /**
      * Merge the validated input with the given array of additional data.
      *
@@ -76,9 +63,8 @@ class ValidatedInput implements ValidatedData
      */
     public function merge(array $items)
     {
-        return new static(array_merge($this->input, $items));
+        return new static(\array_merge($this->input, $items));
     }
-
     /**
      * Get the input as a collection.
      *
@@ -88,7 +74,6 @@ class ValidatedInput implements ValidatedData
     {
         return new Collection($this->input);
     }
-
     /**
      * Get the raw, underlying input array.
      *
@@ -98,7 +83,6 @@ class ValidatedInput implements ValidatedData
     {
         return $this->input;
     }
-
     /**
      * Get the instance as an array.
      *
@@ -108,7 +92,6 @@ class ValidatedInput implements ValidatedData
     {
         return $this->all();
     }
-
     /**
      * Dynamically access input data.
      *
@@ -119,7 +102,6 @@ class ValidatedInput implements ValidatedData
     {
         return $this->input[$name];
     }
-
     /**
      * Dynamically set input data.
      *
@@ -131,7 +113,6 @@ class ValidatedInput implements ValidatedData
     {
         $this->input[$name] = $value;
     }
-
     /**
      * Determine if an input key is set.
      *
@@ -141,7 +122,6 @@ class ValidatedInput implements ValidatedData
     {
         return isset($this->input[$name]);
     }
-
     /**
      * Remove an input key.
      *
@@ -152,7 +132,6 @@ class ValidatedInput implements ValidatedData
     {
         unset($this->input[$name]);
     }
-
     /**
      * Determine if an item exists at an offset.
      *
@@ -164,7 +143,6 @@ class ValidatedInput implements ValidatedData
     {
         return isset($this->input[$key]);
     }
-
     /**
      * Get an item at a given offset.
      *
@@ -176,7 +154,6 @@ class ValidatedInput implements ValidatedData
     {
         return $this->input[$key];
     }
-
     /**
      * Set the item at a given offset.
      *
@@ -187,13 +164,12 @@ class ValidatedInput implements ValidatedData
     #[\ReturnTypeWillChange]
     public function offsetSet($key, $value)
     {
-        if (is_null($key)) {
+        if (\is_null($key)) {
             $this->input[] = $value;
         } else {
             $this->input[$key] = $value;
         }
     }
-
     /**
      * Unset the item at a given offset.
      *
@@ -205,7 +181,6 @@ class ValidatedInput implements ValidatedData
     {
         unset($this->input[$key]);
     }
-
     /**
      * Get an iterator for the input.
      *

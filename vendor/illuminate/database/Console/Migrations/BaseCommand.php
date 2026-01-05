@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Console\Migrations;
+namespace ComfortSmtpScoped\Illuminate\Database\Console\Migrations;
 
-use Illuminate\Console\Command;
-
+use ComfortSmtpScoped\Illuminate\Console\Command;
 class BaseCommand extends Command
 {
     /**
@@ -18,17 +17,11 @@ class BaseCommand extends Command
         // migrations may be run for any customized path from within the application.
         if ($this->input->hasOption('path') && $this->option('path')) {
             return collect($this->option('path'))->map(function ($path) {
-                return ! $this->usingRealPath()
-                                ? $this->laravel->basePath().'/'.$path
-                                : $path;
+                return !$this->usingRealPath() ? $this->laravel->basePath() . '/' . $path : $path;
             })->all();
         }
-
-        return array_merge(
-            $this->migrator->paths(), [$this->getMigrationPath()]
-        );
+        return \array_merge($this->migrator->paths(), [$this->getMigrationPath()]);
     }
-
     /**
      * Determine if the given path(s) are pre-resolved "real" paths.
      *
@@ -38,7 +31,6 @@ class BaseCommand extends Command
     {
         return $this->input->hasOption('realpath') && $this->option('realpath');
     }
-
     /**
      * Get the path to the migration directory.
      *
@@ -46,6 +38,6 @@ class BaseCommand extends Command
      */
     protected function getMigrationPath()
     {
-        return $this->laravel->databasePath().DIRECTORY_SEPARATOR.'migrations';
+        return $this->laravel->databasePath() . \DIRECTORY_SEPARATOR . 'migrations';
     }
 }

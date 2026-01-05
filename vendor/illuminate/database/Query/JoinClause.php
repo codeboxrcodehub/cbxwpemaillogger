@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Query;
+namespace ComfortSmtpScoped\Illuminate\Database\Query;
 
 use Closure;
-
 class JoinClause extends Builder
 {
     /**
@@ -12,42 +11,36 @@ class JoinClause extends Builder
      * @var string
      */
     public $type;
-
     /**
      * The table the join clause is joining to.
      *
      * @var string
      */
     public $table;
-
     /**
      * The connection of the parent query builder.
      *
      * @var \Illuminate\Database\ConnectionInterface
      */
     protected $parentConnection;
-
     /**
      * The grammar of the parent query builder.
      *
      * @var \Illuminate\Database\Query\Grammars\Grammar
      */
     protected $parentGrammar;
-
     /**
      * The processor of the parent query builder.
      *
      * @var \Illuminate\Database\Query\Processors\Processor
      */
     protected $parentProcessor;
-
     /**
      * The class name of the parent query builder.
      *
      * @var string
      */
     protected $parentClass;
-
     /**
      * Create a new join clause instance.
      *
@@ -60,16 +53,12 @@ class JoinClause extends Builder
     {
         $this->type = $type;
         $this->table = $table;
-        $this->parentClass = get_class($parentQuery);
+        $this->parentClass = \get_class($parentQuery);
         $this->parentGrammar = $parentQuery->getGrammar();
         $this->parentProcessor = $parentQuery->getProcessor();
         $this->parentConnection = $parentQuery->getConnection();
-
-        parent::__construct(
-            $this->parentConnection, $this->parentGrammar, $this->parentProcessor
-        );
+        parent::__construct($this->parentConnection, $this->parentGrammar, $this->parentProcessor);
     }
-
     /**
      * Add an "on" clause to the join.
      *
@@ -95,10 +84,8 @@ class JoinClause extends Builder
         if ($first instanceof Closure) {
             return $this->whereNested($first, $boolean);
         }
-
         return $this->whereColumn($first, $operator, $second, $boolean);
     }
-
     /**
      * Add an "or on" clause to the join.
      *
@@ -111,7 +98,6 @@ class JoinClause extends Builder
     {
         return $this->on($first, $operator, $second, 'or');
     }
-
     /**
      * Get a new instance of the join clause builder.
      *
@@ -121,7 +107,6 @@ class JoinClause extends Builder
     {
         return new static($this->newParentQuery(), $this->type, $this->table);
     }
-
     /**
      * Create a new query instance for sub-query.
      *
@@ -131,7 +116,6 @@ class JoinClause extends Builder
     {
         return $this->newParentQuery()->newQuery();
     }
-
     /**
      * Create a new parent query instance.
      *
@@ -140,7 +124,6 @@ class JoinClause extends Builder
     protected function newParentQuery()
     {
         $class = $this->parentClass;
-
         return new $class($this->parentConnection, $this->parentGrammar, $this->parentProcessor);
     }
 }

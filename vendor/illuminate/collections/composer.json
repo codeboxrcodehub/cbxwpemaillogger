@@ -1,11 +1,11 @@
 {
-    "name": "illuminate/collections",
+    "name": "illuminate\/collections",
     "description": "The Illuminate Collections package.",
     "license": "MIT",
-    "homepage": "https://laravel.com",
+    "homepage": "https:\/\/laravel.com",
     "support": {
-        "issues": "https://github.com/laravel/framework/issues",
-        "source": "https://github.com/laravel/framework"
+        "issues": "https:\/\/github.com\/laravel\/framework\/issues",
+        "source": "https:\/\/github.com\/laravel\/framework"
     },
     "authors": [
         {
@@ -15,12 +15,12 @@
     ],
     "require": {
         "php": "^7.3|^8.0",
-        "illuminate/contracts": "^8.0",
-        "illuminate/macroable": "^8.0"
+        "illuminate\/contracts": "^8.0",
+        "illuminate\/macroable": "^8.0"
     },
     "autoload": {
         "psr-4": {
-            "Illuminate\\Support\\": ""
+            "ComfortSmtpScoped\\Illuminate\\Support\\": ""
         },
         "files": [
             "helpers.php"
@@ -32,7 +32,7 @@
         }
     },
     "suggest": {
-        "symfony/var-dumper": "Required to use the dump method (^5.4)."
+        "symfony\/var-dumper": "Required to use the dump method (^5.4)."
     },
     "config": {
         "sort-packages": true

@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Queue;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Queue;
 
 interface Monitor
 {
@@ -11,7 +11,6 @@ interface Monitor
      * @return void
      */
     public function looping($callback);
-
     /**
      * Register a callback to be executed when a job fails after the maximum amount of retries.
      *
@@ -19,7 +18,6 @@ interface Monitor
      * @return void
      */
     public function failing($callback);
-
     /**
      * Register a callback to be executed when a daemon queue is stopping.
      *

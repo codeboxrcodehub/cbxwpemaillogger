@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Support\Facades;
+namespace ComfortSmtpScoped\Illuminate\Support\Facades;
 
 /**
  * @method static array getQueuedCookies()
@@ -19,9 +19,8 @@ class Cookie extends Facade
      */
     public static function has($key)
     {
-        return ! is_null(static::$app['request']->cookie($key, null));
+        return !\is_null(static::$app['request']->cookie($key, null));
     }
-
     /**
      * Retrieve a cookie from the request.
      *
@@ -33,7 +32,6 @@ class Cookie extends Facade
     {
         return static::$app['request']->cookie($key, $default);
     }
-
     /**
      * Get the registered name of the component.
      *

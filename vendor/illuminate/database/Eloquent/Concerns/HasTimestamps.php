@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Concerns;
+namespace ComfortSmtpScoped\Illuminate\Database\Eloquent\Concerns;
 
-use Illuminate\Support\Facades\Date;
-
+use ComfortSmtpScoped\Illuminate\Support\Facades\Date;
 trait HasTimestamps
 {
     /**
@@ -11,8 +10,7 @@ trait HasTimestamps
      *
      * @var bool
      */
-    public $timestamps = true;
-
+    public $timestamps = \true;
     /**
      * Update the model's update timestamp.
      *
@@ -20,15 +18,12 @@ trait HasTimestamps
      */
     public function touch()
     {
-        if (! $this->usesTimestamps()) {
-            return false;
+        if (!$this->usesTimestamps()) {
+            return \false;
         }
-
         $this->updateTimestamps();
-
         return $this->save();
     }
-
     /**
      * Update the creation and update timestamps.
      *
@@ -37,20 +32,15 @@ trait HasTimestamps
     public function updateTimestamps()
     {
         $time = $this->freshTimestamp();
-
         $updatedAtColumn = $this->getUpdatedAtColumn();
-
-        if (! is_null($updatedAtColumn) && ! $this->isDirty($updatedAtColumn)) {
+        if (!\is_null($updatedAtColumn) && !$this->isDirty($updatedAtColumn)) {
             $this->setUpdatedAt($time);
         }
-
         $createdAtColumn = $this->getCreatedAtColumn();
-
-        if (! $this->exists && ! is_null($createdAtColumn) && ! $this->isDirty($createdAtColumn)) {
+        if (!$this->exists && !\is_null($createdAtColumn) && !$this->isDirty($createdAtColumn)) {
             $this->setCreatedAt($time);
         }
     }
-
     /**
      * Set the value of the "created at" attribute.
      *
@@ -60,10 +50,8 @@ trait HasTimestamps
     public function setCreatedAt($value)
     {
         $this->{$this->getCreatedAtColumn()} = $value;
-
         return $this;
     }
-
     /**
      * Set the value of the "updated at" attribute.
      *
@@ -73,10 +61,8 @@ trait HasTimestamps
     public function setUpdatedAt($value)
     {
         $this->{$this->getUpdatedAtColumn()} = $value;
-
         return $this;
     }
-
     /**
      * Get a fresh timestamp for the model.
      *
@@ -86,7 +72,6 @@ trait HasTimestamps
     {
         return Date::now();
     }
-
     /**
      * Get a fresh timestamp for the model.
      *
@@ -96,7 +81,6 @@ trait HasTimestamps
     {
         return $this->fromDateTime($this->freshTimestamp());
     }
-
     /**
      * Determine if the model uses timestamps.
      *
@@ -106,7 +90,6 @@ trait HasTimestamps
     {
         return $this->timestamps;
     }
-
     /**
      * Get the name of the "created at" column.
      *
@@ -116,7 +99,6 @@ trait HasTimestamps
     {
         return static::CREATED_AT;
     }
-
     /**
      * Get the name of the "updated at" column.
      *
@@ -126,7 +108,6 @@ trait HasTimestamps
     {
         return static::UPDATED_AT;
     }
-
     /**
      * Get the fully qualified "created at" column.
      *
@@ -136,7 +117,6 @@ trait HasTimestamps
     {
         return $this->qualifyColumn($this->getCreatedAtColumn());
     }
-
     /**
      * Get the fully qualified "updated at" column.
      *

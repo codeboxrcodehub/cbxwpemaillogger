@@ -1,11 +1,10 @@
 <?php
 
-namespace Illuminate\Support;
+namespace ComfortSmtpScoped\Illuminate\Support;
 
 use Closure;
-use Illuminate\Contracts\Container\Container;
+use ComfortSmtpScoped\Illuminate\Contracts\Container\Container;
 use InvalidArgumentException;
-
 abstract class Manager
 {
     /**
@@ -14,28 +13,24 @@ abstract class Manager
      * @var \Illuminate\Contracts\Container\Container
      */
     protected $container;
-
     /**
      * The configuration repository instance.
      *
      * @var \Illuminate\Contracts\Config\Repository
      */
     protected $config;
-
     /**
      * The registered custom driver creators.
      *
      * @var array
      */
     protected $customCreators = [];
-
     /**
      * The array of created "drivers".
      *
      * @var array
      */
     protected $drivers = [];
-
     /**
      * Create a new manager instance.
      *
@@ -47,14 +42,12 @@ abstract class Manager
         $this->container = $container;
         $this->config = $container->make('config');
     }
-
     /**
      * Get the default driver name.
      *
      * @return string
      */
-    abstract public function getDefaultDriver();
-
+    public abstract function getDefaultDriver();
     /**
      * Get a driver instance.
      *
@@ -66,23 +59,17 @@ abstract class Manager
     public function driver($driver = null)
     {
         $driver = $driver ?: $this->getDefaultDriver();
-
-        if (is_null($driver)) {
-            throw new InvalidArgumentException(sprintf(
-                'Unable to resolve NULL driver for [%s].', static::class
-            ));
+        if (\is_null($driver)) {
+            throw new InvalidArgumentException(\sprintf('Unable to resolve NULL driver for [%s].', static::class));
         }
-
         // If the given driver has not been created before, we will create the instances
         // here and cache it so we can return it next time very quickly. If there is
         // already a driver created by this name, we'll just return that instance.
-        if (! isset($this->drivers[$driver])) {
+        if (!isset($this->drivers[$driver])) {
             $this->drivers[$driver] = $this->createDriver($driver);
         }
-
         return $this->drivers[$driver];
     }
-
     /**
      * Create a new driver instance.
      *
@@ -99,16 +86,13 @@ abstract class Manager
         if (isset($this->customCreators[$driver])) {
             return $this->callCustomCreator($driver);
         } else {
-            $method = 'create'.Str::studly($driver).'Driver';
-
-            if (method_exists($this, $method)) {
-                return $this->$method();
+            $method = 'create' . Str::studly($driver) . 'Driver';
+            if (\method_exists($this, $method)) {
+                return $this->{$method}();
             }
         }
-
-        throw new InvalidArgumentException("Driver [$driver] not supported.");
+        throw new InvalidArgumentException("Driver [{$driver}] not supported.");
     }
-
     /**
      * Call a custom driver creator.
      *
@@ -119,7 +103,6 @@ abstract class Manager
     {
         return $this->customCreators[$driver]($this->container);
     }
-
     /**
      * Register a custom driver creator Closure.
      *
@@ -130,10 +113,8 @@ abstract class Manager
     public function extend($driver, Closure $callback)
     {
         $this->customCreators[$driver] = $callback;
-
         return $this;
     }
-
     /**
      * Get all of the created "drivers".
      *
@@ -143,7 +124,6 @@ abstract class Manager
     {
         return $this->drivers;
     }
-
     /**
      * Get the container instance used by the manager.
      *
@@ -153,7 +133,6 @@ abstract class Manager
     {
         return $this->container;
     }
-
     /**
      * Set the container instance used by the manager.
      *
@@ -163,10 +142,8 @@ abstract class Manager
     public function setContainer(Container $container)
     {
         $this->container = $container;
-
         return $this;
     }
-
     /**
      * Forget all of the resolved driver instances.
      *
@@ -175,10 +152,8 @@ abstract class Manager
     public function forgetDrivers()
     {
         $this->drivers = [];
-
         return $this;
     }
-
     /**
      * Dynamically call the default driver instance.
      *
@@ -188,6 +163,6 @@ abstract class Manager
      */
     public function __call($method, $parameters)
     {
-        return $this->driver()->$method(...$parameters);
+        return $this->driver()->{$method}(...$parameters);
     }
 }

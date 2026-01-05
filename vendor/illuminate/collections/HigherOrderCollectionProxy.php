@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Support;
+namespace ComfortSmtpScoped\Illuminate\Support;
 
 /**
  * @mixin \Illuminate\Support\Enumerable
@@ -13,14 +13,12 @@ class HigherOrderCollectionProxy
      * @var \Illuminate\Support\Enumerable
      */
     protected $collection;
-
     /**
      * The method being proxied.
      *
      * @var string
      */
     protected $method;
-
     /**
      * Create a new proxy instance.
      *
@@ -33,7 +31,6 @@ class HigherOrderCollectionProxy
         $this->method = $method;
         $this->collection = $collection;
     }
-
     /**
      * Proxy accessing an attribute onto the collection items.
      *
@@ -42,11 +39,10 @@ class HigherOrderCollectionProxy
      */
     public function __get($key)
     {
-        return $this->collection->{$this->method}(function ($value) use ($key) {
-            return is_array($value) ? $value[$key] : $value->{$key};
+        return $this->collection->{$this->method}(function ($value) use($key) {
+            return \is_array($value) ? $value[$key] : $value->{$key};
         });
     }
-
     /**
      * Proxy a method call onto the collection items.
      *
@@ -56,7 +52,7 @@ class HigherOrderCollectionProxy
      */
     public function __call($method, $parameters)
     {
-        return $this->collection->{$this->method}(function ($value) use ($method, $parameters) {
+        return $this->collection->{$this->method}(function ($value) use($method, $parameters) {
             return $value->{$method}(...$parameters);
         });
     }

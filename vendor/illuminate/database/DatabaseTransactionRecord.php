@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database;
+namespace ComfortSmtpScoped\Illuminate\Database;
 
 class DatabaseTransactionRecord
 {
@@ -10,21 +10,18 @@ class DatabaseTransactionRecord
      * @var string
      */
     public $connection;
-
     /**
      * The transaction level.
      *
      * @var int
      */
     public $level;
-
     /**
      * The callbacks that should be executed after committing.
      *
      * @var array
      */
     protected $callbacks = [];
-
     /**
      * Create a new database transaction record instance.
      *
@@ -37,7 +34,6 @@ class DatabaseTransactionRecord
         $this->connection = $connection;
         $this->level = $level;
     }
-
     /**
      * Register a callback to be executed after committing.
      *
@@ -48,7 +44,6 @@ class DatabaseTransactionRecord
     {
         $this->callbacks[] = $callback;
     }
-
     /**
      * Execute all of the callbacks.
      *
@@ -57,10 +52,9 @@ class DatabaseTransactionRecord
     public function executeCallbacks()
     {
         foreach ($this->callbacks as $callback) {
-            call_user_func($callback);
+            \call_user_func($callback);
         }
     }
-
     /**
      * Get all of the callbacks.
      *

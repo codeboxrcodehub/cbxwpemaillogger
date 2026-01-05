@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Bus;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Bus;
 
 interface Dispatcher
 {
@@ -11,7 +11,6 @@ interface Dispatcher
      * @return mixed
      */
     public function dispatch($command);
-
     /**
      * Dispatch a command to its appropriate handler in the current process.
      *
@@ -22,7 +21,6 @@ interface Dispatcher
      * @return mixed
      */
     public function dispatchSync($command, $handler = null);
-
     /**
      * Dispatch a command to its appropriate handler in the current process.
      *
@@ -31,7 +29,6 @@ interface Dispatcher
      * @return mixed
      */
     public function dispatchNow($command, $handler = null);
-
     /**
      * Determine if the given command has a handler.
      *
@@ -39,7 +36,6 @@ interface Dispatcher
      * @return bool
      */
     public function hasCommandHandler($command);
-
     /**
      * Retrieve the handler for a command.
      *
@@ -47,7 +43,6 @@ interface Dispatcher
      * @return bool|mixed
      */
     public function getCommandHandler($command);
-
     /**
      * Set the pipes commands should be piped through before dispatching.
      *
@@ -55,7 +50,6 @@ interface Dispatcher
      * @return $this
      */
     public function pipeThrough(array $pipes);
-
     /**
      * Map a command to a handler.
      *

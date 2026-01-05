@@ -1,11 +1,10 @@
 <?php
 
-namespace Illuminate\Database;
+namespace ComfortSmtpScoped\Illuminate\Database;
 
-use Illuminate\Support\Str;
+use ComfortSmtpScoped\Illuminate\Support\Str;
 use PDOException;
 use Throwable;
-
 class QueryException extends PDOException
 {
     /**
@@ -14,14 +13,12 @@ class QueryException extends PDOException
      * @var string
      */
     protected $sql;
-
     /**
      * The bindings for the query.
      *
      * @var array
      */
     protected $bindings;
-
     /**
      * Create a new query exception instance.
      *
@@ -33,17 +30,14 @@ class QueryException extends PDOException
     public function __construct($sql, array $bindings, Throwable $previous)
     {
         parent::__construct('', 0, $previous);
-
         $this->sql = $sql;
         $this->bindings = $bindings;
         $this->code = $previous->getCode();
         $this->message = $this->formatMessage($sql, $bindings, $previous);
-
         if ($previous instanceof PDOException) {
             $this->errorInfo = $previous->errorInfo;
         }
     }
-
     /**
      * Format the SQL error message.
      *
@@ -54,9 +48,8 @@ class QueryException extends PDOException
      */
     protected function formatMessage($sql, $bindings, Throwable $previous)
     {
-        return $previous->getMessage().' (SQL: '.Str::replaceArray('?', $bindings, $sql).')';
+        return $previous->getMessage() . ' (SQL: ' . Str::replaceArray('?', $bindings, $sql) . ')';
     }
-
     /**
      * Get the SQL for the query.
      *
@@ -66,7 +59,6 @@ class QueryException extends PDOException
     {
         return $this->sql;
     }
-
     /**
      * Get the bindings for the query.
      *

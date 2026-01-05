@@ -1,11 +1,10 @@
 <?php
 
-namespace Illuminate\Support;
+namespace ComfortSmtpScoped\Illuminate\Support;
 
-use Dotenv\Repository\Adapter\PutenvAdapter;
-use Dotenv\Repository\RepositoryBuilder;
-use PhpOption\Option;
-
+use ComfortSmtpScoped\Dotenv\Repository\Adapter\PutenvAdapter;
+use ComfortSmtpScoped\Dotenv\Repository\RepositoryBuilder;
+use ComfortSmtpScoped\PhpOption\Option;
 class Env
 {
     /**
@@ -13,15 +12,13 @@ class Env
      *
      * @var bool
      */
-    protected static $putenv = true;
-
+    protected static $putenv = \true;
     /**
      * The environment repository instance.
      *
      * @var \Dotenv\Repository\RepositoryInterface|null
      */
     protected static $repository;
-
     /**
      * Enable the putenv adapter.
      *
@@ -29,10 +26,9 @@ class Env
      */
     public static function enablePutenv()
     {
-        static::$putenv = true;
+        static::$putenv = \true;
         static::$repository = null;
     }
-
     /**
      * Disable the putenv adapter.
      *
@@ -40,10 +36,9 @@ class Env
      */
     public static function disablePutenv()
     {
-        static::$putenv = false;
+        static::$putenv = \false;
         static::$repository = null;
     }
-
     /**
      * Get the environment repository instance.
      *
@@ -53,17 +48,13 @@ class Env
     {
         if (static::$repository === null) {
             $builder = RepositoryBuilder::createWithDefaultAdapters();
-
             if (static::$putenv) {
                 $builder = $builder->addAdapter(PutenvAdapter::class);
             }
-
             static::$repository = $builder->immutable()->make();
         }
-
         return static::$repository;
     }
-
     /**
      * Gets the value of an environment variable.
      *
@@ -73,31 +64,27 @@ class Env
      */
     public static function get($key, $default = null)
     {
-        return Option::fromValue(static::getRepository()->get($key))
-            ->map(function ($value) {
-                switch (strtolower($value)) {
-                    case 'true':
-                    case '(true)':
-                        return true;
-                    case 'false':
-                    case '(false)':
-                        return false;
-                    case 'empty':
-                    case '(empty)':
-                        return '';
-                    case 'null':
-                    case '(null)':
-                        return;
-                }
-
-                if (preg_match('/\A([\'"])(.*)\1\z/', $value, $matches)) {
-                    return $matches[2];
-                }
-
-                return $value;
-            })
-            ->getOrCall(function () use ($default) {
-                return value($default);
-            });
+        return Option::fromValue(static::getRepository()->get($key))->map(function ($value) {
+            switch (\strtolower($value)) {
+                case 'true':
+                case '(true)':
+                    return \true;
+                case 'false':
+                case '(false)':
+                    return \false;
+                case 'empty':
+                case '(empty)':
+                    return '';
+                case 'null':
+                case '(null)':
+                    return;
+            }
+            if (\preg_match('/\\A([\'"])(.*)\\1\\z/', $value, $matches)) {
+                return $matches[2];
+            }
+            return $value;
+        })->getOrCall(function () use($default) {
+            return \value($default);
+        });
     }
 }

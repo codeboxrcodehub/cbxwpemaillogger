@@ -1,18 +1,17 @@
 <?php
 
-namespace Illuminate\Database;
+namespace ComfortSmtpScoped\Illuminate\Database;
 
-use Doctrine\DBAL\Driver\PDOPgSql\Driver as DoctrineDriver;
-use Doctrine\DBAL\Version;
-use Illuminate\Database\PDO\PostgresDriver;
-use Illuminate\Database\Query\Grammars\PostgresGrammar as QueryGrammar;
-use Illuminate\Database\Query\Processors\PostgresProcessor;
-use Illuminate\Database\Schema\Grammars\PostgresGrammar as SchemaGrammar;
-use Illuminate\Database\Schema\PostgresBuilder;
-use Illuminate\Database\Schema\PostgresSchemaState;
-use Illuminate\Filesystem\Filesystem;
+use ComfortSmtpScoped\Doctrine\DBAL\Driver\PDOPgSql\Driver as DoctrineDriver;
+use ComfortSmtpScoped\Doctrine\DBAL\Version;
+use ComfortSmtpScoped\Illuminate\Database\PDO\PostgresDriver;
+use ComfortSmtpScoped\Illuminate\Database\Query\Grammars\PostgresGrammar as QueryGrammar;
+use ComfortSmtpScoped\Illuminate\Database\Query\Processors\PostgresProcessor;
+use ComfortSmtpScoped\Illuminate\Database\Schema\Grammars\PostgresGrammar as SchemaGrammar;
+use ComfortSmtpScoped\Illuminate\Database\Schema\PostgresBuilder;
+use ComfortSmtpScoped\Illuminate\Database\Schema\PostgresSchemaState;
+use ComfortSmtpScoped\Illuminate\Filesystem\Filesystem;
 use PDO;
-
 class PostgresConnection extends Connection
 {
     /**
@@ -25,22 +24,16 @@ class PostgresConnection extends Connection
     public function bindValues($statement, $bindings)
     {
         foreach ($bindings as $key => $value) {
-            if (is_int($value)) {
+            if (\is_int($value)) {
                 $pdoParam = PDO::PARAM_INT;
-            } elseif (is_resource($value)) {
+            } elseif (\is_resource($value)) {
                 $pdoParam = PDO::PARAM_LOB;
             } else {
                 $pdoParam = PDO::PARAM_STR;
             }
-
-            $statement->bindValue(
-                is_string($key) ? $key : $key + 1,
-                $value,
-                $pdoParam
-            );
+            $statement->bindValue(\is_string($key) ? $key : $key + 1, $value, $pdoParam);
         }
     }
-
     /**
      * Get the default query grammar instance.
      *
@@ -48,9 +41,8 @@ class PostgresConnection extends Connection
      */
     protected function getDefaultQueryGrammar()
     {
-        return $this->withTablePrefix(new QueryGrammar);
+        return $this->withTablePrefix(new QueryGrammar());
     }
-
     /**
      * Get a schema builder instance for the connection.
      *
@@ -58,13 +50,11 @@ class PostgresConnection extends Connection
      */
     public function getSchemaBuilder()
     {
-        if (is_null($this->schemaGrammar)) {
+        if (\is_null($this->schemaGrammar)) {
             $this->useDefaultSchemaGrammar();
         }
-
         return new PostgresBuilder($this);
     }
-
     /**
      * Get the default schema grammar instance.
      *
@@ -72,9 +62,8 @@ class PostgresConnection extends Connection
      */
     protected function getDefaultSchemaGrammar()
     {
-        return $this->withTablePrefix(new SchemaGrammar);
+        return $this->withTablePrefix(new SchemaGrammar());
     }
-
     /**
      * Get the schema state for the connection.
      *
@@ -86,7 +75,6 @@ class PostgresConnection extends Connection
     {
         return new PostgresSchemaState($this, $files, $processFactory);
     }
-
     /**
      * Get the default post processor instance.
      *
@@ -94,9 +82,8 @@ class PostgresConnection extends Connection
      */
     protected function getDefaultPostProcessor()
     {
-        return new PostgresProcessor;
+        return new PostgresProcessor();
     }
-
     /**
      * Get the Doctrine DBAL driver.
      *
@@ -104,6 +91,6 @@ class PostgresConnection extends Connection
      */
     protected function getDoctrineDriver()
     {
-        return class_exists(Version::class) ? new DoctrineDriver : new PostgresDriver;
+        return \class_exists(Version::class) ? new DoctrineDriver() : new PostgresDriver();
     }
 }

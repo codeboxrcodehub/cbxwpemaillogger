@@ -8,13 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace ComfortSmtpScoped\Carbon\Traits;
 
-namespace Carbon\Traits;
-
-use Carbon\CarbonInterface;
+use ComfortSmtpScoped\Carbon\CarbonInterface;
 use DateTimeInterface;
 use Throwable;
-
 /**
  * Trait Options.
  *
@@ -27,38 +25,30 @@ use Throwable;
 trait Options
 {
     use Localization;
-
     /**
      * Customizable PHP_INT_SIZE override.
      *
      * @var int
      */
-    public static $PHPIntSize = PHP_INT_SIZE;
-
+    public static $PHPIntSize = \PHP_INT_SIZE;
     /**
      * First day of week.
      *
      * @var int|string
      */
     protected static $weekStartsAt = CarbonInterface::MONDAY;
-
     /**
      * Last day of week.
      *
      * @var int|string
      */
     protected static $weekEndsAt = CarbonInterface::SUNDAY;
-
     /**
      * Days of weekend.
      *
      * @var array
      */
-    protected static $weekendDays = [
-        CarbonInterface::SATURDAY,
-        CarbonInterface::SUNDAY,
-    ];
-
+    protected static $weekendDays = [CarbonInterface::SATURDAY, CarbonInterface::SUNDAY];
     /**
      * Format regex patterns.
      *
@@ -102,72 +92,56 @@ trait Options
         'T' => '([a-zA-Z]{1,5})',
         'Z' => '(-?[1-5]?[0-9]{1,4})',
         'U' => '([0-9]*)',
-
         // The formats below are combinations of the above formats.
-        'c' => '(([1-9]?[0-9]{4})-(1[012]|0[1-9])-(3[01]|[12][0-9]|0[1-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])[+-](1[012]|0[0-9]):([0134][05]))', // Y-m-dTH:i:sP
-        'r' => '(([a-zA-Z]{3}), ([123][0-9]|0[1-9]) ([a-zA-Z]{3}) ([1-9]?[0-9]{4}) (2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9]) [+-](1[012]|0[0-9])([0134][05]))', // D, d M Y H:i:s O
+        'c' => '(([1-9]?[0-9]{4})-(1[012]|0[1-9])-(3[01]|[12][0-9]|0[1-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])[+-](1[012]|0[0-9]):([0134][05]))',
+        // Y-m-dTH:i:sP
+        'r' => '(([a-zA-Z]{3}), ([123][0-9]|0[1-9]) ([a-zA-Z]{3}) ([1-9]?[0-9]{4}) (2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9]) [+-](1[012]|0[0-9])([0134][05]))',
     ];
-
     /**
      * Format modifiers (such as available in createFromFormat) regex patterns.
      *
      * @var array
      */
-    protected static $regexFormatModifiers = [
-        '*' => '.+',
-        ' ' => '[   ]',
-        '#' => '[;:\\/.,()-]',
-        '?' => '([^a]|[a])',
-        '!' => '',
-        '|' => '',
-        '+' => '',
-    ];
-
+    protected static $regexFormatModifiers = ['*' => '.+', ' ' => '[   ]', '#' => '[;:\\/.,()-]', '?' => '([^a]|[a])', '!' => '', '|' => '', '+' => ''];
     /**
      * Indicates if months should be calculated with overflow.
      * Global setting.
      *
      * @var bool
      */
-    protected static $monthsOverflow = true;
-
+    protected static $monthsOverflow = \true;
     /**
      * Indicates if years should be calculated with overflow.
      * Global setting.
      *
      * @var bool
      */
-    protected static $yearsOverflow = true;
-
+    protected static $yearsOverflow = \true;
     /**
      * Indicates if the strict mode is in use.
      * Global setting.
      *
      * @var bool
      */
-    protected static $strictModeEnabled = true;
-
+    protected static $strictModeEnabled = \true;
     /**
      * Function to call instead of format.
      *
      * @var string|callable|null
      */
     protected static $formatFunction;
-
     /**
      * Function to call instead of createFromFormat.
      *
      * @var string|callable|null
      */
     protected static $createFromFormatFunction;
-
     /**
      * Function to call instead of parse.
      *
      * @var string|callable|null
      */
     protected static $parseFunction;
-
     /**
      * Indicates if months should be calculated with overflow.
      * Specific setting.
@@ -175,7 +149,6 @@ trait Options
      * @var bool|null
      */
     protected $localMonthsOverflow;
-
     /**
      * Indicates if years should be calculated with overflow.
      * Specific setting.
@@ -183,7 +156,6 @@ trait Options
      * @var bool|null
      */
     protected $localYearsOverflow;
-
     /**
      * Indicates if the strict mode is in use.
      * Specific setting.
@@ -191,49 +163,42 @@ trait Options
      * @var bool|null
      */
     protected $localStrictModeEnabled;
-
     /**
      * Options for diffForHumans and forHumans methods.
      *
      * @var bool|null
      */
     protected $localHumanDiffOptions;
-
     /**
      * Format to use on string cast.
      *
      * @var string|null
      */
     protected $localToStringFormat;
-
     /**
      * Format to use on JSON serialization.
      *
      * @var string|null
      */
     protected $localSerializer;
-
     /**
      * Instance-specific macros.
      *
      * @var array|null
      */
     protected $localMacros;
-
     /**
      * Instance-specific generic macros.
      *
      * @var array|null
      */
     protected $localGenericMacros;
-
     /**
      * Function to call instead of format.
      *
      * @var string|callable|null
      */
     protected $localFormatFunction;
-
     /**
      * @deprecated To avoid conflict between different third-party libraries, static setters should not be used.
      *             You should rather use the ->settings() method.
@@ -243,11 +208,10 @@ trait Options
      *
      * @param bool $strictModeEnabled
      */
-    public static function useStrictMode($strictModeEnabled = true)
+    public static function useStrictMode($strictModeEnabled = \true)
     {
         static::$strictModeEnabled = $strictModeEnabled;
     }
-
     /**
      * Returns true if the strict mode is globally in use, false else.
      * (It can be overridden in specific instances.)
@@ -258,7 +222,6 @@ trait Options
     {
         return static::$strictModeEnabled;
     }
-
     /**
      * @deprecated To avoid conflict between different third-party libraries, static setters should not be used.
      *             You should rather use the ->settings() method.
@@ -272,11 +235,10 @@ trait Options
      *
      * @return void
      */
-    public static function useMonthsOverflow($monthsOverflow = true)
+    public static function useMonthsOverflow($monthsOverflow = \true)
     {
         static::$monthsOverflow = $monthsOverflow;
     }
-
     /**
      * @deprecated To avoid conflict between different third-party libraries, static setters should not be used.
      *             You should rather use the ->settings() method.
@@ -290,9 +252,8 @@ trait Options
      */
     public static function resetMonthsOverflow()
     {
-        static::$monthsOverflow = true;
+        static::$monthsOverflow = \true;
     }
-
     /**
      * Get the month overflow global behavior (can be overridden in specific instances).
      *
@@ -302,7 +263,6 @@ trait Options
     {
         return static::$monthsOverflow;
     }
-
     /**
      * @deprecated To avoid conflict between different third-party libraries, static setters should not be used.
      *             You should rather use the ->settings() method.
@@ -316,11 +276,10 @@ trait Options
      *
      * @return void
      */
-    public static function useYearsOverflow($yearsOverflow = true)
+    public static function useYearsOverflow($yearsOverflow = \true)
     {
         static::$yearsOverflow = $yearsOverflow;
     }
-
     /**
      * @deprecated To avoid conflict between different third-party libraries, static setters should not be used.
      *             You should rather use the ->settings() method.
@@ -334,9 +293,8 @@ trait Options
      */
     public static function resetYearsOverflow()
     {
-        static::$yearsOverflow = true;
+        static::$yearsOverflow = \true;
     }
-
     /**
      * Get the month overflow global behavior (can be overridden in specific instances).
      *
@@ -346,7 +304,6 @@ trait Options
     {
         return static::$yearsOverflow;
     }
-
     /**
      * Set specific options.
      *  - strictMode: true|false|null
@@ -375,28 +332,21 @@ trait Options
         $this->localMacros = $settings['macros'] ?? null;
         $this->localGenericMacros = $settings['genericMacros'] ?? null;
         $this->localFormatFunction = $settings['formatFunction'] ?? null;
-
         if (isset($settings['locale'])) {
             $locales = $settings['locale'];
-
             if (!\is_array($locales)) {
                 $locales = [$locales];
             }
-
             $this->locale(...$locales);
         }
-
         if (isset($settings['innerTimezone'])) {
             return $this->setTimezone($settings['innerTimezone']);
         }
-
         if (isset($settings['timezone'])) {
             return $this->shiftTimezone($settings['timezone']);
         }
-
         return $this;
     }
-
     /**
      * Returns current local settings.
      *
@@ -405,31 +355,15 @@ trait Options
     public function getSettings()
     {
         $settings = [];
-        $map = [
-            'localStrictModeEnabled' => 'strictMode',
-            'localMonthsOverflow' => 'monthOverflow',
-            'localYearsOverflow' => 'yearOverflow',
-            'localHumanDiffOptions' => 'humanDiffOptions',
-            'localToStringFormat' => 'toStringFormat',
-            'localSerializer' => 'toJsonFormat',
-            'localMacros' => 'macros',
-            'localGenericMacros' => 'genericMacros',
-            'locale' => 'locale',
-            'tzName' => 'timezone',
-            'localFormatFunction' => 'formatFunction',
-        ];
-
+        $map = ['localStrictModeEnabled' => 'strictMode', 'localMonthsOverflow' => 'monthOverflow', 'localYearsOverflow' => 'yearOverflow', 'localHumanDiffOptions' => 'humanDiffOptions', 'localToStringFormat' => 'toStringFormat', 'localSerializer' => 'toJsonFormat', 'localMacros' => 'macros', 'localGenericMacros' => 'genericMacros', 'locale' => 'locale', 'tzName' => 'timezone', 'localFormatFunction' => 'formatFunction'];
         foreach ($map as $property => $key) {
-            $value = $this->$property ?? null;
-
+            $value = $this->{$property} ?? null;
             if ($value !== null && ($key !== 'locale' || $value !== 'en' || $this->localTranslator)) {
                 $settings[$key] = $value;
             }
         }
-
         return $settings;
     }
-
     /**
      * Show truthy properties on var_dump().
      *
@@ -437,29 +371,24 @@ trait Options
      */
     public function __debugInfo()
     {
-        $infos = array_filter(get_object_vars($this), static function ($var) {
+        $infos = \array_filter(\get_object_vars($this), static function ($var) {
             return $var;
         });
-
         foreach (['dumpProperties', 'constructedObjectId', 'constructed'] as $property) {
             if (isset($infos[$property])) {
                 unset($infos[$property]);
             }
         }
-
         $this->addExtraDebugInfos($infos);
-
         return $infos;
     }
-
-    protected function addExtraDebugInfos(&$infos): void
+    protected function addExtraDebugInfos(&$infos) : void
     {
         if ($this instanceof DateTimeInterface) {
             try {
                 if (!isset($infos['date'])) {
                     $infos['date'] = $this->format(CarbonInterface::MOCK_DATETIME_FORMAT);
                 }
-
                 if (!isset($infos['timezone'])) {
                     $infos['timezone'] = $this->tzName;
                 }

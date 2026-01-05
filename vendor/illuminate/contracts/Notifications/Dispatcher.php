@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Notifications;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Notifications;
 
 interface Dispatcher
 {
@@ -12,7 +12,6 @@ interface Dispatcher
      * @return void
      */
     public function send($notifiables, $notification);
-
     /**
      * Send the given notification immediately.
      *

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Comfort Email SMTP, Logger & Email Api\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-03 12:59+0000\n"
+"POT-Creation-Date: 2026-01-05 08:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -17,12 +17,12 @@ msgstr ""
 "X-Domain: cbxwpemaillogger"
 
 #. %d: log delete fail count
-#: includes/Controllers/LogController.php:218
+#: includes/Controllers/LogController.php:223
 msgid "%d log(s) can`t be deleted as they may have dependency."
 msgstr ""
 
 #. %d: log successfully deleted count
-#: includes/Controllers/LogController.php:212
+#: includes/Controllers/LogController.php:217
 msgid "%d log(s) deleted successfully. "
 msgstr ""
 
@@ -33,7 +33,7 @@ msgid "%s does not exist."
 msgstr ""
 
 #. %s: plugin url
-#: includes/ComfortSmtpAdmin.php:1148
+#: includes/ComfortSmtpAdmin.php:1147
 #, php-format
 msgid ""
 "<a target=\"_blank\" href=\"%s\">CBX Email SMTP & Logger Pro Addon</a> has "
@@ -41,98 +41,90 @@ msgid ""
 msgstr ""
 
 #. translators:translators: %s: plugin setting url for licence
-#: includes/ComfortSmtpHooks.php:224
+#: includes/ComfortSmtpHooks.php:225
 #, php-format
 msgid ""
 "<strong>Note:</strong> Comfort Email SMTP, Logger & Email Api Pro Addon is "
 "custom plugin. This plugin can not be auto update from dashboard/plugin "
 "manager. For manual update please check <a target=\"_blank\" href=\"%1$s\">"
 "documentation</a>. <strong style=\"color: red;\">It seems this plugin's "
-"current version is older than 1.0.1. To get the latest pro addon features, "
-"this plugin needs to upgrade to 1.0.1 or later.</strong>"
+"current version is older than %2$s . To get the latest pro addon features, "
+"this plugin needs to upgrade to %2$s or later.</strong>"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:207
+#: includes/Helpers/ComfortSmtpHelpers.php:224
 msgid "Action"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:233
+#: includes/Helpers/ComfortSmtpHelpers.php:250
 msgid "Actions"
 msgstr ""
 
-#: includes/ComfortSmtpSettings.php:918
-#: includes/Helpers/ComfortSmtpHelpers.php:291
+#: includes/ComfortSmtpSettings.php:923
+#: includes/Helpers/ComfortSmtpHelpers.php:308
 msgid "Add New"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:288
+#: includes/Helpers/ComfortSmtpHelpers.php:305
 msgid "Api Status"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:276
+#: includes/ComfortSmtpAdmin.php:281
 msgid "Are you sure to remove all steps?"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:275
+#: includes/ComfortSmtpAdmin.php:280
 msgid "Are you sure to remove this step?"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:279
-#: includes/Helpers/ComfortSmtpHelpers.php:208
+#: includes/ComfortSmtpAdmin.php:284
+#: includes/Helpers/ComfortSmtpHelpers.php:225
 msgid "Are you sure?"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:217
+#: includes/Helpers/ComfortSmtpHelpers.php:234
 msgid "Attachment"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:314
+#: includes/Helpers/ComfortSmtpHelpers.php:331
 msgid "Attachments"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:305
+#: includes/ComfortSmtpAdmin.php:310
 msgid "Attention"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:225
+#: includes/Helpers/ComfortSmtpHelpers.php:242
 msgid "Back"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:203
+#: includes/Helpers/ComfortSmtpHelpers.php:220
 msgid "BCC"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:345
+#: includes/Helpers/ComfortSmtpHelpers.php:362
 msgid "Body"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:289 includes/ComfortSmtpAdmin.php:310
+#: includes/ComfortSmtpAdmin.php:294 includes/ComfortSmtpAdmin.php:315
 msgid "Cancel"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:294
+#: includes/ComfortSmtpAdmin.php:299
 msgid "cancel and close"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:202
+#: includes/Helpers/ComfortSmtpHelpers.php:219
 msgid "CC"
 msgstr ""
 
-#: templates/admin/support.php:81
-msgid "Changelog Core Plugin"
-msgstr ""
-
-#: templates/admin/support.php:118
-msgid "Changelog Pro Addon"
-msgstr ""
-
-#: includes/Helpers/ComfortSmtpHelpers.php:371
-#: includes/Helpers/ComfortSmtpHelpers.php:948
+#: includes/Helpers/ComfortSmtpHelpers.php:388
+#: includes/Helpers/ComfortSmtpHelpers.php:965
 msgid "Check All"
 msgstr ""
 
 #. 1: Settings url 2. plugin url
-#: includes/ComfortSmtpAdmin.php:1076 includes/ComfortSmtpAdmin.php:1111
+#: includes/ComfortSmtpAdmin.php:1083 includes/ComfortSmtpAdmin.php:1118
 #, php-format
 msgid ""
 "Check Plugin <a href=\"%1$s\">Setting</a> and <a href=\"%2$s\" "
@@ -140,84 +132,84 @@ msgid ""
 "Documentation</a>"
 msgstr ""
 
-#: includes/ComfortSmtpSettings.php:801
+#: includes/ComfortSmtpSettings.php:806
 msgid "Choose Color"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:811
+#: includes/Helpers/ComfortSmtpHelpers.php:828
 msgid "Choose Custom Mailer"
 msgstr ""
 
-#: includes/ComfortSmtpSettings.php:770
+#: includes/ComfortSmtpSettings.php:775
 msgid "Choose File"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:903
+#: includes/Helpers/ComfortSmtpHelpers.php:920
 msgid "Choose SMTP Server"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:290
+#: includes/ComfortSmtpAdmin.php:295
 msgid "Clear"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:295
+#: includes/ComfortSmtpAdmin.php:300
 msgid "clear and close"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:186
+#: includes/Helpers/ComfortSmtpHelpers.php:203
 msgid "Click to clone"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:166
+#: includes/Helpers/ComfortSmtpHelpers.php:183
 msgid "Click to close"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:198
+#: includes/Helpers/ComfortSmtpHelpers.php:215
 msgid "Click to Configure"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:289
+#: includes/Helpers/ComfortSmtpHelpers.php:306
 msgid "Click to Copy"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:272
+#: includes/ComfortSmtpAdmin.php:277
 msgid "Click to copy"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:194
+#: includes/Helpers/ComfortSmtpHelpers.php:211
 msgid "Click to delete"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:190
+#: includes/Helpers/ComfortSmtpHelpers.php:207
 msgid "Click to edit"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:174
+#: includes/Helpers/ComfortSmtpHelpers.php:191
 msgid "Click to reset"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:170
+#: includes/Helpers/ComfortSmtpHelpers.php:187
 msgid "Click to search"
 msgstr ""
 
-#: includes/ComfortSmtpSettings.php:282
+#: includes/ComfortSmtpSettings.php:287
 msgid "Click to show hide"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:182
+#: includes/Helpers/ComfortSmtpHelpers.php:199
 msgid "Click to view"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:187
+#: includes/Helpers/ComfortSmtpHelpers.php:204
 msgid "Clone"
 msgstr ""
 
-#: includes/ComfortSmtp.php:91 includes/ComfortSmtpSettings.php:56
+#: includes/ComfortSmtp.php:95 includes/ComfortSmtpSettings.php:61
 msgid "Cloning is forbidden."
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:167
-#: includes/Helpers/ComfortSmtpHelpers.php:303
+#: includes/Helpers/ComfortSmtpHelpers.php:184
+#: includes/Helpers/ComfortSmtpHelpers.php:320
 msgid "Close"
 msgstr ""
 
@@ -225,393 +217,393 @@ msgstr ""
 msgid "Codeboxr"
 msgstr ""
 
-#: templates/admin/support.php:320
+#: templates/admin/support.php:285
 msgid "Codeboxr News Updates"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:296
+#: includes/ComfortSmtpAdmin.php:301
 msgid "color input field"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:284
+#: includes/ComfortSmtpAdmin.php:289
 msgid "color picker dialog"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:297
+#: includes/ComfortSmtpAdmin.php:302
 msgid "color selection area"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:286
+#: includes/ComfortSmtpAdmin.php:291
 msgid "color swatch"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:178
+#: includes/Helpers/ComfortSmtpHelpers.php:195
 msgid "Column Filter"
 msgstr ""
 
 #. Name of the plugin
-#: templates/admin/support.php:32
+#: templates/admin/support.php:35
 msgid "Comfort Email SMTP, Logger & Email Api"
 msgstr ""
 
-#: templates/admin/support.php:168
+#: templates/admin/support.php:180
 msgid "Comfort Email SMTP, Logger & Email Api Details"
 msgstr ""
 
 #. PHP Version
-#: includes/ComfortSmtp.php:121
+#: includes/ComfortSmtp.php:125
 #, php-format
 msgid ""
 "Comfort Email SMTP, Logger & Email Api requires at least PHP %s. Please "
 "upgrade PHP to run Comfort Email SMTP, Logger & Email Api."
 msgstr ""
 
-#: includes/Widgets/ComfortDashboardWidget.php:31
+#: includes/Widgets/ComfortDashboardWidget.php:33
 msgid "Comfort Email SMTP, Logger & Email Api: Latest Email Log"
 msgstr ""
 
 #. PHP Version
-#: cbxwpemaillogger.php:110
+#: cbxwpemaillogger.php:111
 #, php-format
 msgid "Comfort form plugin requires PHP %s or higher!"
 msgstr ""
 
 #. WordPress Version
-#: cbxwpemaillogger.php:102
+#: cbxwpemaillogger.php:103
 #, php-format
 msgid "Comfort form plugin requires WordPress %s or higher!"
 msgstr ""
 
-#: includes/Controllers/DashboardController.php:47
+#: includes/Controllers/DashboardController.php:52
 msgid "Comfort form setting options reset successfully"
 msgstr ""
 
-#: templates/admin/settings.php:40
+#: templates/admin/settings.php:42
 msgid "Comfort SMTP: Global Settings"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:199
+#: includes/Helpers/ComfortSmtpHelpers.php:216
 msgid "Configure"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:308
+#: includes/ComfortSmtpAdmin.php:313
 msgid "Confirmation"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:1249
+#: includes/Helpers/ComfortSmtpHelpers.php:1266
 msgid "Contact Form 7"
 msgstr ""
 
-#: templates/admin/support.php:276
-msgid "Contact Form(s)"
-msgstr ""
-
-#: includes/Helpers/ComfortSmtpHelpers.php:707
+#: includes/Helpers/ComfortSmtpHelpers.php:724
 msgid "Control Email logging, default is enabled on after plugin activated."
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:756
+#: includes/Helpers/ComfortSmtpHelpers.php:773
 msgid "Control Email Sending"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:757
+#: includes/Helpers/ComfortSmtpHelpers.php:774
 msgid ""
 "Control email sending, default is disabled on after plugin activated. "
 "<strong>If disabled, this plugin will not touch any email sending feature."
 "</strong>"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:271
-#: includes/Helpers/ComfortSmtpHelpers.php:238
+#: includes/ComfortSmtpAdmin.php:276
+#: includes/Helpers/ComfortSmtpHelpers.php:255
 msgid "Copied"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:273
+#: includes/ComfortSmtpAdmin.php:278
 msgid "Copied to clipboard"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:270
-#: includes/Helpers/ComfortSmtpHelpers.php:237
-#: includes/Helpers/ComfortSmtpHelpers.php:290
+#: includes/ComfortSmtpAdmin.php:275
+#: includes/Helpers/ComfortSmtpHelpers.php:254
+#: includes/Helpers/ComfortSmtpHelpers.php:307
 msgid "Copy"
 msgstr ""
 
-#: templates/admin/support.php:196
+#: templates/admin/support.php:87
+msgid "Core Plugin Changelog"
+msgstr ""
+
+#: templates/admin/support.php:208
 msgid "Core Plugin Support"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:224
+#: includes/Helpers/ComfortSmtpHelpers.php:241
 msgid "Created At"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:222
+#: includes/Helpers/ComfortSmtpHelpers.php:239
 msgid "Created By"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:404
+#: includes/Helpers/ComfortSmtpHelpers.php:421
 msgid "Created Date"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:797
+#: includes/Helpers/ComfortSmtpHelpers.php:814
 msgid "Custom Mailer(Choose from Email Sending Tab)"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:628
+#: includes/Helpers/ComfortSmtpHelpers.php:645
 msgid "Custom SMTP Host Server"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:307
-#: includes/Widgets/ComfortDashboardWidget.php:54
-#: includes/Widgets/ComfortDashboardWidget.php:120
+#: includes/Helpers/ComfortSmtpHelpers.php:324
+#: includes/Widgets/ComfortDashboardWidget.php:56
+#: includes/Widgets/ComfortDashboardWidget.php:122
 msgid "Date"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:319
+#: includes/Helpers/ComfortSmtpHelpers.php:336
 msgid "Date Range"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:305
+#: includes/Helpers/ComfortSmtpHelpers.php:322
 msgid "DateTime"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:792
+#: includes/Helpers/ComfortSmtpHelpers.php:809
 msgid "Default is wordpress default"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:195
-#: includes/Helpers/ComfortSmtpHelpers.php:210
-#: includes/Helpers/ComfortSmtpHelpers.php:215
+#: includes/Helpers/ComfortSmtpHelpers.php:212
+#: includes/Helpers/ComfortSmtpHelpers.php:227
+#: includes/Helpers/ComfortSmtpHelpers.php:232
 msgid "Delete"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:301
+#: includes/Helpers/ComfortSmtpHelpers.php:318
 msgid "Delete All"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:717
+#: includes/Helpers/ComfortSmtpHelpers.php:734
 msgid "Delete Old email logs"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:316
+#: includes/Helpers/ComfortSmtpHelpers.php:333
 msgid "Delete Old Log"
 msgstr ""
 
-#: includes/Controllers/LogController.php:293
+#: includes/Controllers/LogController.php:298
 msgid "Deleted Successfully"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:308
+#: includes/Helpers/ComfortSmtpHelpers.php:325
 msgid "Description"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:711
-#: includes/Helpers/ComfortSmtpHelpers.php:742
-#: includes/Helpers/ComfortSmtpHelpers.php:761
+#: includes/Helpers/ComfortSmtpHelpers.php:728
+#: includes/Helpers/ComfortSmtpHelpers.php:759
+#: includes/Helpers/ComfortSmtpHelpers.php:778
 msgid "Disable"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:1202 includes/ComfortSmtpAdmin.php:1203
+#: includes/ComfortSmtpAdmin.php:1199 includes/ComfortSmtpAdmin.php:1200
 msgid "Documentation"
 msgstr ""
 
-#: templates/admin/support.php:178
+#: templates/admin/support.php:190
 msgid "Documentation & User Guide"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:379
+#: includes/Helpers/ComfortSmtpHelpers.php:396
 msgid "Done"
 msgstr ""
 
-#: templates/admin/support.php:261
-msgid "Easy Digital Downloads"
-msgstr ""
-
-#: includes/ComfortSmtpSettings.php:660
-#: includes/Helpers/ComfortSmtpHelpers.php:191
-#: includes/Helpers/ComfortSmtpHelpers.php:295
+#: includes/ComfortSmtpSettings.php:665
+#: includes/Helpers/ComfortSmtpHelpers.php:208
+#: includes/Helpers/ComfortSmtpHelpers.php:312
 msgid "Edit"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:232
+#: includes/Helpers/ComfortSmtpHelpers.php:249
 msgid "Email"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:313
+#: includes/Helpers/ComfortSmtpHelpers.php:330
 msgid "Email Body"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:611
+#: includes/Helpers/ComfortSmtpHelpers.php:628
 msgid "Email Control"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:750
+#: includes/Helpers/ComfortSmtpHelpers.php:767
 msgid "Email Control Settings"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:607
+#: includes/Helpers/ComfortSmtpHelpers.php:624
 msgid "Email Log"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:700
-#: includes/Helpers/ComfortSmtpHelpers.php:706
+#: includes/Helpers/ComfortSmtpHelpers.php:717
+#: includes/Helpers/ComfortSmtpHelpers.php:723
 msgid "Email Log Control"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:29
+#: includes/ComfortSmtpAdmin.php:34
 msgid "Email log listing"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:74
+#: includes/ComfortSmtpAdmin.php:79
 msgid "Email Logs"
 msgstr ""
 
-#: includes/Controllers/LogController.php:520
+#: includes/Controllers/LogController.php:525
 msgid "Email Resend failed."
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:783
+#: includes/Helpers/ComfortSmtpHelpers.php:800
 msgid "Email Return path"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:615
+#: includes/Helpers/ComfortSmtpHelpers.php:632
 msgid "Email Sending"
 msgstr ""
 
-#: includes/Controllers/LogController.php:447
+#: includes/Controllers/LogController.php:452
 msgid "Email sent failed"
 msgstr ""
 
-#: includes/Controllers/LogController.php:429
+#: includes/Controllers/LogController.php:434
 msgid "Email sent failed."
 msgstr ""
 
-#: includes/Controllers/LogController.php:435
+#: includes/Controllers/LogController.php:440
 msgid "Email sent failed. Error:"
 msgstr ""
 
-#: includes/Controllers/LogController.php:514
+#: includes/Controllers/LogController.php:519
 msgid "Email sent successfully."
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:30
+#: includes/ComfortSmtpAdmin.php:35
 msgid "Email SMTP"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:318
+#: includes/Helpers/ComfortSmtpHelpers.php:335
 msgid "Email Template/Body Preview"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:48 includes/ComfortSmtpAdmin.php:49
-#: includes/Helpers/ComfortSmtpHelpers.php:341
+#: includes/ComfortSmtpAdmin.php:53 includes/ComfortSmtpAdmin.php:54
+#: includes/Helpers/ComfortSmtpHelpers.php:358
 msgid "Email Testing"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:791
+#: includes/Helpers/ComfortSmtpHelpers.php:808
 msgid "Emailer"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:710
-#: includes/Helpers/ComfortSmtpHelpers.php:741
-#: includes/Helpers/ComfortSmtpHelpers.php:760
+#: includes/Helpers/ComfortSmtpHelpers.php:727
+#: includes/Helpers/ComfortSmtpHelpers.php:758
+#: includes/Helpers/ComfortSmtpHelpers.php:777
 msgid "Enable"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:842
+#: includes/Helpers/ComfortSmtpHelpers.php:859
 msgid "Enable Service"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:306
+#: includes/ComfortSmtpAdmin.php:311
 msgid "Error"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:286
+#: includes/Helpers/ComfortSmtpHelpers.php:303
 msgid "Error message"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:204
+#: includes/Helpers/ComfortSmtpHelpers.php:221
 msgid "Export"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:280
-#: includes/Helpers/ComfortSmtpHelpers.php:1327
+#: includes/Helpers/ComfortSmtpHelpers.php:297
+#: includes/Helpers/ComfortSmtpHelpers.php:1344
 msgid "Failed"
 msgstr ""
 
-#: includes/Controllers/LogController.php:532
+#: includes/Controllers/LogController.php:537
 msgid "Failed to send or not enough access to send"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:346
+#: includes/Helpers/ComfortSmtpHelpers.php:363
 msgid "File"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:179
+#: includes/Helpers/ComfortSmtpHelpers.php:196
 msgid "Filter"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:276
+#: includes/Helpers/ComfortSmtpHelpers.php:293
 msgid "Filter By Email Source"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:420
+#: includes/Helpers/ComfortSmtpHelpers.php:437
 msgid "First"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:370
-#: includes/Helpers/ComfortSmtpHelpers.php:945
+#: includes/Helpers/ComfortSmtpHelpers.php:387
+#: includes/Helpers/ComfortSmtpHelpers.php:962
 msgid ""
 "Following option values created by this plugin(including addon) from "
 "WordPress core option table"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:408
+#: includes/ComfortSmtpAdmin.php:413
 msgid "Form reset setting html loaded successfully"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:431
+#: includes/ComfortSmtpAdmin.php:436
 msgid "Form setting options reset successfully"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:1193 includes/ComfortSmtpAdmin.php:1194
+#: includes/ComfortSmtpAdmin.php:1192 includes/ComfortSmtpAdmin.php:1193
 msgid "Free Support"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:283
+#: includes/Helpers/ComfortSmtpHelpers.php:300
 msgid "From"
 msgstr ""
 
-#: templates/admin/support.php:51
+#: templates/admin/support.php:54
 msgid "Get Free & Pro Addons"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:40 includes/ComfortSmtpAdmin.php:41
+#: includes/ComfortSmtpAdmin.php:45 includes/ComfortSmtpAdmin.php:46
 msgid "Global Setting"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:312 templates/admin/support.php:39
+#: includes/ComfortSmtpAdmin.php:317 templates/admin/support.php:42
 msgid "Global Settings"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:214
+#: includes/Helpers/ComfortSmtpHelpers.php:231
 msgid "Go to page "
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:114
-#: includes/Helpers/ComfortSmtpHelpers.php:132
+#: includes/Helpers/ComfortSmtpHelpers.php:131
+#: includes/Helpers/ComfortSmtpHelpers.php:149
 msgid "Guest"
 msgstr ""
 
-#: templates/admin/support.php:157
+#: templates/admin/support.php:169
 msgid "Help & Supports"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:65 includes/ComfortSmtpAdmin.php:66
+#: includes/ComfortSmtpAdmin.php:70 includes/ComfortSmtpAdmin.php:71
 msgid "Helps & Updates"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:1111
-#: includes/Helpers/ComfortSmtpHelpers.php:1112
+#: includes/Helpers/ComfortSmtpHelpers.php:1128
+#: includes/Helpers/ComfortSmtpHelpers.php:1129
 msgid "Helps And Updates"
+msgstr ""
+
+#: templates/admin/support.php:225
+msgid "HRM & ERP Solutions for WordPress "
 msgstr ""
 
 #. Author URI of the plugin
@@ -622,20 +614,20 @@ msgstr ""
 msgid "https://codeboxr.com/product/cbx-email-logger-for-wordpress/"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:298
+#: includes/ComfortSmtpAdmin.php:303
 msgid "hue selection slider"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:206
-#: includes/Helpers/ComfortSmtpHelpers.php:230
+#: includes/Helpers/ComfortSmtpHelpers.php:223
+#: includes/Helpers/ComfortSmtpHelpers.php:247
 msgid "ID"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:784
+#: includes/Helpers/ComfortSmtpHelpers.php:801
 msgid "If blank will ignore"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:738
+#: includes/Helpers/ComfortSmtpHelpers.php:755
 msgid ""
 "If enabled attachments will be stored. If log deleted attachments will be "
 "deleted from the stored location. Sometimes attachment are sent from "
@@ -644,7 +636,7 @@ msgid ""
 "attach email. This feature is default disabled."
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:718
+#: includes/Helpers/ComfortSmtpHelpers.php:735
 msgid ""
 "If enabled it will check everyday if there is any x days old emails. Number "
 "of days(x) is configured in next field. This plugin needs to deactivate and "
@@ -652,150 +644,150 @@ msgid ""
 msgstr ""
 
 #. 1: Success count 2. Fail count
-#: includes/Controllers/LogController.php:234
+#: includes/Controllers/LogController.php:239
 #, php-format
 msgid "Incomplete deletion. %1$d successfully and %2$d failed"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:303
+#: includes/ComfortSmtpAdmin.php:308
 msgid "Info"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:285
+#: includes/Helpers/ComfortSmtpHelpers.php:302
 msgid "IP address"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:293
+#: includes/Helpers/ComfortSmtpHelpers.php:310
 msgid "Label"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:423
+#: includes/Helpers/ComfortSmtpHelpers.php:440
 msgid "Last"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:768
-#: includes/Helpers/ComfortSmtpHelpers.php:776
+#: includes/Helpers/ComfortSmtpHelpers.php:785
+#: includes/Helpers/ComfortSmtpHelpers.php:793
 msgid "Leave blank/empty to use default"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:904
+#: includes/Helpers/ComfortSmtpHelpers.php:921
 msgid "List is showing only enabled servers"
 msgstr ""
 
-#: includes/Controllers/LogController.php:95
+#: includes/Controllers/LogController.php:100
 msgid "List of logs"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:307
+#: includes/ComfortSmtpAdmin.php:312
 msgid "Loading"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:419
+#: includes/Helpers/ComfortSmtpHelpers.php:436
 msgid "Loading..."
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:278
+#: includes/Helpers/ComfortSmtpHelpers.php:295
 msgid "Log ID"
 msgstr ""
 
-#: includes/Controllers/LogController.php:182
+#: includes/Controllers/LogController.php:187
 msgid "Log id is required."
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:310
-#: includes/Helpers/ComfortSmtpHelpers.php:1096
+#: includes/Helpers/ComfortSmtpHelpers.php:327
+#: includes/Helpers/ComfortSmtpHelpers.php:1113
 msgid "Log Manager"
 msgstr ""
 
-#: includes/Controllers/LogController.php:150
+#: includes/Controllers/LogController.php:155
 msgid "Log Not Found"
 msgstr ""
 
-#: includes/Controllers/LogController.php:102
+#: includes/Controllers/LogController.php:107
 msgid "Log table does not exist. Please check the database structure."
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:297
+#: includes/Helpers/ComfortSmtpHelpers.php:314
 msgid "Logs"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:819
+#: includes/Helpers/ComfortSmtpHelpers.php:836
 msgid "Mail Server Settings"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:287
+#: includes/Helpers/ComfortSmtpHelpers.php:304
 msgid "Mailer API"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:805
+#: includes/Helpers/ComfortSmtpHelpers.php:822
 msgid "Mailer Settings"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:1095
+#: includes/Helpers/ComfortSmtpHelpers.php:1112
 msgid "Manage Log"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:1103
+#: includes/Helpers/ComfortSmtpHelpers.php:1120
 msgid "Manage Settings"
 msgstr ""
 
-#: includes/Controllers/DashboardController.php:81
+#: includes/Controllers/DashboardController.php:86
 msgid "Migrated successfully"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:383
+#: includes/Helpers/ComfortSmtpHelpers.php:400
 msgid "Migration File Name"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:381
+#: includes/Helpers/ComfortSmtpHelpers.php:398
 msgid "Migration Files"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:315
+#: includes/Helpers/ComfortSmtpHelpers.php:332
 msgid "N\\A"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:231
-#: includes/Helpers/ComfortSmtpHelpers.php:292
+#: includes/Helpers/ComfortSmtpHelpers.php:248
+#: includes/Helpers/ComfortSmtpHelpers.php:309
 msgid "Name"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:380
+#: includes/Helpers/ComfortSmtpHelpers.php:397
 msgid "Need to migrate"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:1226
+#: includes/ComfortSmtpAdmin.php:1223
 msgid "New field added successfully"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:422
+#: includes/Helpers/ComfortSmtpHelpers.php:439
 msgid "Next"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:278
-#: includes/Helpers/ComfortSmtpHelpers.php:722
-#: includes/Helpers/ComfortSmtpHelpers.php:847
-#: includes/Helpers/ComfortSmtpHelpers.php:880
+#: includes/ComfortSmtpAdmin.php:283
+#: includes/Helpers/ComfortSmtpHelpers.php:739
+#: includes/Helpers/ComfortSmtpHelpers.php:864
+#: includes/Helpers/ComfortSmtpHelpers.php:897
 msgid "No"
 msgstr ""
 
-#: includes/Widgets/ComfortDashboardWidget.php:108
+#: includes/Widgets/ComfortDashboardWidget.php:110
 msgid "No email log found"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:311
+#: includes/Helpers/ComfortSmtpHelpers.php:328
 msgid "No log found"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:869
+#: includes/Helpers/ComfortSmtpHelpers.php:886
 msgid "None(Port: 25)"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:729
+#: includes/Helpers/ComfortSmtpHelpers.php:746
 msgid "Number of days"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:730
+#: includes/Helpers/ComfortSmtpHelpers.php:747
 msgid "Number of days email will be deleted as old based on email send date"
 msgstr ""
 
@@ -803,288 +795,292 @@ msgstr ""
 msgid "Number of items:"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:212
+#: includes/Helpers/ComfortSmtpHelpers.php:229
 msgid "of"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:309
+#: includes/ComfortSmtpAdmin.php:314
 msgid "OK"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:280
+#: includes/ComfortSmtpAdmin.php:285
 msgid "Once you delete, it's gone forever. You can not revert it back."
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:374
-#: includes/Helpers/ComfortSmtpHelpers.php:955
-#: includes/Helpers/ComfortSmtpHelpers.php:976
+#: includes/Helpers/ComfortSmtpHelpers.php:391
+#: includes/Helpers/ComfortSmtpHelpers.php:972
+#: includes/Helpers/ComfortSmtpHelpers.php:993
 msgid "Option ID"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:373
-#: includes/Helpers/ComfortSmtpHelpers.php:954
-#: includes/Helpers/ComfortSmtpHelpers.php:975
+#: includes/Helpers/ComfortSmtpHelpers.php:390
+#: includes/Helpers/ComfortSmtpHelpers.php:971
+#: includes/Helpers/ComfortSmtpHelpers.php:992
 msgid "Option Name"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:296
+#: includes/Helpers/ComfortSmtpHelpers.php:313
 msgid "Options"
 msgstr ""
 
-#: templates/admin/support.php:283
+#: templates/admin/support.php:250
 msgid "Other WordPress Plugins"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:767
+#: includes/Helpers/ComfortSmtpHelpers.php:784
 msgid "Override From Email"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:775
+#: includes/Helpers/ComfortSmtpHelpers.php:792
 msgid "Override From Name"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:281
+#: includes/Helpers/ComfortSmtpHelpers.php:298
 msgid "Owner"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:1329
+#: includes/Helpers/ComfortSmtpHelpers.php:1346
 msgid "Pending"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:309
+#: includes/Helpers/ComfortSmtpHelpers.php:326
 msgid "Placeholder"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:575
+#: includes/Helpers/ComfortSmtpHelpers.php:592
 msgid "Plain Text"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:257 includes/ComfortSmtpSettings.php:562
-#: includes/ComfortSmtpSettings.php:563 includes/ComfortSmtpSettings.php:671
+#: includes/ComfortSmtpAdmin.php:262 includes/ComfortSmtpSettings.php:567
+#: includes/ComfortSmtpSettings.php:568 includes/ComfortSmtpSettings.php:676
 msgid "Please Select"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:376
+#: includes/Helpers/ComfortSmtpHelpers.php:393
 msgid "Please select at least one option"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:219
+#: includes/Helpers/ComfortSmtpHelpers.php:236
 msgid "Posted"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:421
+#: includes/Helpers/ComfortSmtpHelpers.php:438
 msgid "Prev"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:317
+#: includes/Helpers/ComfortSmtpHelpers.php:334
 msgid "Preview"
 msgstr ""
 
-#: templates/admin/support.php:206
+#: templates/admin/support.php:127
+msgid "Pro Addon Changelog"
+msgstr ""
+
+#: templates/admin/support.php:218
 msgid "Pro Addon Support"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:284
+#: includes/Helpers/ComfortSmtpHelpers.php:301
 msgid "Reply To"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:253
+#: includes/ComfortSmtpAdmin.php:258
 msgid "Request failed, please reload the page."
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:279
+#: includes/Helpers/ComfortSmtpHelpers.php:296
 msgid "Resend"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:175
+#: includes/Helpers/ComfortSmtpHelpers.php:192
 msgid "Reset"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:375
+#: includes/Helpers/ComfortSmtpHelpers.php:392
 msgid "Reset Data"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:377
+#: includes/Helpers/ComfortSmtpHelpers.php:394
 msgid "Reset option data"
 msgstr ""
 
-#: templates/admin/support.php:186
+#: templates/admin/support.php:198
 msgid "Review & Rate Comfort Email SMTP, Logger & Email Api Plugin"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:1196 includes/ComfortSmtpAdmin.php:1197
+#: includes/ComfortSmtpAdmin.php:1195 includes/ComfortSmtpAdmin.php:1196
 msgid "Reviews"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:574
+#: includes/Helpers/ComfortSmtpHelpers.php:591
 msgid "Rich Html Email"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:213
+#: includes/Helpers/ComfortSmtpHelpers.php:230
 msgid "Row count "
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:382
+#: includes/Helpers/ComfortSmtpHelpers.php:399
 msgid "Run Migration"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:288
+#: includes/ComfortSmtpAdmin.php:293
 msgid "Save"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:293
+#: includes/ComfortSmtpAdmin.php:298
 msgid "save and close"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:737
+#: includes/Helpers/ComfortSmtpHelpers.php:754
 msgid "Save Attachment Files"
 msgstr ""
 
-#: includes/ComfortSmtpSettings.php:1192 templates/admin/settings.php:55
+#: includes/ComfortSmtpSettings.php:1197 templates/admin/settings.php:57
 msgid "Save Settings"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:171
-#: includes/Helpers/ComfortSmtpHelpers.php:300
+#: includes/Helpers/ComfortSmtpHelpers.php:188
+#: includes/Helpers/ComfortSmtpHelpers.php:317
 msgid "Search"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:260
+#: includes/ComfortSmtpAdmin.php:265
 msgid "Search here"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:258
+#: includes/ComfortSmtpAdmin.php:263
 msgid "Search..."
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:228
+#: includes/Helpers/ComfortSmtpHelpers.php:245
 msgid "Select Role"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:312
+#: includes/Helpers/ComfortSmtpHelpers.php:329
 msgid "Select status"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:299
+#: includes/ComfortSmtpAdmin.php:304
 msgid "selection slider"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:342
+#: includes/Helpers/ComfortSmtpHelpers.php:359
 msgid "Send"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:277
-#: includes/Helpers/ComfortSmtpHelpers.php:1328
+#: includes/Helpers/ComfortSmtpHelpers.php:294
+#: includes/Helpers/ComfortSmtpHelpers.php:1345
 msgid "Sent"
 msgstr ""
 
-#: includes/Controllers/LogController.php:369
+#: includes/Controllers/LogController.php:374
 msgid "Server error"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:1168
-#: includes/Helpers/ComfortSmtpHelpers.php:1104
+#: includes/ComfortSmtpAdmin.php:1167
+#: includes/Helpers/ComfortSmtpHelpers.php:1121
 msgid "Settings"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:378
+#: includes/Helpers/ComfortSmtpHelpers.php:395
 msgid "Show/Hide"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:211
+#: includes/Helpers/ComfortSmtpHelpers.php:228
 msgid "Showing "
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:876
+#: includes/Helpers/ComfortSmtpHelpers.php:893
 msgid "SMTP Authentication"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:852
+#: includes/Helpers/ComfortSmtpHelpers.php:869
 msgid "SMTP Host"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:825
+#: includes/Helpers/ComfortSmtpHelpers.php:842
 msgid "SMTP Host Servers"
 msgstr ""
 
 #. 1: index no 2. host name 3. port no
-#: includes/Helpers/ComfortSmtpHelpers.php:659
+#: includes/Helpers/ComfortSmtpHelpers.php:676
 #, php-format
 msgid "SMTP Host Servers #%1$d(%2$s, %3$s)"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:385
+#: includes/Helpers/ComfortSmtpHelpers.php:402
 msgid "Smtp Manager: Tools"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:893
+#: includes/Helpers/ComfortSmtpHelpers.php:910
 msgid "SMTP Password"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:858
+#: includes/Helpers/ComfortSmtpHelpers.php:875
 msgid "SMTP Port"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:865
+#: includes/Helpers/ComfortSmtpHelpers.php:882
 msgid "SMTP Secure"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:886
+#: includes/Helpers/ComfortSmtpHelpers.php:903
 msgid "SMTP Username"
 msgstr ""
 
-#: includes/Controllers/LogController.php:107
-#: includes/Controllers/LogController.php:113
+#: includes/Controllers/LogController.php:112
+#: includes/Controllers/LogController.php:118
 msgid "Something Went Wrong. Please try again later."
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:412 includes/ComfortSmtpAdmin.php:436
-#: includes/ComfortSmtpAdmin.php:1230
+#: includes/ComfortSmtpAdmin.php:417 includes/ComfortSmtpAdmin.php:441
+#: includes/ComfortSmtpAdmin.php:1227
 msgid "Sorry, you don't have enough permission"
 msgstr ""
 
-#: includes/Controllers/LogController.php:36
-#: includes/Controllers/LogController.php:141
-#: includes/Controllers/LogController.php:177
-#: includes/Controllers/LogController.php:282
+#: includes/Controllers/LogController.php:41
+#: includes/Controllers/LogController.php:146
+#: includes/Controllers/LogController.php:182
+#: includes/Controllers/LogController.php:287
 msgid "Sorry, you don't have enough permission to do this action"
 msgstr ""
 
-#: includes/Controllers/DashboardController.php:24
-#: includes/Controllers/DashboardController.php:74
+#: includes/Controllers/DashboardController.php:29
+#: includes/Controllers/DashboardController.php:79
 msgid "Sorry, you don't have enough permission!"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:870
+#: includes/Helpers/ComfortSmtpHelpers.php:887
 msgid "SSL(Port: 465)"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:216
-#: includes/Helpers/ComfortSmtpHelpers.php:384
+#: includes/Helpers/ComfortSmtpHelpers.php:233
+#: includes/Helpers/ComfortSmtpHelpers.php:401
 msgid "Status"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:299
-#: includes/Helpers/ComfortSmtpHelpers.php:344
-#: includes/Widgets/ComfortDashboardWidget.php:52
-#: includes/Widgets/ComfortDashboardWidget.php:118
+#: includes/Helpers/ComfortSmtpHelpers.php:316
+#: includes/Helpers/ComfortSmtpHelpers.php:361
+#: includes/Widgets/ComfortDashboardWidget.php:54
+#: includes/Widgets/ComfortDashboardWidget.php:120
 msgid "Subject"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:304
+#: includes/ComfortSmtpAdmin.php:309
 msgid "Success"
 msgstr ""
 
-#: templates/admin/settings.php:48
+#: templates/admin/settings.php:50
 msgid "Support & Docs"
 msgstr ""
 
-#: includes/Controllers/LogController.php:415
+#: includes/Controllers/LogController.php:420
 msgid "Test Email sent."
 msgstr ""
 
 #. 1: plugin version 2. codeboxr website url
-#: includes/ComfortSmtpAdmin.php:1070
+#: includes/ComfortSmtpAdmin.php:1077
 #, php-format
 msgid ""
 "Thanks for installing/deactivating <strong>CBX Email SMTP & Logger</strong> "
@@ -1092,65 +1088,61 @@ msgid ""
 msgstr ""
 
 #. 1: plugin version 2. team url
-#: includes/ComfortSmtpAdmin.php:1102
+#: includes/ComfortSmtpAdmin.php:1109
 #, php-format
 msgid ""
 "Thanks for upgrading <strong>CBX Email SMTP & Logger</strong> V%1$s - <a "
 "href=\"%2$s\" target=\"_blank\">Codeboxr Team</a>"
 msgstr ""
 
-#: templates/admin/support.php:214
-msgid "Third Party plugin Integration(Pro)"
-msgstr ""
-
 #. %s: Shortcode name
-#: includes/ComfortSmtpSettings.php:654
+#: includes/ComfortSmtpSettings.php:659
 #, php-format
 msgid "This page doesn't have shortcode %s"
 msgstr ""
 
 #. %s: Shortcode name
-#: includes/ComfortSmtpSettings.php:650
+#: includes/ComfortSmtpSettings.php:655
 #, php-format
 msgid "This page has shortcode %s"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:306
+#: includes/Helpers/ComfortSmtpHelpers.php:323
 msgid "Time"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:302
+#: includes/ComfortSmtpAdmin.php:307
 msgid "Tip"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:298
+#: includes/Helpers/ComfortSmtpHelpers.php:315
 msgid "Title"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:871
+#: includes/Helpers/ComfortSmtpHelpers.php:888
 msgid "TLS(Port: 465)"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:282
-#: includes/Helpers/ComfortSmtpHelpers.php:343
-#: includes/Widgets/ComfortDashboardWidget.php:53
-#: includes/Widgets/ComfortDashboardWidget.php:119
+#: includes/Helpers/ComfortSmtpHelpers.php:299
+#: includes/Helpers/ComfortSmtpHelpers.php:360
+#: includes/Widgets/ComfortDashboardWidget.php:55
+#: includes/Widgets/ComfortDashboardWidget.php:121
 msgid "To"
 msgstr ""
 
-#: includes/ComfortSmtpSettings.php:1171
+#: includes/ComfortSmtpSettings.php:1176
 msgid "Toggle All Sections"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:285
+#: includes/ComfortSmtpAdmin.php:290
 msgid "toggle color picker dialog"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:57 includes/ComfortSmtpAdmin.php:58
+#: includes/ComfortSmtpAdmin.php:62 includes/ComfortSmtpAdmin.php:63
 msgid "Tools"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:205
+#: includes/Helpers/ComfortSmtpHelpers.php:222
 msgid "Total"
 msgstr ""
 
@@ -1158,69 +1150,69 @@ msgstr ""
 msgid "Try Pro"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:1205 includes/ComfortSmtpAdmin.php:1206
+#: includes/ComfortSmtpAdmin.php:1202 includes/ComfortSmtpAdmin.php:1203
 msgid "Try Pro Addon"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:304
+#: includes/Helpers/ComfortSmtpHelpers.php:321
 msgid "Type"
 msgstr ""
 
-#: includes/Controllers/DashboardController.php:20
-#: includes/Controllers/DashboardController.php:70
-#: includes/Controllers/LogController.php:172
-#: includes/Controllers/LogController.php:318
+#: includes/Controllers/DashboardController.php:25
+#: includes/Controllers/DashboardController.php:75
+#: includes/Controllers/LogController.php:177
+#: includes/Controllers/LogController.php:323
 msgid "Unauthorized"
 msgstr ""
 
-#: includes/Controllers/LogController.php:31
-#: includes/Controllers/LogController.php:136
-#: includes/Controllers/LogController.php:277
+#: includes/Controllers/LogController.php:36
+#: includes/Controllers/LogController.php:141
+#: includes/Controllers/LogController.php:282
 msgid "Unauthorized request"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:372
-#: includes/Helpers/ComfortSmtpHelpers.php:949
+#: includes/Helpers/ComfortSmtpHelpers.php:389
+#: includes/Helpers/ComfortSmtpHelpers.php:966
 msgid "Uncheck All"
 msgstr ""
 
-#: includes/ComfortSmtp.php:100 includes/ComfortSmtpSettings.php:65
+#: includes/ComfortSmtp.php:104 includes/ComfortSmtpSettings.php:70
 msgid "Unserializing instances of this class is forbidden."
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:302
+#: includes/Helpers/ComfortSmtpHelpers.php:319
 msgid "Update"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:220
+#: includes/Helpers/ComfortSmtpHelpers.php:237
 msgid "Updated"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:223
+#: includes/Helpers/ComfortSmtpHelpers.php:240
 msgid "Updated At"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:221
+#: includes/Helpers/ComfortSmtpHelpers.php:238
 msgid "Updated By"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:405
+#: includes/Helpers/ComfortSmtpHelpers.php:422
 msgid "Updated Date"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:218
+#: includes/Helpers/ComfortSmtpHelpers.php:235
 msgid "Upload"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:287
+#: includes/ComfortSmtpAdmin.php:292
 msgid "use previous color"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:226
+#: includes/Helpers/ComfortSmtpHelpers.php:243
 msgid "User List"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:294
+#: includes/Helpers/ComfortSmtpHelpers.php:311
 msgid "Value"
 msgstr ""
 
@@ -1229,42 +1221,34 @@ msgid ""
 "Various SMTP protocol, Logs email, tracks sent or failed status and more."
 msgstr ""
 
-#: includes/ComfortSmtpSettings.php:664
-#: includes/Helpers/ComfortSmtpHelpers.php:183
+#: includes/ComfortSmtpSettings.php:669
+#: includes/Helpers/ComfortSmtpHelpers.php:200
 msgid "View"
 msgstr ""
 
-#: includes/Widgets/ComfortDashboardWidget.php:126
+#: includes/Widgets/ComfortDashboardWidget.php:128
 msgid "View All"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:1167
+#: includes/ComfortSmtpAdmin.php:1166
 msgid "View settings"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:259
+#: includes/ComfortSmtpAdmin.php:264
 msgid "Window Title"
 msgstr ""
 
-#: templates/admin/support.php:246
-msgid "WooCommerce"
-msgstr ""
-
-#: includes/Helpers/ComfortSmtpHelpers.php:796
+#: includes/Helpers/ComfortSmtpHelpers.php:813
 msgid "WordPress Default"
 msgstr ""
 
-#: templates/admin/support.php:231
-msgid "WPForms"
-msgstr ""
-
-#: includes/ComfortSmtpAdmin.php:277
-#: includes/Helpers/ComfortSmtpHelpers.php:721
-#: includes/Helpers/ComfortSmtpHelpers.php:846
-#: includes/Helpers/ComfortSmtpHelpers.php:881
+#: includes/ComfortSmtpAdmin.php:282
+#: includes/Helpers/ComfortSmtpHelpers.php:738
+#: includes/Helpers/ComfortSmtpHelpers.php:863
+#: includes/Helpers/ComfortSmtpHelpers.php:898
 msgid "Yes"
 msgstr ""
 
-#: includes/Helpers/ComfortSmtpHelpers.php:209
+#: includes/Helpers/ComfortSmtpHelpers.php:226
 msgid "You want to delete this."
 msgstr ""

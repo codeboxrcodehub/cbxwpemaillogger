@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Validation;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Validation;
 
 interface UncompromisedVerifier
 {

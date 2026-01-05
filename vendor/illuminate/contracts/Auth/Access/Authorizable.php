@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Auth\Access;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Auth\Access;
 
 interface Authorizable
 {

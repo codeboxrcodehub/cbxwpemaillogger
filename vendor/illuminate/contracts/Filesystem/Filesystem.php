@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Filesystem;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Filesystem;
 
 interface Filesystem
 {
@@ -10,14 +10,12 @@ interface Filesystem
      * @var string
      */
     const VISIBILITY_PUBLIC = 'public';
-
     /**
      * The private visibility setting.
      *
      * @var string
      */
     const VISIBILITY_PRIVATE = 'private';
-
     /**
      * Determine if a file exists.
      *
@@ -25,7 +23,6 @@ interface Filesystem
      * @return bool
      */
     public function exists($path);
-
     /**
      * Get the contents of a file.
      *
@@ -35,7 +32,6 @@ interface Filesystem
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function get($path);
-
     /**
      * Get a resource to read the file.
      *
@@ -45,7 +41,6 @@ interface Filesystem
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function readStream($path);
-
     /**
      * Write the contents of a file.
      *
@@ -55,7 +50,6 @@ interface Filesystem
      * @return bool
      */
     public function put($path, $contents, $options = []);
-
     /**
      * Write a new file using a stream.
      *
@@ -68,7 +62,6 @@ interface Filesystem
      * @throws \Illuminate\Contracts\Filesystem\FileExistsException
      */
     public function writeStream($path, $resource, array $options = []);
-
     /**
      * Get the visibility for the given path.
      *
@@ -76,7 +69,6 @@ interface Filesystem
      * @return string
      */
     public function getVisibility($path);
-
     /**
      * Set the visibility for the given path.
      *
@@ -85,7 +77,6 @@ interface Filesystem
      * @return bool
      */
     public function setVisibility($path, $visibility);
-
     /**
      * Prepend to a file.
      *
@@ -94,7 +85,6 @@ interface Filesystem
      * @return bool
      */
     public function prepend($path, $data);
-
     /**
      * Append to a file.
      *
@@ -103,7 +93,6 @@ interface Filesystem
      * @return bool
      */
     public function append($path, $data);
-
     /**
      * Delete the file at a given path.
      *
@@ -111,7 +100,6 @@ interface Filesystem
      * @return bool
      */
     public function delete($paths);
-
     /**
      * Copy a file to a new location.
      *
@@ -120,7 +108,6 @@ interface Filesystem
      * @return bool
      */
     public function copy($from, $to);
-
     /**
      * Move a file to a new location.
      *
@@ -129,7 +116,6 @@ interface Filesystem
      * @return bool
      */
     public function move($from, $to);
-
     /**
      * Get the file size of a given file.
      *
@@ -137,7 +123,6 @@ interface Filesystem
      * @return int
      */
     public function size($path);
-
     /**
      * Get the file's last modification time.
      *
@@ -145,7 +130,6 @@ interface Filesystem
      * @return int
      */
     public function lastModified($path);
-
     /**
      * Get an array of all files in a directory.
      *
@@ -153,8 +137,7 @@ interface Filesystem
      * @param  bool  $recursive
      * @return array
      */
-    public function files($directory = null, $recursive = false);
-
+    public function files($directory = null, $recursive = \false);
     /**
      * Get all of the files from the given directory (recursive).
      *
@@ -162,7 +145,6 @@ interface Filesystem
      * @return array
      */
     public function allFiles($directory = null);
-
     /**
      * Get all of the directories within a given directory.
      *
@@ -170,8 +152,7 @@ interface Filesystem
      * @param  bool  $recursive
      * @return array
      */
-    public function directories($directory = null, $recursive = false);
-
+    public function directories($directory = null, $recursive = \false);
     /**
      * Get all (recursive) of the directories within a given directory.
      *
@@ -179,7 +160,6 @@ interface Filesystem
      * @return array
      */
     public function allDirectories($directory = null);
-
     /**
      * Create a directory.
      *
@@ -187,7 +167,6 @@ interface Filesystem
      * @return bool
      */
     public function makeDirectory($path);
-
     /**
      * Recursively delete a directory.
      *

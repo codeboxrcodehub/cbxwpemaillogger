@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Schema;
+namespace ComfortSmtpScoped\Illuminate\Database\Schema;
 
-use Illuminate\Support\Fluent;
-
+use ComfortSmtpScoped\Illuminate\Support\Fluent;
 /**
  * @method ForeignKeyDefinition deferrable(bool $value = true) Set the foreign key as deferrable (PostgreSQL)
  * @method ForeignKeyDefinition initiallyImmediate(bool $value = true) Set the default time to check the constraint (PostgreSQL)
@@ -23,7 +22,6 @@ class ForeignKeyDefinition extends Fluent
     {
         return $this->onUpdate('cascade');
     }
-
     /**
      * Indicate that updates should be restricted.
      *
@@ -33,7 +31,6 @@ class ForeignKeyDefinition extends Fluent
     {
         return $this->onUpdate('restrict');
     }
-
     /**
      * Indicate that deletes should cascade.
      *
@@ -43,7 +40,6 @@ class ForeignKeyDefinition extends Fluent
     {
         return $this->onDelete('cascade');
     }
-
     /**
      * Indicate that deletes should be restricted.
      *
@@ -53,7 +49,6 @@ class ForeignKeyDefinition extends Fluent
     {
         return $this->onDelete('restrict');
     }
-
     /**
      * Indicate that deletes should set the foreign key value to null.
      *

@@ -8,8 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Carbon\Traits;
+namespace ComfortSmtpScoped\Carbon\Traits;
 
 /**
  * Trait MagicParameter.
@@ -23,11 +22,9 @@ trait MagicParameter
         if (\array_key_exists($index, $parameters)) {
             return $parameters[$index];
         }
-
         if (\array_key_exists($key, $parameters)) {
             return $parameters[$key];
         }
-
         return $default;
     }
 }

@@ -84,10 +84,21 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                 <div class="cbx-backend-card dashboard-changelog">
                     <div class="header">
                         <div class="text">
-                            <h2><?php esc_html_e( 'Changelog Core Plugin', 'cbxwpemaillogger' ); ?></h2>
+                            <h2><?php esc_html_e( 'Core Plugin Changelog', 'cbxwpemaillogger' ); ?></h2>
                         </div>
                     </div>
                     <div class="content">
+                        <div class="cbx-backend-settings-row">
+                            <p>
+                                Version - 2.0.11
+                            </p>
+                            <ul>
+                                <li>[updated] WordPress Core 6.9 Compatible</li>
+                                <li>[updated] Plugin Check 1.8.0 Compatible</li>
+                                <li>[updated] Pro addon V1.0.8 released</li>
+                                <li>[updated] Misc changes</li>
+                            </ul>
+                        </div>
                         <div class="cbx-backend-settings-row">
                             <p>
                                 Version - 2.0.10
@@ -108,24 +119,26 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                                 <li>[fixed] [fixed] Fixed method callback for 'custom_robots_txt'</li>
                             </ul>
                         </div>
-                        <div class="cbx-backend-settings-row">
-                            <p>
-                                Version - 2.0.8
-                            </p>
-                            <ul>
-                                <li>[updated] PHP version compatibility check</li>
-                                <li>[new] Pro addon V1.0.6 released</li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
                 <div class="cbx-backend-card dashboard-changelog">
                     <div class="header">
                         <div class="text">
-                            <h2><?php esc_html_e( 'Changelog Pro Addon', 'cbxwpemaillogger' ); ?></h2>
+                            <h2><?php esc_html_e( 'Pro Addon Changelog', 'cbxwpemaillogger' ); ?></h2>
                         </div>
                     </div>
                     <div class="content">
+                        <div class="cbx-backend-settings-row">
+                            <p>
+                                Version - 1.0.8
+                            </p>
+                            <ul>
+                                <li>[new] Auto update/dashboard plugin update implemented(need licence key)</li>
+                                <li>[updated] Plugin Check 1.8.0 Compatible</li>
+                                <li>[updated] Core plugin 2.0.11 released</li>
+                                <li>[updated] Misc changes</li>
+                            </ul>
+                        </div>
                         <div class="cbx-backend-settings-row">
                             <p>
                                 Version - 1.0.7
@@ -144,15 +157,6 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                             <ul>
                                 <li>[updated] PHP version compatibility check</li>
                                 <li>[new] Core plugin V2.0.8 released</li>
-                            </ul>
-                        </div>
-                        <div class="cbx-backend-settings-row">
-                            <p>
-                                Version - 1.0.5
-                            </p>
-                            <ul>
-                                <li>[updated] WordPress Core V6.8 compatible</li>
-                                <li>[updated] Core plugin V2.0.7 released</li>
                             </ul>
                         </div>
                     </div>
@@ -218,7 +222,7 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                 <div class="cbx-backend-card dashboard-hrm-erp">
                     <div class="header">
                         <div class="text">
-                            <h2><?php esc_html_e( 'New Plugins: HRM & ERP ', 'cbxwpemaillogger' ); ?></h2>
+                            <h2><?php esc_html_e( 'HRM & ERP Solutions for WordPress ', 'cbxwpemaillogger' ); ?></h2>
                         </div>
                     </div>
                     <div class="content">
@@ -252,15 +256,13 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                                 'https://codeboxr.com/product/cbx-wordpress-bookmark/'                                => 'CBX Bookmark & Favorite',
                                 'https://codeboxr.com/product/cbx-changelog-for-wordpress/'                           => 'CBX Changelog',
                                 'https://codeboxr.com/product/cbx-tour-user-walkthroughs-guided-tours-for-wordpress/' => 'CBX Tour – User Walkthroughs/Guided Tours',
-                                //'https://codeboxr.com/product/cbx-currency-converter-for-wordpress/'                  => 'CBX Currency Converter',
-                            //'https://codeboxr.com/product/cbx-email-logger-for-wordpress/'                        => 'CBX Email SMTP & Logger',
                                 'https://codeboxr.com/product/cbx-petition-for-wordpress/'                            => 'CBX Petition',
-                            //'https://codeboxr.com/product/cbx-accounting/'                                        => 'CBX Accounting',
                                 'https://codeboxr.com/product/cbx-poll-for-wordpress/'                                => 'CBX Poll',
-                                //'https://codeboxr.com/product/show-next-previous-article-for-wordpress'               => 'CBX Next Previous Article ',
                                 'https://codeboxr.com/product/cbx-multi-criteria-rating-review-for-wordpress/'        => 'CBX Multi Criteria Rating & Review',
+                                'https://codeboxr.com/product/cbx-google-map-for-wordpress/'                          => 'CBX Map for Google Map & OpenStreetMap',
                                 'https://codeboxr.com/product/cbx-user-online-for-wordpress/'                         => 'CBX User Online & Last Login',
-                                //'https://codeboxr.com/product/woocommerce-product-dropdown-field-for-contact-form7/'  => 'Woocommerce Product Dropdown field for Contact Form7',
+                                'https://codeboxr.com/product/comfort-restaurant-booking-for-wordpress/'              => 'Comfort Restaurant Booking',
+                                'https://codeboxr.com/product/cbx-single-criteria-rating-review-for-wordpress/'       => 'CBX 5 Star Rating & Review',
                         ];
 
                         foreach ( $top_plugins as $link => $title ) {

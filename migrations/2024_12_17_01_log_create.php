@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Database\Capsule\Manager as Capsule;
+use ComfortSmtpScoped\Illuminate\Database\Capsule\Manager as Capsule;
 
 if ( ! class_exists( 'ComfortsmtpCreateLogTable' ) ) {
 	/**

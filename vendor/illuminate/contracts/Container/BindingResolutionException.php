@@ -1,10 +1,9 @@
 <?php
 
-namespace Illuminate\Contracts\Container;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Container;
 
 use Exception;
-use Psr\Container\ContainerExceptionInterface;
-
+use ComfortSmtpScoped\Psr\Container\ContainerExceptionInterface;
 class BindingResolutionException extends Exception implements ContainerExceptionInterface
 {
     //

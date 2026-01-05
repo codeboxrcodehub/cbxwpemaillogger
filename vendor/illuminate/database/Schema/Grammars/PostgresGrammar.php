@@ -1,10 +1,9 @@
 <?php
 
-namespace Illuminate\Database\Schema\Grammars;
+namespace ComfortSmtpScoped\Illuminate\Database\Schema\Grammars;
 
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Fluent;
-
+use ComfortSmtpScoped\Illuminate\Database\Schema\Blueprint;
+use ComfortSmtpScoped\Illuminate\Support\Fluent;
 class PostgresGrammar extends Grammar
 {
     /**
@@ -12,29 +11,25 @@ class PostgresGrammar extends Grammar
      *
      * @var bool
      */
-    protected $transactions = true;
-
+    protected $transactions = \true;
     /**
      * The possible column modifiers.
      *
      * @var string[]
      */
     protected $modifiers = ['Collate', 'Increment', 'Nullable', 'Default', 'VirtualAs', 'StoredAs'];
-
     /**
      * The columns available as serials.
      *
      * @var string[]
      */
     protected $serials = ['bigInteger', 'integer', 'mediumInteger', 'smallInteger', 'tinyInteger'];
-
     /**
      * The commands to be executed outside of create or alter command.
      *
      * @var string[]
      */
     protected $fluentCommands = ['Comment'];
-
     /**
      * Compile a create database command.
      *
@@ -44,13 +39,8 @@ class PostgresGrammar extends Grammar
      */
     public function compileCreateDatabase($name, $connection)
     {
-        return sprintf(
-            'create database %s encoding %s',
-            $this->wrapValue($name),
-            $this->wrapValue($connection->getConfig('charset')),
-        );
+        return \sprintf('create database %s encoding %s', $this->wrapValue($name), $this->wrapValue($connection->getConfig('charset')));
     }
-
     /**
      * Compile a drop database if exists command.
      *
@@ -59,12 +49,8 @@ class PostgresGrammar extends Grammar
      */
     public function compileDropDatabaseIfExists($name)
     {
-        return sprintf(
-            'drop database if exists %s',
-            $this->wrapValue($name)
-        );
+        return \sprintf('drop database if exists %s', $this->wrapValue($name));
     }
-
     /**
      * Compile the query to determine if a table exists.
      *
@@ -74,7 +60,6 @@ class PostgresGrammar extends Grammar
     {
         return "select * from information_schema.tables where table_schema = ? and table_name = ? and table_type = 'BASE TABLE'";
     }
-
     /**
      * Compile the query to determine the list of columns.
      *
@@ -84,7 +69,6 @@ class PostgresGrammar extends Grammar
     {
         return 'select column_name from information_schema.columns where table_schema = ? and table_name = ?';
     }
-
     /**
      * Compile a create table command.
      *
@@ -94,13 +78,8 @@ class PostgresGrammar extends Grammar
      */
     public function compileCreate(Blueprint $blueprint, Fluent $command)
     {
-        return array_values(array_filter(array_merge([sprintf('%s table %s (%s)',
-            $blueprint->temporary ? 'create temporary' : 'create',
-            $this->wrapTable($blueprint),
-            implode(', ', $this->getColumns($blueprint))
-        )], $this->compileAutoIncrementStartingValues($blueprint))));
+        return \array_values(\array_filter(\array_merge([\sprintf('%s table %s (%s)', $blueprint->temporary ? 'create temporary' : 'create', $this->wrapTable($blueprint), \implode(', ', $this->getColumns($blueprint)))], $this->compileAutoIncrementStartingValues($blueprint))));
     }
-
     /**
      * Compile a column addition command.
      *
@@ -110,12 +89,8 @@ class PostgresGrammar extends Grammar
      */
     public function compileAdd(Blueprint $blueprint, Fluent $command)
     {
-        return array_values(array_filter(array_merge([sprintf('alter table %s %s',
-            $this->wrapTable($blueprint),
-            implode(', ', $this->prefixArray('add column', $this->getColumns($blueprint)))
-        )], $this->compileAutoIncrementStartingValues($blueprint))));
+        return \array_values(\array_filter(\array_merge([\sprintf('alter table %s %s', $this->wrapTable($blueprint), \implode(', ', $this->prefixArray('add column', $this->getColumns($blueprint))))], $this->compileAutoIncrementStartingValues($blueprint))));
     }
-
     /**
      * Compile the auto-incrementing column starting values.
      *
@@ -124,11 +99,10 @@ class PostgresGrammar extends Grammar
      */
     public function compileAutoIncrementStartingValues(Blueprint $blueprint)
     {
-        return collect($blueprint->autoIncrementingStartingValues())->map(function ($value, $column) use ($blueprint) {
-            return 'alter sequence '.$blueprint->getTable().'_'.$column.'_seq restart with '.$value;
+        return collect($blueprint->autoIncrementingStartingValues())->map(function ($value, $column) use($blueprint) {
+            return 'alter sequence ' . $blueprint->getTable() . '_' . $column . '_seq restart with ' . $value;
         })->all();
     }
-
     /**
      * Compile a primary key command.
      *
@@ -139,10 +113,8 @@ class PostgresGrammar extends Grammar
     public function compilePrimary(Blueprint $blueprint, Fluent $command)
     {
         $columns = $this->columnize($command->columns);
-
-        return 'alter table '.$this->wrapTable($blueprint)." add primary key ({$columns})";
+        return 'alter table ' . $this->wrapTable($blueprint) . " add primary key ({$columns})";
     }
-
     /**
      * Compile a unique key command.
      *
@@ -152,13 +124,8 @@ class PostgresGrammar extends Grammar
      */
     public function compileUnique(Blueprint $blueprint, Fluent $command)
     {
-        return sprintf('alter table %s add constraint %s unique (%s)',
-            $this->wrapTable($blueprint),
-            $this->wrap($command->index),
-            $this->columnize($command->columns)
-        );
+        return \sprintf('alter table %s add constraint %s unique (%s)', $this->wrapTable($blueprint), $this->wrap($command->index), $this->columnize($command->columns));
     }
-
     /**
      * Compile a plain index key command.
      *
@@ -168,14 +135,8 @@ class PostgresGrammar extends Grammar
      */
     public function compileIndex(Blueprint $blueprint, Fluent $command)
     {
-        return sprintf('create index %s on %s%s (%s)',
-            $this->wrap($command->index),
-            $this->wrapTable($blueprint),
-            $command->algorithm ? ' using '.$command->algorithm : '',
-            $this->columnize($command->columns)
-        );
+        return \sprintf('create index %s on %s%s (%s)', $this->wrap($command->index), $this->wrapTable($blueprint), $command->algorithm ? ' using ' . $command->algorithm : '', $this->columnize($command->columns));
     }
-
     /**
      * Compile a fulltext index key command.
      *
@@ -188,18 +149,11 @@ class PostgresGrammar extends Grammar
     public function compileFulltext(Blueprint $blueprint, Fluent $command)
     {
         $language = $command->language ?: 'english';
-
-        $columns = array_map(function ($column) use ($language) {
+        $columns = \array_map(function ($column) use($language) {
             return "to_tsvector({$this->quoteString($language)}, {$this->wrap($column)})";
         }, $command->columns);
-
-        return sprintf('create index %s on %s using gin ((%s))',
-            $this->wrap($command->index),
-            $this->wrapTable($blueprint),
-            implode(' || ', $columns)
-        );
+        return \sprintf('create index %s on %s using gin ((%s))', $this->wrap($command->index), $this->wrapTable($blueprint), \implode(' || ', $columns));
     }
-
     /**
      * Compile a spatial index key command.
      *
@@ -210,10 +164,8 @@ class PostgresGrammar extends Grammar
     public function compileSpatialIndex(Blueprint $blueprint, Fluent $command)
     {
         $command->algorithm = 'gist';
-
         return $this->compileIndex($blueprint, $command);
     }
-
     /**
      * Compile a foreign key command.
      *
@@ -224,22 +176,17 @@ class PostgresGrammar extends Grammar
     public function compileForeign(Blueprint $blueprint, Fluent $command)
     {
         $sql = parent::compileForeign($blueprint, $command);
-
-        if (! is_null($command->deferrable)) {
+        if (!\is_null($command->deferrable)) {
             $sql .= $command->deferrable ? ' deferrable' : ' not deferrable';
         }
-
-        if ($command->deferrable && ! is_null($command->initiallyImmediate)) {
+        if ($command->deferrable && !\is_null($command->initiallyImmediate)) {
             $sql .= $command->initiallyImmediate ? ' initially immediate' : ' initially deferred';
         }
-
-        if (! is_null($command->notValid)) {
+        if (!\is_null($command->notValid)) {
             $sql .= ' not valid';
         }
-
         return $sql;
     }
-
     /**
      * Compile a drop table command.
      *
@@ -249,9 +196,8 @@ class PostgresGrammar extends Grammar
      */
     public function compileDrop(Blueprint $blueprint, Fluent $command)
     {
-        return 'drop table '.$this->wrapTable($blueprint);
+        return 'drop table ' . $this->wrapTable($blueprint);
     }
-
     /**
      * Compile a drop table (if exists) command.
      *
@@ -261,9 +207,8 @@ class PostgresGrammar extends Grammar
      */
     public function compileDropIfExists(Blueprint $blueprint, Fluent $command)
     {
-        return 'drop table if exists '.$this->wrapTable($blueprint);
+        return 'drop table if exists ' . $this->wrapTable($blueprint);
     }
-
     /**
      * Compile the SQL needed to drop all tables.
      *
@@ -272,9 +217,8 @@ class PostgresGrammar extends Grammar
      */
     public function compileDropAllTables($tables)
     {
-        return 'drop table "'.implode('","', $tables).'" cascade';
+        return 'drop table "' . \implode('","', $tables) . '" cascade';
     }
-
     /**
      * Compile the SQL needed to drop all views.
      *
@@ -283,9 +227,8 @@ class PostgresGrammar extends Grammar
      */
     public function compileDropAllViews($views)
     {
-        return 'drop view "'.implode('","', $views).'" cascade';
+        return 'drop view "' . \implode('","', $views) . '" cascade';
     }
-
     /**
      * Compile the SQL needed to drop all types.
      *
@@ -294,9 +237,8 @@ class PostgresGrammar extends Grammar
      */
     public function compileDropAllTypes($types)
     {
-        return 'drop type "'.implode('","', $types).'" cascade';
+        return 'drop type "' . \implode('","', $types) . '" cascade';
     }
-
     /**
      * Compile the SQL needed to retrieve all table names.
      *
@@ -305,9 +247,8 @@ class PostgresGrammar extends Grammar
      */
     public function compileGetAllTables($schema)
     {
-        return "select tablename from pg_catalog.pg_tables where schemaname in ('".implode("','", (array) $schema)."')";
+        return "select tablename from pg_catalog.pg_tables where schemaname in ('" . \implode("','", (array) $schema) . "')";
     }
-
     /**
      * Compile the SQL needed to retrieve all view names.
      *
@@ -316,9 +257,8 @@ class PostgresGrammar extends Grammar
      */
     public function compileGetAllViews($schema)
     {
-        return "select viewname from pg_catalog.pg_views where schemaname in ('".implode("','", (array) $schema)."')";
+        return "select viewname from pg_catalog.pg_views where schemaname in ('" . \implode("','", (array) $schema) . "')";
     }
-
     /**
      * Compile the SQL needed to retrieve all type names.
      *
@@ -328,7 +268,6 @@ class PostgresGrammar extends Grammar
     {
         return 'select distinct pg_type.typname from pg_type inner join pg_enum on pg_enum.enumtypid = pg_type.oid';
     }
-
     /**
      * Compile a drop column command.
      *
@@ -339,10 +278,8 @@ class PostgresGrammar extends Grammar
     public function compileDropColumn(Blueprint $blueprint, Fluent $command)
     {
         $columns = $this->prefixArray('drop column', $this->wrapArray($command->columns));
-
-        return 'alter table '.$this->wrapTable($blueprint).' '.implode(', ', $columns);
+        return 'alter table ' . $this->wrapTable($blueprint) . ' ' . \implode(', ', $columns);
     }
-
     /**
      * Compile a drop primary key command.
      *
@@ -353,10 +290,8 @@ class PostgresGrammar extends Grammar
     public function compileDropPrimary(Blueprint $blueprint, Fluent $command)
     {
         $index = $this->wrap("{$blueprint->getTable()}_pkey");
-
-        return 'alter table '.$this->wrapTable($blueprint)." drop constraint {$index}";
+        return 'alter table ' . $this->wrapTable($blueprint) . " drop constraint {$index}";
     }
-
     /**
      * Compile a drop unique key command.
      *
@@ -367,10 +302,8 @@ class PostgresGrammar extends Grammar
     public function compileDropUnique(Blueprint $blueprint, Fluent $command)
     {
         $index = $this->wrap($command->index);
-
         return "alter table {$this->wrapTable($blueprint)} drop constraint {$index}";
     }
-
     /**
      * Compile a drop index command.
      *
@@ -382,7 +315,6 @@ class PostgresGrammar extends Grammar
     {
         return "drop index {$this->wrap($command->index)}";
     }
-
     /**
      * Compile a drop fulltext index command.
      *
@@ -394,7 +326,6 @@ class PostgresGrammar extends Grammar
     {
         return $this->compileDropIndex($blueprint, $command);
     }
-
     /**
      * Compile a drop spatial index command.
      *
@@ -406,7 +337,6 @@ class PostgresGrammar extends Grammar
     {
         return $this->compileDropIndex($blueprint, $command);
     }
-
     /**
      * Compile a drop foreign key command.
      *
@@ -417,10 +347,8 @@ class PostgresGrammar extends Grammar
     public function compileDropForeign(Blueprint $blueprint, Fluent $command)
     {
         $index = $this->wrap($command->index);
-
         return "alter table {$this->wrapTable($blueprint)} drop constraint {$index}";
     }
-
     /**
      * Compile a rename table command.
      *
@@ -431,10 +359,8 @@ class PostgresGrammar extends Grammar
     public function compileRename(Blueprint $blueprint, Fluent $command)
     {
         $from = $this->wrapTable($blueprint);
-
-        return "alter table {$from} rename to ".$this->wrapTable($command->to);
+        return "alter table {$from} rename to " . $this->wrapTable($command->to);
     }
-
     /**
      * Compile a rename index command.
      *
@@ -444,12 +370,8 @@ class PostgresGrammar extends Grammar
      */
     public function compileRenameIndex(Blueprint $blueprint, Fluent $command)
     {
-        return sprintf('alter index %s rename to %s',
-            $this->wrap($command->from),
-            $this->wrap($command->to)
-        );
+        return \sprintf('alter index %s rename to %s', $this->wrap($command->from), $this->wrap($command->to));
     }
-
     /**
      * Compile the command to enable foreign key constraints.
      *
@@ -459,7 +381,6 @@ class PostgresGrammar extends Grammar
     {
         return 'SET CONSTRAINTS ALL IMMEDIATE;';
     }
-
     /**
      * Compile the command to disable foreign key constraints.
      *
@@ -469,7 +390,6 @@ class PostgresGrammar extends Grammar
     {
         return 'SET CONSTRAINTS ALL DEFERRED;';
     }
-
     /**
      * Compile a comment command.
      *
@@ -479,13 +399,8 @@ class PostgresGrammar extends Grammar
      */
     public function compileComment(Blueprint $blueprint, Fluent $command)
     {
-        return sprintf('comment on column %s.%s is %s',
-            $this->wrapTable($blueprint),
-            $this->wrap($command->column->name),
-            "'".str_replace("'", "''", $command->value)."'"
-        );
+        return \sprintf('comment on column %s.%s is %s', $this->wrapTable($blueprint), $this->wrap($command->column->name), "'" . \str_replace("'", "''", $command->value) . "'");
     }
-
     /**
      * Create the column definition for a char type.
      *
@@ -496,7 +411,6 @@ class PostgresGrammar extends Grammar
     {
         return "char({$column->length})";
     }
-
     /**
      * Create the column definition for a string type.
      *
@@ -507,7 +421,6 @@ class PostgresGrammar extends Grammar
     {
         return "varchar({$column->length})";
     }
-
     /**
      * Create the column definition for a tiny text type.
      *
@@ -518,7 +431,6 @@ class PostgresGrammar extends Grammar
     {
         return 'varchar(255)';
     }
-
     /**
      * Create the column definition for a text type.
      *
@@ -529,7 +441,6 @@ class PostgresGrammar extends Grammar
     {
         return 'text';
     }
-
     /**
      * Create the column definition for a medium text type.
      *
@@ -540,7 +451,6 @@ class PostgresGrammar extends Grammar
     {
         return 'text';
     }
-
     /**
      * Create the column definition for a long text type.
      *
@@ -551,7 +461,6 @@ class PostgresGrammar extends Grammar
     {
         return 'text';
     }
-
     /**
      * Create the column definition for an integer type.
      *
@@ -562,7 +471,6 @@ class PostgresGrammar extends Grammar
     {
         return $this->generatableColumn('integer', $column);
     }
-
     /**
      * Create the column definition for a big integer type.
      *
@@ -573,7 +481,6 @@ class PostgresGrammar extends Grammar
     {
         return $this->generatableColumn('bigint', $column);
     }
-
     /**
      * Create the column definition for a medium integer type.
      *
@@ -584,7 +491,6 @@ class PostgresGrammar extends Grammar
     {
         return $this->generatableColumn('integer', $column);
     }
-
     /**
      * Create the column definition for a tiny integer type.
      *
@@ -595,7 +501,6 @@ class PostgresGrammar extends Grammar
     {
         return $this->generatableColumn('smallint', $column);
     }
-
     /**
      * Create the column definition for a small integer type.
      *
@@ -606,7 +511,6 @@ class PostgresGrammar extends Grammar
     {
         return $this->generatableColumn('smallint', $column);
     }
-
     /**
      * Create the column definition for a generatable column.
      *
@@ -616,32 +520,18 @@ class PostgresGrammar extends Grammar
      */
     protected function generatableColumn($type, Fluent $column)
     {
-        if (! $column->autoIncrement && is_null($column->generatedAs)) {
+        if (!$column->autoIncrement && \is_null($column->generatedAs)) {
             return $type;
         }
-
-        if ($column->autoIncrement && is_null($column->generatedAs)) {
-            return with([
-                'integer' => 'serial',
-                'bigint' => 'bigserial',
-                'smallint' => 'smallserial',
-            ])[$type];
+        if ($column->autoIncrement && \is_null($column->generatedAs)) {
+            return \with(['integer' => 'serial', 'bigint' => 'bigserial', 'smallint' => 'smallserial'])[$type];
         }
-
         $options = '';
-
-        if (! is_bool($column->generatedAs) && ! empty($column->generatedAs)) {
-            $options = sprintf(' (%s)', $column->generatedAs);
+        if (!\is_bool($column->generatedAs) && !empty($column->generatedAs)) {
+            $options = \sprintf(' (%s)', $column->generatedAs);
         }
-
-        return sprintf(
-            '%s generated %s as identity%s',
-            $type,
-            $column->always ? 'always' : 'by default',
-            $options
-        );
+        return \sprintf('%s generated %s as identity%s', $type, $column->always ? 'always' : 'by default', $options);
     }
-
     /**
      * Create the column definition for a float type.
      *
@@ -652,7 +542,6 @@ class PostgresGrammar extends Grammar
     {
         return $this->typeDouble($column);
     }
-
     /**
      * Create the column definition for a double type.
      *
@@ -663,7 +552,6 @@ class PostgresGrammar extends Grammar
     {
         return 'double precision';
     }
-
     /**
      * Create the column definition for a real type.
      *
@@ -674,7 +562,6 @@ class PostgresGrammar extends Grammar
     {
         return 'real';
     }
-
     /**
      * Create the column definition for a decimal type.
      *
@@ -685,7 +572,6 @@ class PostgresGrammar extends Grammar
     {
         return "decimal({$column->total}, {$column->places})";
     }
-
     /**
      * Create the column definition for a boolean type.
      *
@@ -696,7 +582,6 @@ class PostgresGrammar extends Grammar
     {
         return 'boolean';
     }
-
     /**
      * Create the column definition for an enumeration type.
      *
@@ -705,13 +590,8 @@ class PostgresGrammar extends Grammar
      */
     protected function typeEnum(Fluent $column)
     {
-        return sprintf(
-            'varchar(255) check ("%s" in (%s))',
-            $column->name,
-            $this->quoteString($column->allowed)
-        );
+        return \sprintf('varchar(255) check ("%s" in (%s))', $column->name, $this->quoteString($column->allowed));
     }
-
     /**
      * Create the column definition for a json type.
      *
@@ -722,7 +602,6 @@ class PostgresGrammar extends Grammar
     {
         return 'json';
     }
-
     /**
      * Create the column definition for a jsonb type.
      *
@@ -733,7 +612,6 @@ class PostgresGrammar extends Grammar
     {
         return 'jsonb';
     }
-
     /**
      * Create the column definition for a date type.
      *
@@ -744,7 +622,6 @@ class PostgresGrammar extends Grammar
     {
         return 'date';
     }
-
     /**
      * Create the column definition for a date-time type.
      *
@@ -755,7 +632,6 @@ class PostgresGrammar extends Grammar
     {
         return $this->typeTimestamp($column);
     }
-
     /**
      * Create the column definition for a date-time (with time zone) type.
      *
@@ -766,7 +642,6 @@ class PostgresGrammar extends Grammar
     {
         return $this->typeTimestampTz($column);
     }
-
     /**
      * Create the column definition for a time type.
      *
@@ -775,9 +650,8 @@ class PostgresGrammar extends Grammar
      */
     protected function typeTime(Fluent $column)
     {
-        return 'time'.(is_null($column->precision) ? '' : "($column->precision)").' without time zone';
+        return 'time' . (\is_null($column->precision) ? '' : "({$column->precision})") . ' without time zone';
     }
-
     /**
      * Create the column definition for a time (with time zone) type.
      *
@@ -786,9 +660,8 @@ class PostgresGrammar extends Grammar
      */
     protected function typeTimeTz(Fluent $column)
     {
-        return 'time'.(is_null($column->precision) ? '' : "($column->precision)").' with time zone';
+        return 'time' . (\is_null($column->precision) ? '' : "({$column->precision})") . ' with time zone';
     }
-
     /**
      * Create the column definition for a timestamp type.
      *
@@ -797,11 +670,9 @@ class PostgresGrammar extends Grammar
      */
     protected function typeTimestamp(Fluent $column)
     {
-        $columnType = 'timestamp'.(is_null($column->precision) ? '' : "($column->precision)").' without time zone';
-
-        return $column->useCurrent ? "$columnType default CURRENT_TIMESTAMP" : $columnType;
+        $columnType = 'timestamp' . (\is_null($column->precision) ? '' : "({$column->precision})") . ' without time zone';
+        return $column->useCurrent ? "{$columnType} default CURRENT_TIMESTAMP" : $columnType;
     }
-
     /**
      * Create the column definition for a timestamp (with time zone) type.
      *
@@ -810,11 +681,9 @@ class PostgresGrammar extends Grammar
      */
     protected function typeTimestampTz(Fluent $column)
     {
-        $columnType = 'timestamp'.(is_null($column->precision) ? '' : "($column->precision)").' with time zone';
-
-        return $column->useCurrent ? "$columnType default CURRENT_TIMESTAMP" : $columnType;
+        $columnType = 'timestamp' . (\is_null($column->precision) ? '' : "({$column->precision})") . ' with time zone';
+        return $column->useCurrent ? "{$columnType} default CURRENT_TIMESTAMP" : $columnType;
     }
-
     /**
      * Create the column definition for a year type.
      *
@@ -825,7 +694,6 @@ class PostgresGrammar extends Grammar
     {
         return $this->typeInteger($column);
     }
-
     /**
      * Create the column definition for a binary type.
      *
@@ -836,7 +704,6 @@ class PostgresGrammar extends Grammar
     {
         return 'bytea';
     }
-
     /**
      * Create the column definition for a uuid type.
      *
@@ -847,7 +714,6 @@ class PostgresGrammar extends Grammar
     {
         return 'uuid';
     }
-
     /**
      * Create the column definition for an IP address type.
      *
@@ -858,7 +724,6 @@ class PostgresGrammar extends Grammar
     {
         return 'inet';
     }
-
     /**
      * Create the column definition for a MAC address type.
      *
@@ -869,7 +734,6 @@ class PostgresGrammar extends Grammar
     {
         return 'macaddr';
     }
-
     /**
      * Create the column definition for a spatial Geometry type.
      *
@@ -880,7 +744,6 @@ class PostgresGrammar extends Grammar
     {
         return $this->formatPostGisType('geometry', $column);
     }
-
     /**
      * Create the column definition for a spatial Point type.
      *
@@ -891,7 +754,6 @@ class PostgresGrammar extends Grammar
     {
         return $this->formatPostGisType('point', $column);
     }
-
     /**
      * Create the column definition for a spatial LineString type.
      *
@@ -902,7 +764,6 @@ class PostgresGrammar extends Grammar
     {
         return $this->formatPostGisType('linestring', $column);
     }
-
     /**
      * Create the column definition for a spatial Polygon type.
      *
@@ -913,7 +774,6 @@ class PostgresGrammar extends Grammar
     {
         return $this->formatPostGisType('polygon', $column);
     }
-
     /**
      * Create the column definition for a spatial GeometryCollection type.
      *
@@ -924,7 +784,6 @@ class PostgresGrammar extends Grammar
     {
         return $this->formatPostGisType('geometrycollection', $column);
     }
-
     /**
      * Create the column definition for a spatial MultiPoint type.
      *
@@ -935,7 +794,6 @@ class PostgresGrammar extends Grammar
     {
         return $this->formatPostGisType('multipoint', $column);
     }
-
     /**
      * Create the column definition for a spatial MultiLineString type.
      *
@@ -946,7 +804,6 @@ class PostgresGrammar extends Grammar
     {
         return $this->formatPostGisType('multilinestring', $column);
     }
-
     /**
      * Create the column definition for a spatial MultiPolygon type.
      *
@@ -957,7 +814,6 @@ class PostgresGrammar extends Grammar
     {
         return $this->formatPostGisType('multipolygon', $column);
     }
-
     /**
      * Create the column definition for a spatial MultiPolygonZ type.
      *
@@ -968,7 +824,6 @@ class PostgresGrammar extends Grammar
     {
         return $this->formatPostGisType('multipolygonz', $column);
     }
-
     /**
      * Format the column definition for a PostGIS spatial type.
      *
@@ -979,16 +834,13 @@ class PostgresGrammar extends Grammar
     private function formatPostGisType($type, Fluent $column)
     {
         if ($column->isGeometry === null) {
-            return sprintf('geography(%s, %s)', $type, $column->projection ?? '4326');
+            return \sprintf('geography(%s, %s)', $type, $column->projection ?? '4326');
         }
-
         if ($column->projection !== null) {
-            return sprintf('geometry(%s, %s)', $type, $column->projection);
+            return \sprintf('geometry(%s, %s)', $type, $column->projection);
         }
-
         return "geometry({$type})";
     }
-
     /**
      * Get the SQL for a collation column modifier.
      *
@@ -998,11 +850,10 @@ class PostgresGrammar extends Grammar
      */
     protected function modifyCollate(Blueprint $blueprint, Fluent $column)
     {
-        if (! is_null($column->collation)) {
-            return ' collate '.$this->wrapValue($column->collation);
+        if (!\is_null($column->collation)) {
+            return ' collate ' . $this->wrapValue($column->collation);
         }
     }
-
     /**
      * Get the SQL for a nullable column modifier.
      *
@@ -1014,7 +865,6 @@ class PostgresGrammar extends Grammar
     {
         return $column->nullable ? ' null' : ' not null';
     }
-
     /**
      * Get the SQL for a default column modifier.
      *
@@ -1024,11 +874,10 @@ class PostgresGrammar extends Grammar
      */
     protected function modifyDefault(Blueprint $blueprint, Fluent $column)
     {
-        if (! is_null($column->default)) {
-            return ' default '.$this->getDefaultValue($column->default);
+        if (!\is_null($column->default)) {
+            return ' default ' . $this->getDefaultValue($column->default);
         }
     }
-
     /**
      * Get the SQL for an auto-increment column modifier.
      *
@@ -1038,11 +887,10 @@ class PostgresGrammar extends Grammar
      */
     protected function modifyIncrement(Blueprint $blueprint, Fluent $column)
     {
-        if ((in_array($column->type, $this->serials) || ($column->generatedAs !== null)) && $column->autoIncrement) {
+        if ((\in_array($column->type, $this->serials) || $column->generatedAs !== null) && $column->autoIncrement) {
             return ' primary key';
         }
     }
-
     /**
      * Get the SQL for a generated virtual column modifier.
      *
@@ -1056,7 +904,6 @@ class PostgresGrammar extends Grammar
             return " generated always as ({$column->virtualAs})";
         }
     }
-
     /**
      * Get the SQL for a generated stored column modifier.
      *

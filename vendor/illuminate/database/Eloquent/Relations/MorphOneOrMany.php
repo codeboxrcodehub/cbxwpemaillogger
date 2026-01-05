@@ -1,10 +1,9 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Relations;
+namespace ComfortSmtpScoped\Illuminate\Database\Eloquent\Relations;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-
+use ComfortSmtpScoped\Illuminate\Database\Eloquent\Builder;
+use ComfortSmtpScoped\Illuminate\Database\Eloquent\Model;
 abstract class MorphOneOrMany extends HasOneOrMany
 {
     /**
@@ -13,14 +12,12 @@ abstract class MorphOneOrMany extends HasOneOrMany
      * @var string
      */
     protected $morphType;
-
     /**
      * The class name of the parent model.
      *
      * @var string
      */
     protected $morphClass;
-
     /**
      * Create a new morph one or many relationship instance.
      *
@@ -34,12 +31,9 @@ abstract class MorphOneOrMany extends HasOneOrMany
     public function __construct(Builder $query, Model $parent, $type, $id, $localKey)
     {
         $this->morphType = $type;
-
         $this->morphClass = $parent->getMorphClass();
-
         parent::__construct($query, $parent, $id, $localKey);
     }
-
     /**
      * Set the base constraints on the relation query.
      *
@@ -49,11 +43,9 @@ abstract class MorphOneOrMany extends HasOneOrMany
     {
         if (static::$constraints) {
             $this->getRelationQuery()->where($this->morphType, $this->morphClass);
-
             parent::addConstraints();
         }
     }
-
     /**
      * Set the constraints for an eager load of the relation.
      *
@@ -63,10 +55,8 @@ abstract class MorphOneOrMany extends HasOneOrMany
     public function addEagerConstraints(array $models)
     {
         parent::addEagerConstraints($models);
-
         $this->getRelationQuery()->where($this->morphType, $this->morphClass);
     }
-
     /**
      * Set the foreign ID and type for creating a related model.
      *
@@ -76,10 +66,8 @@ abstract class MorphOneOrMany extends HasOneOrMany
     protected function setForeignAttributesForCreate(Model $model)
     {
         $model->{$this->getForeignKeyName()} = $this->getParentKey();
-
         $model->{$this->getMorphType()} = $this->morphClass;
     }
-
     /**
      * Get the relationship query.
      *
@@ -90,11 +78,8 @@ abstract class MorphOneOrMany extends HasOneOrMany
      */
     public function getRelationExistenceQuery(Builder $query, Builder $parentQuery, $columns = ['*'])
     {
-        return parent::getRelationExistenceQuery($query, $parentQuery, $columns)->where(
-            $query->qualifyColumn($this->getMorphType()), $this->morphClass
-        );
+        return parent::getRelationExistenceQuery($query, $parentQuery, $columns)->where($query->qualifyColumn($this->getMorphType()), $this->morphClass);
     }
-
     /**
      * Get the foreign key "type" name.
      *
@@ -104,7 +89,6 @@ abstract class MorphOneOrMany extends HasOneOrMany
     {
         return $this->morphType;
     }
-
     /**
      * Get the plain morph type name without the table.
      *
@@ -112,9 +96,8 @@ abstract class MorphOneOrMany extends HasOneOrMany
      */
     public function getMorphType()
     {
-        return last(explode('.', $this->morphType));
+        return \last(\explode('.', $this->morphType));
     }
-
     /**
      * Get the class name of the parent model.
      *

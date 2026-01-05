@@ -1,13 +1,11 @@
 <?php
 
-namespace Rakit\Validation\Traits;
+namespace ComfortSmtpScoped\Rakit\Validation\Traits;
 
 trait MessagesTrait
 {
-
     /** @var array */
     protected $messages = [];
-
     /**
      * Given $key and $message to set message
      *
@@ -19,7 +17,6 @@ trait MessagesTrait
     {
         $this->messages[$key] = $message;
     }
-
     /**
      * Given $messages and set multiple messages
      *
@@ -28,26 +25,24 @@ trait MessagesTrait
      */
     public function setMessages(array $messages)
     {
-        $this->messages = array_merge($this->messages, $messages);
+        $this->messages = \array_merge($this->messages, $messages);
     }
-
     /**
      * Given message from given $key
      *
      * @param string $key
      * @return string
      */
-    public function getMessage(string $key): string
+    public function getMessage(string $key) : string
     {
-        return array_key_exists($key, $this->messages) ? $this->messages[$key] : $key;
+        return \array_key_exists($key, $this->messages) ? $this->messages[$key] : $key;
     }
-
     /**
      * Get all $messages
      *
      * @return array
      */
-    public function getMessages(): array
+    public function getMessages() : array
     {
         return $this->messages;
     }

@@ -1,9 +1,8 @@
 <?php
 
-namespace Rakit\Validation\Rules;
+namespace ComfortSmtpScoped\Rakit\Validation\Rules;
 
-use Rakit\Validation\Rule;
-
+use ComfortSmtpScoped\Rakit\Validation\Rule;
 class Nullable extends Rule
 {
     /**
@@ -12,8 +11,8 @@ class Nullable extends Rule
      * @param mixed $value
      * @return bool
      */
-    public function check($value): bool
+    public function check($value) : bool
     {
-        return true;
+        return \true;
     }
 }

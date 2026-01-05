@@ -1,20 +1,18 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Relations;
+namespace ComfortSmtpScoped\Illuminate\Database\Eloquent\Relations;
 
-use Illuminate\Contracts\Database\Eloquent\SupportsPartialRelations;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Concerns\CanBeOneOfMany;
-use Illuminate\Database\Eloquent\Relations\Concerns\ComparesRelatedModels;
-use Illuminate\Database\Eloquent\Relations\Concerns\SupportsDefaultModels;
-use Illuminate\Database\Query\JoinClause;
-
+use ComfortSmtpScoped\Illuminate\Contracts\Database\Eloquent\SupportsPartialRelations;
+use ComfortSmtpScoped\Illuminate\Database\Eloquent\Builder;
+use ComfortSmtpScoped\Illuminate\Database\Eloquent\Collection;
+use ComfortSmtpScoped\Illuminate\Database\Eloquent\Model;
+use ComfortSmtpScoped\Illuminate\Database\Eloquent\Relations\Concerns\CanBeOneOfMany;
+use ComfortSmtpScoped\Illuminate\Database\Eloquent\Relations\Concerns\ComparesRelatedModels;
+use ComfortSmtpScoped\Illuminate\Database\Eloquent\Relations\Concerns\SupportsDefaultModels;
+use ComfortSmtpScoped\Illuminate\Database\Query\JoinClause;
 class HasOne extends HasOneOrMany implements SupportsPartialRelations
 {
     use ComparesRelatedModels, CanBeOneOfMany, SupportsDefaultModels;
-
     /**
      * Get the results of the relationship.
      *
@@ -22,13 +20,11 @@ class HasOne extends HasOneOrMany implements SupportsPartialRelations
      */
     public function getResults()
     {
-        if (is_null($this->getParentKey())) {
+        if (\is_null($this->getParentKey())) {
             return $this->getDefaultFor($this->parent);
         }
-
         return $this->query->first() ?: $this->getDefaultFor($this->parent);
     }
-
     /**
      * Initialize the relation on a set of models.
      *
@@ -41,10 +37,8 @@ class HasOne extends HasOneOrMany implements SupportsPartialRelations
         foreach ($models as $model) {
             $model->setRelation($relation, $this->getDefaultFor($model));
         }
-
         return $models;
     }
-
     /**
      * Match the eagerly loaded results to their parents.
      *
@@ -57,7 +51,6 @@ class HasOne extends HasOneOrMany implements SupportsPartialRelations
     {
         return $this->matchOne($models, $results, $relation);
     }
-
     /**
      * Add the constraints for an internal relationship existence query.
      *
@@ -73,10 +66,8 @@ class HasOne extends HasOneOrMany implements SupportsPartialRelations
         if ($this->isOneOfMany()) {
             $this->mergeOneOfManyJoinsTo($query);
         }
-
         return parent::getRelationExistenceQuery($query, $parentQuery, $columns);
     }
-
     /**
      * Add constraints for inner join subselect for one of many relationships.
      *
@@ -89,7 +80,6 @@ class HasOne extends HasOneOrMany implements SupportsPartialRelations
     {
         $query->addSelect($this->foreignKey);
     }
-
     /**
      * Get the columns that should be selected by the one of many subquery.
      *
@@ -99,7 +89,6 @@ class HasOne extends HasOneOrMany implements SupportsPartialRelations
     {
         return $this->foreignKey;
     }
-
     /**
      * Add join query constraints for one of many relationships.
      *
@@ -110,7 +99,6 @@ class HasOne extends HasOneOrMany implements SupportsPartialRelations
     {
         $join->on($this->qualifySubSelectColumn($this->foreignKey), '=', $this->qualifyRelatedColumn($this->foreignKey));
     }
-
     /**
      * Make a new related instance for the given model.
      *
@@ -119,11 +107,8 @@ class HasOne extends HasOneOrMany implements SupportsPartialRelations
      */
     public function newRelatedInstanceFor(Model $parent)
     {
-        return $this->related->newInstance()->setAttribute(
-            $this->getForeignKeyName(), $parent->{$this->localKey}
-        );
+        return $this->related->newInstance()->setAttribute($this->getForeignKeyName(), $parent->{$this->localKey});
     }
-
     /**
      * Get the value of the model's foreign key.
      *

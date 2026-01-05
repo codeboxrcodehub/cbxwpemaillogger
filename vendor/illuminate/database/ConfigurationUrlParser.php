@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Database;
+namespace ComfortSmtpScoped\Illuminate\Database;
 
-use Illuminate\Support\ConfigurationUrlParser as BaseConfigurationUrlParser;
-
+use ComfortSmtpScoped\Illuminate\Support\ConfigurationUrlParser as BaseConfigurationUrlParser;
 class ConfigurationUrlParser extends BaseConfigurationUrlParser
 {
     //

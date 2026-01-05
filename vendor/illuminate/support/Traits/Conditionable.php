@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Support\Traits;
+namespace ComfortSmtpScoped\Illuminate\Support\Traits;
 
 trait Conditionable
 {
@@ -19,10 +19,8 @@ trait Conditionable
         } elseif ($default) {
             return $default($this, $value) ?: $this;
         }
-
         return $this;
     }
-
     /**
      * Apply the callback if the given "value" is falsy.
      *
@@ -33,12 +31,11 @@ trait Conditionable
      */
     public function unless($value, $callback, $default = null)
     {
-        if (! $value) {
+        if (!$value) {
             return $callback($this, $value) ?: $this;
         } elseif ($default) {
             return $default($this, $value) ?: $this;
         }
-
         return $this;
     }
 }

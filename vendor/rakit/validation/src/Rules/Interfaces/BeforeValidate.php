@@ -1,6 +1,6 @@
 <?php
 
-namespace Rakit\Validation\Rules\Interfaces;
+namespace ComfortSmtpScoped\Rakit\Validation\Rules\Interfaces;
 
 interface BeforeValidate
 {

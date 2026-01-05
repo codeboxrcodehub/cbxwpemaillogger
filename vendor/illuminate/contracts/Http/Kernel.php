@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Http;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Http;
 
 interface Kernel
 {
@@ -10,7 +10,6 @@ interface Kernel
      * @return void
      */
     public function bootstrap();
-
     /**
      * Handle an incoming HTTP request.
      *
@@ -18,7 +17,6 @@ interface Kernel
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle($request);
-
     /**
      * Perform any final actions for the request lifecycle.
      *
@@ -27,7 +25,6 @@ interface Kernel
      * @return void
      */
     public function terminate($request, $response);
-
     /**
      * Get the Laravel application instance.
      *

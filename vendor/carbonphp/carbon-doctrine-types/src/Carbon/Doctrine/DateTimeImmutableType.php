@@ -1,31 +1,27 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace ComfortSmtpScoped\Carbon\Doctrine;
 
-namespace Carbon\Doctrine;
-
-use Carbon\CarbonImmutable;
+use ComfortSmtpScoped\Carbon\CarbonImmutable;
 use DateTimeImmutable;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\VarDateTimeImmutableType;
-
+use ComfortSmtpScoped\Doctrine\DBAL\Platforms\AbstractPlatform;
+use ComfortSmtpScoped\Doctrine\DBAL\Types\VarDateTimeImmutableType;
 class DateTimeImmutableType extends VarDateTimeImmutableType implements CarbonDoctrineType
 {
     /** @use CarbonTypeConverter<CarbonImmutable> */
     use CarbonTypeConverter;
-
     /**
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?CarbonImmutable
+    public function convertToPHPValue(mixed $value, AbstractPlatform $platform) : ?CarbonImmutable
     {
         return $this->doConvertToPHPValue($value);
     }
-
     /**
      * @return class-string<CarbonImmutable>
      */
-    protected function getCarbonClassName(): string
+    protected function getCarbonClassName() : string
     {
         return CarbonImmutable::class;
     }

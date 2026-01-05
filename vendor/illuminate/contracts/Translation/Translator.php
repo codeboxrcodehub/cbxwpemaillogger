@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Translation;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Translation;
 
 interface Translator
 {
@@ -13,7 +13,6 @@ interface Translator
      * @return mixed
      */
     public function get($key, array $replace = [], $locale = null);
-
     /**
      * Get a translation according to an integer value.
      *
@@ -24,14 +23,12 @@ interface Translator
      * @return string
      */
     public function choice($key, $number, array $replace = [], $locale = null);
-
     /**
      * Get the default locale being used.
      *
      * @return string
      */
     public function getLocale();
-
     /**
      * Set the default locale.
      *

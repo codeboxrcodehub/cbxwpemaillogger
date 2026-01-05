@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Factories;
+namespace ComfortSmtpScoped\Illuminate\Database\Eloquent\Factories;
 
 trait HasFactory
 {
@@ -12,13 +12,9 @@ trait HasFactory
      */
     public static function factory(...$parameters)
     {
-        $factory = static::newFactory() ?: Factory::factoryForModel(get_called_class());
-
-        return $factory
-                    ->count(is_numeric($parameters[0] ?? null) ? $parameters[0] : null)
-                    ->state(is_array($parameters[0] ?? null) ? $parameters[0] : ($parameters[1] ?? []));
+        $factory = static::newFactory() ?: Factory::factoryForModel(\get_called_class());
+        return $factory->count(\is_numeric($parameters[0] ?? null) ? $parameters[0] : null)->state(\is_array($parameters[0] ?? null) ? $parameters[0] : $parameters[1] ?? []);
     }
-
     /**
      * Create a new factory instance for the model.
      *

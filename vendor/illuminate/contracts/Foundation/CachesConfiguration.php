@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Foundation;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Foundation;
 
 interface CachesConfiguration
 {
@@ -10,14 +10,12 @@ interface CachesConfiguration
      * @return bool
      */
     public function configurationIsCached();
-
     /**
      * Get the path to the configuration cache file.
      *
      * @return string
      */
     public function getCachedConfigPath();
-
     /**
      * Get the path to the cached services.php file.
      *

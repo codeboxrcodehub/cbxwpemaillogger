@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Foundation;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Foundation;
 
 interface CachesRoutes
 {
@@ -10,7 +10,6 @@ interface CachesRoutes
      * @return bool
      */
     public function routesAreCached();
-
     /**
      * Get the path to the routes cache file.
      *

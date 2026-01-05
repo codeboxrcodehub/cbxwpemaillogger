@@ -2,6 +2,11 @@
 
 namespace Comfort\Crm\Smtp\Api;
 
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
+
 use WP_Error;
 
 /**

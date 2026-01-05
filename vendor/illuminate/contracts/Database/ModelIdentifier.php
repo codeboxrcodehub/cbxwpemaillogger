@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Database;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Database;
 
 class ModelIdentifier
 {
@@ -10,7 +10,6 @@ class ModelIdentifier
      * @var string
      */
     public $class;
-
     /**
      * The unique identifier of the model.
      *
@@ -19,21 +18,18 @@ class ModelIdentifier
      * @var mixed
      */
     public $id;
-
     /**
      * The relationships loaded on the model.
      *
      * @var array
      */
     public $relations;
-
     /**
      * The connection name of the model.
      *
      * @var string|null
      */
     public $connection;
-
     /**
      * Create a new model identifier.
      *

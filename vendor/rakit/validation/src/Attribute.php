@@ -1,34 +1,25 @@
 <?php
 
-namespace Rakit\Validation;
+namespace ComfortSmtpScoped\Rakit\Validation;
 
 class Attribute
 {
-
     /** @var array */
     protected $rules = [];
-
     /** @var string */
     protected $key;
-
     /** @var string|null */
     protected $alias;
-
     /** @var \Rakit\Validation\Validation */
     protected $validation;
-
     /** @var bool */
-    protected $required = false;
-
+    protected $required = \false;
     /** @var \Rakit\Validation\Validation|null */
     protected $primaryAttribute = null;
-
     /** @var array */
     protected $otherAttributes = [];
-
     /** @var array */
     protected $keyIndexes = [];
-
     /**
      * Constructor
      *
@@ -38,12 +29,8 @@ class Attribute
      * @param array       $rules
      * @return void
      */
-    public function __construct(
-        Validation $validation,
-        string $key,
-        $alias = null,
-        array $rules = []
-    ) {
+    public function __construct(Validation $validation, string $key, $alias = null, array $rules = [])
+    {
         $this->validation = $validation;
         $this->alias = $alias;
         $this->key = $key;
@@ -51,7 +38,6 @@ class Attribute
             $this->addRule($rule);
         }
     }
-
     /**
      * Set the primary attribute
      *
@@ -62,7 +48,6 @@ class Attribute
     {
         $this->primaryAttribute = $primaryAttribute;
     }
-
     /**
      * Set key indexes
      *
@@ -73,7 +58,6 @@ class Attribute
     {
         $this->keyIndexes = $keyIndexes;
     }
-
     /**
      * Get primary attributes
      *
@@ -83,7 +67,6 @@ class Attribute
     {
         return $this->primaryAttribute;
     }
-
     /**
      * Set other attributes
      *
@@ -97,7 +80,6 @@ class Attribute
             $this->addOtherAttribute($otherAttribute);
         }
     }
-
     /**
      * Add other attributes
      *
@@ -108,17 +90,15 @@ class Attribute
     {
         $this->otherAttributes[] = $otherAttribute;
     }
-
     /**
      * Get other attributes
      *
      * @return array
      */
-    public function getOtherAttributes(): array
+    public function getOtherAttributes() : array
     {
         return $this->otherAttributes;
     }
-
     /**
      * Add rule
      *
@@ -131,7 +111,6 @@ class Attribute
         $rule->setValidation($this->validation);
         $this->rules[$rule->getKey()] = $rule;
     }
-
     /**
      * Get rule
      *
@@ -140,30 +119,27 @@ class Attribute
      */
     public function getRule(string $ruleKey)
     {
-        return $this->hasRule($ruleKey)? $this->rules[$ruleKey] : null;
+        return $this->hasRule($ruleKey) ? $this->rules[$ruleKey] : null;
     }
-
     /**
      * Get rules
      *
      * @return array
      */
-    public function getRules(): array
+    public function getRules() : array
     {
         return $this->rules;
     }
-
     /**
      * Check the $ruleKey has in the rule
      *
      * @param string $ruleKey
      * @return bool
      */
-    public function hasRule(string $ruleKey): bool
+    public function hasRule(string $ruleKey) : bool
     {
         return isset($this->rules[$ruleKey]);
     }
-
     /**
      * Set required
      *
@@ -174,37 +150,33 @@ class Attribute
     {
         $this->required = $required;
     }
-
     /**
      * Set rule is required
      *
      * @return boolean
      */
-    public function isRequired(): bool
+    public function isRequired() : bool
     {
         return $this->required;
     }
-
     /**
      * Get key
      *
      * @return string
      */
-    public function getKey(): string
+    public function getKey() : string
     {
         return $this->key;
     }
-
     /**
      * Get key indexes
      *
      * @return array
      */
-    public function getKeyIndexes(): array
+    public function getKeyIndexes() : array
     {
         return $this->keyIndexes;
     }
-
     /**
      * Get value
      *
@@ -216,52 +188,46 @@ class Attribute
         if ($key && $this->isArrayAttribute()) {
             $key = $this->resolveSiblingKey($key);
         }
-
         if (!$key) {
             $key = $this->getKey();
         }
-
         return $this->validation->getValue($key);
     }
-
     /**
      * Get that is array attribute
      *
      * @return boolean
      */
-    public function isArrayAttribute(): bool
+    public function isArrayAttribute() : bool
     {
-        return count($this->getKeyIndexes()) > 0;
+        return \count($this->getKeyIndexes()) > 0;
     }
-
     /**
      * Check this attribute is using dot notation
      *
      * @return boolean
      */
-    public function isUsingDotNotation(): bool
+    public function isUsingDotNotation() : bool
     {
-        return strpos($this->getKey(), '.') !== false;
+        return \strpos($this->getKey(), '.') !== \false;
     }
-
     /**
      * Resolve sibling key
      *
      * @param string $key
      * @return string
      */
-    public function resolveSiblingKey(string $key): string
+    public function resolveSiblingKey(string $key) : string
     {
         $indexes = $this->getKeyIndexes();
-        $keys = explode("*", $key);
-        $countAsterisks = count($keys) - 1;
-        if (count($indexes) < $countAsterisks) {
-            $indexes = array_merge($indexes, array_fill(0, $countAsterisks - count($indexes), "*"));
+        $keys = \explode("*", $key);
+        $countAsterisks = \count($keys) - 1;
+        if (\count($indexes) < $countAsterisks) {
+            $indexes = \array_merge($indexes, \array_fill(0, $countAsterisks - \count($indexes), "*"));
         }
-        $args = array_merge([str_replace("*", "%s", $key)], $indexes);
-        return call_user_func_array('sprintf', $args);
+        $args = \array_merge([\str_replace("*", "%s", $key)], $indexes);
+        return \call_user_func_array('ComfortSmtpScoped\\sprintf', $args);
     }
-
     /**
      * Get humanize key
      *
@@ -270,22 +236,19 @@ class Attribute
     public function getHumanizedKey()
     {
         $primaryAttribute = $this->getPrimaryAttribute();
-        $key = str_replace('_', ' ', $this->key);
-
+        $key = \str_replace('_', ' ', $this->key);
         // Resolve key from array validation
         if ($primaryAttribute) {
-            $split = explode('.', $key);
-            $key = implode(' ', array_map(function ($word) {
-                if (is_numeric($word)) {
+            $split = \explode('.', $key);
+            $key = \implode(' ', \array_map(function ($word) {
+                if (\is_numeric($word)) {
                     $word = $word + 1;
                 }
                 return Helper::snakeCase($word, ' ');
             }, $split));
         }
-
-        return ucfirst($key);
+        return \ucfirst($key);
     }
-
     /**
      * Set alias
      *
@@ -296,7 +259,6 @@ class Attribute
     {
         $this->alias = $alias;
     }
-
     /**
      * Get alias
      *

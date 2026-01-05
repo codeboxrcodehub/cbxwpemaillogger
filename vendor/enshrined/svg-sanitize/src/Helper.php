@@ -1,5 +1,6 @@
 <?php
-namespace enshrined\svgSanitize;
+
+namespace ComfortSmtpScoped\enshrined\svgSanitize;
 
 class Helper
 {
@@ -17,19 +18,17 @@ class Helper
         }
         return null;
     }
-
     /**
      * @param string $href
      * @return string|null
      */
     public static function extractIdReferenceFromHref($href)
     {
-        if (!is_string($href) || strpos($href, '#') !== 0) {
+        if (!\is_string($href) || \strpos($href, '#') !== 0) {
             return null;
         }
-        return substr($href, 1);
+        return \substr($href, 1);
     }
-
     /**
      * @param \DOMElement $needle
      * @param \DOMElement $haystack
@@ -38,16 +37,16 @@ class Helper
     public static function isElementContainedIn(\DOMElement $needle, \DOMElement $haystack)
     {
         if ($needle === $haystack) {
-            return true;
+            return \true;
         }
         foreach ($haystack->childNodes as $childNode) {
             if (!$childNode instanceof \DOMElement) {
                 continue;
             }
             if (self::isElementContainedIn($needle, $childNode)) {
-                return true;
+                return \true;
             }
         }
-        return false;
+        return \false;
     }
 }

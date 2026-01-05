@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Support\Facades;
+namespace ComfortSmtpScoped\Illuminate\Support\Facades;
 
-use Illuminate\Support\Testing\Fakes\MailFake;
-
+use ComfortSmtpScoped\Illuminate\Support\Testing\Fakes\MailFake;
 /**
  * @method static \Illuminate\Mail\Mailer mailer(string|null $name = null)
  * @method static void alwaysFrom(string $address, string|null $name = null)
@@ -44,11 +43,9 @@ class Mail extends Facade
      */
     public static function fake()
     {
-        static::swap($fake = new MailFake);
-
+        static::swap($fake = new MailFake());
         return $fake;
     }
-
     /**
      * Get the registered name of the component.
      *

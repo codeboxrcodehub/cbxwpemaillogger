@@ -1,51 +1,44 @@
 <?php
 
-namespace Illuminate\Database\Eloquent;
+namespace ComfortSmtpScoped\Illuminate\Database\Eloquent;
 
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Queue\SerializesModels;
-
+use ComfortSmtpScoped\Illuminate\Broadcasting\InteractsWithSockets;
+use ComfortSmtpScoped\Illuminate\Broadcasting\PrivateChannel;
+use ComfortSmtpScoped\Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use ComfortSmtpScoped\Illuminate\Queue\SerializesModels;
 class BroadcastableModelEventOccurred implements ShouldBroadcast
 {
     use InteractsWithSockets, SerializesModels;
-
     /**
      * The model instance corresponding to the event.
      *
      * @var \Illuminate\Database\Eloquent\Model
      */
     public $model;
-
     /**
      * The event name (created, updated, etc.).
      *
      * @var string
      */
     protected $event;
-
     /**
      * The channels that the event should be broadcast on.
      *
      * @var array
      */
     protected $channels = [];
-
     /**
      * The queue connection that should be used to queue the broadcast job.
      *
      * @var string
      */
     public $connection;
-
     /**
      * The queue that should be used to queue the broadcast job.
      *
      * @var string
      */
     public $queue;
-
     /**
      * Create a new event instance.
      *
@@ -58,7 +51,6 @@ class BroadcastableModelEventOccurred implements ShouldBroadcast
         $this->model = $model;
         $this->event = $event;
     }
-
     /**
      * The channels the event should broadcast on.
      *
@@ -66,15 +58,11 @@ class BroadcastableModelEventOccurred implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        $channels = empty($this->channels)
-                ? ($this->model->broadcastOn($this->event) ?: [])
-                : $this->channels;
-
+        $channels = empty($this->channels) ? $this->model->broadcastOn($this->event) ?: [] : $this->channels;
         return collect($channels)->map(function ($channel) {
             return $channel instanceof Model ? new PrivateChannel($channel) : $channel;
         })->all();
     }
-
     /**
      * The name the event should broadcast as.
      *
@@ -82,13 +70,9 @@ class BroadcastableModelEventOccurred implements ShouldBroadcast
      */
     public function broadcastAs()
     {
-        $default = class_basename($this->model).ucfirst($this->event);
-
-        return method_exists($this->model, 'broadcastAs')
-                ? ($this->model->broadcastAs($this->event) ?: $default)
-                : $default;
+        $default = \class_basename($this->model) . \ucfirst($this->event);
+        return \method_exists($this->model, 'broadcastAs') ? $this->model->broadcastAs($this->event) ?: $default : $default;
     }
-
     /**
      * Get the data that should be sent with the broadcasted event.
      *
@@ -96,11 +80,8 @@ class BroadcastableModelEventOccurred implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        return method_exists($this->model, 'broadcastWith')
-            ? $this->model->broadcastWith($this->event)
-            : null;
+        return \method_exists($this->model, 'broadcastWith') ? $this->model->broadcastWith($this->event) : null;
     }
-
     /**
      * Manually specify the channels the event should broadcast on.
      *
@@ -110,10 +91,8 @@ class BroadcastableModelEventOccurred implements ShouldBroadcast
     public function onChannels(array $channels)
     {
         $this->channels = $channels;
-
         return $this;
     }
-
     /**
      * Determine if the event should be broadcast synchronously.
      *
@@ -121,10 +100,8 @@ class BroadcastableModelEventOccurred implements ShouldBroadcast
      */
     public function shouldBroadcastNow()
     {
-        return $this->event === 'deleted' &&
-               ! method_exists($this->model, 'bootSoftDeletes');
+        return $this->event === 'deleted' && !\method_exists($this->model, 'bootSoftDeletes');
     }
-
     /**
      * Get the event name.
      *

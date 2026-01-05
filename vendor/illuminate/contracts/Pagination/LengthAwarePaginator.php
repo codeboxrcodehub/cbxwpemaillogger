@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Pagination;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Pagination;
 
 interface LengthAwarePaginator extends Paginator
 {
@@ -12,14 +12,12 @@ interface LengthAwarePaginator extends Paginator
      * @return array
      */
     public function getUrlRange($start, $end);
-
     /**
      * Determine the total number of items in the data store.
      *
      * @return int
      */
     public function total();
-
     /**
      * Get the page number of the last available page.
      *

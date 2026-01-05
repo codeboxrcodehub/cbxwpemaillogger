@@ -8,21 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace ComfortSmtpScoped\Carbon\MessageFormatter;
 
-namespace Carbon\MessageFormatter;
-
-use Symfony\Component\Translation\Formatter\MessageFormatterInterface;
-
-if (!class_exists(LazyMessageFormatter::class, false)) {
+use ComfortSmtpScoped\Symfony\Component\Translation\Formatter\MessageFormatterInterface;
+if (!\class_exists(LazyMessageFormatter::class, \false)) {
     abstract class LazyMessageFormatter implements MessageFormatterInterface
     {
-        public function format(string $message, string $locale, array $parameters = []): string
+        public function format(string $message, string $locale, array $parameters = []) : string
         {
-            return $this->formatter->format(
-                $message,
-                $this->transformLocale($locale),
-                $parameters
-            );
+            return $this->formatter->format($message, $this->transformLocale($locale), $parameters);
         }
     }
 }

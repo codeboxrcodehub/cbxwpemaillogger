@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Support;
+namespace ComfortSmtpScoped\Illuminate\Support;
 
 class Timebox
 {
@@ -9,8 +9,7 @@ class Timebox
      *
      * @var bool
      */
-    public $earlyReturn = false;
-
+    public $earlyReturn = \false;
     /**
      * Invoke the given callback within the specified timebox minimum.
      *
@@ -20,19 +19,14 @@ class Timebox
      */
     public function call(callable $callback, int $microseconds)
     {
-        $start = microtime(true);
-
+        $start = \microtime(\true);
         $result = $callback($this);
-
-        $remainder = $microseconds - ((microtime(true) - $start) * 1000000);
-
-        if (! $this->earlyReturn && $remainder > 0) {
+        $remainder = $microseconds - (\microtime(\true) - $start) * 1000000;
+        if (!$this->earlyReturn && $remainder > 0) {
             $this->usleep($remainder);
         }
-
         return $result;
     }
-
     /**
      * Indicate that the timebox can return early.
      *
@@ -40,11 +34,9 @@ class Timebox
      */
     public function returnEarly()
     {
-        $this->earlyReturn = true;
-
+        $this->earlyReturn = \true;
         return $this;
     }
-
     /**
      * Indicate that the timebox cannot return early.
      *
@@ -52,11 +44,9 @@ class Timebox
      */
     public function dontReturnEarly()
     {
-        $this->earlyReturn = false;
-
+        $this->earlyReturn = \false;
         return $this;
     }
-
     /**
      * Sleep for the specified number of microseconds.
      *
@@ -65,6 +55,6 @@ class Timebox
      */
     protected function usleep($microseconds)
     {
-        usleep($microseconds);
+        \usleep($microseconds);
     }
 }

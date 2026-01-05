@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Cookie;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Cookie;
 
 interface QueueingFactory extends Factory
 {
@@ -11,7 +11,6 @@ interface QueueingFactory extends Factory
      * @return void
      */
     public function queue(...$parameters);
-
     /**
      * Remove a cookie from the queue.
      *
@@ -20,7 +19,6 @@ interface QueueingFactory extends Factory
      * @return void
      */
     public function unqueue($name, $path = null);
-
     /**
      * Get the cookies which have been queued for the next request.
      *

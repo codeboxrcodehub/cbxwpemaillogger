@@ -1,20 +1,17 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace ComfortSmtpScoped\Doctrine\Inflector\Rules\Esperanto;
 
-namespace Doctrine\Inflector\Rules\Esperanto;
-
-use Doctrine\Inflector\GenericLanguageInflectorFactory;
-use Doctrine\Inflector\Rules\Ruleset;
-
+use ComfortSmtpScoped\Doctrine\Inflector\GenericLanguageInflectorFactory;
+use ComfortSmtpScoped\Doctrine\Inflector\Rules\Ruleset;
 final class InflectorFactory extends GenericLanguageInflectorFactory
 {
-    protected function getSingularRuleset(): Ruleset
+    protected function getSingularRuleset() : Ruleset
     {
         return Rules::getSingularRuleset();
     }
-
-    protected function getPluralRuleset(): Ruleset
+    protected function getPluralRuleset() : Ruleset
     {
         return Rules::getPluralRuleset();
     }

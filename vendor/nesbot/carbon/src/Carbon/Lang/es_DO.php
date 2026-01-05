@@ -1,5 +1,7 @@
 <?php
 
+namespace ComfortSmtpScoped;
+
 /**
  * This file is part of the Carbon package.
  *
@@ -8,7 +10,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 /*
  * Authors:
  * - kostas
@@ -20,12 +21,4 @@
  * - JD Isaacks
  * - Raphael Amorim
  */
-return array_replace_recursive(require __DIR__.'/es.php', [
-    'diff_before_yesterday' => 'anteayer',
-    'formats' => [
-        'LT' => 'h:mm A',
-        'LTS' => 'h:mm:ss A',
-        'LLL' => 'D [de] MMMM [de] YYYY h:mm A',
-        'LLLL' => 'dddd, D [de] MMMM [de] YYYY h:mm A',
-    ],
-]);
+return \array_replace_recursive(require __DIR__ . '/es.php', ['diff_before_yesterday' => 'anteayer', 'formats' => ['LT' => 'h:mm A', 'LTS' => 'h:mm:ss A', 'LLL' => 'D [de] MMMM [de] YYYY h:mm A', 'LLLL' => 'dddd, D [de] MMMM [de] YYYY h:mm A']]);

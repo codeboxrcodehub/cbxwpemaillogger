@@ -2,7 +2,12 @@
 
 namespace Comfort\Crm\Smtp\Models;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
+
+use ComfortSmtpScoped\Illuminate\Database\Eloquent\Model as Eloquent;
 
 class SmtpLog extends Eloquent {
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Translation;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Translation;
 
 interface HasLocalePreference
 {

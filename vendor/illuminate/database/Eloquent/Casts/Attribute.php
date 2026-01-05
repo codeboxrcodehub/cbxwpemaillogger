@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Casts;
+namespace ComfortSmtpScoped\Illuminate\Database\Eloquent\Casts;
 
 class Attribute
 {
@@ -10,21 +10,18 @@ class Attribute
      * @var callable
      */
     public $get;
-
     /**
      * The attribute mutator.
      *
      * @var callable
      */
     public $set;
-
     /**
      * Indicates if caching of objects is enabled for this attribute.
      *
      * @var bool
      */
-    public $withObjectCaching = true;
-
+    public $withObjectCaching = \true;
     /**
      * Create a new attribute accessor / mutator.
      *
@@ -37,7 +34,6 @@ class Attribute
         $this->get = $get;
         $this->set = $set;
     }
-
     /**
      * Create a new attribute accessor.
      *
@@ -48,7 +44,6 @@ class Attribute
     {
         return new static($get);
     }
-
     /**
      * Create a new attribute mutator.
      *
@@ -59,7 +54,6 @@ class Attribute
     {
         return new static(null, $set);
     }
-
     /**
      * Disable object caching for the attribute.
      *
@@ -67,8 +61,7 @@ class Attribute
      */
     public function withoutObjectCaching()
     {
-        $this->withObjectCaching = false;
-
+        $this->withObjectCaching = \false;
         return $this;
     }
 }

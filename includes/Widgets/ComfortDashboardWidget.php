@@ -1,13 +1,15 @@
 <?php
-
 namespace Comfort\Crm\Smtp\Widgets;
-
-use Comfort\Crm\Smtp\Helpers\ComfortSmtpHelpers;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
-	die;
+    die;
 }
+
+
+use Comfort\Crm\Smtp\Helpers\ComfortSmtpHelpers;
+
+
 
 /**
  * Dashboard Widget Class

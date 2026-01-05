@@ -1,5 +1,5 @@
 {
-    "name": "enshrined/svg-sanitize",
+    "name": "enshrined\/svg-sanitize",
     "description": "An SVG sanitizer for PHP",
     "license": "GPL-2.0-or-later",
     "authors": [
@@ -14,12 +14,12 @@
     },
     "autoload": {
         "psr-4": {
-            "enshrined\\svgSanitize\\": "src"
+            "ComfortSmtpScoped\\enshrined\\svgSanitize\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "enshrined\\svgSanitize\\Tests\\": "tests"
+            "ComfortSmtpScoped\\enshrined\\svgSanitize\\Tests\\": "tests"
         }
     },
     "require": {
@@ -28,6 +28,6 @@
         "php": "^7.1 || ^8.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.5 || ^8.5"
+        "phpunit\/phpunit": "^6.5 || ^8.5"
     }
 }

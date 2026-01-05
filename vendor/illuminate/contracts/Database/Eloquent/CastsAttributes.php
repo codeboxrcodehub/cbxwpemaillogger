@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Database\Eloquent;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Database\Eloquent;
 
 interface CastsAttributes
 {
@@ -14,7 +14,6 @@ interface CastsAttributes
      * @return mixed
      */
     public function get($model, string $key, $value, array $attributes);
-
     /**
      * Transform the attribute to its underlying model values.
      *

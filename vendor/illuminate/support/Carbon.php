@@ -1,10 +1,9 @@
 <?php
 
-namespace Illuminate\Support;
+namespace ComfortSmtpScoped\Illuminate\Support;
 
-use Carbon\Carbon as BaseCarbon;
-use Carbon\CarbonImmutable as BaseCarbonImmutable;
-
+use ComfortSmtpScoped\Carbon\Carbon as BaseCarbon;
+use ComfortSmtpScoped\Carbon\CarbonImmutable as BaseCarbonImmutable;
 class Carbon extends BaseCarbon
 {
     /**

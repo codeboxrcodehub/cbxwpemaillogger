@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Support;
+namespace ComfortSmtpScoped\Illuminate\Support;
 
 use RuntimeException;
-
 class ItemNotFoundException extends RuntimeException
 {
 }

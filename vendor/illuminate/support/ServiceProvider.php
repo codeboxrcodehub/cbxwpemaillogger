@@ -1,15 +1,14 @@
 <?php
 
-namespace Illuminate\Support;
+namespace ComfortSmtpScoped\Illuminate\Support;
 
 use Closure;
-use Illuminate\Console\Application as Artisan;
-use Illuminate\Contracts\Foundation\CachesConfiguration;
-use Illuminate\Contracts\Foundation\CachesRoutes;
-use Illuminate\Contracts\Support\DeferrableProvider;
-use Illuminate\Database\Eloquent\Factory as ModelFactory;
-use Illuminate\View\Compilers\BladeCompiler;
-
+use ComfortSmtpScoped\Illuminate\Console\Application as Artisan;
+use ComfortSmtpScoped\Illuminate\Contracts\Foundation\CachesConfiguration;
+use ComfortSmtpScoped\Illuminate\Contracts\Foundation\CachesRoutes;
+use ComfortSmtpScoped\Illuminate\Contracts\Support\DeferrableProvider;
+use ComfortSmtpScoped\Illuminate\Database\Eloquent\Factory as ModelFactory;
+use ComfortSmtpScoped\Illuminate\View\Compilers\BladeCompiler;
 abstract class ServiceProvider
 {
     /**
@@ -18,35 +17,30 @@ abstract class ServiceProvider
      * @var \Illuminate\Contracts\Foundation\Application
      */
     protected $app;
-
     /**
      * All of the registered booting callbacks.
      *
      * @var array
      */
     protected $bootingCallbacks = [];
-
     /**
      * All of the registered booted callbacks.
      *
      * @var array
      */
     protected $bootedCallbacks = [];
-
     /**
      * The paths that should be published.
      *
      * @var array
      */
     public static $publishes = [];
-
     /**
      * The paths that should be published by group.
      *
      * @var array
      */
     public static $publishGroups = [];
-
     /**
      * Create a new service provider instance.
      *
@@ -57,7 +51,6 @@ abstract class ServiceProvider
     {
         $this->app = $app;
     }
-
     /**
      * Register any application services.
      *
@@ -67,7 +60,6 @@ abstract class ServiceProvider
     {
         //
     }
-
     /**
      * Register a booting callback to be run before the "boot" method is called.
      *
@@ -78,7 +70,6 @@ abstract class ServiceProvider
     {
         $this->bootingCallbacks[] = $callback;
     }
-
     /**
      * Register a booted callback to be run after the "boot" method is called.
      *
@@ -89,7 +80,6 @@ abstract class ServiceProvider
     {
         $this->bootedCallbacks[] = $callback;
     }
-
     /**
      * Call the registered booting callbacks.
      *
@@ -98,14 +88,11 @@ abstract class ServiceProvider
     public function callBootingCallbacks()
     {
         $index = 0;
-
-        while ($index < count($this->bootingCallbacks)) {
+        while ($index < \count($this->bootingCallbacks)) {
             $this->app->call($this->bootingCallbacks[$index]);
-
             $index++;
         }
     }
-
     /**
      * Call the registered booted callbacks.
      *
@@ -114,14 +101,11 @@ abstract class ServiceProvider
     public function callBootedCallbacks()
     {
         $index = 0;
-
-        while ($index < count($this->bootedCallbacks)) {
+        while ($index < \count($this->bootedCallbacks)) {
             $this->app->call($this->bootedCallbacks[$index]);
-
             $index++;
         }
     }
-
     /**
      * Merge the given configuration with the existing configuration.
      *
@@ -131,15 +115,11 @@ abstract class ServiceProvider
      */
     protected function mergeConfigFrom($path, $key)
     {
-        if (! ($this->app instanceof CachesConfiguration && $this->app->configurationIsCached())) {
+        if (!($this->app instanceof CachesConfiguration && $this->app->configurationIsCached())) {
             $config = $this->app->make('config');
-
-            $config->set($key, array_merge(
-                require $path, $config->get($key, [])
-            ));
+            $config->set($key, \array_merge(require $path, $config->get($key, [])));
         }
     }
-
     /**
      * Load the given routes file if routes are not already cached.
      *
@@ -148,11 +128,10 @@ abstract class ServiceProvider
      */
     protected function loadRoutesFrom($path)
     {
-        if (! ($this->app instanceof CachesRoutes && $this->app->routesAreCached())) {
+        if (!($this->app instanceof CachesRoutes && $this->app->routesAreCached())) {
             require $path;
         }
     }
-
     /**
      * Register a view file namespace.
      *
@@ -162,20 +141,17 @@ abstract class ServiceProvider
      */
     protected function loadViewsFrom($path, $namespace)
     {
-        $this->callAfterResolving('view', function ($view) use ($path, $namespace) {
-            if (isset($this->app->config['view']['paths']) &&
-                is_array($this->app->config['view']['paths'])) {
+        $this->callAfterResolving('view', function ($view) use($path, $namespace) {
+            if (isset($this->app->config['view']['paths']) && \is_array($this->app->config['view']['paths'])) {
                 foreach ($this->app->config['view']['paths'] as $viewPath) {
-                    if (is_dir($appPath = $viewPath.'/vendor/'.$namespace)) {
+                    if (\is_dir($appPath = $viewPath . '/vendor/' . $namespace)) {
                         $view->addNamespace($namespace, $appPath);
                     }
                 }
             }
-
             $view->addNamespace($namespace, $path);
         });
     }
-
     /**
      * Register the given view components with a custom prefix.
      *
@@ -185,13 +161,12 @@ abstract class ServiceProvider
      */
     protected function loadViewComponentsAs($prefix, array $components)
     {
-        $this->callAfterResolving(BladeCompiler::class, function ($blade) use ($prefix, $components) {
+        $this->callAfterResolving(BladeCompiler::class, function ($blade) use($prefix, $components) {
             foreach ($components as $alias => $component) {
-                $blade->component($component, is_string($alias) ? $alias : null, $prefix);
+                $blade->component($component, \is_string($alias) ? $alias : null, $prefix);
             }
         });
     }
-
     /**
      * Register a translation file namespace.
      *
@@ -201,11 +176,10 @@ abstract class ServiceProvider
      */
     protected function loadTranslationsFrom($path, $namespace)
     {
-        $this->callAfterResolving('translator', function ($translator) use ($path, $namespace) {
+        $this->callAfterResolving('translator', function ($translator) use($path, $namespace) {
             $translator->addNamespace($namespace, $path);
         });
     }
-
     /**
      * Register a JSON translation file path.
      *
@@ -214,11 +188,10 @@ abstract class ServiceProvider
      */
     protected function loadJsonTranslationsFrom($path)
     {
-        $this->callAfterResolving('translator', function ($translator) use ($path) {
+        $this->callAfterResolving('translator', function ($translator) use($path) {
             $translator->addJsonPath($path);
         });
     }
-
     /**
      * Register database migration paths.
      *
@@ -227,13 +200,12 @@ abstract class ServiceProvider
      */
     protected function loadMigrationsFrom($paths)
     {
-        $this->callAfterResolving('migrator', function ($migrator) use ($paths) {
+        $this->callAfterResolving('migrator', function ($migrator) use($paths) {
             foreach ((array) $paths as $path) {
                 $migrator->path($path);
             }
         });
     }
-
     /**
      * Register Eloquent model factory paths.
      *
@@ -244,13 +216,12 @@ abstract class ServiceProvider
      */
     protected function loadFactoriesFrom($paths)
     {
-        $this->callAfterResolving(ModelFactory::class, function ($factory) use ($paths) {
+        $this->callAfterResolving(ModelFactory::class, function ($factory) use($paths) {
             foreach ((array) $paths as $path) {
                 $factory->load($path);
             }
         });
     }
-
     /**
      * Setup an after resolving listener, or fire immediately if already resolved.
      *
@@ -261,12 +232,10 @@ abstract class ServiceProvider
     protected function callAfterResolving($name, $callback)
     {
         $this->app->afterResolving($name, $callback);
-
         if ($this->app->resolved($name)) {
             $callback($this->app->make($name), $this->app);
         }
     }
-
     /**
      * Register paths to be published by the publish command.
      *
@@ -277,14 +246,11 @@ abstract class ServiceProvider
     protected function publishes(array $paths, $groups = null)
     {
         $this->ensurePublishArrayInitialized($class = static::class);
-
-        static::$publishes[$class] = array_merge(static::$publishes[$class], $paths);
-
+        static::$publishes[$class] = \array_merge(static::$publishes[$class], $paths);
         foreach ((array) $groups as $group) {
             $this->addPublishGroup($group, $paths);
         }
     }
-
     /**
      * Ensure the publish array for the service provider is initialized.
      *
@@ -293,11 +259,10 @@ abstract class ServiceProvider
      */
     protected function ensurePublishArrayInitialized($class)
     {
-        if (! array_key_exists($class, static::$publishes)) {
+        if (!\array_key_exists($class, static::$publishes)) {
             static::$publishes[$class] = [];
         }
     }
-
     /**
      * Add a publish group / tag to the service provider.
      *
@@ -307,15 +272,11 @@ abstract class ServiceProvider
      */
     protected function addPublishGroup($group, $paths)
     {
-        if (! array_key_exists($group, static::$publishGroups)) {
+        if (!\array_key_exists($group, static::$publishGroups)) {
             static::$publishGroups[$group] = [];
         }
-
-        static::$publishGroups[$group] = array_merge(
-            static::$publishGroups[$group], $paths
-        );
+        static::$publishGroups[$group] = \array_merge(static::$publishGroups[$group], $paths);
     }
-
     /**
      * Get the paths to publish.
      *
@@ -325,15 +286,13 @@ abstract class ServiceProvider
      */
     public static function pathsToPublish($provider = null, $group = null)
     {
-        if (! is_null($paths = static::pathsForProviderOrGroup($provider, $group))) {
+        if (!\is_null($paths = static::pathsForProviderOrGroup($provider, $group))) {
             return $paths;
         }
-
         return collect(static::$publishes)->reduce(function ($paths, $p) {
-            return array_merge($paths, $p);
+            return \array_merge($paths, $p);
         }, []);
     }
-
     /**
      * Get the paths for the provider or group (or both).
      *
@@ -345,15 +304,14 @@ abstract class ServiceProvider
     {
         if ($provider && $group) {
             return static::pathsForProviderAndGroup($provider, $group);
-        } elseif ($group && array_key_exists($group, static::$publishGroups)) {
+        } elseif ($group && \array_key_exists($group, static::$publishGroups)) {
             return static::$publishGroups[$group];
-        } elseif ($provider && array_key_exists($provider, static::$publishes)) {
+        } elseif ($provider && \array_key_exists($provider, static::$publishes)) {
             return static::$publishes[$provider];
         } elseif ($group || $provider) {
             return [];
         }
     }
-
     /**
      * Get the paths for the provider and group.
      *
@@ -363,13 +321,11 @@ abstract class ServiceProvider
      */
     protected static function pathsForProviderAndGroup($provider, $group)
     {
-        if (! empty(static::$publishes[$provider]) && ! empty(static::$publishGroups[$group])) {
-            return array_intersect_key(static::$publishes[$provider], static::$publishGroups[$group]);
+        if (!empty(static::$publishes[$provider]) && !empty(static::$publishGroups[$group])) {
+            return \array_intersect_key(static::$publishes[$provider], static::$publishGroups[$group]);
         }
-
         return [];
     }
-
     /**
      * Get the service providers available for publishing.
      *
@@ -377,9 +333,8 @@ abstract class ServiceProvider
      */
     public static function publishableProviders()
     {
-        return array_keys(static::$publishes);
+        return \array_keys(static::$publishes);
     }
-
     /**
      * Get the groups available for publishing.
      *
@@ -387,9 +342,8 @@ abstract class ServiceProvider
      */
     public static function publishableGroups()
     {
-        return array_keys(static::$publishGroups);
+        return \array_keys(static::$publishGroups);
     }
-
     /**
      * Register the package's custom Artisan commands.
      *
@@ -398,13 +352,11 @@ abstract class ServiceProvider
      */
     public function commands($commands)
     {
-        $commands = is_array($commands) ? $commands : func_get_args();
-
-        Artisan::starting(function ($artisan) use ($commands) {
+        $commands = \is_array($commands) ? $commands : \func_get_args();
+        Artisan::starting(function ($artisan) use($commands) {
             $artisan->resolveCommands($commands);
         });
     }
-
     /**
      * Get the services provided by the provider.
      *
@@ -414,7 +366,6 @@ abstract class ServiceProvider
     {
         return [];
     }
-
     /**
      * Get the events that trigger this service provider to register.
      *
@@ -424,7 +375,6 @@ abstract class ServiceProvider
     {
         return [];
     }
-
     /**
      * Determine if the provider is deferred.
      *

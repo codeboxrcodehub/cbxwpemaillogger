@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database\Connectors;
+namespace ComfortSmtpScoped\Illuminate\Database\Connectors;
 
 interface ConnectorInterface
 {

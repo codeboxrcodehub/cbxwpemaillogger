@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Queue;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Queue;
 
 interface ShouldQueue
 {

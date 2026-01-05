@@ -8,22 +8,21 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Carbon\Traits;
+namespace ComfortSmtpScoped\Carbon\Traits;
 
 use BadMethodCallException;
-use Carbon\Carbon;
-use Carbon\CarbonInterface;
-use Carbon\CarbonPeriod;
-use Carbon\CarbonTimeZone;
-use Carbon\Exceptions\BadComparisonUnitException;
-use Carbon\Exceptions\ImmutableException;
-use Carbon\Exceptions\InvalidTimeZoneException;
-use Carbon\Exceptions\InvalidTypeException;
-use Carbon\Exceptions\UnknownGetterException;
-use Carbon\Exceptions\UnknownMethodException;
-use Carbon\Exceptions\UnknownSetterException;
-use Carbon\Exceptions\UnknownUnitException;
+use ComfortSmtpScoped\Carbon\Carbon;
+use ComfortSmtpScoped\Carbon\CarbonInterface;
+use ComfortSmtpScoped\Carbon\CarbonPeriod;
+use ComfortSmtpScoped\Carbon\CarbonTimeZone;
+use ComfortSmtpScoped\Carbon\Exceptions\BadComparisonUnitException;
+use ComfortSmtpScoped\Carbon\Exceptions\ImmutableException;
+use ComfortSmtpScoped\Carbon\Exceptions\InvalidTimeZoneException;
+use ComfortSmtpScoped\Carbon\Exceptions\InvalidTypeException;
+use ComfortSmtpScoped\Carbon\Exceptions\UnknownGetterException;
+use ComfortSmtpScoped\Carbon\Exceptions\UnknownMethodException;
+use ComfortSmtpScoped\Carbon\Exceptions\UnknownSetterException;
+use ComfortSmtpScoped\Carbon\Exceptions\UnknownUnitException;
 use Closure;
 use DateInterval;
 use DatePeriod;
@@ -35,7 +34,6 @@ use InvalidArgumentException;
 use ReflectionException;
 use ReturnTypeWillChange;
 use Throwable;
-
 /**
  * A simple API extension for DateTime.
  *
@@ -543,7 +541,6 @@ trait Date
     use Timestamp;
     use Units;
     use Week;
-
     /**
      * Names of days of the week.
      *
@@ -565,14 +562,12 @@ trait Date
         // @call isDayOfWeek
         CarbonInterface::SATURDAY => 'Saturday',
     ];
-
     /**
      * Will UTF8 encoding be used to print localized date/time ?
      *
      * @var bool
      */
-    protected static $utf8 = false;
-
+    protected static $utf8 = \false;
     /**
      * List of unit and magic methods associated as doc-comments.
      *
@@ -610,7 +605,6 @@ trait Date
         // @call addUnit
         'microsecond',
     ];
-
     /**
      * Creates a DateTimeZone from a string, DateTimeZone or integer offset.
      *
@@ -625,7 +619,6 @@ trait Date
     {
         return CarbonTimeZone::instance($object, $objectDump);
     }
-
     /**
      * Get the TimeZone associated with the Carbon instance (as CarbonTimeZone).
      *
@@ -638,7 +631,6 @@ trait Date
     {
         return CarbonTimeZone::instance(parent::getTimezone());
     }
-
     /**
      * List of minimum and maximums for each unit.
      *
@@ -646,7 +638,7 @@ trait Date
      *
      * @return array
      */
-    protected static function getRangesByUnit(int $daysInMonth = 31): array
+    protected static function getRangesByUnit(int $daysInMonth = 31) : array
     {
         return [
             // @call roundUnit
@@ -663,7 +655,6 @@ trait Date
             'second' => [0, static::SECONDS_PER_MINUTE - 1],
         ];
     }
-
     /**
      * Get a copy of the instance.
      *
@@ -673,7 +664,6 @@ trait Date
     {
         return clone $this;
     }
-
     /**
      * @alias copy
      *
@@ -685,7 +675,6 @@ trait Date
     {
         return clone $this;
     }
-
     /**
      * Clone the current instance if it's mutable.
      *
@@ -694,15 +683,13 @@ trait Date
      *
      * @return static
      */
-    public function avoidMutation(): self
+    public function avoidMutation() : self
     {
         if ($this instanceof DateTimeImmutable) {
             return $this;
         }
-
         return clone $this;
     }
-
     /**
      * Returns a present instance in the same timezone.
      *
@@ -712,7 +699,6 @@ trait Date
     {
         return static::now($this->getTimezone());
     }
-
     /**
      * Throws an exception if the given object is not a DateTime and does not implement DateTimeInterface.
      *
@@ -725,17 +711,12 @@ trait Date
     {
         $message = 'Expected ';
         foreach ((array) $other as $expect) {
-            $message .= "$expect, ";
+            $message .= "{$expect}, ";
         }
-
         if (!$date instanceof DateTime && !$date instanceof DateTimeInterface) {
-            throw new InvalidTypeException(
-                $message.'DateTime or DateTimeInterface, '.
-                (\is_object($date) ? \get_class($date) : \gettype($date)).' given'
-            );
+            throw new InvalidTypeException($message . 'DateTime or DateTimeInterface, ' . (\is_object($date) ? \get_class($date) : \gettype($date)) . ' given');
         }
     }
-
     /**
      * Return the Carbon instance passed through, a now instance in the same timezone
      * if null given or parse the input if string given.
@@ -749,16 +730,12 @@ trait Date
         if (!$date) {
             return $this->nowWithSameTz();
         }
-
         if (\is_string($date)) {
             return static::parse($date, $this->getTimezone());
         }
-
         static::expectDateTime($date, ['null', 'string']);
-
         return $date instanceof self ? $date : static::instance($date);
     }
-
     /**
      * Return the Carbon instance passed through, a now instance in UTC
      * if null given or parse the input if string given (using current timezone
@@ -768,21 +745,17 @@ trait Date
      *
      * @return static
      */
-    protected function resolveUTC($date = null): self
+    protected function resolveUTC($date = null) : self
     {
         if (!$date) {
             return static::now('UTC');
         }
-
         if (\is_string($date)) {
             return static::parse($date, $this->getTimezone())->utc();
         }
-
         static::expectDateTime($date, ['null', 'string']);
-
         return $date instanceof self ? $date : static::instance($date)->utc();
     }
-
     /**
      * Return the Carbon instance passed through, a now instance in the same timezone
      * if null given or parse the input if string given.
@@ -796,18 +769,14 @@ trait Date
         if ($date instanceof DateInterval) {
             return $this->avoidMutation()->add($date);
         }
-
         if ($date instanceof DatePeriod || $date instanceof CarbonPeriod) {
             $date = $date->getStartDate();
         }
-
         return $this->resolveCarbon($date);
     }
-
     ///////////////////////////////////////////////////////////////////
     ///////////////////////// GETTERS AND SETTERS /////////////////////
     ///////////////////////////////////////////////////////////////////
-
     /**
      * Get a part of the Carbon object
      *
@@ -821,7 +790,6 @@ trait Date
     {
         return $this->get($name);
     }
-
     /**
      * Get a part of the Carbon object
      *
@@ -904,15 +872,12 @@ trait Date
             // @property-read string $tzAbbrName alias of $timezoneAbbreviatedName
             'tzAbbrName' => 'T',
         ];
-
-        switch (true) {
+        switch (\true) {
             case isset($formats[$name]):
                 $format = $formats[$name];
-                $method = str_starts_with($format, '%') ? 'formatLocalized' : 'rawFormat';
-                $value = $this->$method($format);
-
-                return is_numeric($value) ? (int) $value : $value;
-
+                $method = \str_starts_with($format, '%') ? 'formatLocalized' : 'rawFormat';
+                $value = $this->{$method}($format);
+                return \is_numeric($value) ? (int) $value : $value;
             // @property-read string long name of weekday translated according to Carbon locale, in english if no translation available for current language
             case $name === 'dayName':
                 return $this->getTranslatedDayName();
@@ -930,7 +895,7 @@ trait Date
                 return $this->getTranslatedShortMonthName();
             // @property-read string lowercase meridiem mark translated according to Carbon locale, in latin if no translation available for current language
             case $name === 'meridiem':
-                return $this->meridiem(true);
+                return $this->meridiem(\true);
             // @property-read string uppercase meridiem mark translated according to Carbon locale, in latin if no translation available for current language
             case $name === 'upperMeridiem':
                 return $this->meridiem();
@@ -943,70 +908,54 @@ trait Date
             case $name === 'millisecond':
             // @property int
             case $name === 'milli':
-                return (int) floor(((int) $this->rawFormat('u')) / 1000);
-
+                return (int) \floor((int) $this->rawFormat('u') / 1000);
             // @property int 1 through 53
             case $name === 'week':
                 return (int) $this->week();
-
             // @property int 1 through 53
             case $name === 'isoWeek':
                 return (int) $this->isoWeek();
-
             // @property int year according to week format
             case $name === 'weekYear':
                 return (int) $this->weekYear();
-
             // @property int year according to ISO week format
             case $name === 'isoWeekYear':
                 return (int) $this->isoWeekYear();
-
             // @property-read int 51 through 53
             case $name === 'weeksInYear':
                 return $this->weeksInYear();
-
             // @property-read int 51 through 53
             case $name === 'isoWeeksInYear':
                 return $this->isoWeeksInYear();
-
             // @property-read int 1 through 5
             case $name === 'weekOfMonth':
-                return (int) ceil($this->day / static::DAYS_PER_WEEK);
-
+                return (int) \ceil($this->day / static::DAYS_PER_WEEK);
             // @property-read int 1 through 5
             case $name === 'weekNumberInMonth':
-                return (int) ceil(($this->day + $this->avoidMutation()->startOfMonth()->dayOfWeekIso - 1) / static::DAYS_PER_WEEK);
-
+                return (int) \ceil(($this->day + $this->avoidMutation()->startOfMonth()->dayOfWeekIso - 1) / static::DAYS_PER_WEEK);
             // @property-read int 0 through 6
             case $name === 'firstWeekDay':
-                return $this->localTranslator ? ($this->getTranslationMessage('first_day_of_week') ?? 0) : static::getWeekStartsAt();
-
+                return $this->localTranslator ? $this->getTranslationMessage('first_day_of_week') ?? 0 : static::getWeekStartsAt();
             // @property-read int 0 through 6
             case $name === 'lastWeekDay':
                 return $this->localTranslator ? (($this->getTranslationMessage('first_day_of_week') ?? 0) + static::DAYS_PER_WEEK - 1) % static::DAYS_PER_WEEK : static::getWeekEndsAt();
-
             // @property int 1 through 366
             case $name === 'dayOfYear':
-                return 1 + (int) ($this->rawFormat('z'));
-
+                return 1 + (int) $this->rawFormat('z');
             // @property-read int 365 or 366
             case $name === 'daysInYear':
                 return $this->isLeapYear() ? 366 : 365;
-
             // @property int does a diffInYears() with default parameters
             case $name === 'age':
                 return $this->diffInYears();
-
             // @property-read int the quarter of this instance, 1 - 4
             // @call isSameUnit
             case $name === 'quarter':
-                return (int) ceil($this->month / static::MONTHS_PER_QUARTER);
-
+                return (int) \ceil($this->month / static::MONTHS_PER_QUARTER);
             // @property-read int the decade of this instance
             // @call isSameUnit
             case $name === 'decade':
-                return (int) ceil($this->year / static::YEARS_PER_DECADE);
-
+                return (int) \ceil($this->year / static::YEARS_PER_DECADE);
             // @property-read int the century of this instance
             // @call isSameUnit
             case $name === 'century':
@@ -1016,9 +965,7 @@ trait Date
                     $year = -$year;
                     $factor = -1;
                 }
-
-                return (int) ($factor * ceil($year / static::YEARS_PER_CENTURY));
-
+                return (int) ($factor * \ceil($year / static::YEARS_PER_CENTURY));
             // @property-read int the millennium of this instance
             // @call isSameUnit
             case $name === 'millennium':
@@ -1028,58 +975,44 @@ trait Date
                     $year = -$year;
                     $factor = -1;
                 }
-
-                return (int) ($factor * ceil($year / static::YEARS_PER_MILLENNIUM));
-
+                return (int) ($factor * \ceil($year / static::YEARS_PER_MILLENNIUM));
             // @property int the timezone offset in seconds from UTC
             case $name === 'offset':
                 return $this->getOffset();
-
             // @property int the timezone offset in minutes from UTC
             case $name === 'offsetMinutes':
                 return $this->getOffset() / static::SECONDS_PER_MINUTE;
-
             // @property int the timezone offset in hours from UTC
             case $name === 'offsetHours':
                 return $this->getOffset() / static::SECONDS_PER_MINUTE / static::MINUTES_PER_HOUR;
-
             // @property-read bool daylight savings time indicator, true if DST, false otherwise
             case $name === 'dst':
                 return $this->rawFormat('I') === '1';
-
             // @property-read bool checks if the timezone is local, true if local, false otherwise
             case $name === 'local':
-                return $this->getOffset() === $this->avoidMutation()->setTimezone(date_default_timezone_get())->getOffset();
-
+                return $this->getOffset() === $this->avoidMutation()->setTimezone(\date_default_timezone_get())->getOffset();
             // @property-read bool checks if the timezone is UTC, true if UTC, false otherwise
             case $name === 'utc':
                 return $this->getOffset() === 0;
-
             // @property CarbonTimeZone $timezone the current timezone
             // @property CarbonTimeZone $tz alias of $timezone
             case $name === 'timezone' || $name === 'tz':
                 return CarbonTimeZone::instance($this->getTimezone());
-
             // @property-read string $timezoneName the current timezone name
             // @property-read string $tzName alias of $timezoneName
             case $name === 'timezoneName' || $name === 'tzName':
                 return $this->getTimezone()->getName();
-
             // @property-read string locale of the current instance
             case $name === 'locale':
                 return $this->getTranslatorLocale();
-
             default:
-                $macro = $this->getLocalMacro('get'.ucfirst($name));
-
+                $macro = $this->getLocalMacro('get' . \ucfirst($name));
                 if ($macro) {
                     return $this->executeCallableWithContext($macro);
                 }
-
                 throw new UnknownGetterException($name);
         }
     }
-
     /**
      * Check if an attribute exists on the object
      *
@@ -1091,13 +1024,11 @@ trait Date
     {
         try {
             $this->__get($name);
-        } catch (UnknownGetterException | ReflectionException $e) {
-            return false;
+        } catch (UnknownGetterException|ReflectionException $e) {
+            return \false;
         }
-
-        return true;
+        return \true;
     }
-
     /**
      * Set a part of the Carbon object
      *
@@ -1110,15 +1041,12 @@ trait Date
      */
     public function __set($name, $value)
     {
-        if ($this->constructedObjectId === spl_object_hash($this)) {
+        if ($this->constructedObjectId === \spl_object_hash($this)) {
             $this->set($name, $value);
-
             return;
         }
-
-        $this->$name = $value;
+        $this->{$name} = $value;
     }
-
     /**
      * Set a part of the Carbon object
      *
@@ -1134,15 +1062,12 @@ trait Date
         if ($this->isImmutable()) {
             throw new ImmutableException(\sprintf('%s class', static::class));
         }
-
         if (\is_array($name)) {
             foreach ($name as $key => $value) {
                 $this->set($key, $value);
             }
-
             return $this;
         }
-
         switch ($name) {
             case 'milliseconds':
             case 'millisecond':
@@ -1150,126 +1075,86 @@ trait Date
             case 'microseconds':
             case 'microsecond':
             case 'micro':
-                if (str_starts_with($name, 'milli')) {
+                if (\str_starts_with($name, 'milli')) {
                     $value *= 1000;
                 }
-
                 while ($value < 0) {
                     $this->subSecond();
                     $value += static::MICROSECONDS_PER_SECOND;
                 }
-
                 while ($value >= static::MICROSECONDS_PER_SECOND) {
                     $this->addSecond();
                     $value -= static::MICROSECONDS_PER_SECOND;
                 }
-
-                $this->modify($this->rawFormat('H:i:s.').str_pad((string) round($value), 6, '0', STR_PAD_LEFT));
-
+                $this->modify($this->rawFormat('H:i:s.') . \str_pad((string) \round($value), 6, '0', \STR_PAD_LEFT));
                 break;
-
             case 'year':
             case 'month':
             case 'day':
             case 'hour':
             case 'minute':
             case 'second':
-                [$year, $month, $day, $hour, $minute, $second] = array_map('intval', explode('-', $this->rawFormat('Y-n-j-G-i-s')));
-                $$name = $value;
+                [$year, $month, $day, $hour, $minute, $second] = \array_map('intval', \explode('-', $this->rawFormat('Y-n-j-G-i-s')));
+                ${$name} = $value;
                 $this->setDateTime($year, $month, $day, $hour, $minute, $second);
-
                 break;
-
             case 'week':
                 $this->week($value);
-
                 break;
-
             case 'isoWeek':
                 $this->isoWeek($value);
-
                 break;
-
             case 'weekYear':
                 $this->weekYear($value);
-
                 break;
-
             case 'isoWeekYear':
                 $this->isoWeekYear($value);
-
                 break;
-
             case 'dayOfYear':
                 $this->addDays($value - $this->dayOfYear);
-
                 break;
-
             case 'timestamp':
                 $this->setTimestamp($value);
-
                 break;
-
             case 'offset':
                 $this->setTimezone(static::safeCreateDateTimeZone($value / static::SECONDS_PER_MINUTE / static::MINUTES_PER_HOUR));
-
                 break;
-
             case 'offsetMinutes':
                 $this->setTimezone(static::safeCreateDateTimeZone($value / static::MINUTES_PER_HOUR));
-
                 break;
-
             case 'offsetHours':
                 $this->setTimezone(static::safeCreateDateTimeZone($value));
-
                 break;
-
             case 'timezone':
             case 'tz':
                 $this->setTimezone($value);
-
                 break;
-
             default:
-                $macro = $this->getLocalMacro('set'.ucfirst($name));
-
+                $macro = $this->getLocalMacro('set' . \ucfirst($name));
                 if ($macro) {
                     $this->executeCallableWithContext($macro, $value);
-
                     break;
                 }
-
                 if ($this->localStrictModeEnabled ?? static::isStrictModeEnabled()) {
                     throw new UnknownSetterException($name);
                 }
-
-                $this->$name = $value;
+                $this->{$name} = $value;
         }
-
         return $this;
     }
-
     protected function getTranslatedFormByRegExp($baseKey, $keySuffix, $context, $subKey, $defaultValue)
     {
-        $key = $baseKey.$keySuffix;
+        $key = $baseKey . $keySuffix;
         $standaloneKey = "{$key}_standalone";
         $baseTranslation = $this->getTranslationMessage($key);
-
         if ($baseTranslation instanceof Closure) {
             return $baseTranslation($this, $context, $subKey) ?: $defaultValue;
         }
-
-        if (
-            $this->getTranslationMessage("$standaloneKey.$subKey") &&
-            (!$context || (($regExp = $this->getTranslationMessage("{$baseKey}_regexp")) && !preg_match($regExp, $context)))
-        ) {
+        if ($this->getTranslationMessage("{$standaloneKey}.{$subKey}") && (!$context || ($regExp = $this->getTranslationMessage("{$baseKey}_regexp")) && !\preg_match($regExp, $context))) {
             $key = $standaloneKey;
         }
-
-        return $this->getTranslationMessage("$key.$subKey", null, $defaultValue);
+        return $this->getTranslationMessage("{$key}.{$subKey}", null, $defaultValue);
     }
-
     /**
      * Get the translation of the current week day name (with context for languages with multiple forms).
      *
@@ -1283,7 +1168,6 @@ trait Date
     {
         return $this->getTranslatedFormByRegExp('weekdays', $keySuffix, $context, $this->dayOfWeek, $defaultValue ?: $this->englishDayOfWeek);
     }
-
     /**
      * Get the translation of the current short week day name (with context for languages with multiple forms).
      *
@@ -1295,7 +1179,6 @@ trait Date
     {
         return $this->getTranslatedDayName($context, '_short', $this->shortEnglishDayOfWeek);
     }
-
     /**
      * Get the translation of the current abbreviated week day name (with context for languages with multiple forms).
      *
@@ -1307,7 +1190,6 @@ trait Date
     {
         return $this->getTranslatedDayName($context, '_min', $this->shortEnglishDayOfWeek);
     }
-
     /**
      * Get the translation of the current month day name (with context for languages with multiple forms).
      *
@@ -1321,7 +1203,6 @@ trait Date
     {
         return $this->getTranslatedFormByRegExp('months', $keySuffix, $context, $this->month - 1, $defaultValue ?: $this->englishMonth);
     }
-
     /**
      * Get the translation of the current short month day name (with context for languages with multiple forms).
      *
@@ -1333,7 +1214,6 @@ trait Date
     {
         return $this->getTranslatedMonthName($context, '_short', $this->shortEnglishMonth);
     }
-
     /**
      * Get/set the day of year.
      *
@@ -1344,10 +1224,8 @@ trait Date
     public function dayOfYear($value = null)
     {
         $dayOfYear = $this->dayOfYear;
-
         return $value === null ? $dayOfYear : $this->addDays($value - $dayOfYear);
     }
-
     /**
      * Get/set the weekday from 0 (Sunday) to 6 (Saturday).
      *
@@ -1360,13 +1238,10 @@ trait Date
         if ($value === null) {
             return $this->dayOfWeek;
         }
-
         $firstDay = (int) ($this->getTranslationMessage('first_day_of_week') ?? 0);
         $dayOfWeek = ($this->dayOfWeek + 7 - $firstDay) % 7;
-
-        return $this->addDays((($value + 7 - $firstDay) % 7) - $dayOfWeek);
+        return $this->addDays(($value + 7 - $firstDay) % 7 - $dayOfWeek);
     }
-
     /**
      * Get/set the ISO weekday from 1 (Monday) to 7 (Sunday).
      *
@@ -1377,10 +1252,8 @@ trait Date
     public function isoWeekday($value = null)
     {
         $dayOfWeekIso = $this->dayOfWeekIso;
-
         return $value === null ? $dayOfWeekIso : $this->addDays($value - $dayOfWeekIso);
     }
-
     /**
      * Return the number of days since the start of the week (using the current locale or the first parameter
      * if explicitly given).
@@ -1391,13 +1264,11 @@ trait Date
      *
      * @return int
      */
-    public function getDaysFromStartOfWeek(?int $weekStartsAt = null): int
+    public function getDaysFromStartOfWeek(?int $weekStartsAt = null) : int
     {
         $firstDay = (int) ($weekStartsAt ?? $this->getTranslationMessage('first_day_of_week') ?? 0);
-
         return ($this->dayOfWeek + 7 - $firstDay) % 7;
     }
-
     /**
      * Set the day (keeping the current time) to the start of the week + the number of days passed as the first
      * parameter. First day of week is driven by the locale unless explicitly set with the second parameter.
@@ -1413,7 +1284,6 @@ trait Date
     {
         return $this->addDays($numberOfDays - $this->getDaysFromStartOfWeek($weekStartsAt));
     }
-
     /**
      * Set any unit to a new value without overflowing current other unit given.
      *
@@ -1428,7 +1298,7 @@ trait Date
         try {
             $original = $this->avoidMutation();
             /** @var static $date */
-            $date = $this->$valueUnit($value);
+            $date = $this->{$valueUnit}($value);
             $end = $original->avoidMutation()->endOf($overflowUnit);
             $start = $original->avoidMutation()->startOf($overflowUnit);
             if ($date < $start) {
@@ -1436,13 +1306,11 @@ trait Date
             } elseif ($date > $end) {
                 $date = $date->setDateTimeFrom($end);
             }
-
             return $date;
-        } catch (BadMethodCallException | ReflectionException $exception) {
+        } catch (BadMethodCallException|ReflectionException $exception) {
             throw new UnknownUnitException($valueUnit, 0, $exception);
         }
     }
-
     /**
      * Add any unit to a new value without overflowing current other unit given.
      *
@@ -1454,9 +1322,8 @@ trait Date
      */
     public function addUnitNoOverflow($valueUnit, $value, $overflowUnit)
     {
-        return $this->setUnitNoOverflow($valueUnit, $this->$valueUnit + $value, $overflowUnit);
+        return $this->setUnitNoOverflow($valueUnit, $this->{$valueUnit} + $value, $overflowUnit);
     }
-
     /**
      * Subtract any unit to a new value without overflowing current other unit given.
      *
@@ -1468,9 +1335,8 @@ trait Date
      */
     public function subUnitNoOverflow($valueUnit, $value, $overflowUnit)
     {
-        return $this->setUnitNoOverflow($valueUnit, $this->$valueUnit - $value, $overflowUnit);
+        return $this->setUnitNoOverflow($valueUnit, $this->{$valueUnit} - $value, $overflowUnit);
     }
-
     /**
      * Returns the minutes offset to UTC if no arguments passed, else set the timezone with given minutes shift passed.
      *
@@ -1483,10 +1349,8 @@ trait Date
         if (\func_num_args() < 1) {
             return $this->offsetMinutes;
         }
-
         return $this->setTimezone(CarbonTimeZone::createFromMinuteOffset($minuteOffset));
     }
-
     /**
      * Set the date with gregorian year, month and day numbers.
      *
@@ -1503,7 +1367,6 @@ trait Date
     {
         return parent::setDate((int) $year, (int) $month, (int) $day);
     }
-
     /**
      * Set a date according to the ISO 8601 standard - using weeks and day offsets rather than specific dates.
      *
@@ -1520,7 +1383,6 @@ trait Date
     {
         return parent::setISODate((int) $year, (int) $week, (int) $day);
     }
-
     /**
      * Set the date and time all together.
      *
@@ -1538,7 +1400,6 @@ trait Date
     {
         return $this->setDate($year, $month, $day)->setTime((int) $hour, (int) $minute, (int) $second, (int) $microseconds);
     }
-
     /**
      * Resets the current time of the DateTime object to a different time.
      *
@@ -1556,7 +1417,6 @@ trait Date
     {
         return parent::setTime((int) $hour, (int) $minute, (int) $second, (int) $microseconds);
     }
-
     /**
      * Set the instance's timestamp.
      *
@@ -1570,10 +1430,8 @@ trait Date
     public function setTimestamp($unixTimestamp)
     {
         [$timestamp, $microseconds] = self::getIntegerAndDecimalParts($unixTimestamp);
-
         return parent::setTimestamp((int) $timestamp)->setMicroseconds((int) $microseconds);
     }
-
     /**
      * Set the time by time string.
      *
@@ -1583,13 +1441,11 @@ trait Date
      */
     public function setTimeFromTimeString($time)
     {
-        if (!str_contains($time, ':')) {
+        if (!\str_contains($time, ':')) {
             $time .= ':0';
         }
-
         return $this->modify($time);
     }
-
     /**
      * @alias setTimezone
      *
@@ -1601,7 +1457,6 @@ trait Date
     {
         return $this->setTimezone($value);
     }
-
     /**
      * Set the timezone or returns the timezone name if no arguments passed.
      *
@@ -1614,10 +1469,8 @@ trait Date
         if (\func_num_args() < 1) {
             return $this->tzName;
         }
-
         return $this->setTimezone($value);
     }
-
     /**
      * Set the instance's timezone from a string or object.
      *
@@ -1629,14 +1482,11 @@ trait Date
     public function setTimezone($value)
     {
         $tz = static::safeCreateDateTimeZone($value);
-
-        if ($tz === false && !self::isStrictModeEnabled()) {
+        if ($tz === \false && !self::isStrictModeEnabled()) {
             $tz = new CarbonTimeZone();
         }
-
         return parent::setTimezone($tz);
     }
-
     /**
      * Set the instance's timezone from a string or object and add/subtract the offset difference.
      *
@@ -1647,12 +1497,8 @@ trait Date
     public function shiftTimezone($value)
     {
         $dateTimeString = $this->format('Y-m-d H:i:s.u');
-
-        return $this
-            ->setTimezone($value)
-            ->modify($dateTimeString);
+        return $this->setTimezone($value)->modify($dateTimeString);
     }
-
     /**
      * Set the instance's timezone to UTC.
      *
@@ -1662,7 +1508,6 @@ trait Date
     {
         return $this->setTimezone('UTC');
     }
-
     /**
      * Set the year, month, and date for this instance to that of the passed instance.
      *
@@ -1673,10 +1518,8 @@ trait Date
     public function setDateFrom($date = null)
     {
         $date = $this->resolveCarbon($date);
-
         return $this->setDate($date->year, $date->month, $date->day);
     }
-
     /**
      * Set the hour, minute, second and microseconds for this instance to that of the passed instance.
      *
@@ -1687,10 +1530,8 @@ trait Date
     public function setTimeFrom($date = null)
     {
         $date = $this->resolveCarbon($date);
-
         return $this->setTime($date->hour, $date->minute, $date->second, $date->microsecond);
     }
-
     /**
      * Set the date and time for this instance to that of the passed instance.
      *
@@ -1701,10 +1542,8 @@ trait Date
     public function setDateTimeFrom($date = null)
     {
         $date = $this->resolveCarbon($date);
-
         return $this->modify($date->rawFormat('Y-m-d H:i:s.u'));
     }
-
     /**
      * Get the days of the week
      *
@@ -1714,19 +1553,13 @@ trait Date
     {
         return static::$days;
     }
-
     ///////////////////////////////////////////////////////////////////
     /////////////////////// WEEK SPECIAL DAYS /////////////////////////
     ///////////////////////////////////////////////////////////////////
-
-    private static function getFirstDayOfWeek(): int
+    private static function getFirstDayOfWeek() : int
     {
-        return (int) static::getTranslationMessageWith(
-            static::getTranslator(),
-            'first_day_of_week'
-        );
+        return (int) static::getTranslationMessageWith(static::getTranslator(), 'first_day_of_week');
     }
-
     /**
      * Get the first day of week
      *
@@ -1737,10 +1570,8 @@ trait Date
         if (static::$weekStartsAt === static::WEEK_DAY_AUTO) {
             return self::getFirstDayOfWeek();
         }
-
         return static::$weekStartsAt;
     }
-
     /**
      * @deprecated To avoid conflict between different third-party libraries, static setters should not be used.
      *             Use $weekEndsAt optional parameter instead when using endOfWeek method. You can also use the
@@ -1755,9 +1586,8 @@ trait Date
      */
     public static function setWeekStartsAt($day)
     {
-        static::$weekStartsAt = $day === static::WEEK_DAY_AUTO ? $day : max(0, (7 + $day) % 7);
+        static::$weekStartsAt = $day === static::WEEK_DAY_AUTO ? $day : \max(0, (7 + $day) % 7);
     }
-
     /**
      * Get the last day of week
      *
@@ -1768,10 +1598,8 @@ trait Date
         if (static::$weekStartsAt === static::WEEK_DAY_AUTO) {
             return (int) (static::DAYS_PER_WEEK - 1 + self::getFirstDayOfWeek()) % static::DAYS_PER_WEEK;
         }
-
         return static::$weekEndsAt;
     }
-
     /**
      * @deprecated To avoid conflict between different third-party libraries, static setters should not be used.
      *             Use $weekStartsAt optional parameter instead when using startOfWeek, floorWeek, ceilWeek
@@ -1787,9 +1615,8 @@ trait Date
      */
     public static function setWeekEndsAt($day)
     {
-        static::$weekEndsAt = $day === static::WEEK_DAY_AUTO ? $day : max(0, (7 + $day) % 7);
+        static::$weekEndsAt = $day === static::WEEK_DAY_AUTO ? $day : \max(0, (7 + $day) % 7);
     }
-
     /**
      * Get weekend days
      *
@@ -1799,7 +1626,6 @@ trait Date
     {
         return static::$weekendDays;
     }
-
     /**
      * @deprecated To avoid conflict between different third-party libraries, static setters should not be used.
      *             You should rather consider week-end is always saturday and sunday, and if you have some custom
@@ -1831,7 +1657,6 @@ trait Date
     {
         static::$weekendDays = $days;
     }
-
     /**
      * Determine if a time string will produce a relative date.
      *
@@ -1841,22 +1666,18 @@ trait Date
      */
     public static function hasRelativeKeywords($time)
     {
-        if (!$time || strtotime($time) === false) {
-            return false;
+        if (!$time || \strtotime($time) === \false) {
+            return \false;
         }
-
         $date1 = new DateTime('2000-01-01T00:00:00Z');
         $date1->modify($time);
         $date2 = new DateTime('2001-12-25T00:00:00Z');
         $date2->modify($time);
-
         return $date1 != $date2;
     }
-
     ///////////////////////////////////////////////////////////////////
     /////////////////////// STRING FORMATTING /////////////////////////
     ///////////////////////////////////////////////////////////////////
-
     /**
      * @deprecated To avoid conflict between different third-party libraries, static setters should not be used.
      *             You should rather use UTF-8 language packages on every machine.
@@ -1869,7 +1690,6 @@ trait Date
     {
         static::$utf8 = $utf8;
     }
-
     /**
      * Format the instance with the current locale.  You can set the current
      * locale using setlocale() https://php.net/setlocale.
@@ -1885,24 +1705,14 @@ trait Date
     public function formatLocalized($format)
     {
         // Check for Windows to find and replace the %e modifier correctly.
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $format = preg_replace('#(?<!%)((?:%%)*)%e#', '\1%#d', $format); // @codeCoverageIgnore
+        if (\strtoupper(\substr(\PHP_OS, 0, 3)) === 'WIN') {
+            $format = \preg_replace('#(?<!%)((?:%%)*)%e#', '\\1%#d', $format);
+            // @codeCoverageIgnore
         }
-
-        $time = strtotime($this->toDateTimeString());
-        $formatted = ($this->localStrictModeEnabled ?? static::isStrictModeEnabled())
-            ? strftime($format, $time)
-            : @strftime($format, $time);
-
-        return static::$utf8
-            ? (
-                \function_exists('mb_convert_encoding')
-                ? mb_convert_encoding($formatted, 'UTF-8', mb_list_encodings())
-                : utf8_encode($formatted)
-            )
-            : $formatted;
+        $time = \strtotime($this->toDateTimeString());
+        $formatted = $this->localStrictModeEnabled ?? static::isStrictModeEnabled() ? \strftime($format, $time) : @\strftime($format, $time);
+        return static::$utf8 ? \function_exists('mb_convert_encoding') ? \mb_convert_encoding($formatted, 'UTF-8', \mb_list_encodings()) : \utf8_encode($formatted) : $formatted;
     }
-
     /**
      * Returns list of locale formats for ISO formatting.
      *
@@ -1912,20 +1722,8 @@ trait Date
      */
     public function getIsoFormats($locale = null)
     {
-        return [
-            'LT' => $this->getTranslationMessage('formats.LT', $locale, 'h:mm A'),
-            'LTS' => $this->getTranslationMessage('formats.LTS', $locale, 'h:mm:ss A'),
-            'L' => $this->getTranslationMessage('formats.L', $locale, 'MM/DD/YYYY'),
-            'LL' => $this->getTranslationMessage('formats.LL', $locale, 'MMMM D, YYYY'),
-            'LLL' => $this->getTranslationMessage('formats.LLL', $locale, 'MMMM D, YYYY h:mm A'),
-            'LLLL' => $this->getTranslationMessage('formats.LLLL', $locale, 'dddd, MMMM D, YYYY h:mm A'),
-            'l' => $this->getTranslationMessage('formats.l', $locale),
-            'll' => $this->getTranslationMessage('formats.ll', $locale),
-            'lll' => $this->getTranslationMessage('formats.lll', $locale),
-            'llll' => $this->getTranslationMessage('formats.llll', $locale),
-        ];
+        return ['LT' => $this->getTranslationMessage('formats.LT', $locale, 'h:mm A'), 'LTS' => $this->getTranslationMessage('formats.LTS', $locale, 'h:mm:ss A'), 'L' => $this->getTranslationMessage('formats.L', $locale, 'MM/DD/YYYY'), 'LL' => $this->getTranslationMessage('formats.LL', $locale, 'MMMM D, YYYY'), 'LLL' => $this->getTranslationMessage('formats.LLL', $locale, 'MMMM D, YYYY h:mm A'), 'LLLL' => $this->getTranslationMessage('formats.LLLL', $locale, 'dddd, MMMM D, YYYY h:mm A'), 'l' => $this->getTranslationMessage('formats.l', $locale), 'll' => $this->getTranslationMessage('formats.ll', $locale), 'lll' => $this->getTranslationMessage('formats.lll', $locale), 'llll' => $this->getTranslationMessage('formats.llll', $locale)];
     }
-
     /**
      * Returns list of calendar formats for ISO formatting.
      *
@@ -1935,16 +1733,8 @@ trait Date
      */
     public function getCalendarFormats($locale = null)
     {
-        return [
-            'sameDay' => $this->getTranslationMessage('calendar.sameDay', $locale, '[Today at] LT'),
-            'nextDay' => $this->getTranslationMessage('calendar.nextDay', $locale, '[Tomorrow at] LT'),
-            'nextWeek' => $this->getTranslationMessage('calendar.nextWeek', $locale, 'dddd [at] LT'),
-            'lastDay' => $this->getTranslationMessage('calendar.lastDay', $locale, '[Yesterday at] LT'),
-            'lastWeek' => $this->getTranslationMessage('calendar.lastWeek', $locale, '[Last] dddd [at] LT'),
-            'sameElse' => $this->getTranslationMessage('calendar.sameElse', $locale, 'L'),
-        ];
+        return ['sameDay' => $this->getTranslationMessage('calendar.sameDay', $locale, '[Today at] LT'), 'nextDay' => $this->getTranslationMessage('calendar.nextDay', $locale, '[Tomorrow at] LT'), 'nextWeek' => $this->getTranslationMessage('calendar.nextWeek', $locale, 'dddd [at] LT'), 'lastDay' => $this->getTranslationMessage('calendar.lastDay', $locale, '[Yesterday at] LT'), 'lastWeek' => $this->getTranslationMessage('calendar.lastWeek', $locale, '[Last] dddd [at] LT'), 'sameElse' => $this->getTranslationMessage('calendar.sameElse', $locale, 'L')];
     }
-
     /**
      * Returns list of locale units for ISO formatting.
      *
@@ -1953,127 +1743,44 @@ trait Date
     public static function getIsoUnits()
     {
         static $units = null;
-
         if ($units === null) {
-            $units = [
-                'OD' => ['getAltNumber', ['day']],
-                'OM' => ['getAltNumber', ['month']],
-                'OY' => ['getAltNumber', ['year']],
-                'OH' => ['getAltNumber', ['hour']],
-                'Oh' => ['getAltNumber', ['h']],
-                'Om' => ['getAltNumber', ['minute']],
-                'Os' => ['getAltNumber', ['second']],
-                'D' => 'day',
-                'DD' => ['rawFormat', ['d']],
-                'Do' => ['ordinal', ['day', 'D']],
-                'd' => 'dayOfWeek',
-                'dd' => function (CarbonInterface $date, $originalFormat = null) {
-                    return $date->getTranslatedMinDayName($originalFormat);
-                },
-                'ddd' => function (CarbonInterface $date, $originalFormat = null) {
-                    return $date->getTranslatedShortDayName($originalFormat);
-                },
-                'dddd' => function (CarbonInterface $date, $originalFormat = null) {
-                    return $date->getTranslatedDayName($originalFormat);
-                },
-                'DDD' => 'dayOfYear',
-                'DDDD' => ['getPaddedUnit', ['dayOfYear', 3]],
-                'DDDo' => ['ordinal', ['dayOfYear', 'DDD']],
-                'e' => ['weekday', []],
-                'E' => 'dayOfWeekIso',
-                'H' => ['rawFormat', ['G']],
-                'HH' => ['rawFormat', ['H']],
-                'h' => ['rawFormat', ['g']],
-                'hh' => ['rawFormat', ['h']],
-                'k' => 'noZeroHour',
-                'kk' => ['getPaddedUnit', ['noZeroHour']],
-                'hmm' => ['rawFormat', ['gi']],
-                'hmmss' => ['rawFormat', ['gis']],
-                'Hmm' => ['rawFormat', ['Gi']],
-                'Hmmss' => ['rawFormat', ['Gis']],
-                'm' => 'minute',
-                'mm' => ['rawFormat', ['i']],
-                'a' => 'meridiem',
-                'A' => 'upperMeridiem',
-                's' => 'second',
-                'ss' => ['getPaddedUnit', ['second']],
-                'S' => function (CarbonInterface $date) {
-                    return (string) floor($date->micro / 100000);
-                },
-                'SS' => function (CarbonInterface $date) {
-                    return str_pad((string) floor($date->micro / 10000), 2, '0', STR_PAD_LEFT);
-                },
-                'SSS' => function (CarbonInterface $date) {
-                    return str_pad((string) floor($date->micro / 1000), 3, '0', STR_PAD_LEFT);
-                },
-                'SSSS' => function (CarbonInterface $date) {
-                    return str_pad((string) floor($date->micro / 100), 4, '0', STR_PAD_LEFT);
-                },
-                'SSSSS' => function (CarbonInterface $date) {
-                    return str_pad((string) floor($date->micro / 10), 5, '0', STR_PAD_LEFT);
-                },
-                'SSSSSS' => ['getPaddedUnit', ['micro', 6]],
-                'SSSSSSS' => function (CarbonInterface $date) {
-                    return str_pad((string) floor($date->micro * 10), 7, '0', STR_PAD_LEFT);
-                },
-                'SSSSSSSS' => function (CarbonInterface $date) {
-                    return str_pad((string) floor($date->micro * 100), 8, '0', STR_PAD_LEFT);
-                },
-                'SSSSSSSSS' => function (CarbonInterface $date) {
-                    return str_pad((string) floor($date->micro * 1000), 9, '0', STR_PAD_LEFT);
-                },
-                'M' => 'month',
-                'MM' => ['rawFormat', ['m']],
-                'MMM' => function (CarbonInterface $date, $originalFormat = null) {
-                    $month = $date->getTranslatedShortMonthName($originalFormat);
-                    $suffix = $date->getTranslationMessage('mmm_suffix');
-                    if ($suffix && $month !== $date->monthName) {
-                        $month .= $suffix;
-                    }
-
-                    return $month;
-                },
-                'MMMM' => function (CarbonInterface $date, $originalFormat = null) {
-                    return $date->getTranslatedMonthName($originalFormat);
-                },
-                'Mo' => ['ordinal', ['month', 'M']],
-                'Q' => 'quarter',
-                'Qo' => ['ordinal', ['quarter', 'M']],
-                'G' => 'isoWeekYear',
-                'GG' => ['getPaddedUnit', ['isoWeekYear']],
-                'GGG' => ['getPaddedUnit', ['isoWeekYear', 3]],
-                'GGGG' => ['getPaddedUnit', ['isoWeekYear', 4]],
-                'GGGGG' => ['getPaddedUnit', ['isoWeekYear', 5]],
-                'g' => 'weekYear',
-                'gg' => ['getPaddedUnit', ['weekYear']],
-                'ggg' => ['getPaddedUnit', ['weekYear', 3]],
-                'gggg' => ['getPaddedUnit', ['weekYear', 4]],
-                'ggggg' => ['getPaddedUnit', ['weekYear', 5]],
-                'W' => 'isoWeek',
-                'WW' => ['getPaddedUnit', ['isoWeek']],
-                'Wo' => ['ordinal', ['isoWeek', 'W']],
-                'w' => 'week',
-                'ww' => ['getPaddedUnit', ['week']],
-                'wo' => ['ordinal', ['week', 'w']],
-                'x' => ['valueOf', []],
-                'X' => 'timestamp',
-                'Y' => 'year',
-                'YY' => ['rawFormat', ['y']],
-                'YYYY' => ['getPaddedUnit', ['year', 4]],
-                'YYYYY' => ['getPaddedUnit', ['year', 5]],
-                'YYYYYY' => function (CarbonInterface $date) {
-                    return ($date->year < 0 ? '' : '+').$date->getPaddedUnit('year', 6);
-                },
-                'z' => ['rawFormat', ['T']],
-                'zz' => 'tzName',
-                'Z' => ['getOffsetString', []],
-                'ZZ' => ['getOffsetString', ['']],
-            ];
+            $units = ['OD' => ['getAltNumber', ['day']], 'OM' => ['getAltNumber', ['month']], 'OY' => ['getAltNumber', ['year']], 'OH' => ['getAltNumber', ['hour']], 'Oh' => ['getAltNumber', ['h']], 'Om' => ['getAltNumber', ['minute']], 'Os' => ['getAltNumber', ['second']], 'D' => 'day', 'DD' => ['rawFormat', ['d']], 'Do' => ['ordinal', ['day', 'D']], 'd' => 'dayOfWeek', 'dd' => function (CarbonInterface $date, $originalFormat = null) {
+                return $date->getTranslatedMinDayName($originalFormat);
+            }, 'ddd' => function (CarbonInterface $date, $originalFormat = null) {
+                return $date->getTranslatedShortDayName($originalFormat);
+            }, 'dddd' => function (CarbonInterface $date, $originalFormat = null) {
+                return $date->getTranslatedDayName($originalFormat);
+            }, 'DDD' => 'dayOfYear', 'DDDD' => ['getPaddedUnit', ['dayOfYear', 3]], 'DDDo' => ['ordinal', ['dayOfYear', 'DDD']], 'e' => ['weekday', []], 'E' => 'dayOfWeekIso', 'H' => ['rawFormat', ['G']], 'HH' => ['rawFormat', ['H']], 'h' => ['rawFormat', ['g']], 'hh' => ['rawFormat', ['h']], 'k' => 'noZeroHour', 'kk' => ['getPaddedUnit', ['noZeroHour']], 'hmm' => ['rawFormat', ['gi']], 'hmmss' => ['rawFormat', ['gis']], 'Hmm' => ['rawFormat', ['Gi']], 'Hmmss' => ['rawFormat', ['Gis']], 'm' => 'minute', 'mm' => ['rawFormat', ['i']], 'a' => 'meridiem', 'A' => 'upperMeridiem', 's' => 'second', 'ss' => ['getPaddedUnit', ['second']], 'S' => function (CarbonInterface $date) {
+                return (string) \floor($date->micro / 100000);
+            }, 'SS' => function (CarbonInterface $date) {
+                return \str_pad((string) \floor($date->micro / 10000), 2, '0', \STR_PAD_LEFT);
+            }, 'SSS' => function (CarbonInterface $date) {
+                return \str_pad((string) \floor($date->micro / 1000), 3, '0', \STR_PAD_LEFT);
+            }, 'SSSS' => function (CarbonInterface $date) {
+                return \str_pad((string) \floor($date->micro / 100), 4, '0', \STR_PAD_LEFT);
+            }, 'SSSSS' => function (CarbonInterface $date) {
+                return \str_pad((string) \floor($date->micro / 10), 5, '0', \STR_PAD_LEFT);
+            }, 'SSSSSS' => ['getPaddedUnit', ['micro', 6]], 'SSSSSSS' => function (CarbonInterface $date) {
+                return \str_pad((string) \floor($date->micro * 10), 7, '0', \STR_PAD_LEFT);
+            }, 'SSSSSSSS' => function (CarbonInterface $date) {
+                return \str_pad((string) \floor($date->micro * 100), 8, '0', \STR_PAD_LEFT);
+            }, 'SSSSSSSSS' => function (CarbonInterface $date) {
+                return \str_pad((string) \floor($date->micro * 1000), 9, '0', \STR_PAD_LEFT);
+            }, 'M' => 'month', 'MM' => ['rawFormat', ['m']], 'MMM' => function (CarbonInterface $date, $originalFormat = null) {
+                $month = $date->getTranslatedShortMonthName($originalFormat);
+                $suffix = $date->getTranslationMessage('mmm_suffix');
+                if ($suffix && $month !== $date->monthName) {
+                    $month .= $suffix;
+                }
+                return $month;
+            }, 'MMMM' => function (CarbonInterface $date, $originalFormat = null) {
+                return $date->getTranslatedMonthName($originalFormat);
+            }, 'Mo' => ['ordinal', ['month', 'M']], 'Q' => 'quarter', 'Qo' => ['ordinal', ['quarter', 'M']], 'G' => 'isoWeekYear', 'GG' => ['getPaddedUnit', ['isoWeekYear']], 'GGG' => ['getPaddedUnit', ['isoWeekYear', 3]], 'GGGG' => ['getPaddedUnit', ['isoWeekYear', 4]], 'GGGGG' => ['getPaddedUnit', ['isoWeekYear', 5]], 'g' => 'weekYear', 'gg' => ['getPaddedUnit', ['weekYear']], 'ggg' => ['getPaddedUnit', ['weekYear', 3]], 'gggg' => ['getPaddedUnit', ['weekYear', 4]], 'ggggg' => ['getPaddedUnit', ['weekYear', 5]], 'W' => 'isoWeek', 'WW' => ['getPaddedUnit', ['isoWeek']], 'Wo' => ['ordinal', ['isoWeek', 'W']], 'w' => 'week', 'ww' => ['getPaddedUnit', ['week']], 'wo' => ['ordinal', ['week', 'w']], 'x' => ['valueOf', []], 'X' => 'timestamp', 'Y' => 'year', 'YY' => ['rawFormat', ['y']], 'YYYY' => ['getPaddedUnit', ['year', 4]], 'YYYYY' => ['getPaddedUnit', ['year', 5]], 'YYYYYY' => function (CarbonInterface $date) {
+                return ($date->year < 0 ? '' : '+') . $date->getPaddedUnit('year', 6);
+            }, 'z' => ['rawFormat', ['T']], 'zz' => 'tzName', 'Z' => ['getOffsetString', []], 'ZZ' => ['getOffsetString', ['']]];
         }
-
         return $units;
     }
-
     /**
      * Returns a unit of the instance padded with 0 by default or any other string if specified.
      *
@@ -2084,11 +1791,10 @@ trait Date
      *
      * @return string
      */
-    public function getPaddedUnit($unit, $length = 2, $padString = '0', $padType = STR_PAD_LEFT)
+    public function getPaddedUnit($unit, $length = 2, $padString = '0', $padType = \STR_PAD_LEFT)
     {
-        return ($this->$unit < 0 ? '-' : '').str_pad((string) abs($this->$unit), $length, $padString, $padType);
+        return ($this->{$unit} < 0 ? '-' : '') . \str_pad((string) \abs($this->{$unit}), $length, $padString, $padType);
     }
-
     /**
      * Return a property with its ordinal.
      *
@@ -2097,17 +1803,12 @@ trait Date
      *
      * @return string
      */
-    public function ordinal(string $key, ?string $period = null): string
+    public function ordinal(string $key, ?string $period = null) : string
     {
-        $number = $this->$key;
-        $result = $this->translate('ordinal', [
-            ':number' => $number,
-            ':period' => (string) $period,
-        ]);
-
+        $number = $this->{$key};
+        $result = $this->translate('ordinal', [':number' => $number, ':period' => (string) $period]);
         return (string) ($result === 'ordinal' ? $number : $result);
     }
-
     /**
      * Return the meridiem of the current time in the current locale.
      *
@@ -2115,39 +1816,29 @@ trait Date
      *
      * @return string
      */
-    public function meridiem(bool $isLower = false): string
+    public function meridiem(bool $isLower = \false) : string
     {
         $hour = $this->hour;
         $index = $hour < 12 ? 0 : 1;
-
         if ($isLower) {
-            $key = 'meridiem.'.($index + 2);
+            $key = 'meridiem.' . ($index + 2);
             $result = $this->translate($key);
-
             if ($result !== $key) {
                 return $result;
             }
         }
-
-        $key = "meridiem.$index";
+        $key = "meridiem.{$index}";
         $result = $this->translate($key);
         if ($result === $key) {
-            $result = $this->translate('meridiem', [
-                ':hour' => $this->hour,
-                ':minute' => $this->minute,
-                ':isLower' => $isLower,
-            ]);
-
+            $result = $this->translate('meridiem', [':hour' => $this->hour, ':minute' => $this->minute, ':isLower' => $isLower]);
             if ($result === 'meridiem') {
                 return $isLower ? $this->latinMeridiem : $this->latinUpperMeridiem;
             }
         } elseif ($isLower) {
-            $result = mb_strtolower($result);
+            $result = \mb_strtolower($result);
         }
-
         return $result;
     }
-
     /**
      * Returns the alternative number for a given date property if available in the current locale.
      *
@@ -2155,11 +1846,10 @@ trait Date
      *
      * @return string
      */
-    public function getAltNumber(string $key): string
+    public function getAltNumber(string $key) : string
     {
-        return $this->translateNumber(\strlen($key) > 1 ? $this->$key : $this->rawFormat('h'));
+        return $this->translateNumber(\strlen($key) > 1 ? $this->{$key} : $this->rawFormat('h'));
     }
-
     /**
      * Format in the current language using ISO replacement patterns.
      *
@@ -2168,96 +1858,72 @@ trait Date
      *
      * @return string
      */
-    public function isoFormat(string $format, ?string $originalFormat = null): string
+    public function isoFormat(string $format, ?string $originalFormat = null) : string
     {
         $result = '';
-        $length = mb_strlen($format);
+        $length = \mb_strlen($format);
         $originalFormat = $originalFormat ?: $format;
-        $inEscaped = false;
+        $inEscaped = \false;
         $formats = null;
         $units = null;
-
         for ($i = 0; $i < $length; $i++) {
-            $char = mb_substr($format, $i, 1);
-
+            $char = \mb_substr($format, $i, 1);
             if ($char === '\\') {
-                $result .= mb_substr($format, ++$i, 1);
-
+                $result .= \mb_substr($format, ++$i, 1);
                 continue;
             }
-
             if ($char === '[' && !$inEscaped) {
-                $inEscaped = true;
-
+                $inEscaped = \true;
                 continue;
             }
-
             if ($char === ']' && $inEscaped) {
-                $inEscaped = false;
-
+                $inEscaped = \false;
                 continue;
             }
-
             if ($inEscaped) {
                 $result .= $char;
-
                 continue;
             }
-
-            $input = mb_substr($format, $i);
-
-            if (preg_match('/^(LTS|LT|l{1,4}|L{1,4})/', $input, $match)) {
+            $input = \mb_substr($format, $i);
+            if (\preg_match('/^(LTS|LT|l{1,4}|L{1,4})/', $input, $match)) {
                 if ($formats === null) {
                     $formats = $this->getIsoFormats();
                 }
-
                 $code = $match[0];
-                $sequence = $formats[$code] ?? preg_replace_callback(
-                    '/MMMM|MM|DD|dddd/',
-                    function ($code) {
-                        return mb_substr($code[0], 1);
-                    },
-                    $formats[strtoupper($code)] ?? ''
-                );
-                $rest = mb_substr($format, $i + mb_strlen($code));
-                $format = mb_substr($format, 0, $i).$sequence.$rest;
-                $length = mb_strlen($format);
-                $input = $sequence.$rest;
+                $sequence = $formats[$code] ?? \preg_replace_callback('/MMMM|MM|DD|dddd/', function ($code) {
+                    return \mb_substr($code[0], 1);
+                }, $formats[\strtoupper($code)] ?? '');
+                $rest = \mb_substr($format, $i + \mb_strlen($code));
+                $format = \mb_substr($format, 0, $i) . $sequence . $rest;
+                $length = \mb_strlen($format);
+                $input = $sequence . $rest;
             }
-
-            if (preg_match('/^'.CarbonInterface::ISO_FORMAT_REGEXP.'/', $input, $match)) {
+            if (\preg_match('/^' . CarbonInterface::ISO_FORMAT_REGEXP . '/', $input, $match)) {
                 $code = $match[0];
-
                 if ($units === null) {
                     $units = static::getIsoUnits();
                 }
-
                 $sequence = $units[$code] ?? '';
-
                 if ($sequence instanceof Closure) {
                     $sequence = $sequence($this, $originalFormat);
                 } elseif (\is_array($sequence)) {
                     try {
                         $sequence = $this->{$sequence[0]}(...$sequence[1]);
-                    } catch (ReflectionException | InvalidArgumentException | BadMethodCallException $e) {
+                    } catch (ReflectionException|InvalidArgumentException|BadMethodCallException $e) {
                         $sequence = '';
                     }
                 } elseif (\is_string($sequence)) {
-                    $sequence = $this->$sequence ?? $code;
+                    $sequence = $this->{$sequence} ?? $code;
                 }
-
-                $format = mb_substr($format, 0, $i).$sequence.mb_substr($format, $i + mb_strlen($code));
-                $i += mb_strlen((string) $sequence) - 1;
-                $length = mb_strlen($format);
+                $format = \mb_substr($format, 0, $i) . $sequence . \mb_substr($format, $i + \mb_strlen($code));
+                $i += \mb_strlen((string) $sequence) - 1;
+                $length = \mb_strlen($format);
                 $char = $sequence;
             }
-
             $result .= $char;
         }
-
         return $result;
     }
-
     /**
      * List of replacements from date() format to isoFormat().
      *
@@ -2266,57 +1932,14 @@ trait Date
     public static function getFormatsToIsoReplacements()
     {
         static $replacements = null;
-
         if ($replacements === null) {
-            $replacements = [
-                'd' => true,
-                'D' => 'ddd',
-                'j' => true,
-                'l' => 'dddd',
-                'N' => true,
-                'S' => function ($date) {
-                    $day = $date->rawFormat('j');
-
-                    return str_replace((string) $day, '', $date->isoFormat('Do'));
-                },
-                'w' => true,
-                'z' => true,
-                'W' => true,
-                'F' => 'MMMM',
-                'm' => true,
-                'M' => 'MMM',
-                'n' => true,
-                't' => true,
-                'L' => true,
-                'o' => true,
-                'Y' => true,
-                'y' => true,
-                'a' => 'a',
-                'A' => 'A',
-                'B' => true,
-                'g' => true,
-                'G' => true,
-                'h' => true,
-                'H' => true,
-                'i' => true,
-                's' => true,
-                'u' => true,
-                'v' => true,
-                'E' => true,
-                'I' => true,
-                'O' => true,
-                'P' => true,
-                'Z' => true,
-                'c' => true,
-                'r' => true,
-                'U' => true,
-                'T' => true,
-            ];
+            $replacements = ['d' => \true, 'D' => 'ddd', 'j' => \true, 'l' => 'dddd', 'N' => \true, 'S' => function ($date) {
+                $day = $date->rawFormat('j');
+                return \str_replace((string) $day, '', $date->isoFormat('Do'));
+            }, 'w' => \true, 'z' => \true, 'W' => \true, 'F' => 'MMMM', 'm' => \true, 'M' => 'MMM', 'n' => \true, 't' => \true, 'L' => \true, 'o' => \true, 'Y' => \true, 'y' => \true, 'a' => 'a', 'A' => 'A', 'B' => \true, 'g' => \true, 'G' => \true, 'h' => \true, 'H' => \true, 'i' => \true, 's' => \true, 'u' => \true, 'v' => \true, 'E' => \true, 'I' => \true, 'O' => \true, 'P' => \true, 'Z' => \true, 'c' => \true, 'r' => \true, 'U' => \true, 'T' => \true];
         }
-
         return $replacements;
     }
-
     /**
      * Format as ->format() do (using date replacements patterns from https://php.net/manual/en/function.date.php)
      * but translate words whenever possible (months, day names, etc.) using the current locale.
@@ -2325,79 +1948,47 @@ trait Date
      *
      * @return string
      */
-    public function translatedFormat(string $format): string
+    public function translatedFormat(string $format) : string
     {
         $replacements = static::getFormatsToIsoReplacements();
         $context = '';
         $isoFormat = '';
-        $length = mb_strlen($format);
-
+        $length = \mb_strlen($format);
         for ($i = 0; $i < $length; $i++) {
-            $char = mb_substr($format, $i, 1);
-
+            $char = \mb_substr($format, $i, 1);
             if ($char === '\\') {
-                $replacement = mb_substr($format, $i, 2);
+                $replacement = \mb_substr($format, $i, 2);
                 $isoFormat .= $replacement;
                 $i++;
-
                 continue;
             }
-
             if (!isset($replacements[$char])) {
-                $replacement = preg_match('/^[A-Za-z]$/', $char) ? "\\$char" : $char;
+                $replacement = \preg_match('/^[A-Za-z]$/', $char) ? "\\{$char}" : $char;
                 $isoFormat .= $replacement;
                 $context .= $replacement;
-
                 continue;
             }
-
             $replacement = $replacements[$char];
-
-            if ($replacement === true) {
+            if ($replacement === \true) {
                 static $contextReplacements = null;
-
                 if ($contextReplacements === null) {
-                    $contextReplacements = [
-                        'm' => 'MM',
-                        'd' => 'DD',
-                        't' => 'D',
-                        'j' => 'D',
-                        'N' => 'e',
-                        'w' => 'e',
-                        'n' => 'M',
-                        'o' => 'YYYY',
-                        'Y' => 'YYYY',
-                        'y' => 'YY',
-                        'g' => 'h',
-                        'G' => 'H',
-                        'h' => 'hh',
-                        'H' => 'HH',
-                        'i' => 'mm',
-                        's' => 'ss',
-                    ];
+                    $contextReplacements = ['m' => 'MM', 'd' => 'DD', 't' => 'D', 'j' => 'D', 'N' => 'e', 'w' => 'e', 'n' => 'M', 'o' => 'YYYY', 'Y' => 'YYYY', 'y' => 'YY', 'g' => 'h', 'G' => 'H', 'h' => 'hh', 'H' => 'HH', 'i' => 'mm', 's' => 'ss'];
                 }
-
-                $isoFormat .= '['.$this->rawFormat($char).']';
+                $isoFormat .= '[' . $this->rawFormat($char) . ']';
                 $context .= $contextReplacements[$char] ?? ' ';
-
                 continue;
             }
-
             if ($replacement instanceof Closure) {
-                $replacement = '['.$replacement($this).']';
+                $replacement = '[' . $replacement($this) . ']';
                 $isoFormat .= $replacement;
                 $context .= $replacement;
-
                 continue;
             }
-
             $isoFormat .= $replacement;
             $context .= $replacement;
         }
-
         return $this->isoFormat($isoFormat, $context);
     }
-
     /**
      * Returns the offset hour and minute formatted with +/- and a given separator (":" by default).
      * For example, if the time zone is 9 hours 30 minutes, you'll get "+09:30", with "@@" as first
@@ -2412,26 +2003,21 @@ trait Date
     {
         $second = $this->getOffset();
         $symbol = $second < 0 ? '-' : '+';
-        $minute = abs($second) / static::SECONDS_PER_MINUTE;
-        $hour = str_pad((string) floor($minute / static::MINUTES_PER_HOUR), 2, '0', STR_PAD_LEFT);
-        $minute = str_pad((string) (((int) $minute) % static::MINUTES_PER_HOUR), 2, '0', STR_PAD_LEFT);
-
-        return "$symbol$hour$separator$minute";
+        $minute = \abs($second) / static::SECONDS_PER_MINUTE;
+        $hour = \str_pad((string) \floor($minute / static::MINUTES_PER_HOUR), 2, '0', \STR_PAD_LEFT);
+        $minute = \str_pad((string) ((int) $minute % static::MINUTES_PER_HOUR), 2, '0', \STR_PAD_LEFT);
+        return "{$symbol}{$hour}{$separator}{$minute}";
     }
-
     protected static function executeStaticCallable($macro, ...$parameters)
     {
-        return static::bindMacroContext(null, function () use (&$macro, &$parameters) {
+        return static::bindMacroContext(null, function () use(&$macro, &$parameters) {
             if ($macro instanceof Closure) {
                 $boundMacro = @Closure::bind($macro, null, static::class);
-
                 return ($boundMacro ?: $macro)(...$parameters);
             }
-
             return $macro(...$parameters);
         });
     }
-
     /**
      * Dynamically handle calls to the class.
      *
@@ -2455,13 +2041,10 @@ trait Date
             if (static::isStrictModeEnabled()) {
                 throw new UnknownMethodException(\sprintf('%s::%s', static::class, $method));
             }
-
             return null;
         }
-
         return static::executeStaticCallable(static::$globalMacros[$method], ...$parameters);
     }
-
     /**
      * Set specified unit to new given value.
      *
@@ -2475,11 +2058,10 @@ trait Date
         $unit = static::singularUnit($unit);
         $dateUnits = ['year', 'month', 'day'];
         if (\in_array($unit, $dateUnits)) {
-            return $this->setDate(...array_map(function ($name) use ($unit, $value) {
-                return (int) ($name === $unit ? $value : $this->$name);
+            return $this->setDate(...\array_map(function ($name) use($unit, $value) {
+                return (int) ($name === $unit ? $value : $this->{$name});
             }, $dateUnits));
         }
-
         $units = ['hour', 'minute', 'second', 'micro'];
         if ($unit === 'millisecond' || $unit === 'milli') {
             $value *= 1000;
@@ -2487,12 +2069,10 @@ trait Date
         } elseif ($unit === 'microsecond') {
             $unit = 'micro';
         }
-
-        return $this->setTime(...array_map(function ($name) use ($unit, $value) {
-            return (int) ($name === $unit ? $value : $this->$name);
+        return $this->setTime(...\array_map(function ($name) use($unit, $value) {
+            return (int) ($name === $unit ? $value : $this->{$name});
         }, $units));
     }
-
     /**
      * Returns standardized singular of a given singular/plural unit name (in English).
      *
@@ -2500,21 +2080,17 @@ trait Date
      *
      * @return string
      */
-    public static function singularUnit(string $unit): string
+    public static function singularUnit(string $unit) : string
     {
-        $unit = rtrim(mb_strtolower($unit), 's');
-
+        $unit = \rtrim(\mb_strtolower($unit), 's');
         if ($unit === 'centurie') {
             return 'century';
         }
-
         if ($unit === 'millennia') {
             return 'millennium';
         }
-
         return $unit;
     }
-
     /**
      * Returns standardized plural of a given singular/plural unit name (in English).
      *
@@ -2522,48 +2098,39 @@ trait Date
      *
      * @return string
      */
-    public static function pluralUnit(string $unit): string
+    public static function pluralUnit(string $unit) : string
     {
-        $unit = rtrim(strtolower($unit), 's');
-
+        $unit = \rtrim(\strtolower($unit), 's');
         if ($unit === 'century') {
             return 'centuries';
         }
-
         if ($unit === 'millennium' || $unit === 'millennia') {
             return 'millennia';
         }
-
         return "{$unit}s";
     }
-
     protected function executeCallable($macro, ...$parameters)
     {
         if ($macro instanceof Closure) {
             $boundMacro = @$macro->bindTo($this, static::class) ?: @$macro->bindTo(null, static::class);
-
             return ($boundMacro ?: $macro)(...$parameters);
         }
-
         return $macro(...$parameters);
     }
-
     protected function executeCallableWithContext($macro, ...$parameters)
     {
-        return static::bindMacroContext($this, function () use (&$macro, &$parameters) {
+        return static::bindMacroContext($this, function () use(&$macro, &$parameters) {
             return $this->executeCallable($macro, ...$parameters);
         });
     }
-
     protected static function getGenericMacros()
     {
         foreach (static::$globalGenericMacros as $list) {
             foreach ($list as $macro) {
-                yield $macro;
+                (yield $macro);
             }
         }
     }
-
     /**
      * Dynamically handle calls to the class.
      *
@@ -2578,9 +2145,9 @@ trait Date
     {
         $diffSizes = [
             // @mode diffForHumans
-            'short' => true,
+            'short' => \true,
             // @mode diffForHumans
-            'long' => false,
+            'long' => \false,
         ];
         $diffSyntaxModes = [
             // @call diffForHumans
@@ -2592,39 +2159,30 @@ trait Date
             // @call diffForHumans
             'RelativeToOther' => CarbonInterface::DIFF_RELATIVE_TO_OTHER,
         ];
-        $sizePattern = implode('|', array_keys($diffSizes));
-        $syntaxPattern = implode('|', array_keys($diffSyntaxModes));
-
-        if (preg_match("/^(?<size>$sizePattern)(?<syntax>$syntaxPattern)DiffForHumans$/", $method, $match)) {
-            $dates = array_filter($parameters, function ($parameter) {
+        $sizePattern = \implode('|', \array_keys($diffSizes));
+        $syntaxPattern = \implode('|', \array_keys($diffSyntaxModes));
+        if (\preg_match("/^(?<size>{$sizePattern})(?<syntax>{$syntaxPattern})DiffForHumans\$/", $method, $match)) {
+            $dates = \array_filter($parameters, function ($parameter) {
                 return $parameter instanceof DateTimeInterface;
             });
             $other = null;
-
             if (\count($dates)) {
-                $key = key($dates);
-                $other = current($dates);
-                array_splice($parameters, $key, 1);
+                $key = \key($dates);
+                $other = \current($dates);
+                \array_splice($parameters, $key, 1);
             }
-
             return $this->diffForHumans($other, $diffSyntaxModes[$match['syntax']], $diffSizes[$match['size']], ...$parameters);
         }
-
         $roundedValue = $this->callRoundMethod($method, $parameters);
-
         if ($roundedValue !== null) {
             return $roundedValue;
         }
-
-        $unit = rtrim($method, 's');
-
-        if (str_starts_with($unit, 'is')) {
-            $word = substr($unit, 2);
-
-            if (\in_array($word, static::$days, true)) {
+        $unit = \rtrim($method, 's');
+        if (\str_starts_with($unit, 'is')) {
+            $word = \substr($unit, 2);
+            if (\in_array($word, static::$days, \true)) {
                 return $this->isDayOfWeek($word);
             }
-
             switch ($word) {
                 // @call is Check if the current instance has UTC timezone. (Both isUtc and isUTC cases are valid.)
                 case 'Utc':
@@ -2641,88 +2199,65 @@ trait Date
                     return $this->dst;
             }
         }
-
-        $action = substr($unit, 0, 3);
+        $action = \substr($unit, 0, 3);
         $overflow = null;
-
         if ($action === 'set') {
-            $unit = strtolower(substr($unit, 3));
+            $unit = \strtolower(\substr($unit, 3));
         }
-
-        if (\in_array($unit, static::$units, true)) {
+        if (\in_array($unit, static::$units, \true)) {
             return $this->setUnit($unit, ...$parameters);
         }
-
         if ($action === 'add' || $action === 'sub') {
-            $unit = substr($unit, 3);
-
-            if (str_starts_with($unit, 'Real')) {
-                $unit = static::singularUnit(substr($unit, 4));
-
+            $unit = \substr($unit, 3);
+            if (\str_starts_with($unit, 'Real')) {
+                $unit = static::singularUnit(\substr($unit, 4));
                 return $this->{"{$action}RealUnit"}($unit, ...$parameters);
             }
-
-            if (preg_match('/^(Month|Quarter|Year|Decade|Century|Centurie|Millennium|Millennia)s?(No|With|Without|WithNo)Overflow$/', $unit, $match)) {
+            if (\preg_match('/^(Month|Quarter|Year|Decade|Century|Centurie|Millennium|Millennia)s?(No|With|Without|WithNo)Overflow$/', $unit, $match)) {
                 $unit = $match[1];
                 $overflow = $match[2] === 'With';
             }
-
             $unit = static::singularUnit($unit);
         }
-
         if (static::isModifiableUnit($unit)) {
             return $this->{"{$action}Unit"}($unit, $this->getMagicParameter($parameters, 0, 'value', 1), $overflow);
         }
-
-        $sixFirstLetters = substr($unit, 0, 6);
+        $sixFirstLetters = \substr($unit, 0, 6);
         $factor = -1;
-
         if ($sixFirstLetters === 'isLast') {
             $sixFirstLetters = 'isNext';
             $factor = 1;
         }
-
         if ($sixFirstLetters === 'isNext') {
-            $lowerUnit = strtolower(substr($unit, 6));
-
+            $lowerUnit = \strtolower(\substr($unit, 6));
             if (static::isModifiableUnit($lowerUnit)) {
-                return $this->copy()->addUnit($lowerUnit, $factor, false)->isSameUnit($lowerUnit, ...$parameters);
+                return $this->copy()->addUnit($lowerUnit, $factor, \false)->isSameUnit($lowerUnit, ...$parameters);
             }
         }
-
         if ($sixFirstLetters === 'isSame') {
             try {
-                return $this->isSameUnit(strtolower(substr($unit, 6)), ...$parameters);
+                return $this->isSameUnit(\strtolower(\substr($unit, 6)), ...$parameters);
             } catch (BadComparisonUnitException $exception) {
                 // Try next
             }
         }
-
-        if (str_starts_with($unit, 'isCurrent')) {
+        if (\str_starts_with($unit, 'isCurrent')) {
             try {
-                return $this->isCurrentUnit(strtolower(substr($unit, 9)));
-            } catch (BadComparisonUnitException | BadMethodCallException $exception) {
+                return $this->isCurrentUnit(\strtolower(\substr($unit, 9)));
+            } catch (BadComparisonUnitException|BadMethodCallException $exception) {
                 // Try next
             }
         }
-
-        if (str_ends_with($method, 'Until')) {
+        if (\str_ends_with($method, 'Until')) {
             try {
-                $unit = static::singularUnit(substr($method, 0, -5));
-
-                return $this->range(
-                    $this->getMagicParameter($parameters, 0, 'endDate', $this),
-                    $this->getMagicParameter($parameters, 1, 'factor', 1),
-                    $unit
-                );
+                $unit = static::singularUnit(\substr($method, 0, -5));
+                return $this->range($this->getMagicParameter($parameters, 0, 'endDate', $this), $this->getMagicParameter($parameters, 1, 'factor', 1), $unit);
             } catch (InvalidArgumentException $exception) {
                 // Try macros
             }
         }
-
-        return static::bindMacroContext($this, function () use (&$method, &$parameters) {
+        return static::bindMacroContext($this, function () use(&$method, &$parameters) {
             $macro = $this->getLocalMacro($method);
-
             if (!$macro) {
                 foreach ([$this->localGenericMacros ?: [], static::getGenericMacros()] as $list) {
                     foreach ($list as $callback) {
@@ -2733,14 +2268,11 @@ trait Date
                         }
                     }
                 }
-
                 if ($this->localStrictModeEnabled ?? static::isStrictModeEnabled()) {
                     throw new UnknownMethodException($method);
                 }
-
                 return null;
             }
-
             return $this->executeCallable($macro, ...$parameters);
         });
     }

@@ -1,10 +1,9 @@
 <?php
 
-namespace Illuminate\Database\PDO;
+namespace ComfortSmtpScoped\Illuminate\Database\PDO;
 
-use Doctrine\DBAL\Driver\AbstractPostgreSQLDriver;
-use Illuminate\Database\PDO\Concerns\ConnectsToDatabase;
-
+use ComfortSmtpScoped\Doctrine\DBAL\Driver\AbstractPostgreSQLDriver;
+use ComfortSmtpScoped\Illuminate\Database\PDO\Concerns\ConnectsToDatabase;
 class PostgresDriver extends AbstractPostgreSQLDriver
 {
     use ConnectsToDatabase;

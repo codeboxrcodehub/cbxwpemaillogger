@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Support\Facades;
+namespace ComfortSmtpScoped\Illuminate\Support\Facades;
 
 /**
  * @method static \Illuminate\Database\Schema\Builder create(string $table, \Closure $callback)
@@ -38,7 +38,6 @@ class Schema extends Facade
     {
         return static::$app['db']->connection($name)->getSchemaBuilder();
     }
-
     /**
      * Get a schema builder instance for the default connection.
      *

@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Redis;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Redis;
 
 interface Connector
 {
@@ -12,7 +12,6 @@ interface Connector
      * @return \Illuminate\Redis\Connections\Connection
      */
     public function connect(array $config, array $options);
-
     /**
      * Create a connection to a Redis instance.
      *

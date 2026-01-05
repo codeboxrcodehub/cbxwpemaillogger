@@ -1,16 +1,15 @@
 <?php
 
-namespace Illuminate\Pagination;
+namespace ComfortSmtpScoped\Illuminate\Pagination;
 
 use ArrayAccess;
 use Countable;
-use Illuminate\Contracts\Pagination\CursorPaginator as PaginatorContract;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Support\Collection;
+use ComfortSmtpScoped\Illuminate\Contracts\Pagination\CursorPaginator as PaginatorContract;
+use ComfortSmtpScoped\Illuminate\Contracts\Support\Arrayable;
+use ComfortSmtpScoped\Illuminate\Contracts\Support\Jsonable;
+use ComfortSmtpScoped\Illuminate\Support\Collection;
 use IteratorAggregate;
 use JsonSerializable;
-
 class CursorPaginator extends AbstractCursorPaginator implements Arrayable, ArrayAccess, Countable, IteratorAggregate, Jsonable, JsonSerializable, PaginatorContract
 {
     /**
@@ -19,7 +18,6 @@ class CursorPaginator extends AbstractCursorPaginator implements Arrayable, Arra
      * @return bool
      */
     protected $hasMore;
-
     /**
      * Create a new paginator instance.
      *
@@ -32,18 +30,14 @@ class CursorPaginator extends AbstractCursorPaginator implements Arrayable, Arra
     public function __construct($items, $perPage, $cursor = null, array $options = [])
     {
         $this->options = $options;
-
         foreach ($options as $key => $value) {
             $this->{$key} = $value;
         }
-
         $this->perPage = $perPage;
         $this->cursor = $cursor;
-        $this->path = $this->path !== '/' ? rtrim($this->path, '/') : $this->path;
-
+        $this->path = $this->path !== '/' ? \rtrim($this->path, '/') : $this->path;
         $this->setItems($items);
     }
-
     /**
      * Set the items for the paginator.
      *
@@ -53,16 +47,12 @@ class CursorPaginator extends AbstractCursorPaginator implements Arrayable, Arra
     protected function setItems($items)
     {
         $this->items = $items instanceof Collection ? $items : Collection::make($items);
-
         $this->hasMore = $this->items->count() > $this->perPage;
-
         $this->items = $this->items->slice(0, $this->perPage);
-
-        if (! is_null($this->cursor) && $this->cursor->pointsToPreviousItems()) {
+        if (!\is_null($this->cursor) && $this->cursor->pointsToPreviousItems()) {
             $this->items = $this->items->reverse()->values();
         }
     }
-
     /**
      * Render the paginator using the given view.
      *
@@ -74,7 +64,6 @@ class CursorPaginator extends AbstractCursorPaginator implements Arrayable, Arra
     {
         return $this->render($view, $data);
     }
-
     /**
      * Render the paginator using the given view.
      *
@@ -84,11 +73,8 @@ class CursorPaginator extends AbstractCursorPaginator implements Arrayable, Arra
      */
     public function render($view = null, $data = [])
     {
-        return static::viewFactory()->make($view ?: Paginator::$defaultSimpleView, array_merge($data, [
-            'paginator' => $this,
-        ]));
+        return static::viewFactory()->make($view ?: Paginator::$defaultSimpleView, \array_merge($data, ['paginator' => $this]));
     }
-
     /**
      * Determine if there are more items in the data source.
      *
@@ -96,11 +82,8 @@ class CursorPaginator extends AbstractCursorPaginator implements Arrayable, Arra
      */
     public function hasMorePages()
     {
-        return (is_null($this->cursor) && $this->hasMore) ||
-            (! is_null($this->cursor) && $this->cursor->pointsToNextItems() && $this->hasMore) ||
-            (! is_null($this->cursor) && $this->cursor->pointsToPreviousItems());
+        return \is_null($this->cursor) && $this->hasMore || !\is_null($this->cursor) && $this->cursor->pointsToNextItems() && $this->hasMore || !\is_null($this->cursor) && $this->cursor->pointsToPreviousItems();
     }
-
     /**
      * Determine if there are enough items to split into multiple pages.
      *
@@ -108,9 +91,8 @@ class CursorPaginator extends AbstractCursorPaginator implements Arrayable, Arra
      */
     public function hasPages()
     {
-        return ! $this->onFirstPage() || $this->hasMorePages();
+        return !$this->onFirstPage() || $this->hasMorePages();
     }
-
     /**
      * Determine if the paginator is on the first page.
      *
@@ -118,9 +100,8 @@ class CursorPaginator extends AbstractCursorPaginator implements Arrayable, Arra
      */
     public function onFirstPage()
     {
-        return is_null($this->cursor) || ($this->cursor->pointsToPreviousItems() && ! $this->hasMore);
+        return \is_null($this->cursor) || $this->cursor->pointsToPreviousItems() && !$this->hasMore;
     }
-
     /**
      * Get the instance as an array.
      *
@@ -128,15 +109,8 @@ class CursorPaginator extends AbstractCursorPaginator implements Arrayable, Arra
      */
     public function toArray()
     {
-        return [
-            'data' => $this->items->toArray(),
-            'path' => $this->path(),
-            'per_page' => $this->perPage(),
-            'next_page_url' => $this->nextPageUrl(),
-            'prev_page_url' => $this->previousPageUrl(),
-        ];
+        return ['data' => $this->items->toArray(), 'path' => $this->path(), 'per_page' => $this->perPage(), 'next_page_url' => $this->nextPageUrl(), 'prev_page_url' => $this->previousPageUrl()];
     }
-
     /**
      * Convert the object into something JSON serializable.
      *
@@ -147,7 +121,6 @@ class CursorPaginator extends AbstractCursorPaginator implements Arrayable, Arra
     {
         return $this->toArray();
     }
-
     /**
      * Convert the object to its JSON representation.
      *
@@ -156,6 +129,6 @@ class CursorPaginator extends AbstractCursorPaginator implements Arrayable, Arra
      */
     public function toJson($options = 0)
     {
-        return json_encode($this->jsonSerialize(), $options);
+        return \json_encode($this->jsonSerialize(), $options);
     }
 }

@@ -8,13 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace ComfortSmtpScoped\Carbon\Exceptions;
 
-namespace Carbon\Exceptions;
-
-use Carbon\CarbonInterface;
+use ComfortSmtpScoped\Carbon\CarbonInterface;
 use InvalidArgumentException as BaseInvalidArgumentException;
 use Throwable;
-
 class NotACarbonClassException extends BaseInvalidArgumentException implements InvalidArgumentException
 {
     /**
@@ -23,7 +21,6 @@ class NotACarbonClassException extends BaseInvalidArgumentException implements I
      * @var string
      */
     protected $className;
-
     /**
      * Constructor.
      *
@@ -34,16 +31,14 @@ class NotACarbonClassException extends BaseInvalidArgumentException implements I
     public function __construct($className, $code = 0, ?Throwable $previous = null)
     {
         $this->className = $className;
-
         parent::__construct(\sprintf('Given class does not implement %s: %s', CarbonInterface::class, $className), $code, $previous);
     }
-
     /**
      * Get the className.
      *
      * @return string
      */
-    public function getClassName(): string
+    public function getClassName() : string
     {
         return $this->className;
     }

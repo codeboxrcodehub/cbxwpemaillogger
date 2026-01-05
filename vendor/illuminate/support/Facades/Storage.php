@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Support\Facades;
+namespace ComfortSmtpScoped\Illuminate\Support\Facades;
 
-use Illuminate\Filesystem\Filesystem;
-
+use ComfortSmtpScoped\Illuminate\Filesystem\Filesystem;
 /**
  * @method static \Illuminate\Contracts\Filesystem\Filesystem assertExists(string|array $path)
  * @method static \Illuminate\Contracts\Filesystem\Filesystem assertMissing(string|array $path)
@@ -57,22 +56,14 @@ class Storage extends Facade
     public static function fake($disk = null, array $config = [])
     {
         $disk = $disk ?: static::$app['config']->get('filesystems.default');
-
-        $root = storage_path('framework/testing/disks/'.$disk);
-
+        $root = storage_path('framework/testing/disks/' . $disk);
         if ($token = ParallelTesting::token()) {
             $root = "{$root}_test_{$token}";
         }
-
-        (new Filesystem)->cleanDirectory($root);
-
-        static::set($disk, $fake = static::createLocalDriver(array_merge($config, [
-            'root' => $root,
-        ])));
-
+        (new Filesystem())->cleanDirectory($root);
+        static::set($disk, $fake = static::createLocalDriver(\array_merge($config, ['root' => $root])));
         return $fake;
     }
-
     /**
      * Replace the given disk with a persistent local testing disk.
      *
@@ -83,14 +74,9 @@ class Storage extends Facade
     public static function persistentFake($disk = null, array $config = [])
     {
         $disk = $disk ?: static::$app['config']->get('filesystems.default');
-
-        static::set($disk, $fake = static::createLocalDriver(array_merge($config, [
-            'root' => storage_path('framework/testing/disks/'.$disk),
-        ])));
-
+        static::set($disk, $fake = static::createLocalDriver(\array_merge($config, ['root' => storage_path('framework/testing/disks/' . $disk)])));
         return $fake;
     }
-
     /**
      * Get the registered name of the component.
      *

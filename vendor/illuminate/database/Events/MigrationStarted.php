@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database\Events;
+namespace ComfortSmtpScoped\Illuminate\Database\Events;
 
 class MigrationStarted extends MigrationEvent
 {

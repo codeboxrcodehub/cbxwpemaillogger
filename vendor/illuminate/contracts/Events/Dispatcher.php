@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Events;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Events;
 
 interface Dispatcher
 {
@@ -12,7 +12,6 @@ interface Dispatcher
      * @return void
      */
     public function listen($events, $listener = null);
-
     /**
      * Determine if a given event has listeners.
      *
@@ -20,7 +19,6 @@ interface Dispatcher
      * @return bool
      */
     public function hasListeners($eventName);
-
     /**
      * Register an event subscriber with the dispatcher.
      *
@@ -28,7 +26,6 @@ interface Dispatcher
      * @return void
      */
     public function subscribe($subscriber);
-
     /**
      * Dispatch an event until the first non-null response is returned.
      *
@@ -37,7 +34,6 @@ interface Dispatcher
      * @return array|null
      */
     public function until($event, $payload = []);
-
     /**
      * Dispatch an event and call the listeners.
      *
@@ -46,8 +42,7 @@ interface Dispatcher
      * @param  bool  $halt
      * @return array|null
      */
-    public function dispatch($event, $payload = [], $halt = false);
-
+    public function dispatch($event, $payload = [], $halt = \false);
     /**
      * Register an event and payload to be fired later.
      *
@@ -56,7 +51,6 @@ interface Dispatcher
      * @return void
      */
     public function push($event, $payload = []);
-
     /**
      * Flush a set of pushed events.
      *
@@ -64,7 +58,6 @@ interface Dispatcher
      * @return void
      */
     public function flush($event);
-
     /**
      * Remove a set of listeners from the dispatcher.
      *
@@ -72,7 +65,6 @@ interface Dispatcher
      * @return void
      */
     public function forget($event);
-
     /**
      * Forget all of the queued listeners.
      *

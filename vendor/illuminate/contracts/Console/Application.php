@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Console;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Console;
 
 interface Application
 {
@@ -13,7 +13,6 @@ interface Application
      * @return int
      */
     public function call($command, array $parameters = [], $outputBuffer = null);
-
     /**
      * Get the output from the last command.
      *

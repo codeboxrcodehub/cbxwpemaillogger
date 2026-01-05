@@ -1,6 +1,6 @@
 <?php
 
-namespace Rakit\Validation;
+namespace ComfortSmtpScoped\Rakit\Validation;
 
 class MissingRequiredParameterException extends \Exception
 {

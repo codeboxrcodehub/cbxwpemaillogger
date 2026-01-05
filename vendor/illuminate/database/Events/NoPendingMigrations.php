@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database\Events;
+namespace ComfortSmtpScoped\Illuminate\Database\Events;
 
 class NoPendingMigrations
 {
@@ -10,7 +10,6 @@ class NoPendingMigrations
      * @var string
      */
     public $method;
-
     /**
      * Create a new event instance.
      *

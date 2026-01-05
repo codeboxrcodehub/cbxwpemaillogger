@@ -1,5 +1,6 @@
 <?php
-namespace enshrined\svgSanitize\ElementReference;
+
+namespace ComfortSmtpScoped\enshrined\svgSanitize\ElementReference;
 
 class Subject
 {
@@ -7,22 +8,18 @@ class Subject
      * @var \DOMElement
      */
     protected $element;
-
     /**
      * @var Usage[]
      */
     protected $useCollection = [];
-
     /**
      * @var Usage[]
      */
     protected $usedInCollection = [];
-
     /**
      * @var int
      */
     protected $useNestingLimit;
-
     /**
      * Subject constructor.
      *
@@ -34,7 +31,6 @@ class Subject
         $this->element = $element;
         $this->useNestingLimit = $useNestingLimit;
     }
-
     /**
      * @return \DOMElement
      */
@@ -42,7 +38,6 @@ class Subject
     {
         return $this->element;
     }
-
     /**
      * @return string
      */
@@ -50,7 +45,6 @@ class Subject
     {
         return $this->element->getAttribute('id');
     }
-
     /**
      * @param array $subjects   Previously processed subjects
      * @param int   $level      The current level of nesting.
@@ -60,21 +54,19 @@ class Subject
     public function hasInfiniteLoop(array $subjects = [], $level = 1)
     {
         if ($level > $this->useNestingLimit) {
-            throw new \enshrined\svgSanitize\Exceptions\NestingException('Nesting level too high, aborting', 1570713498, null, $this->getElement());
+            throw new \ComfortSmtpScoped\enshrined\svgSanitize\Exceptions\NestingException('Nesting level too high, aborting', 1570713498, null, $this->getElement());
         }
-
-        if (in_array($this, $subjects, true)) {
-            return true;
+        if (\in_array($this, $subjects, \true)) {
+            return \true;
         }
         $subjects[] = $this;
         foreach ($this->useCollection as $usage) {
             if ($usage->getSubject()->hasInfiniteLoop($subjects, $level + 1)) {
-                return true;
+                return \true;
             }
         }
-        return false;
+        return \false;
     }
-
     /**
      * @param Subject $subject
      */
@@ -90,7 +82,6 @@ class Subject
         }
         $this->useCollection[$identifier] = new Usage($subject);
     }
-
     /**
      * @param Subject $subject
      */
@@ -106,21 +97,19 @@ class Subject
         }
         $this->usedInCollection[$identifier] = new Usage($subject);
     }
-
     /**
      * @param bool $accumulated
      * @return int
      */
-    public function countUse($accumulated = false)
+    public function countUse($accumulated = \false)
     {
         $count = 0;
         foreach ($this->useCollection as $use) {
             $useCount = $use->getSubject()->countUse();
-            $count += $use->getCount() * ($accumulated ? 1 + $useCount : max(1, $useCount));
+            $count += $use->getCount() * ($accumulated ? 1 + $useCount : \max(1, $useCount));
         }
         return $count;
     }
-
     /**
      * @return int
      */
@@ -128,11 +117,10 @@ class Subject
     {
         $count = 0;
         foreach ($this->usedInCollection as $usedIn) {
-            $count += $usedIn->getCount() * max(1, $usedIn->getSubject()->countUsedIn());
+            $count += $usedIn->getCount() * \max(1, $usedIn->getSubject()->countUsedIn());
         }
         return $count;
     }
-
     /**
      * Clear the internal arrays (to free up memory as they can get big)
      * and return all the child usages DOMElement's
@@ -141,13 +129,11 @@ class Subject
      */
     public function clearInternalAndGetAffectedElements()
     {
-        $elements = array_map(function(Usage $usage) {
+        $elements = \array_map(function (Usage $usage) {
             return $usage->getSubject()->getElement();
         }, $this->useCollection);
-
         $this->usedInCollection = [];
         $this->useCollection = [];
-
         return $elements;
     }
 }

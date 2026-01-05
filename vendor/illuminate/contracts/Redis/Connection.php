@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Contracts\Redis;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Redis;
 
 use Closure;
-
 interface Connection
 {
     /**
@@ -14,7 +13,6 @@ interface Connection
      * @return void
      */
     public function subscribe($channels, Closure $callback);
-
     /**
      * Subscribe to a set of given channels with wildcards.
      *
@@ -23,7 +21,6 @@ interface Connection
      * @return void
      */
     public function psubscribe($channels, Closure $callback);
-
     /**
      * Run a command against the Redis database.
      *

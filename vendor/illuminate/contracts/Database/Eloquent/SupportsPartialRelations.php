@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Database\Eloquent;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Database\Eloquent;
 
 interface SupportsPartialRelations
 {
@@ -13,14 +13,12 @@ interface SupportsPartialRelations
      * @return $this
      */
     public function ofMany($column = 'id', $aggregate = 'MAX', $relation = null);
-
     /**
      * Determine whether the relationship is a one-of-many relationship.
      *
      * @return bool
      */
     public function isOneOfMany();
-
     /**
      * Get the one of many inner join subselect query builder instance.
      *

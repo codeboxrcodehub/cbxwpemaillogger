@@ -1,10 +1,9 @@
 <?php
 
-namespace Illuminate\Support\Traits;
+namespace ComfortSmtpScoped\Illuminate\Support\Traits;
 
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Support\Fluent;
-
+use ComfortSmtpScoped\Illuminate\Contracts\Container\Container;
+use ComfortSmtpScoped\Illuminate\Support\Fluent;
 trait CapsuleManagerTrait
 {
     /**
@@ -13,14 +12,12 @@ trait CapsuleManagerTrait
      * @var object
      */
     protected static $instance;
-
     /**
      * The container instance.
      *
      * @var \Illuminate\Contracts\Container\Container
      */
     protected $container;
-
     /**
      * Setup the IoC container instance.
      *
@@ -30,12 +27,10 @@ trait CapsuleManagerTrait
     protected function setupContainer(Container $container)
     {
         $this->container = $container;
-
-        if (! $this->container->bound('config')) {
-            $this->container->instance('config', new Fluent);
+        if (!$this->container->bound('config')) {
+            $this->container->instance('config', new Fluent());
         }
     }
-
     /**
      * Make this capsule instance available globally.
      *
@@ -45,7 +40,6 @@ trait CapsuleManagerTrait
     {
         static::$instance = $this;
     }
-
     /**
      * Get the IoC container instance.
      *
@@ -55,7 +49,6 @@ trait CapsuleManagerTrait
     {
         return $this->container;
     }
-
     /**
      * Set the IoC container instance.
      *

@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Translation;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Translation;
 
 interface Loader
 {
@@ -13,7 +13,6 @@ interface Loader
      * @return array
      */
     public function load($locale, $group, $namespace = null);
-
     /**
      * Add a new namespace to the loader.
      *
@@ -22,7 +21,6 @@ interface Loader
      * @return void
      */
     public function addNamespace($namespace, $hint);
-
     /**
      * Add a new JSON path to the loader.
      *
@@ -30,7 +28,6 @@ interface Loader
      * @return void
      */
     public function addJsonPath($path);
-
     /**
      * Get an array of all the registered namespaces.
      *

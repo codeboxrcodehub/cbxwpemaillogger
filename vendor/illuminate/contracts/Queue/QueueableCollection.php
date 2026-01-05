@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Queue;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Queue;
 
 interface QueueableCollection
 {
@@ -10,21 +10,18 @@ interface QueueableCollection
      * @return string|null
      */
     public function getQueueableClass();
-
     /**
      * Get the identifiers for all of the entities.
      *
      * @return array
      */
     public function getQueueableIds();
-
     /**
      * Get the relationships of the entities being queued.
      *
      * @return array
      */
     public function getQueueableRelations();
-
     /**
      * Get the connection of the entities being queued.
      *

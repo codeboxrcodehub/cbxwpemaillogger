@@ -1,10 +1,9 @@
 <?php
 
-namespace Illuminate\Support\Facades;
+namespace ComfortSmtpScoped\Illuminate\Support\Facades;
 
-use Illuminate\Queue\Worker;
-use Illuminate\Support\Testing\Fakes\QueueFake;
-
+use ComfortSmtpScoped\Illuminate\Queue\Worker;
+use ComfortSmtpScoped\Illuminate\Support\Testing\Fakes\QueueFake;
 /**
  * @method static \Illuminate\Contracts\Queue\Job|null pop(string $queue = null)
  * @method static \Illuminate\Contracts\Queue\Queue setConnectionName(string $name)
@@ -38,7 +37,6 @@ class Queue extends Facade
     {
         return Worker::popUsing($workerName, $callback);
     }
-
     /**
      * Replace the bound instance with a fake.
      *
@@ -47,10 +45,8 @@ class Queue extends Facade
     public static function fake()
     {
         static::swap($fake = new QueueFake(static::getFacadeApplication()));
-
         return $fake;
     }
-
     /**
      * Get the registered name of the component.
      *

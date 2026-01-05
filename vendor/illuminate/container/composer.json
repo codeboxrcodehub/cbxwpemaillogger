@@ -1,11 +1,11 @@
 {
-    "name": "illuminate/container",
+    "name": "illuminate\/container",
     "description": "The Illuminate Container package.",
     "license": "MIT",
-    "homepage": "https://laravel.com",
+    "homepage": "https:\/\/laravel.com",
     "support": {
-        "issues": "https://github.com/laravel/framework/issues",
-        "source": "https://github.com/laravel/framework"
+        "issues": "https:\/\/github.com\/laravel\/framework\/issues",
+        "source": "https:\/\/github.com\/laravel\/framework"
     },
     "authors": [
         {
@@ -15,15 +15,15 @@
     ],
     "require": {
         "php": "^7.3|^8.0",
-        "illuminate/contracts": "^8.0",
-        "psr/container": "^1.0"
+        "illuminate\/contracts": "^8.0",
+        "psr\/container": "^1.0"
     },
     "provide": {
-        "psr/container-implementation": "1.0"
+        "psr\/container-implementation": "1.0"
     },
     "autoload": {
         "psr-4": {
-            "Illuminate\\Container\\": ""
+            "ComfortSmtpScoped\\Illuminate\\Container\\": ""
         }
     },
     "extra": {

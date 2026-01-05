@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Contracts\Pipeline;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Pipeline;
 
 use Closure;
-
 interface Pipeline
 {
     /**
@@ -13,7 +12,6 @@ interface Pipeline
      * @return $this
      */
     public function send($traveler);
-
     /**
      * Set the stops of the pipeline.
      *
@@ -21,7 +19,6 @@ interface Pipeline
      * @return $this
      */
     public function through($stops);
-
     /**
      * Set the method to call on the stops.
      *
@@ -29,7 +26,6 @@ interface Pipeline
      * @return $this
      */
     public function via($method);
-
     /**
      * Run the pipeline with a final destination callback.
      *

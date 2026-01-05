@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Database\PDO;
+namespace ComfortSmtpScoped\Illuminate\Database\PDO;
 
-use Doctrine\DBAL\Driver\AbstractSQLServerDriver;
-
+use ComfortSmtpScoped\Doctrine\DBAL\Driver\AbstractSQLServerDriver;
 class SqlServerDriver extends AbstractSQLServerDriver
 {
     /**
@@ -11,8 +10,6 @@ class SqlServerDriver extends AbstractSQLServerDriver
      */
     public function connect(array $params)
     {
-        return new SqlServerConnection(
-            new Connection($params['pdo'])
-        );
+        return new SqlServerConnection(new Connection($params['pdo']));
     }
 }

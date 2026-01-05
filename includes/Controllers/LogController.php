@@ -2,14 +2,19 @@
 
 namespace Comfort\Crm\Smtp\Controllers;
 
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
+
 use Comfort\Crm\Smtp\ComfortSmtpSettings;
 use Comfort\Crm\Smtp\Helpers\ComfortSmtpHelpers;
 use Comfort\Crm\Smtp\Models\SmtpLog;
 use Exception;
 use WP_REST_Request;
 use WP_REST_Response;
-use Illuminate\Database\QueryException;
-use Rakit\Validation\Validator;
+use ComfortSmtpScoped\Illuminate\Database\QueryException;
+use ComfortSmtpScoped\Rakit\Validation\Validator;
 
 /**
  * Class LogController for email log listing manage
@@ -292,7 +297,7 @@ class LogController {
 				'success' => true,
 				'info'    => esc_html__( 'Deleted Successfully', 'cbxwpemaillogger' ),
 			] );
-		} catch ( Exception ) {
+		} catch ( Exception $e ) {
 
 		}
 

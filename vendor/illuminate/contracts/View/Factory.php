@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\View;
+namespace ComfortSmtpScoped\Illuminate\Contracts\View;
 
 interface Factory
 {
@@ -11,7 +11,6 @@ interface Factory
      * @return bool
      */
     public function exists($view);
-
     /**
      * Get the evaluated view contents for the given path.
      *
@@ -21,7 +20,6 @@ interface Factory
      * @return \Illuminate\Contracts\View\View
      */
     public function file($path, $data = [], $mergeData = []);
-
     /**
      * Get the evaluated view contents for the given view.
      *
@@ -31,7 +29,6 @@ interface Factory
      * @return \Illuminate\Contracts\View\View
      */
     public function make($view, $data = [], $mergeData = []);
-
     /**
      * Add a piece of shared data to the environment.
      *
@@ -40,7 +37,6 @@ interface Factory
      * @return mixed
      */
     public function share($key, $value = null);
-
     /**
      * Register a view composer event.
      *
@@ -49,7 +45,6 @@ interface Factory
      * @return array
      */
     public function composer($views, $callback);
-
     /**
      * Register a view creator event.
      *
@@ -58,7 +53,6 @@ interface Factory
      * @return array
      */
     public function creator($views, $callback);
-
     /**
      * Add a new namespace to the loader.
      *
@@ -67,7 +61,6 @@ interface Factory
      * @return $this
      */
     public function addNamespace($namespace, $hints);
-
     /**
      * Replace the namespace hints for the given namespace.
      *

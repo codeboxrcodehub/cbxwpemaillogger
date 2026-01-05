@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Filesystem;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Filesystem;
 
 interface Factory
 {

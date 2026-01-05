@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Schema;
+namespace ComfortSmtpScoped\Illuminate\Database\Schema;
 
-use Illuminate\Support\Facades\File;
-
+use ComfortSmtpScoped\Illuminate\Support\Facades\File;
 class SQLiteBuilder extends Builder
 {
     /**
@@ -14,9 +13,8 @@ class SQLiteBuilder extends Builder
      */
     public function createDatabase($name)
     {
-        return File::put($name, '') !== false;
+        return File::put($name, '') !== \false;
     }
-
     /**
      * Drop a database from the schema if the database exists.
      *
@@ -25,11 +23,8 @@ class SQLiteBuilder extends Builder
      */
     public function dropDatabaseIfExists($name)
     {
-        return File::exists($name)
-            ? File::delete($name)
-            : true;
+        return File::exists($name) ? File::delete($name) : \true;
     }
-
     /**
      * Drop all tables from the database.
      *
@@ -40,16 +35,11 @@ class SQLiteBuilder extends Builder
         if ($this->connection->getDatabaseName() !== ':memory:') {
             return $this->refreshDatabaseFile();
         }
-
         $this->connection->select($this->grammar->compileEnableWriteableSchema());
-
         $this->connection->select($this->grammar->compileDropAllTables());
-
         $this->connection->select($this->grammar->compileDisableWriteableSchema());
-
         $this->connection->select($this->grammar->compileRebuild());
     }
-
     /**
      * Drop all views from the database.
      *
@@ -58,14 +48,10 @@ class SQLiteBuilder extends Builder
     public function dropAllViews()
     {
         $this->connection->select($this->grammar->compileEnableWriteableSchema());
-
         $this->connection->select($this->grammar->compileDropAllViews());
-
         $this->connection->select($this->grammar->compileDisableWriteableSchema());
-
         $this->connection->select($this->grammar->compileRebuild());
     }
-
     /**
      * Empty the database file.
      *
@@ -73,6 +59,6 @@ class SQLiteBuilder extends Builder
      */
     public function refreshDatabaseFile()
     {
-        file_put_contents($this->connection->getDatabaseName(), '');
+        \file_put_contents($this->connection->getDatabaseName(), '');
     }
 }

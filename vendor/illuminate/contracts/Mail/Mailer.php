@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Mail;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Mail;
 
 interface Mailer
 {
@@ -11,7 +11,6 @@ interface Mailer
      * @return \Illuminate\Mail\PendingMail
      */
     public function to($users);
-
     /**
      * Begin the process of mailing a mailable class instance.
      *
@@ -19,7 +18,6 @@ interface Mailer
      * @return \Illuminate\Mail\PendingMail
      */
     public function bcc($users);
-
     /**
      * Send a new message with only a raw text part.
      *
@@ -28,7 +26,6 @@ interface Mailer
      * @return void
      */
     public function raw($text, $callback);
-
     /**
      * Send a new message using a view.
      *
@@ -38,7 +35,6 @@ interface Mailer
      * @return void
      */
     public function send($view, array $data = [], $callback = null);
-
     /**
      * Get the array of failed recipients.
      *

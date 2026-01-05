@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Eloquent\Relations;
+namespace ComfortSmtpScoped\Illuminate\Database\Eloquent\Relations;
 
-use Illuminate\Database\Eloquent\Collection;
-
+use ComfortSmtpScoped\Illuminate\Database\Eloquent\Collection;
 class HasMany extends HasOneOrMany
 {
     /**
@@ -13,11 +12,8 @@ class HasMany extends HasOneOrMany
      */
     public function getResults()
     {
-        return ! is_null($this->getParentKey())
-                ? $this->query->get()
-                : $this->related->newCollection();
+        return !\is_null($this->getParentKey()) ? $this->query->get() : $this->related->newCollection();
     }
-
     /**
      * Initialize the relation on a set of models.
      *
@@ -30,10 +26,8 @@ class HasMany extends HasOneOrMany
         foreach ($models as $model) {
             $model->setRelation($relation, $this->related->newCollection());
         }
-
         return $models;
     }
-
     /**
      * Match the eagerly loaded results to their parents.
      *

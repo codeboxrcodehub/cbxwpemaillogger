@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Contracts\Debug;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Debug;
 
 use Throwable;
-
 interface ExceptionHandler
 {
     /**
@@ -15,7 +14,6 @@ interface ExceptionHandler
      * @throws \Throwable
      */
     public function report(Throwable $e);
-
     /**
      * Determine if the exception should be reported.
      *
@@ -23,7 +21,6 @@ interface ExceptionHandler
      * @return bool
      */
     public function shouldReport(Throwable $e);
-
     /**
      * Render an exception into an HTTP response.
      *
@@ -34,7 +31,6 @@ interface ExceptionHandler
      * @throws \Throwable
      */
     public function render($request, Throwable $e);
-
     /**
      * Render an exception to the console.
      *

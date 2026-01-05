@@ -8,12 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-namespace Carbon\Exceptions;
+namespace ComfortSmtpScoped\Carbon\Exceptions;
 
 use InvalidArgumentException as BaseInvalidArgumentException;
 use Throwable;
-
 class ParseErrorException extends BaseInvalidArgumentException implements InvalidArgumentException
 {
     /**
@@ -22,21 +20,18 @@ class ParseErrorException extends BaseInvalidArgumentException implements Invali
      * @var string
      */
     protected $expected;
-
     /**
      * The actual.
      *
      * @var string
      */
     protected $actual;
-
     /**
      * The help message.
      *
      * @var string
      */
     protected $help;
-
     /**
      * Constructor.
      *
@@ -50,38 +45,33 @@ class ParseErrorException extends BaseInvalidArgumentException implements Invali
         $this->expected = $expected;
         $this->actual = $actual;
         $this->help = $help;
-
-        $actual = $actual === '' ? 'data is missing' : "get '$actual'";
-
-        parent::__construct(trim("Format expected $expected but $actual\n$help"), $code, $previous);
+        $actual = $actual === '' ? 'data is missing' : "get '{$actual}'";
+        parent::__construct(\trim("Format expected {$expected} but {$actual}\n{$help}"), $code, $previous);
     }
-
     /**
      * Get the expected.
      *
      * @return string
      */
-    public function getExpected(): string
+    public function getExpected() : string
     {
         return $this->expected;
     }
-
     /**
      * Get the actual.
      *
      * @return string
      */
-    public function getActual(): string
+    public function getActual() : string
     {
         return $this->actual;
     }
-
     /**
      * Get the help message.
      *
      * @return string
      */
-    public function getHelp(): string
+    public function getHelp() : string
     {
         return $this->help;
     }

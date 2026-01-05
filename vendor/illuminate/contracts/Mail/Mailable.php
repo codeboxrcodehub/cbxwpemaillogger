@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Contracts\Mail;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Mail;
 
-use Illuminate\Contracts\Queue\Factory as Queue;
-
+use ComfortSmtpScoped\Illuminate\Contracts\Queue\Factory as Queue;
 interface Mailable
 {
     /**
@@ -13,7 +12,6 @@ interface Mailable
      * @return void
      */
     public function send($mailer);
-
     /**
      * Queue the given message.
      *
@@ -21,7 +19,6 @@ interface Mailable
      * @return mixed
      */
     public function queue(Queue $queue);
-
     /**
      * Deliver the queued message after the given delay.
      *
@@ -30,7 +27,6 @@ interface Mailable
      * @return mixed
      */
     public function later($delay, Queue $queue);
-
     /**
      * Set the recipients of the message.
      *
@@ -39,7 +35,6 @@ interface Mailable
      * @return self
      */
     public function cc($address, $name = null);
-
     /**
      * Set the recipients of the message.
      *
@@ -48,7 +43,6 @@ interface Mailable
      * @return $this
      */
     public function bcc($address, $name = null);
-
     /**
      * Set the recipients of the message.
      *
@@ -57,7 +51,6 @@ interface Mailable
      * @return $this
      */
     public function to($address, $name = null);
-
     /**
      * Set the locale of the message.
      *
@@ -65,7 +58,6 @@ interface Mailable
      * @return $this
      */
     public function locale($locale);
-
     /**
      * Set the name of the mailer that should be used to send the message.
      *

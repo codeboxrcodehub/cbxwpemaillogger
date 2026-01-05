@@ -1,17 +1,16 @@
 <?php
 
-namespace Illuminate\Database;
+namespace ComfortSmtpScoped\Illuminate\Database;
 
-use Doctrine\DBAL\Driver\PDOSqlite\Driver as DoctrineDriver;
-use Doctrine\DBAL\Version;
-use Illuminate\Database\PDO\SQLiteDriver;
-use Illuminate\Database\Query\Grammars\SQLiteGrammar as QueryGrammar;
-use Illuminate\Database\Query\Processors\SQLiteProcessor;
-use Illuminate\Database\Schema\Grammars\SQLiteGrammar as SchemaGrammar;
-use Illuminate\Database\Schema\SQLiteBuilder;
-use Illuminate\Database\Schema\SqliteSchemaState;
-use Illuminate\Filesystem\Filesystem;
-
+use ComfortSmtpScoped\Doctrine\DBAL\Driver\PDOSqlite\Driver as DoctrineDriver;
+use ComfortSmtpScoped\Doctrine\DBAL\Version;
+use ComfortSmtpScoped\Illuminate\Database\PDO\SQLiteDriver;
+use ComfortSmtpScoped\Illuminate\Database\Query\Grammars\SQLiteGrammar as QueryGrammar;
+use ComfortSmtpScoped\Illuminate\Database\Query\Processors\SQLiteProcessor;
+use ComfortSmtpScoped\Illuminate\Database\Schema\Grammars\SQLiteGrammar as SchemaGrammar;
+use ComfortSmtpScoped\Illuminate\Database\Schema\SQLiteBuilder;
+use ComfortSmtpScoped\Illuminate\Database\Schema\SqliteSchemaState;
+use ComfortSmtpScoped\Illuminate\Filesystem\Filesystem;
 class SQLiteConnection extends Connection
 {
     /**
@@ -26,18 +25,12 @@ class SQLiteConnection extends Connection
     public function __construct($pdo, $database = '', $tablePrefix = '', array $config = [])
     {
         parent::__construct($pdo, $database, $tablePrefix, $config);
-
         $enableForeignKeyConstraints = $this->getForeignKeyConstraintsConfigurationValue();
-
         if ($enableForeignKeyConstraints === null) {
             return;
         }
-
-        $enableForeignKeyConstraints
-            ? $this->getSchemaBuilder()->enableForeignKeyConstraints()
-            : $this->getSchemaBuilder()->disableForeignKeyConstraints();
+        $enableForeignKeyConstraints ? $this->getSchemaBuilder()->enableForeignKeyConstraints() : $this->getSchemaBuilder()->disableForeignKeyConstraints();
     }
-
     /**
      * Get the default query grammar instance.
      *
@@ -45,9 +38,8 @@ class SQLiteConnection extends Connection
      */
     protected function getDefaultQueryGrammar()
     {
-        return $this->withTablePrefix(new QueryGrammar);
+        return $this->withTablePrefix(new QueryGrammar());
     }
-
     /**
      * Get a schema builder instance for the connection.
      *
@@ -55,13 +47,11 @@ class SQLiteConnection extends Connection
      */
     public function getSchemaBuilder()
     {
-        if (is_null($this->schemaGrammar)) {
+        if (\is_null($this->schemaGrammar)) {
             $this->useDefaultSchemaGrammar();
         }
-
         return new SQLiteBuilder($this);
     }
-
     /**
      * Get the default schema grammar instance.
      *
@@ -69,9 +59,8 @@ class SQLiteConnection extends Connection
      */
     protected function getDefaultSchemaGrammar()
     {
-        return $this->withTablePrefix(new SchemaGrammar);
+        return $this->withTablePrefix(new SchemaGrammar());
     }
-
     /**
      * Get the schema state for the connection.
      *
@@ -84,7 +73,6 @@ class SQLiteConnection extends Connection
     {
         return new SqliteSchemaState($this, $files, $processFactory);
     }
-
     /**
      * Get the default post processor instance.
      *
@@ -92,9 +80,8 @@ class SQLiteConnection extends Connection
      */
     protected function getDefaultPostProcessor()
     {
-        return new SQLiteProcessor;
+        return new SQLiteProcessor();
     }
-
     /**
      * Get the Doctrine DBAL driver.
      *
@@ -102,9 +89,8 @@ class SQLiteConnection extends Connection
      */
     protected function getDoctrineDriver()
     {
-        return class_exists(Version::class) ? new DoctrineDriver : new SQLiteDriver;
+        return \class_exists(Version::class) ? new DoctrineDriver() : new SQLiteDriver();
     }
-
     /**
      * Get the database connection foreign key constraints configuration option.
      *

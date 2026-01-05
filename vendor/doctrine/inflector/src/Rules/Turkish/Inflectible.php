@@ -1,34 +1,30 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types=1);
+namespace ComfortSmtpScoped\Doctrine\Inflector\Rules\Turkish;
 
-namespace Doctrine\Inflector\Rules\Turkish;
-
-use Doctrine\Inflector\Rules\Pattern;
-use Doctrine\Inflector\Rules\Substitution;
-use Doctrine\Inflector\Rules\Transformation;
-use Doctrine\Inflector\Rules\Word;
-
+use ComfortSmtpScoped\Doctrine\Inflector\Rules\Pattern;
+use ComfortSmtpScoped\Doctrine\Inflector\Rules\Substitution;
+use ComfortSmtpScoped\Doctrine\Inflector\Rules\Transformation;
+use ComfortSmtpScoped\Doctrine\Inflector\Rules\Word;
 class Inflectible
 {
     /** @return Transformation[] */
-    public static function getSingular(): iterable
+    public static function getSingular() : iterable
     {
-        yield new Transformation(new Pattern('/l[ae]r$/i'), '');
+        (yield new Transformation(new Pattern('/l[ae]r$/i'), ''));
     }
-
     /** @return Transformation[] */
-    public static function getPlural(): iterable
+    public static function getPlural() : iterable
     {
-        yield new Transformation(new Pattern('/([eöiü][^aoıueöiü]{0,6})$/u'), '\1ler');
-        yield new Transformation(new Pattern('/([aoıu][^aoıueöiü]{0,6})$/u'), '\1lar');
+        (yield new Transformation(new Pattern('/([eöiü][^aoıueöiü]{0,6})$/u'), '\\1ler'));
+        (yield new Transformation(new Pattern('/([aoıu][^aoıueöiü]{0,6})$/u'), '\\1lar'));
     }
-
     /** @return Substitution[] */
-    public static function getIrregular(): iterable
+    public static function getIrregular() : iterable
     {
-        yield new Substitution(new Word('ben'), new Word('biz'));
-        yield new Substitution(new Word('sen'), new Word('siz'));
-        yield new Substitution(new Word('o'), new Word('onlar'));
+        (yield new Substitution(new Word('ben'), new Word('biz')));
+        (yield new Substitution(new Word('sen'), new Word('siz')));
+        (yield new Substitution(new Word('o'), new Word('onlar')));
     }
 }

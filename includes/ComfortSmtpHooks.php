@@ -2,6 +2,11 @@
 
 namespace Comfort\Crm\Smtp;
 
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
+
 use Comfort\Crm\Smtp\ComfortSmtpPublic;
 use Comfort\Crm\Smtp\Api\ComfortRoute;
 use Comfort\Crm\Smtp\Helpers\ComfortSmtpHelpers;

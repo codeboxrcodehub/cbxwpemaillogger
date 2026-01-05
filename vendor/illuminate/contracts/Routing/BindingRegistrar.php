@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Routing;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Routing;
 
 interface BindingRegistrar
 {
@@ -12,7 +12,6 @@ interface BindingRegistrar
      * @return void
      */
     public function bind($key, $binder);
-
     /**
      * Get the binding callback for a given binding.
      *

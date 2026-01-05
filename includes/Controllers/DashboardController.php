@@ -2,6 +2,11 @@
 
 namespace Comfort\Crm\Smtp\Controllers;
 
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
+
 use Exception;
 use Comfort\Crm\Smtp\MigrationManage;
 

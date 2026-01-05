@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Validation;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Validation;
 
 interface Factory
 {
@@ -14,7 +14,6 @@ interface Factory
      * @return \Illuminate\Contracts\Validation\Validator
      */
     public function make(array $data, array $rules, array $messages = [], array $customAttributes = []);
-
     /**
      * Register a custom validator extension.
      *
@@ -24,7 +23,6 @@ interface Factory
      * @return void
      */
     public function extend($rule, $extension, $message = null);
-
     /**
      * Register a custom implicit validator extension.
      *
@@ -34,7 +32,6 @@ interface Factory
      * @return void
      */
     public function extendImplicit($rule, $extension, $message = null);
-
     /**
      * Register a custom implicit validator message replacer.
      *

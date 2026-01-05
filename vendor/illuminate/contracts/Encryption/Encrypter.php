@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Encryption;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Encryption;
 
 interface Encrypter
 {
@@ -13,8 +13,7 @@ interface Encrypter
      *
      * @throws \Illuminate\Contracts\Encryption\EncryptException
      */
-    public function encrypt($value, $serialize = true);
-
+    public function encrypt($value, $serialize = \true);
     /**
      * Decrypt the given value.
      *
@@ -24,5 +23,5 @@ interface Encrypter
      *
      * @throws \Illuminate\Contracts\Encryption\DecryptException
      */
-    public function decrypt($payload, $unserialize = true);
+    public function decrypt($payload, $unserialize = \true);
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Pipeline;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Pipeline;
 
 interface Hub
 {

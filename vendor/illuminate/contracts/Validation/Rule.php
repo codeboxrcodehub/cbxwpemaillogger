@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Validation;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Validation;
 
 interface Rule
 {
@@ -12,7 +12,6 @@ interface Rule
      * @return bool
      */
     public function passes($attribute, $value);
-
     /**
      * Get the validation error message.
      *

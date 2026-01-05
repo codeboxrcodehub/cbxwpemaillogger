@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Cache;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Cache;
 
 interface Lock
 {
@@ -11,7 +11,6 @@ interface Lock
      * @return mixed
      */
     public function get($callback = null);
-
     /**
      * Attempt to acquire the lock for the given number of seconds.
      *
@@ -20,21 +19,18 @@ interface Lock
      * @return mixed
      */
     public function block($seconds, $callback = null);
-
     /**
      * Release the lock.
      *
      * @return bool
      */
     public function release();
-
     /**
      * Returns the current owner of the lock.
      *
      * @return string
      */
     public function owner();
-
     /**
      * Releases this lock in disregard of ownership.
      *

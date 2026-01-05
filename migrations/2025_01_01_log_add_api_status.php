@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Capsule\Manager as Capsule;
-use Illuminate\Database\Schema;
+use ComfortSmtpScoped\Illuminate\Database\Capsule\Manager as Capsule;
+use ComfortSmtpScoped\Illuminate\Database\Schema;
 
 if ( ! class_exists( 'ComfortsmtpAddApiStatusLog' ) ) {
 	/**

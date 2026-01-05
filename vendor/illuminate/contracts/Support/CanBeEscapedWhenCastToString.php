@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Support;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Support;
 
 interface CanBeEscapedWhenCastToString
 {
@@ -10,5 +10,5 @@ interface CanBeEscapedWhenCastToString
      * @param  bool  $escape
      * @return $this
      */
-    public function escapeWhenCastingToString($escape = true);
+    public function escapeWhenCastingToString($escape = \true);
 }

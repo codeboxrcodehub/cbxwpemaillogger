@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Auth;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Auth;
 
 interface SupportsBasicAuth
 {
@@ -12,7 +12,6 @@ interface SupportsBasicAuth
      * @return \Symfony\Component\HttpFoundation\Response|null
      */
     public function basic($field = 'email', $extraConditions = []);
-
     /**
      * Perform a stateless HTTP Basic login attempt.
      *

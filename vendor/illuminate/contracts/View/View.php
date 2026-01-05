@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Contracts\View;
+namespace ComfortSmtpScoped\Illuminate\Contracts\View;
 
-use Illuminate\Contracts\Support\Renderable;
-
+use ComfortSmtpScoped\Illuminate\Contracts\Support\Renderable;
 interface View extends Renderable
 {
     /**
@@ -12,7 +11,6 @@ interface View extends Renderable
      * @return string
      */
     public function name();
-
     /**
      * Add a piece of data to the view.
      *
@@ -21,7 +19,6 @@ interface View extends Renderable
      * @return $this
      */
     public function with($key, $value = null);
-
     /**
      * Get the array of view data.
      *

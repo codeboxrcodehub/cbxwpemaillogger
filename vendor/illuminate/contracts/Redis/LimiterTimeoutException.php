@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Contracts\Redis;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Redis;
 
 use Exception;
-
 class LimiterTimeoutException extends Exception
 {
     //

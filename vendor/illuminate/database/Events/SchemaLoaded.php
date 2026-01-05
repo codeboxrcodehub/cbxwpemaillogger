@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database\Events;
+namespace ComfortSmtpScoped\Illuminate\Database\Events;
 
 class SchemaLoaded
 {
@@ -10,21 +10,18 @@ class SchemaLoaded
      * @var \Illuminate\Database\Connection
      */
     public $connection;
-
     /**
      * The database connection name.
      *
      * @var string
      */
     public $connectionName;
-
     /**
      * The path to the schema dump.
      *
      * @var string
      */
     public $path;
-
     /**
      * Create a new event instance.
      *

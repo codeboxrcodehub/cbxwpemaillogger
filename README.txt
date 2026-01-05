@@ -2,9 +2,9 @@
 Contributors: codeboxr, manchumahara
 Tags: wordpress smtp,wordpress email log,smtp
 Requires at least: 5.3
-Requires PHP: 8.2
-Tested up to: 6.8
-Stable tag: 2.0.10
+Requires PHP: 7.4
+Tested up to: 6.9
+Stable tag: 2.0.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,12 @@ e.g.
 
 
 == Changelog ==
+= 2.0.11 =
+* [updated] WordPress Core 6.9 Compatible
+* [updated] Plugin Check 1.8.0 Compatible
+* [updated] Pro addon V1.0.8 released
+* [updated] Misc changes
+
 = 2.0.10 =
 * [updated] Pro addon V1.0.7 released
 * [fixed] Composer platform check issue fixed

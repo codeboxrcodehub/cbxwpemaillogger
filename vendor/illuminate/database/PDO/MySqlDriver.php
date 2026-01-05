@@ -1,10 +1,9 @@
 <?php
 
-namespace Illuminate\Database\PDO;
+namespace ComfortSmtpScoped\Illuminate\Database\PDO;
 
-use Doctrine\DBAL\Driver\AbstractMySQLDriver;
-use Illuminate\Database\PDO\Concerns\ConnectsToDatabase;
-
+use ComfortSmtpScoped\Doctrine\DBAL\Driver\AbstractMySQLDriver;
+use ComfortSmtpScoped\Illuminate\Database\PDO\Concerns\ConnectsToDatabase;
 class MySqlDriver extends AbstractMySQLDriver
 {
     use ConnectsToDatabase;

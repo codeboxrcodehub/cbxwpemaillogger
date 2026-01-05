@@ -1,15 +1,14 @@
 <?php
-namespace enshrined\svgSanitize\Exceptions;
+
+namespace ComfortSmtpScoped\enshrined\svgSanitize\Exceptions;
 
 use Exception;
-
 class NestingException extends \Exception
 {
     /**
      * @var \DOMElement
      */
     protected $element;
-
     /**
      * NestingException constructor.
      *
@@ -23,7 +22,6 @@ class NestingException extends \Exception
         $this->element = $element;
         parent::__construct($message, $code, $previous);
     }
-
     /**
      * Get the element that caused the exception.
      *

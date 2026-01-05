@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Auth;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Auth;
 
 interface PasswordBrokerFactory
 {

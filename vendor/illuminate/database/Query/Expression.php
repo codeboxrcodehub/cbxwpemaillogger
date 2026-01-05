@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Database\Query;
+namespace ComfortSmtpScoped\Illuminate\Database\Query;
 
 class Expression
 {
@@ -10,7 +10,6 @@ class Expression
      * @var mixed
      */
     protected $value;
-
     /**
      * Create a new raw query expression.
      *
@@ -21,7 +20,6 @@ class Expression
     {
         $this->value = $value;
     }
-
     /**
      * Get the value of the expression.
      *
@@ -31,7 +29,6 @@ class Expression
     {
         return $this->value;
     }
-
     /**
      * Get the value of the expression.
      *

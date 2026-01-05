@@ -1,10 +1,9 @@
 <?php
 
-namespace Illuminate\Support\Facades;
+namespace ComfortSmtpScoped\Illuminate\Support\Facades;
 
-use Laravel\Ui\UiServiceProvider;
+use ComfortSmtpScoped\Laravel\Ui\UiServiceProvider;
 use RuntimeException;
-
 /**
  * @method static \Illuminate\Auth\AuthManager extend(string $driver, \Closure $callback)
  * @method static \Illuminate\Auth\AuthManager provider(string $name, \Closure $callback)
@@ -45,7 +44,6 @@ class Auth extends Facade
     {
         return 'auth';
     }
-
     /**
      * Register the typical authentication routes for an application.
      *
@@ -56,10 +54,9 @@ class Auth extends Facade
      */
     public static function routes(array $options = [])
     {
-        if (! static::$app->providerIsLoaded(UiServiceProvider::class)) {
+        if (!static::$app->providerIsLoaded(UiServiceProvider::class)) {
             throw new RuntimeException('In order to use the Auth::routes() method, please install the laravel/ui package.');
         }
-
         static::$app->make('router')->auth($options);
     }
 }

@@ -1,9 +1,8 @@
 <?php
 
-namespace Illuminate\Database\Query\Processors;
+namespace ComfortSmtpScoped\Illuminate\Database\Query\Processors;
 
-use Illuminate\Database\Query\Builder;
-
+use ComfortSmtpScoped\Illuminate\Database\Query\Builder;
 class Processor
 {
     /**
@@ -17,7 +16,6 @@ class Processor
     {
         return $results;
     }
-
     /**
      * Process an  "insert get ID" query.
      *
@@ -30,12 +28,9 @@ class Processor
     public function processInsertGetId(Builder $query, $sql, $values, $sequence = null)
     {
         $query->getConnection()->insert($sql, $values);
-
         $id = $query->getConnection()->getPdo()->lastInsertId($sequence);
-
-        return is_numeric($id) ? (int) $id : $id;
+        return \is_numeric($id) ? (int) $id : $id;
     }
-
     /**
      * Process the results of a column listing query.
      *

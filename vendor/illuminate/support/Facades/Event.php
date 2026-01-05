@@ -1,10 +1,9 @@
 <?php
 
-namespace Illuminate\Support\Facades;
+namespace ComfortSmtpScoped\Illuminate\Support\Facades;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Testing\Fakes\EventFake;
-
+use ComfortSmtpScoped\Illuminate\Database\Eloquent\Model;
+use ComfortSmtpScoped\Illuminate\Support\Testing\Fakes\EventFake;
 /**
  * @method static \Closure createClassListener(string $listener, bool $wildcard = false)
  * @method static \Closure makeListener(\Closure|string $listener, bool $wildcard = false)
@@ -38,13 +37,10 @@ class Event extends Facade
     public static function fake($eventsToFake = [])
     {
         static::swap($fake = new EventFake(static::getFacadeRoot(), $eventsToFake));
-
         Model::setEventDispatcher($fake);
         Cache::refreshEventDispatcher();
-
         return $fake;
     }
-
     /**
      * Replace the bound instance with a fake that fakes all events except the given events.
      *
@@ -53,13 +49,10 @@ class Event extends Facade
      */
     public static function fakeExcept($eventsToAllow)
     {
-        return static::fake([
-            function ($eventName) use ($eventsToAllow) {
-                return ! in_array($eventName, (array) $eventsToAllow);
-            },
-        ]);
+        return static::fake([function ($eventName) use($eventsToAllow) {
+            return !\in_array($eventName, (array) $eventsToAllow);
+        }]);
     }
-
     /**
      * Replace the bound instance with a fake during the given callable's execution.
      *
@@ -70,17 +63,13 @@ class Event extends Facade
     public static function fakeFor(callable $callable, array $eventsToFake = [])
     {
         $originalDispatcher = static::getFacadeRoot();
-
         static::fake($eventsToFake);
-
-        return tap($callable(), function () use ($originalDispatcher) {
+        return \tap($callable(), function () use($originalDispatcher) {
             static::swap($originalDispatcher);
-
             Model::setEventDispatcher($originalDispatcher);
             Cache::refreshEventDispatcher();
         });
     }
-
     /**
      * Replace the bound instance with a fake during the given callable's execution.
      *
@@ -91,17 +80,13 @@ class Event extends Facade
     public static function fakeExceptFor(callable $callable, array $eventsToAllow = [])
     {
         $originalDispatcher = static::getFacadeRoot();
-
         static::fakeExcept($eventsToAllow);
-
-        return tap($callable(), function () use ($originalDispatcher) {
+        return \tap($callable(), function () use($originalDispatcher) {
             static::swap($originalDispatcher);
-
             Model::setEventDispatcher($originalDispatcher);
             Cache::refreshEventDispatcher();
         });
     }
-
     /**
      * Get the registered name of the component.
      *

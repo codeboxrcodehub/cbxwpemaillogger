@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Database\Eloquent;
+namespace ComfortSmtpScoped\Illuminate\Contracts\Database\Eloquent;
 
 interface Castable
 {

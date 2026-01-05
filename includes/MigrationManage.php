@@ -2,9 +2,14 @@
 
 namespace Comfort\Crm\Smtp;
 
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
+
 use Comfort\Crm\Smtp\Models\Migrations;
 use Exception;
-use Illuminate\Database\Capsule\Manager as Capsule;
+use ComfortSmtpScoped\Illuminate\Database\Capsule\Manager as Capsule;
 
 /**
  * Manage migration and database table

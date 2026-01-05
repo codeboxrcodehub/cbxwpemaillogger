@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Support\Facades;
+namespace ComfortSmtpScoped\Illuminate\Support\Facades;
 
 /**
  * @method static void setUpProcess(callable $callback)
@@ -21,6 +21,6 @@ class ParallelTesting extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return \Illuminate\Testing\ParallelTesting::class;
+        return \ComfortSmtpScoped\Illuminate\Testing\ParallelTesting::class;
     }
 }
