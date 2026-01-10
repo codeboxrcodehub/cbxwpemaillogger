@@ -33,13 +33,13 @@ abstract class Seeder
         $classes = Arr::wrap($class);
         foreach ($classes as $class) {
             $seeder = $this->resolve($class);
-            $name = \get_class($seeder);
+            $name = get_class($seeder);
             if ($silent === \false && isset($this->command)) {
                 $this->command->getOutput()->writeln("<comment>Seeding:</comment> {$name}");
             }
-            $startTime = \microtime(\true);
+            $startTime = microtime(\true);
             $seeder->__invoke($parameters);
-            $runTime = \number_format((\microtime(\true) - $startTime) * 1000, 2);
+            $runTime = number_format((microtime(\true) - $startTime) * 1000, 2);
             if ($silent === \false && isset($this->command)) {
                 $this->command->getOutput()->writeln("<info>Seeded:</info>  {$name} ({$runTime}ms)");
             }
@@ -119,8 +119,8 @@ abstract class Seeder
      */
     public function __invoke(array $parameters = [])
     {
-        if (!\method_exists($this, 'run')) {
-            throw new InvalidArgumentException('Method [run] missing from ' . \get_class($this));
+        if (!method_exists($this, 'run')) {
+            throw new InvalidArgumentException('Method [run] missing from ' . get_class($this));
         }
         return isset($this->container) ? $this->container->call([$this, 'run'], $parameters) : $this->run(...$parameters);
     }

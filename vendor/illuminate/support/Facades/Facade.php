@@ -32,7 +32,7 @@ abstract class Facade
         if (static::$app->resolved($accessor) === \true) {
             $callback(static::getFacadeRoot());
         }
-        static::$app->afterResolving($accessor, function ($service) use($callback) {
+        static::$app->afterResolving($accessor, function ($service) use ($callback) {
             $callback($service);
         });
     }
@@ -45,7 +45,7 @@ abstract class Facade
     {
         if (!static::isMock()) {
             $class = static::getMockableClass();
-            return \tap($class ? Mockery::spy($class) : Mockery::spy(), function ($spy) {
+            return tap($class ? Mockery::spy($class) : Mockery::spy(), function ($spy) {
                 static::swap($spy);
             });
         }
@@ -70,7 +70,7 @@ abstract class Facade
     {
         $name = static::getFacadeAccessor();
         $mock = static::isMock() ? static::$resolvedInstance[$name] : static::createFreshMockInstance();
-        return $mock->shouldReceive(...\func_get_args());
+        return $mock->shouldReceive(...func_get_args());
     }
     /**
      * Create a fresh mock instance for the given class.
@@ -79,7 +79,7 @@ abstract class Facade
      */
     protected static function createFreshMockInstance()
     {
-        return \tap(static::createMock(), function ($mock) {
+        return tap(static::createMock(), function ($mock) {
             static::swap($mock);
             $mock->shouldAllowMockingProtectedMethods();
         });
@@ -112,7 +112,7 @@ abstract class Facade
     protected static function getMockableClass()
     {
         if ($root = static::getFacadeRoot()) {
-            return \get_class($root);
+            return get_class($root);
         }
     }
     /**
@@ -156,7 +156,7 @@ abstract class Facade
      */
     protected static function resolveFacadeInstance($name)
     {
-        if (\is_object($name)) {
+        if (is_object($name)) {
             return $name;
         }
         if (isset(static::$resolvedInstance[$name])) {

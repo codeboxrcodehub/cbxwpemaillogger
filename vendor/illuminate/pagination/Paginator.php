@@ -35,7 +35,7 @@ class Paginator extends AbstractPaginator implements Arrayable, ArrayAccess, Cou
         }
         $this->perPage = $perPage;
         $this->currentPage = $this->setCurrentPage($currentPage);
-        $this->path = $this->path !== '/' ? \rtrim($this->path, '/') : $this->path;
+        $this->path = $this->path !== '/' ? rtrim($this->path, '/') : $this->path;
         $this->setItems($items);
     }
     /**
@@ -92,7 +92,7 @@ class Paginator extends AbstractPaginator implements Arrayable, ArrayAccess, Cou
      */
     public function render($view = null, $data = [])
     {
-        return static::viewFactory()->make($view ?: static::$defaultSimpleView, \array_merge($data, ['paginator' => $this]));
+        return static::viewFactory()->make($view ?: static::$defaultSimpleView, array_merge($data, ['paginator' => $this]));
     }
     /**
      * Manually indicate that the paginator does have more pages.
@@ -141,6 +141,6 @@ class Paginator extends AbstractPaginator implements Arrayable, ArrayAccess, Cou
      */
     public function toJson($options = 0)
     {
-        return \json_encode($this->jsonSerialize(), $options);
+        return json_encode($this->jsonSerialize(), $options);
     }
 }

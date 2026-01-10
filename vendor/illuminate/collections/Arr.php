@@ -16,7 +16,7 @@ class Arr
      */
     public static function accessible($value)
     {
-        return \is_array($value) || $value instanceof ArrayAccess;
+        return is_array($value) || $value instanceof ArrayAccess;
     }
     /**
      * Add an element to an array using "dot" notation if it doesn't exist.
@@ -28,7 +28,7 @@ class Arr
      */
     public static function add($array, $key, $value)
     {
-        if (\is_null(static::get($array, $key))) {
+        if (is_null(static::get($array, $key))) {
             static::set($array, $key, $value);
         }
         return $array;
@@ -45,12 +45,12 @@ class Arr
         foreach ($array as $values) {
             if ($values instanceof Collection) {
                 $values = $values->all();
-            } elseif (!\is_array($values)) {
+            } elseif (!is_array($values)) {
                 continue;
             }
             $results[] = $values;
         }
-        return \array_merge([], ...$results);
+        return array_merge([], ...$results);
     }
     /**
      * Cross join the given arrays, returning all possible permutations.
@@ -81,7 +81,7 @@ class Arr
      */
     public static function divide($array)
     {
-        return [\array_keys($array), \array_values($array)];
+        return [array_keys($array), array_values($array)];
     }
     /**
      * Flatten a multi-dimensional associative array with dots.
@@ -94,8 +94,8 @@ class Arr
     {
         $results = [];
         foreach ($array as $key => $value) {
-            if (\is_array($value) && !empty($value)) {
-                $results = \array_merge($results, static::dot($value, $prepend . $key . '.'));
+            if (is_array($value) && !empty($value)) {
+                $results = array_merge($results, static::dot($value, $prepend . $key . '.'));
             } else {
                 $results[$prepend . $key] = $value;
             }
@@ -143,7 +143,7 @@ class Arr
         if ($array instanceof ArrayAccess) {
             return $array->offsetExists($key);
         }
-        return \array_key_exists($key, $array);
+        return array_key_exists($key, $array);
     }
     /**
      * Return the first element in an array passing a given truth test.
@@ -155,9 +155,9 @@ class Arr
      */
     public static function first($array, callable $callback = null, $default = null)
     {
-        if (\is_null($callback)) {
+        if (is_null($callback)) {
             if (empty($array)) {
-                return \value($default);
+                return value($default);
             }
             foreach ($array as $item) {
                 return $item;
@@ -168,7 +168,7 @@ class Arr
                 return $value;
             }
         }
-        return \value($default);
+        return value($default);
     }
     /**
      * Return the last element in an array passing a given truth test.
@@ -180,10 +180,10 @@ class Arr
      */
     public static function last($array, callable $callback = null, $default = null)
     {
-        if (\is_null($callback)) {
-            return empty($array) ? \value($default) : \end($array);
+        if (is_null($callback)) {
+            return empty($array) ? value($default) : end($array);
         }
-        return static::first(\array_reverse($array, \true), $callback, $default);
+        return static::first(array_reverse($array, \true), $callback, $default);
     }
     /**
      * Flatten a multi-dimensional array into a single level.
@@ -197,10 +197,10 @@ class Arr
         $result = [];
         foreach ($array as $item) {
             $item = $item instanceof Collection ? $item->all() : $item;
-            if (!\is_array($item)) {
+            if (!is_array($item)) {
                 $result[] = $item;
             } else {
-                $values = $depth === 1 ? \array_values($item) : static::flatten($item, $depth - 1);
+                $values = $depth === 1 ? array_values($item) : static::flatten($item, $depth - 1);
                 foreach ($values as $value) {
                     $result[] = $value;
                 }
@@ -219,7 +219,7 @@ class Arr
     {
         $original =& $array;
         $keys = (array) $keys;
-        if (\count($keys) === 0) {
+        if (count($keys) === 0) {
             return;
         }
         foreach ($keys as $key) {
@@ -228,18 +228,18 @@ class Arr
                 unset($array[$key]);
                 continue;
             }
-            $parts = \explode('.', $key);
+            $parts = explode('.', $key);
             // clean up before each pass
             $array =& $original;
-            while (\count($parts) > 1) {
-                $part = \array_shift($parts);
-                if (isset($array[$part]) && \is_array($array[$part])) {
+            while (count($parts) > 1) {
+                $part = array_shift($parts);
+                if (isset($array[$part]) && is_array($array[$part])) {
                     $array =& $array[$part];
                 } else {
                     continue 2;
                 }
             }
-            unset($array[\array_shift($parts)]);
+            unset($array[array_shift($parts)]);
         }
     }
     /**
@@ -253,22 +253,22 @@ class Arr
     public static function get($array, $key, $default = null)
     {
         if (!static::accessible($array)) {
-            return \value($default);
+            return value($default);
         }
-        if (\is_null($key)) {
+        if (is_null($key)) {
             return $array;
         }
         if (static::exists($array, $key)) {
             return $array[$key];
         }
-        if (\strpos($key, '.') === \false) {
-            return $array[$key] ?? \value($default);
+        if (strpos($key, '.') === \false) {
+            return $array[$key] ?? value($default);
         }
-        foreach (\explode('.', $key) as $segment) {
+        foreach (explode('.', $key) as $segment) {
             if (static::accessible($array) && static::exists($array, $segment)) {
                 $array = $array[$segment];
             } else {
-                return \value($default);
+                return value($default);
             }
         }
         return $array;
@@ -291,7 +291,7 @@ class Arr
             if (static::exists($array, $key)) {
                 continue;
             }
-            foreach (\explode('.', $key) as $segment) {
+            foreach (explode('.', $key) as $segment) {
                 if (static::accessible($subKeyArray) && static::exists($subKeyArray, $segment)) {
                     $subKeyArray = $subKeyArray[$segment];
                 } else {
@@ -310,7 +310,7 @@ class Arr
      */
     public static function hasAny($array, $keys)
     {
-        if (\is_null($keys)) {
+        if (is_null($keys)) {
             return \false;
         }
         $keys = (array) $keys;
@@ -337,8 +337,8 @@ class Arr
      */
     public static function isAssoc(array $array)
     {
-        $keys = \array_keys($array);
-        return \array_keys($keys) !== $keys;
+        $keys = array_keys($array);
+        return array_keys($keys) !== $keys;
     }
     /**
      * Determines if an array is a list.
@@ -361,7 +361,7 @@ class Arr
      */
     public static function only($array, $keys)
     {
-        return \array_intersect_key($array, \array_flip((array) $keys));
+        return array_intersect_key($array, array_flip((array) $keys));
     }
     /**
      * Pluck an array of values from an array.
@@ -376,15 +376,15 @@ class Arr
         $results = [];
         [$value, $key] = static::explodePluckParameters($value, $key);
         foreach ($array as $item) {
-            $itemValue = \data_get($item, $value);
+            $itemValue = data_get($item, $value);
             // If the key is "null", we will just append the value to the array and keep
             // looping. Otherwise we will key the array using the value of the key we
             // received from the developer. Then we'll return the final array form.
-            if (\is_null($key)) {
+            if (is_null($key)) {
                 $results[] = $itemValue;
             } else {
-                $itemKey = \data_get($item, $key);
-                if (\is_object($itemKey) && \method_exists($itemKey, '__toString')) {
+                $itemKey = data_get($item, $key);
+                if (is_object($itemKey) && method_exists($itemKey, '__toString')) {
                     $itemKey = (string) $itemKey;
                 }
                 $results[$itemKey] = $itemValue;
@@ -401,8 +401,8 @@ class Arr
      */
     protected static function explodePluckParameters($value, $key)
     {
-        $value = \is_string($value) ? \explode('.', $value) : $value;
-        $key = \is_null($key) || \is_array($key) ? $key : \explode('.', $key);
+        $value = is_string($value) ? explode('.', $value) : $value;
+        $key = is_null($key) || is_array($key) ? $key : explode('.', $key);
         return [$value, $key];
     }
     /**
@@ -415,8 +415,8 @@ class Arr
      */
     public static function prepend($array, $value, $key = null)
     {
-        if (\func_num_args() == 2) {
-            \array_unshift($array, $value);
+        if (func_num_args() == 2) {
+            array_unshift($array, $value);
         } else {
             $array = [$key => $value] + $array;
         }
@@ -444,7 +444,7 @@ class Arr
      */
     public static function query($array)
     {
-        return \http_build_query($array, '', '&', \PHP_QUERY_RFC3986);
+        return http_build_query($array, '', '&', \PHP_QUERY_RFC3986);
     }
     /**
      * Get one or a specified number of random values from an array.
@@ -458,18 +458,18 @@ class Arr
      */
     public static function random($array, $number = null, $preserveKeys = \false)
     {
-        $requested = \is_null($number) ? 1 : $number;
-        $count = \count($array);
+        $requested = is_null($number) ? 1 : $number;
+        $count = count($array);
         if ($requested > $count) {
             throw new InvalidArgumentException("You requested {$requested} items, but there are only {$count} items available.");
         }
-        if (\is_null($number)) {
-            return $array[\array_rand($array)];
+        if (is_null($number)) {
+            return $array[array_rand($array)];
         }
         if ((int) $number === 0) {
             return [];
         }
-        $keys = \array_rand($array, $number);
+        $keys = array_rand($array, $number);
         $results = [];
         if ($preserveKeys) {
             foreach ((array) $keys as $key) {
@@ -494,24 +494,24 @@ class Arr
      */
     public static function set(&$array, $key, $value)
     {
-        if (\is_null($key)) {
+        if (is_null($key)) {
             return $array = $value;
         }
-        $keys = \explode('.', $key);
+        $keys = explode('.', $key);
         foreach ($keys as $i => $key) {
-            if (\count($keys) === 1) {
+            if (count($keys) === 1) {
                 break;
             }
             unset($keys[$i]);
             // If the key doesn't exist at this depth, we will just create an empty array
             // to hold the next value, allowing us to create the arrays to hold final
             // values at the correct depth. Then we'll keep digging into the array.
-            if (!isset($array[$key]) || !\is_array($array[$key])) {
+            if (!isset($array[$key]) || !is_array($array[$key])) {
                 $array[$key] = [];
             }
             $array =& $array[$key];
         }
-        $array[\array_shift($keys)] = $value;
+        $array[array_shift($keys)] = $value;
         return $array;
     }
     /**
@@ -523,12 +523,12 @@ class Arr
      */
     public static function shuffle($array, $seed = null)
     {
-        if (\is_null($seed)) {
-            \shuffle($array);
+        if (is_null($seed)) {
+            shuffle($array);
         } else {
-            \mt_srand($seed);
-            \shuffle($array);
-            \mt_srand();
+            mt_srand($seed);
+            shuffle($array);
+            mt_srand();
         }
         return $array;
     }
@@ -554,14 +554,14 @@ class Arr
     public static function sortRecursive($array, $options = \SORT_REGULAR, $descending = \false)
     {
         foreach ($array as &$value) {
-            if (\is_array($value)) {
+            if (is_array($value)) {
                 $value = static::sortRecursive($value, $options, $descending);
             }
         }
         if (static::isAssoc($array)) {
-            $descending ? \krsort($array, $options) : \ksort($array, $options);
+            $descending ? krsort($array, $options) : ksort($array, $options);
         } else {
-            $descending ? \rsort($array, $options) : \sort($array, $options);
+            $descending ? rsort($array, $options) : sort($array, $options);
         }
         return $array;
     }
@@ -576,13 +576,13 @@ class Arr
         $classList = static::wrap($array);
         $classes = [];
         foreach ($classList as $class => $constraint) {
-            if (\is_numeric($class)) {
+            if (is_numeric($class)) {
                 $classes[] = $constraint;
             } elseif ($constraint) {
                 $classes[] = $class;
             }
         }
-        return \implode(' ', $classes);
+        return implode(' ', $classes);
     }
     /**
      * Filter the array using the given callback.
@@ -593,7 +593,7 @@ class Arr
      */
     public static function where($array, callable $callback)
     {
-        return \array_filter($array, $callback, \ARRAY_FILTER_USE_BOTH);
+        return array_filter($array, $callback, \ARRAY_FILTER_USE_BOTH);
     }
     /**
      * Filter items where the value is not null.
@@ -604,7 +604,7 @@ class Arr
     public static function whereNotNull($array)
     {
         return static::where($array, function ($value) {
-            return !\is_null($value);
+            return !is_null($value);
         });
     }
     /**
@@ -615,9 +615,9 @@ class Arr
      */
     public static function wrap($value)
     {
-        if (\is_null($value)) {
+        if (is_null($value)) {
             return [];
         }
-        return \is_array($value) ? $value : [$value];
+        return is_array($value) ? $value : [$value];
     }
 }

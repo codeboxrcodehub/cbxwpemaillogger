@@ -28,8 +28,8 @@ trait QueriesRelationships
      */
     public function has($relation, $operator = '>=', $count = 1, $boolean = 'and', Closure $callback = null)
     {
-        if (\is_string($relation)) {
-            if (\strpos($relation, '.') !== \false) {
+        if (is_string($relation)) {
+            if (strpos($relation, '.') !== \false) {
                 return $this->hasNested($relation, $operator, $count, $boolean, $callback);
             }
             $relation = $this->getRelationWithoutConstraints($relation);
@@ -64,19 +64,19 @@ trait QueriesRelationships
      */
     protected function hasNested($relations, $operator = '>=', $count = 1, $boolean = 'and', $callback = null)
     {
-        $relations = \explode('.', $relations);
+        $relations = explode('.', $relations);
         $doesntHave = $operator === '<' && $count === 1;
         if ($doesntHave) {
             $operator = '>=';
             $count = 1;
         }
-        $closure = function ($q) use(&$closure, &$relations, $operator, $count, $callback) {
+        $closure = function ($q) use (&$closure, &$relations, $operator, $count, $callback) {
             // In order to nest "has", we need to add count relation constraints on the
             // callback Closure. We'll do this by simply passing the Closure its own
             // reference to itself so it calls itself recursively on each segment.
-            \count($relations) > 1 ? $q->whereHas(\array_shift($relations), $closure) : $q->has(\array_shift($relations), $operator, $count, 'and', $callback);
+            count($relations) > 1 ? $q->whereHas(array_shift($relations), $closure) : $q->has(array_shift($relations), $operator, $count, 'and', $callback);
         };
-        return $this->has(\array_shift($relations), $doesntHave ? '<' : '>=', 1, $boolean, $closure);
+        return $this->has(array_shift($relations), $doesntHave ? '<' : '>=', 1, $boolean, $closure);
     }
     /**
      * Add a relationship count / exists condition to the query with an "or".
@@ -173,7 +173,7 @@ trait QueriesRelationships
      */
     public function hasMorph($relation, $types, $operator = '>=', $count = 1, $boolean = 'and', Closure $callback = null)
     {
-        if (\is_string($relation)) {
+        if (is_string($relation)) {
             $relation = $this->getRelationWithoutConstraints($relation);
         }
         $types = (array) $types;
@@ -183,12 +183,12 @@ trait QueriesRelationships
         foreach ($types as &$type) {
             $type = Relation::getMorphedModel($type) ?? $type;
         }
-        return $this->where(function ($query) use($relation, $callback, $operator, $count, $types) {
+        return $this->where(function ($query) use ($relation, $callback, $operator, $count, $types) {
             foreach ($types as $type) {
-                $query->orWhere(function ($query) use($relation, $callback, $operator, $count, $type) {
+                $query->orWhere(function ($query) use ($relation, $callback, $operator, $count, $type) {
                     $belongsTo = $this->getBelongsToRelation($relation, $type);
                     if ($callback) {
-                        $callback = function ($query) use($callback, $type) {
+                        $callback = function ($query) use ($callback, $type) {
                             return $callback($query, $type);
                         };
                     }
@@ -206,7 +206,7 @@ trait QueriesRelationships
      */
     protected function getBelongsToRelation(MorphTo $relation, $type)
     {
-        $belongsTo = Relation::noConstraints(function () use($relation, $type) {
+        $belongsTo = Relation::noConstraints(function () use ($relation, $type) {
             return $this->model->belongsTo($type, $relation->getForeignKeyName(), $relation->getOwnerKeyName());
         });
         $belongsTo->getQuery()->mergeConstraintsFrom($relation->getQuery());
@@ -312,7 +312,7 @@ trait QueriesRelationships
      */
     public function whereRelation($relation, $column, $operator = null, $value = null)
     {
-        return $this->whereHas($relation, function ($query) use($column, $operator, $value) {
+        return $this->whereHas($relation, function ($query) use ($column, $operator, $value) {
             $query->where($column, $operator, $value);
         });
     }
@@ -327,7 +327,7 @@ trait QueriesRelationships
      */
     public function orWhereRelation($relation, $column, $operator = null, $value = null)
     {
-        return $this->orWhereHas($relation, function ($query) use($column, $operator, $value) {
+        return $this->orWhereHas($relation, function ($query) use ($column, $operator, $value) {
             $query->where($column, $operator, $value);
         });
     }
@@ -343,7 +343,7 @@ trait QueriesRelationships
      */
     public function whereMorphRelation($relation, $types, $column, $operator = null, $value = null)
     {
-        return $this->whereHasMorph($relation, $types, function ($query) use($column, $operator, $value) {
+        return $this->whereHasMorph($relation, $types, function ($query) use ($column, $operator, $value) {
             $query->where($column, $operator, $value);
         });
     }
@@ -359,7 +359,7 @@ trait QueriesRelationships
      */
     public function orWhereMorphRelation($relation, $types, $column, $operator = null, $value = null)
     {
-        return $this->orWhereHasMorph($relation, $types, function ($query) use($column, $operator, $value) {
+        return $this->orWhereHasMorph($relation, $types, function ($query) use ($column, $operator, $value) {
             $query->where($column, $operator, $value);
         });
     }
@@ -372,17 +372,17 @@ trait QueriesRelationships
      */
     public function whereMorphedTo($relation, $model, $boolean = 'and')
     {
-        if (\is_string($relation)) {
+        if (is_string($relation)) {
             $relation = $this->getRelationWithoutConstraints($relation);
         }
-        if (\is_string($model)) {
+        if (is_string($model)) {
             $morphMap = Relation::morphMap();
-            if (!empty($morphMap) && \in_array($model, $morphMap)) {
-                $model = \array_search($model, $morphMap, \true);
+            if (!empty($morphMap) && in_array($model, $morphMap)) {
+                $model = array_search($model, $morphMap, \true);
             }
             return $this->where($relation->getMorphType(), $model, null, $boolean);
         }
-        return $this->where(function ($query) use($relation, $model) {
+        return $this->where(function ($query) use ($relation, $model) {
             $query->where($relation->getMorphType(), $model->getMorphClass())->where($relation->getForeignKeyName(), $model->getKey());
         }, null, null, $boolean);
     }
@@ -410,7 +410,7 @@ trait QueriesRelationships
     public function whereBelongsTo($related, $relationshipName = null, $boolean = 'and')
     {
         if ($relationshipName === null) {
-            $relationshipName = Str::camel(\class_basename($related));
+            $relationshipName = Str::camel(class_basename($related));
         }
         try {
             $relationship = $this->model->{$relationshipName}();
@@ -449,24 +449,24 @@ trait QueriesRelationships
         if (empty($relations)) {
             return $this;
         }
-        if (\is_null($this->query->columns)) {
+        if (is_null($this->query->columns)) {
             $this->query->select([$this->query->from . '.*']);
         }
-        $relations = \is_array($relations) ? $relations : [$relations];
+        $relations = is_array($relations) ? $relations : [$relations];
         foreach ($this->parseWithRelations($relations) as $name => $constraints) {
             // First we will determine if the name has been aliased using an "as" clause on the name
             // and if it has we will extract the actual relationship name and the desired name of
             // the resulting column. This allows multiple aggregates on the same relationships.
-            $segments = \explode(' ', $name);
+            $segments = explode(' ', $name);
             unset($alias);
-            if (\count($segments) === 3 && Str::lower($segments[1]) === 'as') {
+            if (count($segments) === 3 && Str::lower($segments[1]) === 'as') {
                 [$name, $alias] = [$segments[0], $segments[2]];
             }
             $relation = $this->getRelationWithoutConstraints($name);
             if ($function) {
                 $hashedColumn = $this->getQuery()->from === $relation->getQuery()->getQuery()->from ? "{$relation->getRelationCountHash(\false)}.{$column}" : $column;
                 $wrappedColumn = $this->getQuery()->getGrammar()->wrap($column === '*' ? $column : $relation->getRelated()->qualifyColumn($hashedColumn));
-                $expression = $function === 'exists' ? $wrappedColumn : \sprintf('%s(%s)', $function, $wrappedColumn);
+                $expression = $function === 'exists' ? $wrappedColumn : sprintf('%s(%s)', $function, $wrappedColumn);
             } else {
                 $expression = $column;
             }
@@ -481,16 +481,16 @@ trait QueriesRelationships
             // when given to the database. Otherwise, we may receive SQL errors or poor syntax.
             $query->orders = null;
             $query->setBindings([], 'order');
-            if (\count($query->columns) > 1) {
+            if (count($query->columns) > 1) {
                 $query->columns = [$query->columns[0]];
                 $query->bindings['select'] = [];
             }
             // Finally, we will make the proper column alias to the query and run this sub-select on
             // the query builder. Then, we will return the builder instance back to the developer
             // for further constraint chaining that needs to take place on the query as needed.
-            $alias = $alias ?? Str::snake(\preg_replace('/[^[:alnum:][:space:]_]/u', '', "{$name} {$function} {$column}"));
+            $alias = $alias ?? Str::snake(preg_replace('/[^[:alnum:][:space:]_]/u', '', "{$name} {$function} {$column}"));
             if ($function === 'exists') {
-                $this->selectRaw(\sprintf('exists(%s) as %s', $query->toSql(), $this->getQuery()->grammar->wrap($alias)), $query->getBindings())->withCasts([$alias => 'bool']);
+                $this->selectRaw(sprintf('exists(%s) as %s', $query->toSql(), $this->getQuery()->grammar->wrap($alias)), $query->getBindings())->withCasts([$alias => 'bool']);
             } else {
                 $this->selectSub($function ? $query : $query->limit(1), $alias);
             }
@@ -505,7 +505,7 @@ trait QueriesRelationships
      */
     public function withCount($relations)
     {
-        return $this->withAggregate(\is_array($relations) ? $relations : \func_get_args(), '*', 'count');
+        return $this->withAggregate(is_array($relations) ? $relations : func_get_args(), '*', 'count');
     }
     /**
      * Add subselect queries to include the max of the relation's column.
@@ -602,7 +602,7 @@ trait QueriesRelationships
     protected function addWhereCountQuery(QueryBuilder $query, $operator = '>=', $count = 1, $boolean = 'and')
     {
         $this->query->addBinding($query->getBindings(), 'where');
-        return $this->where(new Expression('(' . $query->toSql() . ')'), $operator, \is_numeric($count) ? new Expression($count) : $count, $boolean);
+        return $this->where(new Expression('(' . $query->toSql() . ')'), $operator, is_numeric($count) ? new Expression($count) : $count, $boolean);
     }
     /**
      * Get the "has relation" base query instance.
@@ -612,7 +612,7 @@ trait QueriesRelationships
      */
     protected function getRelationWithoutConstraints($relation)
     {
-        return Relation::noConstraints(function () use($relation) {
+        return Relation::noConstraints(function () use ($relation) {
             return $this->getModel()->{$relation}();
         });
     }

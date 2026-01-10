@@ -17,7 +17,7 @@ class MySqlSchemaState extends SchemaState
      */
     public function dump(Connection $connection, $path)
     {
-        $this->executeDumpProcess($this->makeProcess($this->baseDumpCommand() . ' --routines --result-file="${:LARAVEL_LOAD_PATH}" --no-data'), $this->output, \array_merge($this->baseVariables($this->connection->getConfig()), ['LARAVEL_LOAD_PATH' => $path]));
+        $this->executeDumpProcess($this->makeProcess($this->baseDumpCommand() . ' --routines --result-file="${:LARAVEL_LOAD_PATH}" --no-data'), $this->output, array_merge($this->baseVariables($this->connection->getConfig()), ['LARAVEL_LOAD_PATH' => $path]));
         $this->removeAutoIncrementingState($path);
         $this->appendMigrationData($path);
     }
@@ -29,7 +29,7 @@ class MySqlSchemaState extends SchemaState
      */
     protected function removeAutoIncrementingState(string $path)
     {
-        $this->files->put($path, \preg_replace('/\\s+AUTO_INCREMENT=[0-9]+/iu', '', $this->files->get($path)));
+        $this->files->put($path, preg_replace('/\s+AUTO_INCREMENT=[0-9]+/iu', '', $this->files->get($path)));
     }
     /**
      * Append the migration data to the schema dump.
@@ -39,7 +39,7 @@ class MySqlSchemaState extends SchemaState
      */
     protected function appendMigrationData(string $path)
     {
-        $process = $this->executeDumpProcess($this->makeProcess($this->baseDumpCommand() . ' ' . $this->migrationTable . ' --no-create-info --skip-extended-insert --skip-routines --compact'), null, \array_merge($this->baseVariables($this->connection->getConfig()), []));
+        $process = $this->executeDumpProcess($this->makeProcess($this->baseDumpCommand() . ' ' . $this->migrationTable . ' --no-create-info --skip-extended-insert --skip-routines --compact'), null, array_merge($this->baseVariables($this->connection->getConfig()), []));
         $this->files->append($path, $process->getOutput());
     }
     /**
@@ -52,7 +52,7 @@ class MySqlSchemaState extends SchemaState
     {
         $command = 'mysql ' . $this->connectionString() . ' --database="${:LARAVEL_LOAD_DATABASE}" < "${:LARAVEL_LOAD_PATH}"';
         $process = $this->makeProcess($command)->setTimeout(null);
-        $process->mustRun(null, \array_merge($this->baseVariables($this->connection->getConfig()), ['LARAVEL_LOAD_PATH' => $path]));
+        $process->mustRun(null, array_merge($this->baseVariables($this->connection->getConfig()), ['LARAVEL_LOAD_PATH' => $path]));
     }
     /**
      * Get the base dump command arguments for MySQL as a string.
@@ -87,7 +87,7 @@ class MySqlSchemaState extends SchemaState
     protected function baseVariables(array $config)
     {
         $config['host'] = $config['host'] ?? '';
-        return ['LARAVEL_LOAD_SOCKET' => $config['unix_socket'] ?? '', 'LARAVEL_LOAD_HOST' => \is_array($config['host']) ? $config['host'][0] : $config['host'], 'LARAVEL_LOAD_PORT' => $config['port'] ?? '', 'LARAVEL_LOAD_USER' => $config['username'], 'LARAVEL_LOAD_PASSWORD' => $config['password'] ?? '', 'LARAVEL_LOAD_DATABASE' => $config['database']];
+        return ['LARAVEL_LOAD_SOCKET' => $config['unix_socket'] ?? '', 'LARAVEL_LOAD_HOST' => is_array($config['host']) ? $config['host'][0] : $config['host'], 'LARAVEL_LOAD_PORT' => $config['port'] ?? '', 'LARAVEL_LOAD_USER' => $config['username'], 'LARAVEL_LOAD_PASSWORD' => $config['password'] ?? '', 'LARAVEL_LOAD_DATABASE' => $config['database']];
     }
     /**
      * Execute the given dump process.
@@ -103,10 +103,10 @@ class MySqlSchemaState extends SchemaState
             $process->setTimeout(null)->mustRun($output, $variables);
         } catch (Exception $e) {
             if (Str::contains($e->getMessage(), ['column-statistics', 'column_statistics'])) {
-                return $this->executeDumpProcess(Process::fromShellCommandLine(\str_replace(' --column-statistics=0', '', $process->getCommandLine())), $output, $variables);
+                return $this->executeDumpProcess(Process::fromShellCommandLine(str_replace(' --column-statistics=0', '', $process->getCommandLine())), $output, $variables);
             }
             if (Str::contains($e->getMessage(), ['set-gtid-purged'])) {
-                return $this->executeDumpProcess(Process::fromShellCommandLine(\str_replace(' --set-gtid-purged=OFF', '', $process->getCommandLine())), $output, $variables);
+                return $this->executeDumpProcess(Process::fromShellCommandLine(str_replace(' --set-gtid-purged=OFF', '', $process->getCommandLine())), $output, $variables);
             }
             throw $e;
         }

@@ -88,7 +88,7 @@ abstract class ServiceProvider
     public function callBootingCallbacks()
     {
         $index = 0;
-        while ($index < \count($this->bootingCallbacks)) {
+        while ($index < count($this->bootingCallbacks)) {
             $this->app->call($this->bootingCallbacks[$index]);
             $index++;
         }
@@ -101,7 +101,7 @@ abstract class ServiceProvider
     public function callBootedCallbacks()
     {
         $index = 0;
-        while ($index < \count($this->bootedCallbacks)) {
+        while ($index < count($this->bootedCallbacks)) {
             $this->app->call($this->bootedCallbacks[$index]);
             $index++;
         }
@@ -117,7 +117,7 @@ abstract class ServiceProvider
     {
         if (!($this->app instanceof CachesConfiguration && $this->app->configurationIsCached())) {
             $config = $this->app->make('config');
-            $config->set($key, \array_merge(require $path, $config->get($key, [])));
+            $config->set($key, array_merge(require $path, $config->get($key, [])));
         }
     }
     /**
@@ -141,10 +141,10 @@ abstract class ServiceProvider
      */
     protected function loadViewsFrom($path, $namespace)
     {
-        $this->callAfterResolving('view', function ($view) use($path, $namespace) {
-            if (isset($this->app->config['view']['paths']) && \is_array($this->app->config['view']['paths'])) {
+        $this->callAfterResolving('view', function ($view) use ($path, $namespace) {
+            if (isset($this->app->config['view']['paths']) && is_array($this->app->config['view']['paths'])) {
                 foreach ($this->app->config['view']['paths'] as $viewPath) {
-                    if (\is_dir($appPath = $viewPath . '/vendor/' . $namespace)) {
+                    if (is_dir($appPath = $viewPath . '/vendor/' . $namespace)) {
                         $view->addNamespace($namespace, $appPath);
                     }
                 }
@@ -161,9 +161,9 @@ abstract class ServiceProvider
      */
     protected function loadViewComponentsAs($prefix, array $components)
     {
-        $this->callAfterResolving(BladeCompiler::class, function ($blade) use($prefix, $components) {
+        $this->callAfterResolving(BladeCompiler::class, function ($blade) use ($prefix, $components) {
             foreach ($components as $alias => $component) {
-                $blade->component($component, \is_string($alias) ? $alias : null, $prefix);
+                $blade->component($component, is_string($alias) ? $alias : null, $prefix);
             }
         });
     }
@@ -176,7 +176,7 @@ abstract class ServiceProvider
      */
     protected function loadTranslationsFrom($path, $namespace)
     {
-        $this->callAfterResolving('translator', function ($translator) use($path, $namespace) {
+        $this->callAfterResolving('translator', function ($translator) use ($path, $namespace) {
             $translator->addNamespace($namespace, $path);
         });
     }
@@ -188,7 +188,7 @@ abstract class ServiceProvider
      */
     protected function loadJsonTranslationsFrom($path)
     {
-        $this->callAfterResolving('translator', function ($translator) use($path) {
+        $this->callAfterResolving('translator', function ($translator) use ($path) {
             $translator->addJsonPath($path);
         });
     }
@@ -200,7 +200,7 @@ abstract class ServiceProvider
      */
     protected function loadMigrationsFrom($paths)
     {
-        $this->callAfterResolving('migrator', function ($migrator) use($paths) {
+        $this->callAfterResolving('migrator', function ($migrator) use ($paths) {
             foreach ((array) $paths as $path) {
                 $migrator->path($path);
             }
@@ -216,7 +216,7 @@ abstract class ServiceProvider
      */
     protected function loadFactoriesFrom($paths)
     {
-        $this->callAfterResolving(ModelFactory::class, function ($factory) use($paths) {
+        $this->callAfterResolving(ModelFactory::class, function ($factory) use ($paths) {
             foreach ((array) $paths as $path) {
                 $factory->load($path);
             }
@@ -246,7 +246,7 @@ abstract class ServiceProvider
     protected function publishes(array $paths, $groups = null)
     {
         $this->ensurePublishArrayInitialized($class = static::class);
-        static::$publishes[$class] = \array_merge(static::$publishes[$class], $paths);
+        static::$publishes[$class] = array_merge(static::$publishes[$class], $paths);
         foreach ((array) $groups as $group) {
             $this->addPublishGroup($group, $paths);
         }
@@ -259,7 +259,7 @@ abstract class ServiceProvider
      */
     protected function ensurePublishArrayInitialized($class)
     {
-        if (!\array_key_exists($class, static::$publishes)) {
+        if (!array_key_exists($class, static::$publishes)) {
             static::$publishes[$class] = [];
         }
     }
@@ -272,10 +272,10 @@ abstract class ServiceProvider
      */
     protected function addPublishGroup($group, $paths)
     {
-        if (!\array_key_exists($group, static::$publishGroups)) {
+        if (!array_key_exists($group, static::$publishGroups)) {
             static::$publishGroups[$group] = [];
         }
-        static::$publishGroups[$group] = \array_merge(static::$publishGroups[$group], $paths);
+        static::$publishGroups[$group] = array_merge(static::$publishGroups[$group], $paths);
     }
     /**
      * Get the paths to publish.
@@ -286,11 +286,11 @@ abstract class ServiceProvider
      */
     public static function pathsToPublish($provider = null, $group = null)
     {
-        if (!\is_null($paths = static::pathsForProviderOrGroup($provider, $group))) {
+        if (!is_null($paths = static::pathsForProviderOrGroup($provider, $group))) {
             return $paths;
         }
         return collect(static::$publishes)->reduce(function ($paths, $p) {
-            return \array_merge($paths, $p);
+            return array_merge($paths, $p);
         }, []);
     }
     /**
@@ -304,9 +304,9 @@ abstract class ServiceProvider
     {
         if ($provider && $group) {
             return static::pathsForProviderAndGroup($provider, $group);
-        } elseif ($group && \array_key_exists($group, static::$publishGroups)) {
+        } elseif ($group && array_key_exists($group, static::$publishGroups)) {
             return static::$publishGroups[$group];
-        } elseif ($provider && \array_key_exists($provider, static::$publishes)) {
+        } elseif ($provider && array_key_exists($provider, static::$publishes)) {
             return static::$publishes[$provider];
         } elseif ($group || $provider) {
             return [];
@@ -322,7 +322,7 @@ abstract class ServiceProvider
     protected static function pathsForProviderAndGroup($provider, $group)
     {
         if (!empty(static::$publishes[$provider]) && !empty(static::$publishGroups[$group])) {
-            return \array_intersect_key(static::$publishes[$provider], static::$publishGroups[$group]);
+            return array_intersect_key(static::$publishes[$provider], static::$publishGroups[$group]);
         }
         return [];
     }
@@ -333,7 +333,7 @@ abstract class ServiceProvider
      */
     public static function publishableProviders()
     {
-        return \array_keys(static::$publishes);
+        return array_keys(static::$publishes);
     }
     /**
      * Get the groups available for publishing.
@@ -342,7 +342,7 @@ abstract class ServiceProvider
      */
     public static function publishableGroups()
     {
-        return \array_keys(static::$publishGroups);
+        return array_keys(static::$publishGroups);
     }
     /**
      * Register the package's custom Artisan commands.
@@ -352,8 +352,8 @@ abstract class ServiceProvider
      */
     public function commands($commands)
     {
-        $commands = \is_array($commands) ? $commands : \func_get_args();
-        Artisan::starting(function ($artisan) use($commands) {
+        $commands = is_array($commands) ? $commands : func_get_args();
+        Artisan::starting(function ($artisan) use ($commands) {
             $artisan->resolveCommands($commands);
         });
     }

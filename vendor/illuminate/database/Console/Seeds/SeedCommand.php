@@ -69,10 +69,10 @@ class SeedCommand extends Command
     protected function getSeeder()
     {
         $class = $this->input->getArgument('class') ?? $this->input->getOption('class');
-        if (\strpos($class, '\\') === \false) {
-            $class = 'Database\\Seeders\\' . $class;
+        if (strpos($class, '\\') === \false) {
+            $class = 'Database\Seeders\\' . $class;
         }
-        if ($class === 'Database\\Seeders\\DatabaseSeeder' && !\class_exists($class)) {
+        if ($class === 'Database\Seeders\DatabaseSeeder' && !class_exists($class)) {
             $class = 'DatabaseSeeder';
         }
         return $this->laravel->make($class)->setContainer($this->laravel)->setCommand($this);
@@ -103,6 +103,6 @@ class SeedCommand extends Command
      */
     protected function getOptions()
     {
-        return [['class', null, InputOption::VALUE_OPTIONAL, 'The class name of the root seeder', 'ComfortSmtpScoped\\Database\\Seeders\\DatabaseSeeder'], ['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to seed'], ['force', null, InputOption::VALUE_NONE, 'Force the operation to run when in production']];
+        return [['class', null, InputOption::VALUE_OPTIONAL, 'The class name of the root seeder', 'ComfortSmtpScoped\Database\Seeders\DatabaseSeeder'], ['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to seed'], ['force', null, InputOption::VALUE_NONE, 'Force the operation to run when in production']];
     }
 }

@@ -25,7 +25,7 @@ class SqlServerProcessor extends Processor
         } else {
             $id = $connection->getPdo()->lastInsertId();
         }
-        return \is_numeric($id) ? (int) $id : $id;
+        return is_numeric($id) ? (int) $id : $id;
     }
     /**
      * Process an "insert get ID" query for ODBC.
@@ -42,7 +42,7 @@ class SqlServerProcessor extends Processor
             throw new Exception('Unable to retrieve lastInsertID for ODBC.');
         }
         $row = $result[0];
-        return \is_object($row) ? $row->insertid : $row['insertid'];
+        return is_object($row) ? $row->insertid : $row['insertid'];
     }
     /**
      * Process the results of a column listing query.
@@ -52,7 +52,7 @@ class SqlServerProcessor extends Processor
      */
     public function processColumnListing($results)
     {
-        return \array_map(function ($result) {
+        return array_map(function ($result) {
             return ((object) $result)->name;
         }, $results);
     }

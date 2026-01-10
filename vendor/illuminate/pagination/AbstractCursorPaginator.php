@@ -91,9 +91,9 @@ abstract class AbstractCursorPaginator implements Htmlable
         // If we have any extra query string key / value pairs that need to be added
         // onto the URL, we will put them in query string form and then attach it
         // to the URL. This allows for extra information like sortings storage.
-        $parameters = \is_null($cursor) ? [] : [$this->cursorName => $cursor->encode()];
-        if (\count($this->query) > 0) {
-            $parameters = \array_merge($this->query, $parameters);
+        $parameters = is_null($cursor) ? [] : [$this->cursorName => $cursor->encode()];
+        if (count($this->query) > 0) {
+            $parameters = array_merge($this->query, $parameters);
         }
         return $this->path() . (Str::contains($this->path(), '?') ? '&' : '?') . Arr::query($parameters) . $this->buildFragment();
     }
@@ -104,7 +104,7 @@ abstract class AbstractCursorPaginator implements Htmlable
      */
     public function previousPageUrl()
     {
-        if (\is_null($previousCursor = $this->previousCursor())) {
+        if (is_null($previousCursor = $this->previousCursor())) {
             return null;
         }
         return $this->url($previousCursor);
@@ -116,7 +116,7 @@ abstract class AbstractCursorPaginator implements Htmlable
      */
     public function nextPageUrl()
     {
-        if (\is_null($nextCursor = $this->nextCursor())) {
+        if (is_null($nextCursor = $this->nextCursor())) {
             return null;
         }
         return $this->url($nextCursor);
@@ -128,7 +128,7 @@ abstract class AbstractCursorPaginator implements Htmlable
      */
     public function previousCursor()
     {
-        if (\is_null($this->cursor) || $this->cursor->pointsToPreviousItems() && !$this->hasMore) {
+        if (is_null($this->cursor) || $this->cursor->pointsToPreviousItems() && !$this->hasMore) {
             return null;
         }
         if ($this->items->isEmpty()) {
@@ -143,7 +143,7 @@ abstract class AbstractCursorPaginator implements Htmlable
      */
     public function nextCursor()
     {
-        if (\is_null($this->cursor) && !$this->hasMore || !\is_null($this->cursor) && $this->cursor->pointsToNextItems() && !$this->hasMore) {
+        if (is_null($this->cursor) && !$this->hasMore || !is_null($this->cursor) && $this->cursor->pointsToNextItems() && !$this->hasMore) {
             return null;
         }
         if ($this->items->isEmpty()) {
@@ -172,15 +172,15 @@ abstract class AbstractCursorPaginator implements Htmlable
      */
     public function getParametersForItem($item)
     {
-        return collect($this->parameters)->flip()->map(function ($_, $parameterName) use($item) {
+        return collect($this->parameters)->flip()->map(function ($_, $parameterName) use ($item) {
             if ($item instanceof JsonResource) {
                 $item = $item->resource;
             }
-            if ($item instanceof Model && !\is_null($parameter = $this->getPivotParameterForItem($item, $parameterName))) {
+            if ($item instanceof Model && !is_null($parameter = $this->getPivotParameterForItem($item, $parameterName))) {
                 return $parameter;
-            } elseif ($item instanceof ArrayAccess || \is_array($item)) {
+            } elseif ($item instanceof ArrayAccess || is_array($item)) {
                 return $this->ensureParameterIsPrimitive($item[$parameterName] ?? $item[Str::afterLast($parameterName, '.')]);
-            } elseif (\is_object($item)) {
+            } elseif (is_object($item)) {
                 return $this->ensureParameterIsPrimitive($item->{$parameterName} ?? $item->{Str::afterLast($parameterName, '.')});
             }
             throw new Exception('Only arrays and objects are supported when cursor paginating items.');
@@ -212,7 +212,7 @@ abstract class AbstractCursorPaginator implements Htmlable
      */
     protected function ensureParameterIsPrimitive($parameter)
     {
-        return \is_object($parameter) && \method_exists($parameter, '__toString') ? (string) $parameter : $parameter;
+        return is_object($parameter) && method_exists($parameter, '__toString') ? (string) $parameter : $parameter;
     }
     /**
      * Get / set the URL fragment to be appended to URLs.
@@ -222,7 +222,7 @@ abstract class AbstractCursorPaginator implements Htmlable
      */
     public function fragment($fragment = null)
     {
-        if (\is_null($fragment)) {
+        if (is_null($fragment)) {
             return $this->fragment;
         }
         $this->fragment = $fragment;
@@ -237,10 +237,10 @@ abstract class AbstractCursorPaginator implements Htmlable
      */
     public function appends($key, $value = null)
     {
-        if (\is_null($key)) {
+        if (is_null($key)) {
             return $this;
         }
-        if (\is_array($key)) {
+        if (is_array($key)) {
             return $this->appendArray($key);
         }
         return $this->addQuery($key, $value);
@@ -265,7 +265,7 @@ abstract class AbstractCursorPaginator implements Htmlable
      */
     public function withQueryString()
     {
-        if (!\is_null($query = Paginator::resolveQueryString())) {
+        if (!is_null($query = Paginator::resolveQueryString())) {
             return $this->appends($query);
         }
         return $this;
@@ -414,7 +414,7 @@ abstract class AbstractCursorPaginator implements Htmlable
     public static function resolveCurrentCursor($cursorName = 'cursor', $default = null)
     {
         if (isset(static::$currentCursorResolver)) {
-            return \call_user_func(static::$currentCursorResolver, $cursorName);
+            return call_user_func(static::$currentCursorResolver, $cursorName);
         }
         return $default;
     }

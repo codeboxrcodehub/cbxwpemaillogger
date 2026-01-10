@@ -13,8 +13,8 @@ class Lowercase extends Rule
      * @param mixed $value
      * @return bool
      */
-    public function check($value) : bool
+    public function check($value): bool
     {
-        return \mb_strtolower($value, \mb_detect_encoding($value)) === $value;
+        return mb_strtolower($value, mb_detect_encoding($value)) === $value;
     }
 }

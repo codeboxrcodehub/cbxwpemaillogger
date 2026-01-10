@@ -24,14 +24,14 @@ class PostgresConnection extends Connection
     public function bindValues($statement, $bindings)
     {
         foreach ($bindings as $key => $value) {
-            if (\is_int($value)) {
+            if (is_int($value)) {
                 $pdoParam = PDO::PARAM_INT;
-            } elseif (\is_resource($value)) {
+            } elseif (is_resource($value)) {
                 $pdoParam = PDO::PARAM_LOB;
             } else {
                 $pdoParam = PDO::PARAM_STR;
             }
-            $statement->bindValue(\is_string($key) ? $key : $key + 1, $value, $pdoParam);
+            $statement->bindValue(is_string($key) ? $key : $key + 1, $value, $pdoParam);
         }
     }
     /**
@@ -50,7 +50,7 @@ class PostgresConnection extends Connection
      */
     public function getSchemaBuilder()
     {
-        if (\is_null($this->schemaGrammar)) {
+        if (is_null($this->schemaGrammar)) {
             $this->useDefaultSchemaGrammar();
         }
         return new PostgresBuilder($this);
@@ -91,6 +91,6 @@ class PostgresConnection extends Connection
      */
     protected function getDoctrineDriver()
     {
-        return \class_exists(Version::class) ? new DoctrineDriver() : new PostgresDriver();
+        return class_exists(Version::class) ? new DoctrineDriver() : new PostgresDriver();
     }
 }

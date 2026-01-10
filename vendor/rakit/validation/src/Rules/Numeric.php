@@ -13,8 +13,8 @@ class Numeric extends Rule
      * @param mixed $value
      * @return bool
      */
-    public function check($value) : bool
+    public function check($value): bool
     {
-        return \is_numeric($value);
+        return is_numeric($value);
     }
 }

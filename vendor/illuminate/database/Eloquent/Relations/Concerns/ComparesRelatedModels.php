@@ -14,7 +14,7 @@ trait ComparesRelatedModels
      */
     public function is($model)
     {
-        $match = !\is_null($model) && $this->compareKeys($this->getParentKey(), $this->getRelatedKeyFrom($model)) && $this->related->getTable() === $model->getTable() && $this->related->getConnectionName() === $model->getConnectionName();
+        $match = !is_null($model) && $this->compareKeys($this->getParentKey(), $this->getRelatedKeyFrom($model)) && $this->related->getTable() === $model->getTable() && $this->related->getConnectionName() === $model->getConnectionName();
         if ($match && $this instanceof SupportsPartialRelations && $this->isOneOfMany()) {
             return $this->query->whereKey($model->getKey())->exists();
         }
@@ -35,14 +35,14 @@ trait ComparesRelatedModels
      *
      * @return mixed
      */
-    public abstract function getParentKey();
+    abstract public function getParentKey();
     /**
      * Get the value of the model's related key.
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model
      * @return mixed
      */
-    protected abstract function getRelatedKeyFrom(Model $model);
+    abstract protected function getRelatedKeyFrom(Model $model);
     /**
      * Compare the parent key with the related key.
      *
@@ -55,7 +55,7 @@ trait ComparesRelatedModels
         if (empty($parentKey) || empty($relatedKey)) {
             return \false;
         }
-        if (\is_int($parentKey) || \is_int($relatedKey)) {
+        if (is_int($parentKey) || is_int($relatedKey)) {
             return (int) $parentKey === (int) $relatedKey;
         }
         return $parentKey === $relatedKey;

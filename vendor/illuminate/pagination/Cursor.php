@@ -39,7 +39,7 @@ class Cursor implements Arrayable
      */
     public function parameter(string $parameterName)
     {
-        if (!\array_key_exists($parameterName, $this->parameters)) {
+        if (!array_key_exists($parameterName, $this->parameters)) {
             throw new UnexpectedValueException("Unable to find parameter [{$parameterName}] in pagination item.");
         }
         return $this->parameters[$parameterName];
@@ -81,7 +81,7 @@ class Cursor implements Arrayable
      */
     public function toArray()
     {
-        return \array_merge($this->parameters, ['_pointsToNextItems' => $this->pointsToNextItems]);
+        return array_merge($this->parameters, ['_pointsToNextItems' => $this->pointsToNextItems]);
     }
     /**
      * Get the encoded string representation of the cursor to construct a URL.
@@ -90,7 +90,7 @@ class Cursor implements Arrayable
      */
     public function encode()
     {
-        return \str_replace(['+', '/', '='], ['-', '_', ''], \base64_encode(\json_encode($this->toArray())));
+        return str_replace(['+', '/', '='], ['-', '_', ''], base64_encode(json_encode($this->toArray())));
     }
     /**
      * Get a cursor instance from the encoded string representation.
@@ -100,11 +100,11 @@ class Cursor implements Arrayable
      */
     public static function fromEncoded($encodedString)
     {
-        if (\is_null($encodedString) || !\is_string($encodedString)) {
+        if (is_null($encodedString) || !is_string($encodedString)) {
             return null;
         }
-        $parameters = \json_decode(\base64_decode(\str_replace(['-', '_'], ['+', '/'], $encodedString)), \true);
-        if (\json_last_error() !== \JSON_ERROR_NONE) {
+        $parameters = json_decode(base64_decode(str_replace(['-', '_'], ['+', '/'], $encodedString)), \true);
+        if (json_last_error() !== \JSON_ERROR_NONE) {
             return null;
         }
         $pointsToNextItems = $parameters['_pointsToNextItems'];

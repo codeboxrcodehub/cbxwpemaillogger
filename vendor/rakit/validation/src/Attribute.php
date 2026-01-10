@@ -95,7 +95,7 @@ class Attribute
      *
      * @return array
      */
-    public function getOtherAttributes() : array
+    public function getOtherAttributes(): array
     {
         return $this->otherAttributes;
     }
@@ -126,7 +126,7 @@ class Attribute
      *
      * @return array
      */
-    public function getRules() : array
+    public function getRules(): array
     {
         return $this->rules;
     }
@@ -136,7 +136,7 @@ class Attribute
      * @param string $ruleKey
      * @return bool
      */
-    public function hasRule(string $ruleKey) : bool
+    public function hasRule(string $ruleKey): bool
     {
         return isset($this->rules[$ruleKey]);
     }
@@ -155,7 +155,7 @@ class Attribute
      *
      * @return boolean
      */
-    public function isRequired() : bool
+    public function isRequired(): bool
     {
         return $this->required;
     }
@@ -164,7 +164,7 @@ class Attribute
      *
      * @return string
      */
-    public function getKey() : string
+    public function getKey(): string
     {
         return $this->key;
     }
@@ -173,7 +173,7 @@ class Attribute
      *
      * @return array
      */
-    public function getKeyIndexes() : array
+    public function getKeyIndexes(): array
     {
         return $this->keyIndexes;
     }
@@ -198,18 +198,18 @@ class Attribute
      *
      * @return boolean
      */
-    public function isArrayAttribute() : bool
+    public function isArrayAttribute(): bool
     {
-        return \count($this->getKeyIndexes()) > 0;
+        return count($this->getKeyIndexes()) > 0;
     }
     /**
      * Check this attribute is using dot notation
      *
      * @return boolean
      */
-    public function isUsingDotNotation() : bool
+    public function isUsingDotNotation(): bool
     {
-        return \strpos($this->getKey(), '.') !== \false;
+        return strpos($this->getKey(), '.') !== \false;
     }
     /**
      * Resolve sibling key
@@ -217,16 +217,16 @@ class Attribute
      * @param string $key
      * @return string
      */
-    public function resolveSiblingKey(string $key) : string
+    public function resolveSiblingKey(string $key): string
     {
         $indexes = $this->getKeyIndexes();
-        $keys = \explode("*", $key);
-        $countAsterisks = \count($keys) - 1;
-        if (\count($indexes) < $countAsterisks) {
-            $indexes = \array_merge($indexes, \array_fill(0, $countAsterisks - \count($indexes), "*"));
+        $keys = explode("*", $key);
+        $countAsterisks = count($keys) - 1;
+        if (count($indexes) < $countAsterisks) {
+            $indexes = array_merge($indexes, array_fill(0, $countAsterisks - count($indexes), "*"));
         }
-        $args = \array_merge([\str_replace("*", "%s", $key)], $indexes);
-        return \call_user_func_array('ComfortSmtpScoped\\sprintf', $args);
+        $args = array_merge([str_replace("*", "%s", $key)], $indexes);
+        return call_user_func_array('sprintf', $args);
     }
     /**
      * Get humanize key
@@ -236,18 +236,18 @@ class Attribute
     public function getHumanizedKey()
     {
         $primaryAttribute = $this->getPrimaryAttribute();
-        $key = \str_replace('_', ' ', $this->key);
+        $key = str_replace('_', ' ', $this->key);
         // Resolve key from array validation
         if ($primaryAttribute) {
-            $split = \explode('.', $key);
-            $key = \implode(' ', \array_map(function ($word) {
-                if (\is_numeric($word)) {
+            $split = explode('.', $key);
+            $key = implode(' ', array_map(function ($word) {
+                if (is_numeric($word)) {
                     $word = $word + 1;
                 }
                 return Helper::snakeCase($word, ' ');
             }, $split));
         }
-        return \ucfirst($key);
+        return ucfirst($key);
     }
     /**
      * Set alias

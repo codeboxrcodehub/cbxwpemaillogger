@@ -100,14 +100,14 @@ abstract class Relation
      *
      * @return void
      */
-    public abstract function addConstraints();
+    abstract public function addConstraints();
     /**
      * Set the constraints for an eager load of the relation.
      *
      * @param  array  $models
      * @return void
      */
-    public abstract function addEagerConstraints(array $models);
+    abstract public function addEagerConstraints(array $models);
     /**
      * Initialize the relation on a set of models.
      *
@@ -115,7 +115,7 @@ abstract class Relation
      * @param  string  $relation
      * @return array
      */
-    public abstract function initRelation(array $models, $relation);
+    abstract public function initRelation(array $models, $relation);
     /**
      * Match the eagerly loaded results to their parents.
      *
@@ -124,13 +124,13 @@ abstract class Relation
      * @param  string  $relation
      * @return array
      */
-    public abstract function match(array $models, Collection $results, $relation);
+    abstract public function match(array $models, Collection $results, $relation);
     /**
      * Get the results of the relationship.
      *
      * @return mixed
      */
-    public abstract function getResults();
+    abstract public function getResults();
     /**
      * Get the relationship for eager loading.
      *
@@ -153,7 +153,7 @@ abstract class Relation
     {
         $result = $this->take(2)->get($columns);
         if ($result->isEmpty()) {
-            throw (new ModelNotFoundException())->setModel(\get_class($this->related));
+            throw (new ModelNotFoundException())->setModel(get_class($this->related));
         }
         if ($result->count() > 1) {
             throw new MultipleRecordsFoundException();
@@ -236,7 +236,7 @@ abstract class Relation
      */
     protected function getKeys(array $models, $key = null)
     {
-        return collect($models)->map(function ($value) use($key) {
+        return collect($models)->map(function ($value) use ($key) {
             return $key ? $value->getAttribute($key) : $value->getKey();
         })->values()->unique(null, \true)->sort()->all();
     }
@@ -330,7 +330,7 @@ abstract class Relation
      */
     protected function whereInMethod(Model $model, $key)
     {
-        return $model->getKeyName() === \last(\explode('.', $key)) && \in_array($model->getKeyType(), ['int', 'integer']) ? 'whereIntegerInRaw' : 'whereIn';
+        return $model->getKeyName() === last(explode('.', $key)) && in_array($model->getKeyType(), ['int', 'integer']) ? 'whereIntegerInRaw' : 'whereIn';
     }
     /**
      * Prevent polymorphic relationships from being used without model mappings.
@@ -373,7 +373,7 @@ abstract class Relation
     public static function morphMap(array $map = null, $merge = \true)
     {
         $map = static::buildMorphMapFromModels($map);
-        if (\is_array($map)) {
+        if (is_array($map)) {
             static::$morphMap = $merge && static::$morphMap ? $map + static::$morphMap : $map;
         }
         return static::$morphMap;
@@ -386,10 +386,10 @@ abstract class Relation
      */
     protected static function buildMorphMapFromModels(array $models = null)
     {
-        if (\is_null($models) || Arr::isAssoc($models)) {
+        if (is_null($models) || Arr::isAssoc($models)) {
             return $models;
         }
-        return \array_combine(\array_map(function ($model) {
+        return array_combine(array_map(function ($model) {
             return (new $model())->getTable();
         }, $models), $models);
     }

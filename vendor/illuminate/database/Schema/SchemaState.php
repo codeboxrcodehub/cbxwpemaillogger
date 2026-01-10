@@ -63,14 +63,14 @@ abstract class SchemaState
      * @param  string  $path
      * @return void
      */
-    public abstract function dump(Connection $connection, $path);
+    abstract public function dump(Connection $connection, $path);
     /**
      * Load the given schema file into the database.
      *
      * @param  string  $path
      * @return void
      */
-    public abstract function load($path);
+    abstract public function load($path);
     /**
      * Create a new process instance.
      *
@@ -79,7 +79,7 @@ abstract class SchemaState
      */
     public function makeProcess(...$arguments)
     {
-        return \call_user_func($this->processFactory, ...$arguments);
+        return call_user_func($this->processFactory, ...$arguments);
     }
     /**
      * Specify the name of the application's migration table.

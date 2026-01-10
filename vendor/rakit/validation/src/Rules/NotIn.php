@@ -16,9 +16,9 @@ class NotIn extends Rule
      * @param array $params
      * @return self
      */
-    public function fillParameters(array $params) : Rule
+    public function fillParameters(array $params): Rule
     {
-        if (\count($params) == 1 and \is_array($params[0])) {
+        if (count($params) == 1 and is_array($params[0])) {
             $params = $params[0];
         }
         $this->params['disallowed_values'] = $params;
@@ -40,13 +40,13 @@ class NotIn extends Rule
      * @param mixed $value
      * @return bool
      */
-    public function check($value) : bool
+    public function check($value): bool
     {
         $this->requireParameters(['disallowed_values']);
         $disallowedValues = (array) $this->parameter('disallowed_values');
         $and = $this->validation ? $this->validation->getTranslation('and') : 'and';
         $disallowedValuesText = Helper::join(Helper::wraps($disallowedValues, "'"), ', ', ", {$and} ");
         $this->setParameterText('disallowed_values', $disallowedValuesText);
-        return !\in_array($value, $disallowedValues, $this->strict);
+        return !in_array($value, $disallowedValues, $this->strict);
     }
 }

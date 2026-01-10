@@ -55,7 +55,7 @@ class BelongsToRelationship
      */
     protected function resolver($key)
     {
-        return function () use($key) {
+        return function () use ($key) {
             if (!$this->resolved) {
                 $instance = $this->factory instanceof Factory ? $this->factory->create() : $this->factory;
                 return $this->resolved = $key ? $instance->{$key} : $instance->getKey();

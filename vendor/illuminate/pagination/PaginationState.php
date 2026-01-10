@@ -12,23 +12,23 @@ class PaginationState
      */
     public static function resolveUsing($app)
     {
-        Paginator::viewFactoryResolver(function () use($app) {
+        Paginator::viewFactoryResolver(function () use ($app) {
             return $app['view'];
         });
-        Paginator::currentPathResolver(function () use($app) {
+        Paginator::currentPathResolver(function () use ($app) {
             return $app['request']->url();
         });
-        Paginator::currentPageResolver(function ($pageName = 'page') use($app) {
+        Paginator::currentPageResolver(function ($pageName = 'page') use ($app) {
             $page = $app['request']->input($pageName);
-            if (\filter_var($page, \FILTER_VALIDATE_INT) !== \false && (int) $page >= 1) {
+            if (filter_var($page, \FILTER_VALIDATE_INT) !== \false && (int) $page >= 1) {
                 return (int) $page;
             }
             return 1;
         });
-        Paginator::queryStringResolver(function () use($app) {
+        Paginator::queryStringResolver(function () use ($app) {
             return $app['request']->query();
         });
-        CursorPaginator::currentCursorResolver(function ($cursorName = 'cursor') use($app) {
+        CursorPaginator::currentCursorResolver(function ($cursorName = 'cursor') use ($app) {
             return Cursor::fromEncoded($app['request']->input($cursorName));
         });
     }

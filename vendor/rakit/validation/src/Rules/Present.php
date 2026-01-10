@@ -15,7 +15,7 @@ class Present extends Rule
      * @param mixed $value
      * @return bool
      */
-    public function check($value) : bool
+    public function check($value): bool
     {
         $this->setAttributeAsRequired();
         return $this->validation->hasValue($this->attribute->getKey());

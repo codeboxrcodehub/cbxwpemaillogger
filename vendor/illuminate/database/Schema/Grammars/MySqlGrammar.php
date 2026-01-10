@@ -29,7 +29,7 @@ class MySqlGrammar extends Grammar
      */
     public function compileCreateDatabase($name, $connection)
     {
-        return \sprintf('create database %s default character set %s default collate %s', $this->wrapValue($name), $this->wrapValue($connection->getConfig('charset')), $this->wrapValue($connection->getConfig('collation')));
+        return sprintf('create database %s default character set %s default collate %s', $this->wrapValue($name), $this->wrapValue($connection->getConfig('charset')), $this->wrapValue($connection->getConfig('collation')));
     }
     /**
      * Compile a drop database if exists command.
@@ -39,7 +39,7 @@ class MySqlGrammar extends Grammar
      */
     public function compileDropDatabaseIfExists($name)
     {
-        return \sprintf('drop database if exists %s', $this->wrapValue($name));
+        return sprintf('drop database if exists %s', $this->wrapValue($name));
     }
     /**
      * Compile the query to determine the list of tables.
@@ -77,7 +77,7 @@ class MySqlGrammar extends Grammar
         // Finally, we will append the engine configuration onto this SQL statement as
         // the final thing we do before returning this finished SQL. Once this gets
         // added the query will be ready to execute against the real connections.
-        return \array_values(\array_filter(\array_merge([$this->compileCreateEngine($sql, $connection, $blueprint)], $this->compileAutoIncrementStartingValues($blueprint))));
+        return array_values(array_filter(array_merge([$this->compileCreateEngine($sql, $connection, $blueprint)], $this->compileAutoIncrementStartingValues($blueprint))));
     }
     /**
      * Create the main create table clause.
@@ -89,7 +89,7 @@ class MySqlGrammar extends Grammar
      */
     protected function compileCreateTable($blueprint, $command, $connection)
     {
-        return \trim(\sprintf('%s table %s (%s)', $blueprint->temporary ? 'create temporary' : 'create', $this->wrapTable($blueprint), \implode(', ', $this->getColumns($blueprint))));
+        return trim(sprintf('%s table %s (%s)', $blueprint->temporary ? 'create temporary' : 'create', $this->wrapTable($blueprint), implode(', ', $this->getColumns($blueprint))));
     }
     /**
      * Append the character set specifications to a command.
@@ -106,7 +106,7 @@ class MySqlGrammar extends Grammar
         // table is being created on. We will add these to the create table query.
         if (isset($blueprint->charset)) {
             $sql .= ' default character set ' . $blueprint->charset;
-        } elseif (!\is_null($charset = $connection->getConfig('charset'))) {
+        } elseif (!is_null($charset = $connection->getConfig('charset'))) {
             $sql .= ' default character set ' . $charset;
         }
         // Next we will add the collation to the create table statement if one has been
@@ -114,7 +114,7 @@ class MySqlGrammar extends Grammar
         // connection that the query is targeting. We'll add it to this SQL query.
         if (isset($blueprint->collation)) {
             $sql .= " collate '{$blueprint->collation}'";
-        } elseif (!\is_null($collation = $connection->getConfig('collation'))) {
+        } elseif (!is_null($collation = $connection->getConfig('collation'))) {
             $sql .= " collate '{$collation}'";
         }
         return $sql;
@@ -131,7 +131,7 @@ class MySqlGrammar extends Grammar
     {
         if (isset($blueprint->engine)) {
             return $sql . ' engine = ' . $blueprint->engine;
-        } elseif (!\is_null($engine = $connection->getConfig('engine'))) {
+        } elseif (!is_null($engine = $connection->getConfig('engine'))) {
             return $sql . ' engine = ' . $engine;
         }
         return $sql;
@@ -146,7 +146,7 @@ class MySqlGrammar extends Grammar
     public function compileAdd(Blueprint $blueprint, Fluent $command)
     {
         $columns = $this->prefixArray('add', $this->getColumns($blueprint));
-        return \array_values(\array_merge(['alter table ' . $this->wrapTable($blueprint) . ' ' . \implode(', ', $columns)], $this->compileAutoIncrementStartingValues($blueprint)));
+        return array_values(array_merge(['alter table ' . $this->wrapTable($blueprint) . ' ' . implode(', ', $columns)], $this->compileAutoIncrementStartingValues($blueprint)));
     }
     /**
      * Compile the auto-incrementing column starting values.
@@ -156,7 +156,7 @@ class MySqlGrammar extends Grammar
      */
     public function compileAutoIncrementStartingValues(Blueprint $blueprint)
     {
-        return collect($blueprint->autoIncrementingStartingValues())->map(function ($value, $column) use($blueprint) {
+        return collect($blueprint->autoIncrementingStartingValues())->map(function ($value, $column) use ($blueprint) {
             return 'alter table ' . $this->wrapTable($blueprint->getTable()) . ' auto_increment = ' . $value;
         })->all();
     }
@@ -226,7 +226,7 @@ class MySqlGrammar extends Grammar
      */
     protected function compileKey(Blueprint $blueprint, Fluent $command, $type)
     {
-        return \sprintf('alter table %s add %s %s%s(%s)', $this->wrapTable($blueprint), $type, $this->wrap($command->index), $command->algorithm ? ' using ' . $command->algorithm : '', $this->columnize($command->columns));
+        return sprintf('alter table %s add %s %s%s(%s)', $this->wrapTable($blueprint), $type, $this->wrap($command->index), $command->algorithm ? ' using ' . $command->algorithm : '', $this->columnize($command->columns));
     }
     /**
      * Compile a drop table command.
@@ -260,7 +260,7 @@ class MySqlGrammar extends Grammar
     public function compileDropColumn(Blueprint $blueprint, Fluent $command)
     {
         $columns = $this->prefixArray('drop', $this->wrapArray($command->columns));
-        return 'alter table ' . $this->wrapTable($blueprint) . ' ' . \implode(', ', $columns);
+        return 'alter table ' . $this->wrapTable($blueprint) . ' ' . implode(', ', $columns);
     }
     /**
      * Compile a drop primary key command.
@@ -352,7 +352,7 @@ class MySqlGrammar extends Grammar
      */
     public function compileRenameIndex(Blueprint $blueprint, Fluent $command)
     {
-        return \sprintf('alter table %s rename index %s to %s', $this->wrapTable($blueprint), $this->wrap($command->from), $this->wrap($command->to));
+        return sprintf('alter table %s rename index %s to %s', $this->wrapTable($blueprint), $this->wrap($command->from), $this->wrap($command->to));
     }
     /**
      * Compile the SQL needed to drop all tables.
@@ -362,7 +362,7 @@ class MySqlGrammar extends Grammar
      */
     public function compileDropAllTables($tables)
     {
-        return 'drop table ' . \implode(',', $this->wrapArray($tables));
+        return 'drop table ' . implode(',', $this->wrapArray($tables));
     }
     /**
      * Compile the SQL needed to drop all views.
@@ -372,7 +372,7 @@ class MySqlGrammar extends Grammar
      */
     public function compileDropAllViews($views)
     {
-        return 'drop view ' . \implode(',', $this->wrapArray($views));
+        return 'drop view ' . implode(',', $this->wrapArray($views));
     }
     /**
      * Compile the SQL needed to retrieve all table names.
@@ -571,7 +571,7 @@ class MySqlGrammar extends Grammar
      */
     protected function typeEnum(Fluent $column)
     {
-        return \sprintf('enum(%s)', $this->quoteString($column->allowed));
+        return sprintf('enum(%s)', $this->quoteString($column->allowed));
     }
     /**
      * Create the column definition for a set enumeration type.
@@ -581,7 +581,7 @@ class MySqlGrammar extends Grammar
      */
     protected function typeSet(Fluent $column)
     {
-        return \sprintf('set(%s)', $this->quoteString($column->allowed));
+        return sprintf('set(%s)', $this->quoteString($column->allowed));
     }
     /**
      * Create the column definition for a json type.
@@ -830,7 +830,7 @@ class MySqlGrammar extends Grammar
      */
     protected function modifyVirtualAs(Blueprint $blueprint, Fluent $column)
     {
-        if (!\is_null($column->virtualAs)) {
+        if (!is_null($column->virtualAs)) {
             return " as ({$column->virtualAs})";
         }
     }
@@ -843,7 +843,7 @@ class MySqlGrammar extends Grammar
      */
     protected function modifyStoredAs(Blueprint $blueprint, Fluent $column)
     {
-        if (!\is_null($column->storedAs)) {
+        if (!is_null($column->storedAs)) {
             return " as ({$column->storedAs}) stored";
         }
     }
@@ -869,7 +869,7 @@ class MySqlGrammar extends Grammar
      */
     protected function modifyCharset(Blueprint $blueprint, Fluent $column)
     {
-        if (!\is_null($column->charset)) {
+        if (!is_null($column->charset)) {
             return ' character set ' . $column->charset;
         }
     }
@@ -882,7 +882,7 @@ class MySqlGrammar extends Grammar
      */
     protected function modifyCollate(Blueprint $blueprint, Fluent $column)
     {
-        if (!\is_null($column->collation)) {
+        if (!is_null($column->collation)) {
             return " collate '{$column->collation}'";
         }
     }
@@ -895,7 +895,7 @@ class MySqlGrammar extends Grammar
      */
     protected function modifyNullable(Blueprint $blueprint, Fluent $column)
     {
-        if (\is_null($column->virtualAs) && \is_null($column->storedAs)) {
+        if (is_null($column->virtualAs) && is_null($column->storedAs)) {
             return $column->nullable ? ' null' : ' not null';
         }
         if ($column->nullable === \false) {
@@ -911,7 +911,7 @@ class MySqlGrammar extends Grammar
      */
     protected function modifyInvisible(Blueprint $blueprint, Fluent $column)
     {
-        if (!\is_null($column->invisible)) {
+        if (!is_null($column->invisible)) {
             return ' invisible';
         }
     }
@@ -924,7 +924,7 @@ class MySqlGrammar extends Grammar
      */
     protected function modifyDefault(Blueprint $blueprint, Fluent $column)
     {
-        if (!\is_null($column->default)) {
+        if (!is_null($column->default)) {
             return ' default ' . $this->getDefaultValue($column->default);
         }
     }
@@ -937,7 +937,7 @@ class MySqlGrammar extends Grammar
      */
     protected function modifyIncrement(Blueprint $blueprint, Fluent $column)
     {
-        if (\in_array($column->type, $this->serials) && $column->autoIncrement) {
+        if (in_array($column->type, $this->serials) && $column->autoIncrement) {
             return ' auto_increment primary key';
         }
     }
@@ -950,7 +950,7 @@ class MySqlGrammar extends Grammar
      */
     protected function modifyFirst(Blueprint $blueprint, Fluent $column)
     {
-        if (!\is_null($column->first)) {
+        if (!is_null($column->first)) {
             return ' first';
         }
     }
@@ -963,7 +963,7 @@ class MySqlGrammar extends Grammar
      */
     protected function modifyAfter(Blueprint $blueprint, Fluent $column)
     {
-        if (!\is_null($column->after)) {
+        if (!is_null($column->after)) {
             return ' after ' . $this->wrap($column->after);
         }
     }
@@ -976,8 +976,8 @@ class MySqlGrammar extends Grammar
      */
     protected function modifyComment(Blueprint $blueprint, Fluent $column)
     {
-        if (!\is_null($column->comment)) {
-            return " comment '" . \addslashes($column->comment) . "'";
+        if (!is_null($column->comment)) {
+            return " comment '" . addslashes($column->comment) . "'";
         }
     }
     /**
@@ -989,7 +989,7 @@ class MySqlGrammar extends Grammar
      */
     protected function modifySrid(Blueprint $blueprint, Fluent $column)
     {
-        if (!\is_null($column->srid) && \is_int($column->srid) && $column->srid > 0) {
+        if (!is_null($column->srid) && is_int($column->srid) && $column->srid > 0) {
             return ' srid ' . $column->srid;
         }
     }
@@ -1002,7 +1002,7 @@ class MySqlGrammar extends Grammar
     protected function wrapValue($value)
     {
         if ($value !== '*') {
-            return '`' . \str_replace('`', '``', $value) . '`';
+            return '`' . str_replace('`', '``', $value) . '`';
         }
         return $value;
     }

@@ -39,7 +39,7 @@ class DatabaseTransactionsManager
      */
     public function rollback($connection, $level)
     {
-        $this->transactions = $this->transactions->reject(function ($transaction) use($connection, $level) {
+        $this->transactions = $this->transactions->reject(function ($transaction) use ($connection, $level) {
             return $transaction->connection == $connection && $transaction->level > $level;
         })->values();
     }
@@ -51,7 +51,7 @@ class DatabaseTransactionsManager
      */
     public function commit($connection)
     {
-        [$forThisConnection, $forOtherConnections] = $this->transactions->partition(function ($transaction) use($connection) {
+        [$forThisConnection, $forOtherConnections] = $this->transactions->partition(function ($transaction) use ($connection) {
             return $transaction->connection == $connection;
         });
         $this->transactions = $forOtherConnections->values();
@@ -68,7 +68,7 @@ class DatabaseTransactionsManager
         if ($current = $this->transactions->last()) {
             return $current->addCallback($callback);
         }
-        \call_user_func($callback);
+        call_user_func($callback);
     }
     /**
      * Get all the transactions.

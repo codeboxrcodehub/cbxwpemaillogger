@@ -82,10 +82,10 @@ class MigrationServiceProvider extends ServiceProvider implements DeferrableProv
      */
     protected function registerCommands(array $commands)
     {
-        foreach (\array_keys($commands) as $command) {
+        foreach (array_keys($commands) as $command) {
             $this->{"register{$command}Command"}();
         }
-        $this->commands(\array_values($commands));
+        $this->commands(array_values($commands));
     }
     /**
      * Register the command.
@@ -187,6 +187,6 @@ class MigrationServiceProvider extends ServiceProvider implements DeferrableProv
      */
     public function provides()
     {
-        return \array_merge(['migrator', 'migration.repository', 'migration.creator'], \array_values($this->commands));
+        return array_merge(['migrator', 'migration.repository', 'migration.creator'], array_values($this->commands));
     }
 }

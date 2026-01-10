@@ -30,7 +30,7 @@ class DbCommand extends Command
     public function handle()
     {
         $connection = $this->getConnection();
-        (new Process(\array_merge([$this->getCommand($connection)], $this->commandArguments($connection)), null, $this->commandEnvironment($connection)))->setTimeout(null)->setTty(\true)->mustRun(function ($type, $buffer) {
+        (new Process(array_merge([$this->getCommand($connection)], $this->commandArguments($connection)), null, $this->commandEnvironment($connection)))->setTimeout(null)->setTty(\true)->mustRun(function ($type, $buffer) {
             $this->output->write($buffer);
         });
         return 0;
@@ -52,15 +52,15 @@ class DbCommand extends Command
             $connection = (new ConfigurationUrlParser())->parseConfiguration($connection);
         }
         if ($this->option('read')) {
-            if (\is_array($connection['read']['host'])) {
+            if (is_array($connection['read']['host'])) {
                 $connection['read']['host'] = $connection['read']['host'][0];
             }
-            $connection = \array_merge($connection, $connection['read']);
+            $connection = array_merge($connection, $connection['read']);
         } elseif ($this->option('write')) {
-            if (\is_array($connection['write']['host'])) {
+            if (is_array($connection['write']['host'])) {
                 $connection['write']['host'] = $connection['write']['host'][0];
             }
-            $connection = \array_merge($connection, $connection['write']);
+            $connection = array_merge($connection, $connection['write']);
         }
         return $connection;
     }
@@ -72,7 +72,7 @@ class DbCommand extends Command
      */
     public function commandArguments(array $connection)
     {
-        $driver = \ucfirst($connection['driver']);
+        $driver = ucfirst($connection['driver']);
         return $this->{"get{$driver}Arguments"}($connection);
     }
     /**
@@ -83,8 +83,8 @@ class DbCommand extends Command
      */
     public function commandEnvironment(array $connection)
     {
-        $driver = \ucfirst($connection['driver']);
-        if (\method_exists($this, "get{$driver}Environment")) {
+        $driver = ucfirst($connection['driver']);
+        if (method_exists($this, "get{$driver}Environment")) {
             return $this->{"get{$driver}Environment"}($connection);
         }
         return null;
@@ -107,7 +107,7 @@ class DbCommand extends Command
      */
     protected function getMysqlArguments(array $connection)
     {
-        return \array_merge(['--host=' . $connection['host'], '--port=' . $connection['port'], '--user=' . $connection['username']], $this->getOptionalArguments(['password' => '--password=' . $connection['password'], 'unix_socket' => '--socket=' . ($connection['unix_socket'] ?? ''), 'charset' => '--default-character-set=' . ($connection['charset'] ?? '')], $connection), [$connection['database']]);
+        return array_merge(['--host=' . $connection['host'], '--port=' . $connection['port'], '--user=' . $connection['username']], $this->getOptionalArguments(['password' => '--password=' . $connection['password'], 'unix_socket' => '--socket=' . ($connection['unix_socket'] ?? ''), 'charset' => '--default-character-set=' . ($connection['charset'] ?? '')], $connection), [$connection['database']]);
     }
     /**
      * Get the arguments for the Postgres CLI.
@@ -137,7 +137,7 @@ class DbCommand extends Command
      */
     protected function getSqlsrvArguments(array $connection)
     {
-        return \array_merge(...$this->getOptionalArguments(['database' => ['-d', $connection['database']], 'username' => ['-U', $connection['username']], 'password' => ['-P', $connection['password']], 'host' => ['-S', 'tcp:' . $connection['host'] . ($connection['port'] ? ',' . $connection['port'] : '')]], $connection));
+        return array_merge(...$this->getOptionalArguments(['database' => ['-d', $connection['database']], 'username' => ['-U', $connection['username']], 'password' => ['-P', $connection['password']], 'host' => ['-S', 'tcp:' . $connection['host'] . ($connection['port'] ? ',' . $connection['port'] : '')]], $connection));
     }
     /**
      * Get the environment variables for the Postgres CLI.
@@ -147,7 +147,7 @@ class DbCommand extends Command
      */
     protected function getPgsqlEnvironment(array $connection)
     {
-        return \array_merge(...$this->getOptionalArguments(['username' => ['PGUSER' => $connection['username']], 'host' => ['PGHOST' => $connection['host']], 'port' => ['PGPORT' => $connection['port']], 'password' => ['PGPASSWORD' => $connection['password']]], $connection));
+        return array_merge(...$this->getOptionalArguments(['username' => ['PGUSER' => $connection['username']], 'host' => ['PGHOST' => $connection['host']], 'port' => ['PGPORT' => $connection['port']], 'password' => ['PGPASSWORD' => $connection['password']]], $connection));
     }
     /**
      * Get the optional arguments based on the connection configuration.
@@ -158,7 +158,7 @@ class DbCommand extends Command
      */
     protected function getOptionalArguments(array $args, array $connection)
     {
-        return \array_values(\array_filter($args, function ($key) use($connection) {
+        return array_values(array_filter($args, function ($key) use ($connection) {
             return !empty($connection[$key]);
         }, \ARRAY_FILTER_USE_KEY));
     }

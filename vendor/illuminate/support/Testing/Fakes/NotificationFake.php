@@ -53,8 +53,8 @@ class NotificationFake implements NotificationDispatcher, NotificationFactory
      */
     public function assertSentTo($notifiable, $notification, $callback = null)
     {
-        if (\is_array($notifiable) || $notifiable instanceof Collection) {
-            if (\count($notifiable) === 0) {
+        if (is_array($notifiable) || $notifiable instanceof Collection) {
+            if (count($notifiable) === 0) {
                 throw new Exception('No notifiable given.');
             }
             foreach ($notifiable as $singleNotifiable) {
@@ -65,7 +65,7 @@ class NotificationFake implements NotificationDispatcher, NotificationFactory
         if ($notification instanceof Closure) {
             [$notification, $callback] = [$this->firstClosureParameterType($notification), $notification];
         }
-        if (\is_numeric($callback)) {
+        if (is_numeric($callback)) {
             return $this->assertSentToTimes($notifiable, $notification, $callback);
         }
         PHPUnit::assertTrue($this->sent($notifiable, $notification, $callback)->count() > 0, "The expected [{$notification}] notification was not sent.");
@@ -106,8 +106,8 @@ class NotificationFake implements NotificationDispatcher, NotificationFactory
      */
     public function assertNotSentTo($notifiable, $notification, $callback = null)
     {
-        if (\is_array($notifiable) || $notifiable instanceof Collection) {
-            if (\count($notifiable) === 0) {
+        if (is_array($notifiable) || $notifiable instanceof Collection) {
+            if (count($notifiable) === 0) {
                 throw new Exception('No notifiable given.');
             }
             foreach ($notifiable as $singleNotifiable) {
@@ -138,8 +138,8 @@ class NotificationFake implements NotificationDispatcher, NotificationFactory
      */
     public function assertSentTimes($notification, $expectedCount)
     {
-        $actualCount = collect($this->notifications)->flatten(1)->reduce(function ($count, $sent) use($notification) {
-            return $count + \count($sent[$notification] ?? []);
+        $actualCount = collect($this->notifications)->flatten(1)->reduce(function ($count, $sent) use ($notification) {
+            return $count + count($sent[$notification] ?? []);
         }, 0);
         PHPUnit::assertSame($expectedCount, $actualCount, "Expected [{$notification}] to be sent {$expectedCount} times, but was sent {$actualCount} times.");
     }
@@ -173,8 +173,8 @@ class NotificationFake implements NotificationDispatcher, NotificationFactory
             return \true;
         };
         $notifications = collect($this->notificationsFor($notifiable, $notification));
-        return $notifications->filter(function ($arguments) use($callback) {
-            return $callback(...\array_values($arguments));
+        return $notifications->filter(function ($arguments) use ($callback) {
+            return $callback(...array_values($arguments));
         })->pluck('notification');
     }
     /**
@@ -197,7 +197,7 @@ class NotificationFake implements NotificationDispatcher, NotificationFactory
      */
     protected function notificationsFor($notifiable, $notification)
     {
-        return $this->notifications[\get_class($notifiable)][$notifiable->getKey()][$notification] ?? [];
+        return $this->notifications[get_class($notifiable)][$notifiable->getKey()][$notification] ?? [];
     }
     /**
      * Send the given notification to the given notifiable entities.
@@ -220,7 +220,7 @@ class NotificationFake implements NotificationDispatcher, NotificationFactory
      */
     public function sendNow($notifiables, $notification, array $channels = null)
     {
-        if (!$notifiables instanceof Collection && !\is_array($notifiables)) {
+        if (!$notifiables instanceof Collection && !is_array($notifiables)) {
             $notifiables = [$notifiables];
         }
         foreach ($notifiables as $notifiable) {
@@ -228,15 +228,15 @@ class NotificationFake implements NotificationDispatcher, NotificationFactory
                 $notification->id = Str::uuid()->toString();
             }
             $notifiableChannels = $channels ?: $notification->via($notifiable);
-            if (\method_exists($notification, 'shouldSend')) {
-                $notifiableChannels = \array_filter($notifiableChannels, function ($channel) use($notification, $notifiable) {
+            if (method_exists($notification, 'shouldSend')) {
+                $notifiableChannels = array_filter($notifiableChannels, function ($channel) use ($notification, $notifiable) {
                     return $notification->shouldSend($notifiable, $channel) !== \false;
                 });
                 if (empty($notifiableChannels)) {
                     continue;
                 }
             }
-            $this->notifications[\get_class($notifiable)][$notifiable->getKey()][\get_class($notification)][] = ['notification' => $notification, 'channels' => $notifiableChannels, 'notifiable' => $notifiable, 'locale' => $notification->locale ?? $this->locale ?? \value(function () use($notifiable) {
+            $this->notifications[get_class($notifiable)][$notifiable->getKey()][get_class($notification)][] = ['notification' => $notification, 'channels' => $notifiableChannels, 'notifiable' => $notifiable, 'locale' => $notification->locale ?? $this->locale ?? value(function () use ($notifiable) {
                 if ($notifiable instanceof HasLocalePreference) {
                     return $notifiable->preferredLocale();
                 }

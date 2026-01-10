@@ -12,14 +12,14 @@ trait FileTrait
      * @param mixed $value
      * @return bool
      */
-    public function isValueFromUploadedFiles($value) : bool
+    public function isValueFromUploadedFiles($value): bool
     {
-        if (!\is_array($value)) {
+        if (!is_array($value)) {
             return \false;
         }
         $keys = ['name', 'type', 'tmp_name', 'size', 'error'];
         foreach ($keys as $key) {
-            if (!\array_key_exists($key, $value)) {
+            if (!array_key_exists($key, $value)) {
                 return \false;
             }
         }
@@ -31,9 +31,9 @@ trait FileTrait
      * @param mixed $value
      * @return bool
      */
-    public function isUploadedFile($value) : bool
+    public function isUploadedFile($value): bool
     {
-        return $this->isValueFromUploadedFiles($value) && \is_uploaded_file($value['tmp_name']);
+        return $this->isValueFromUploadedFiles($value) && is_uploaded_file($value['tmp_name']);
     }
     /**
      * Resolve uploaded file value
@@ -66,9 +66,9 @@ trait FileTrait
         foreach ($arrayDots as $key => $val) {
             // Move first key to last key
             // name.foo.bar -> foo.bar.name
-            $splits = \explode(".", $key);
-            $firstKey = \array_shift($splits);
-            $key = \count($splits) ? \implode(".", $splits) . ".{$firstKey}" : $firstKey;
+            $splits = explode(".", $key);
+            $firstKey = array_shift($splits);
+            $key = count($splits) ? implode(".", $splits) . ".{$firstKey}" : $firstKey;
             Helper::arraySet($results, $key, $val);
         }
         return $results;

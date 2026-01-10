@@ -14,7 +14,7 @@ class Boolean extends Rule
      * @return bool
      * @throws \Exception
      */
-    public function check($value) : bool
+    public function check($value): bool
     {
         return \in_array($value, [\true, \false, "true", "false", 1, 0, "0", "1", "y", "n"], \true);
     }

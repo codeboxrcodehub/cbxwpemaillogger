@@ -35,10 +35,10 @@ class Fluent implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
      */
     public function get($key, $default = null)
     {
-        if (\array_key_exists($key, $this->attributes)) {
+        if (array_key_exists($key, $this->attributes)) {
             return $this->attributes[$key];
         }
-        return \value($default);
+        return value($default);
     }
     /**
      * Get the attributes from the fluent instance.
@@ -76,7 +76,7 @@ class Fluent implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
      */
     public function toJson($options = 0)
     {
-        return \json_encode($this->jsonSerialize(), $options);
+        return json_encode($this->jsonSerialize(), $options);
     }
     /**
      * Determine if the given offset exists.
@@ -132,7 +132,7 @@ class Fluent implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
      */
     public function __call($method, $parameters)
     {
-        $this->attributes[$method] = \count($parameters) > 0 ? $parameters[0] : \true;
+        $this->attributes[$method] = count($parameters) > 0 ? $parameters[0] : \true;
         return $this;
     }
     /**

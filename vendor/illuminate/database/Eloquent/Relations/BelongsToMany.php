@@ -143,14 +143,14 @@ class BelongsToMany extends Relation
      */
     protected function resolveTableName($table)
     {
-        if (!Str::contains($table, '\\') || !\class_exists($table)) {
+        if (!Str::contains($table, '\\') || !class_exists($table)) {
             return $table;
         }
         $model = new $table();
         if (!$model instanceof Model) {
             return $table;
         }
-        if (\in_array(AsPivot::class, \class_uses_recursive($model))) {
+        if (in_array(AsPivot::class, class_uses_recursive($model))) {
             $this->using($table);
         }
         return $model->getTable();
@@ -299,7 +299,7 @@ class BelongsToMany extends Relation
      */
     public function wherePivot($column, $operator = null, $value = null, $boolean = 'and')
     {
-        $this->pivotWheres[] = \func_get_args();
+        $this->pivotWheres[] = func_get_args();
         return $this->where($this->qualifyPivotColumn($column), $operator, $value, $boolean);
     }
     /**
@@ -360,7 +360,7 @@ class BelongsToMany extends Relation
      */
     public function wherePivotIn($column, $values, $boolean = 'and', $not = \false)
     {
-        $this->pivotWhereIns[] = \func_get_args();
+        $this->pivotWhereIns[] = func_get_args();
         return $this->whereIn($this->qualifyPivotColumn($column), $values, $boolean, $not);
     }
     /**
@@ -388,16 +388,16 @@ class BelongsToMany extends Relation
      */
     public function withPivotValue($column, $value = null)
     {
-        if (\is_array($column)) {
+        if (is_array($column)) {
             foreach ($column as $name => $value) {
                 $this->withPivotValue($name, $value);
             }
             return $this;
         }
-        if (\is_null($value)) {
+        if (is_null($value)) {
             throw new InvalidArgumentException('The provided value may not be null.');
         }
-        $this->pivotValues[] = \compact('column', 'value');
+        $this->pivotValues[] = compact('column', 'value');
         return $this->wherePivot($column, '=', $value);
     }
     /**
@@ -444,7 +444,7 @@ class BelongsToMany extends Relation
      */
     public function wherePivotNull($column, $boolean = 'and', $not = \false)
     {
-        $this->pivotWhereNulls[] = \func_get_args();
+        $this->pivotWhereNulls[] = func_get_args();
         return $this->whereNull($this->qualifyPivotColumn($column), $boolean, $not);
     }
     /**
@@ -499,7 +499,7 @@ class BelongsToMany extends Relation
      */
     public function findOrNew($id, $columns = ['*'])
     {
-        if (\is_null($instance = $this->find($id, $columns))) {
+        if (is_null($instance = $this->find($id, $columns))) {
             $instance = $this->related->newInstance();
         }
         return $instance;
@@ -512,7 +512,7 @@ class BelongsToMany extends Relation
      */
     public function firstOrNew(array $attributes)
     {
-        if (\is_null($instance = $this->where($attributes)->first())) {
+        if (is_null($instance = $this->where($attributes)->first())) {
             $instance = $this->related->newInstance($attributes);
         }
         return $instance;
@@ -527,7 +527,7 @@ class BelongsToMany extends Relation
      */
     public function firstOrCreate(array $attributes, array $joining = [], $touch = \true)
     {
-        if (\is_null($instance = $this->where($attributes)->first())) {
+        if (is_null($instance = $this->where($attributes)->first())) {
             $instance = $this->create($attributes, $joining, $touch);
         }
         return $instance;
@@ -543,7 +543,7 @@ class BelongsToMany extends Relation
      */
     public function updateOrCreate(array $attributes, array $values = [], array $joining = [], $touch = \true)
     {
-        if (\is_null($instance = $this->where($attributes)->first())) {
+        if (is_null($instance = $this->where($attributes)->first())) {
             return $this->create($values, $joining, $touch);
         }
         $instance->fill($values);
@@ -559,7 +559,7 @@ class BelongsToMany extends Relation
      */
     public function find($id, $columns = ['*'])
     {
-        if (!$id instanceof Model && (\is_array($id) || $id instanceof Arrayable)) {
+        if (!$id instanceof Model && (is_array($id) || $id instanceof Arrayable)) {
             return $this->findMany($id, $columns);
         }
         return $this->where($this->getRelated()->getQualifiedKeyName(), '=', $this->parseId($id))->first($columns);
@@ -592,14 +592,14 @@ class BelongsToMany extends Relation
     {
         $result = $this->find($id, $columns);
         $id = $id instanceof Arrayable ? $id->toArray() : $id;
-        if (\is_array($id)) {
-            if (\count($result) === \count(\array_unique($id))) {
+        if (is_array($id)) {
+            if (count($result) === count(array_unique($id))) {
                 return $result;
             }
-        } elseif (!\is_null($result)) {
+        } elseif (!is_null($result)) {
             return $result;
         }
-        throw (new ModelNotFoundException())->setModel(\get_class($this->related), $id);
+        throw (new ModelNotFoundException())->setModel(get_class($this->related), $id);
     }
     /**
      * Add a basic where clause to the query, and return the first result.
@@ -623,7 +623,7 @@ class BelongsToMany extends Relation
     public function first($columns = ['*'])
     {
         $results = $this->take(1)->get($columns);
-        return \count($results) > 0 ? $results->first() : null;
+        return count($results) > 0 ? $results->first() : null;
     }
     /**
      * Execute the query and get the first result or throw an exception.
@@ -635,10 +635,10 @@ class BelongsToMany extends Relation
      */
     public function firstOrFail($columns = ['*'])
     {
-        if (!\is_null($model = $this->first($columns))) {
+        if (!is_null($model = $this->first($columns))) {
             return $model;
         }
-        throw (new ModelNotFoundException())->setModel(\get_class($this->related));
+        throw (new ModelNotFoundException())->setModel(get_class($this->related));
     }
     /**
      * Execute the query and get the first result or call a callback.
@@ -653,7 +653,7 @@ class BelongsToMany extends Relation
             $callback = $columns;
             $columns = ['*'];
         }
-        if (!\is_null($model = $this->first($columns))) {
+        if (!is_null($model = $this->first($columns))) {
             return $model;
         }
         return $callback();
@@ -665,7 +665,7 @@ class BelongsToMany extends Relation
      */
     public function getResults()
     {
-        return !\is_null($this->parent->{$this->parentKey}) ? $this->get() : $this->related->newCollection();
+        return !is_null($this->parent->{$this->parentKey}) ? $this->get() : $this->related->newCollection();
     }
     /**
      * Execute the query as a "select" statement.
@@ -685,7 +685,7 @@ class BelongsToMany extends Relation
         // If we actually found models we will also eager load any relationships that
         // have been specified as needing to be eager loaded. This will solve the
         // n + 1 query problem for the developer and also increase performance.
-        if (\count($models) > 0) {
+        if (count($models) > 0) {
             $models = $builder->eagerLoadRelations($models);
         }
         return $this->related->newCollection($models);
@@ -701,7 +701,7 @@ class BelongsToMany extends Relation
         if ($columns == ['*']) {
             $columns = [$this->related->getTable() . '.*'];
         }
-        return \array_merge($columns, $this->aliasedPivotColumns());
+        return array_merge($columns, $this->aliasedPivotColumns());
     }
     /**
      * Get the pivot columns for the relation.
@@ -713,7 +713,7 @@ class BelongsToMany extends Relation
     protected function aliasedPivotColumns()
     {
         $defaults = [$this->foreignPivotKey, $this->relatedPivotKey];
-        return collect(\array_merge($defaults, $this->pivotColumns))->map(function ($column) {
+        return collect(array_merge($defaults, $this->pivotColumns))->map(function ($column) {
             return $this->qualifyPivotColumn($column) . ' as pivot_' . $column;
         })->unique()->all();
     }
@@ -729,7 +729,7 @@ class BelongsToMany extends Relation
     public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
         $this->query->addSelect($this->shouldSelect($columns));
-        return \tap($this->query->paginate($perPage, $columns, $pageName, $page), function ($paginator) {
+        return tap($this->query->paginate($perPage, $columns, $pageName, $page), function ($paginator) {
             $this->hydratePivotRelation($paginator->items());
         });
     }
@@ -745,7 +745,7 @@ class BelongsToMany extends Relation
     public function simplePaginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
         $this->query->addSelect($this->shouldSelect($columns));
-        return \tap($this->query->simplePaginate($perPage, $columns, $pageName, $page), function ($paginator) {
+        return tap($this->query->simplePaginate($perPage, $columns, $pageName, $page), function ($paginator) {
             $this->hydratePivotRelation($paginator->items());
         });
     }
@@ -761,7 +761,7 @@ class BelongsToMany extends Relation
     public function cursorPaginate($perPage = null, $columns = ['*'], $cursorName = 'cursor', $cursor = null)
     {
         $this->query->addSelect($this->shouldSelect($columns));
-        return \tap($this->query->cursorPaginate($perPage, $columns, $cursorName, $cursor), function ($paginator) {
+        return tap($this->query->cursorPaginate($perPage, $columns, $cursorName, $cursor), function ($paginator) {
             $this->hydratePivotRelation($paginator->items());
         });
     }
@@ -774,7 +774,7 @@ class BelongsToMany extends Relation
      */
     public function chunk($count, callable $callback)
     {
-        return $this->prepareQueryBuilder()->chunk($count, function ($results, $page) use($callback) {
+        return $this->prepareQueryBuilder()->chunk($count, function ($results, $page) use ($callback) {
             $this->hydratePivotRelation($results->all());
             return $callback($results, $page);
         });
@@ -793,7 +793,7 @@ class BelongsToMany extends Relation
         $this->prepareQueryBuilder();
         $column = $column ?? $this->getRelated()->qualifyColumn($this->getRelatedKeyName());
         $alias = $alias ?? $this->getRelatedKeyName();
-        return $this->query->chunkById($count, function ($results) use($callback) {
+        return $this->query->chunkById($count, function ($results) use ($callback) {
             $this->hydratePivotRelation($results->all());
             return $callback($results);
         }, $column, $alias);
@@ -807,7 +807,7 @@ class BelongsToMany extends Relation
      */
     public function each(callable $callback, $count = 1000)
     {
-        return $this->chunk($count, function ($results) use($callback) {
+        return $this->chunk($count, function ($results) use ($callback) {
             foreach ($results as $key => $value) {
                 if ($callback($value, $key) === \false) {
                     return \false;
@@ -894,8 +894,8 @@ class BelongsToMany extends Relation
             // To get the pivots attributes we will just take any of the attributes which
             // begin with "pivot_" and add those to this arrays, as well as unsetting
             // them from the parent's models since they exist in a different table.
-            if (\strpos($key, 'pivot_') === 0) {
-                $values[\substr($key, 6)] = $value;
+            if (strpos($key, 'pivot_') === 0) {
+                $values[substr($key, 6)] = $value;
                 unset($model->{$key});
             }
         }
@@ -931,7 +931,7 @@ class BelongsToMany extends Relation
      */
     protected function guessInverseRelation()
     {
-        return Str::camel(Str::pluralStudly(\class_basename($this->getParent())));
+        return Str::camel(Str::pluralStudly(class_basename($this->getParent())));
     }
     /**
      * Touch all of the related models for the relationship.
@@ -947,7 +947,7 @@ class BelongsToMany extends Relation
         // If we actually have IDs for the relation, we will run the query to update all
         // the related model's timestamps, to make sure these all reflect the changes
         // to the parent models. This will help us keep any caching synced up here.
-        if (\count($ids = $this->allRelatedIds()) > 0) {
+        if (count($ids = $this->allRelatedIds()) > 0) {
             $this->getRelated()->newQueryWithoutRelationships()->whereIn($key, $ids)->update($columns);
         }
     }
@@ -1050,7 +1050,7 @@ class BelongsToMany extends Relation
     public function getRelationExistenceQueryForSelfJoin(Builder $query, Builder $parentQuery, $columns = ['*'])
     {
         $query->select($columns);
-        $query->from($this->related->getTable() . ' as ' . ($hash = $this->getRelationCountHash()));
+        $query->from($this->related->getTable() . ' as ' . $hash = $this->getRelationCountHash());
         $this->related->setTable($hash);
         $this->performJoin($query);
         return parent::getRelationExistenceQuery($query, $parentQuery, $columns);

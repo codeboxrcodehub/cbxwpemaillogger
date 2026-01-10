@@ -19,9 +19,9 @@ class Timebox
      */
     public function call(callable $callback, int $microseconds)
     {
-        $start = \microtime(\true);
+        $start = microtime(\true);
         $result = $callback($this);
-        $remainder = $microseconds - (\microtime(\true) - $start) * 1000000;
+        $remainder = $microseconds - (microtime(\true) - $start) * 1000000;
         if (!$this->earlyReturn && $remainder > 0) {
             $this->usleep($remainder);
         }
@@ -55,6 +55,6 @@ class Timebox
      */
     protected function usleep($microseconds)
     {
-        \usleep($microseconds);
+        usleep($microseconds);
     }
 }

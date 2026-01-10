@@ -50,7 +50,7 @@ class StatusCommand extends BaseCommand
             }
             $ran = $this->migrator->getRepository()->getRan();
             $batches = $this->migrator->getRepository()->getMigrationBatches();
-            if (\count($migrations = $this->getStatusFor($ran, $batches)) > 0) {
+            if (count($migrations = $this->getStatusFor($ran, $batches)) > 0) {
                 $this->table(['Ran?', 'Migration', 'Batch'], $migrations);
             } else {
                 $this->error('No migrations found');
@@ -66,9 +66,9 @@ class StatusCommand extends BaseCommand
      */
     protected function getStatusFor(array $ran, array $batches)
     {
-        return Collection::make($this->getAllMigrationFiles())->map(function ($migration) use($ran, $batches) {
+        return Collection::make($this->getAllMigrationFiles())->map(function ($migration) use ($ran, $batches) {
             $migrationName = $this->migrator->getMigrationName($migration);
-            return \in_array($migrationName, $ran) ? ['<info>Yes</info>', $migrationName, $batches[$migrationName]] : ['<fg=red>No</fg=red>', $migrationName];
+            return in_array($migrationName, $ran) ? ['<info>Yes</info>', $migrationName, $batches[$migrationName]] : ['<fg=red>No</fg=red>', $migrationName];
         });
     }
     /**

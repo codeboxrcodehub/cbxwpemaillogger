@@ -22,7 +22,7 @@ class Mimes extends Rule
      * @param array $params
      * @return self
      */
-    public function fillParameters(array $params) : Rule
+    public function fillParameters(array $params): Rule
     {
         $this->allowTypes($params);
         return $this;
@@ -33,10 +33,10 @@ class Mimes extends Rule
      * @param mixed $types
      * @return self
      */
-    public function allowTypes($types) : Rule
+    public function allowTypes($types): Rule
     {
-        if (\is_string($types)) {
-            $types = \explode('|', $types);
+        if (is_string($types)) {
+            $types = explode('|', $types);
         }
         $this->params['allowed_types'] = $types;
         return $this;
@@ -47,7 +47,7 @@ class Mimes extends Rule
      * @param mixed $value
      * @return bool
      */
-    public function check($value) : bool
+    public function check($value): bool
     {
         $allowedTypes = $this->parameter('allowed_types');
         if ($allowedTypes) {
@@ -69,7 +69,7 @@ class Mimes extends Rule
             $guesser = new MimeTypeGuesser();
             $ext = $guesser->getExtension($value['type']);
             unset($guesser);
-            if (!\in_array($ext, $allowedTypes)) {
+            if (!in_array($ext, $allowedTypes)) {
                 return \false;
             }
         }

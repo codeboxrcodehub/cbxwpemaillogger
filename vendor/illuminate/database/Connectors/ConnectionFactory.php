@@ -127,7 +127,7 @@ class ConnectionFactory
      */
     protected function mergeReadWriteConfig(array $config, array $merge)
     {
-        return Arr::except(\array_merge($config, $merge), ['read', 'write']);
+        return Arr::except(array_merge($config, $merge), ['read', 'write']);
     }
     /**
      * Create a new Closure that resolves to a PDO instance.
@@ -137,7 +137,7 @@ class ConnectionFactory
      */
     protected function createPdoResolver(array $config)
     {
-        return \array_key_exists('host', $config) ? $this->createPdoResolverWithHosts($config) : $this->createPdoResolverWithoutHosts($config);
+        return array_key_exists('host', $config) ? $this->createPdoResolverWithHosts($config) : $this->createPdoResolverWithoutHosts($config);
     }
     /**
      * Create a new Closure that resolves to a PDO instance with a specific host or an array of hosts.
@@ -149,7 +149,7 @@ class ConnectionFactory
      */
     protected function createPdoResolverWithHosts(array $config)
     {
-        return function () use($config) {
+        return function () use ($config) {
             foreach (Arr::shuffle($hosts = $this->parseHosts($config)) as $key => $host) {
                 $config['host'] = $host;
                 try {
@@ -185,7 +185,7 @@ class ConnectionFactory
      */
     protected function createPdoResolverWithoutHosts(array $config)
     {
-        return function () use($config) {
+        return function () use ($config) {
             return $this->createConnector($config)->connect($config);
         };
     }

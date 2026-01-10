@@ -32,14 +32,14 @@ class Sequence implements Countable
     public function __construct(...$sequence)
     {
         $this->sequence = $sequence;
-        $this->count = \count($sequence);
+        $this->count = count($sequence);
     }
     /**
      * Get the current count of the sequence items.
      *
      * @return int
      */
-    public function count() : int
+    public function count(): int
     {
         return $this->count;
     }
@@ -50,7 +50,7 @@ class Sequence implements Countable
      */
     public function __invoke()
     {
-        return \tap(\value($this->sequence[$this->index % $this->count], $this), function () {
+        return tap(value($this->sequence[$this->index % $this->count], $this), function () {
             $this->index = $this->index + 1;
         });
     }

@@ -15,9 +15,9 @@ class RequiredIf extends Required
      * @param array $params
      * @return self
      */
-    public function fillParameters(array $params) : Rule
+    public function fillParameters(array $params): Rule
     {
-        $this->params['field'] = \array_shift($params);
+        $this->params['field'] = array_shift($params);
         $this->params['values'] = $params;
         return $this;
     }
@@ -27,7 +27,7 @@ class RequiredIf extends Required
      * @param mixed $value
      * @return bool
      */
-    public function check($value) : bool
+    public function check($value): bool
     {
         $this->requireParameters(['field', 'values']);
         $anotherAttribute = $this->parameter('field');
@@ -35,7 +35,7 @@ class RequiredIf extends Required
         $anotherValue = $this->getAttribute()->getValue($anotherAttribute);
         $validator = $this->validation->getValidator();
         $requiredValidator = $validator('required');
-        if (\in_array($anotherValue, $definedValues)) {
+        if (in_array($anotherValue, $definedValues)) {
             $this->setAttributeAsRequired();
             return $requiredValidator->check($value, []);
         }

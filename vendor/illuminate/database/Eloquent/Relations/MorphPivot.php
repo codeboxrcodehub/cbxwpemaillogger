@@ -58,7 +58,7 @@ class MorphPivot extends Pivot
         }
         $query = $this->getDeleteQuery();
         $query->where($this->morphType, $this->morphClass);
-        return \tap($query->delete(), function () {
+        return tap($query->delete(), function () {
             $this->fireModelEvent('deleted', \false);
         });
     }
@@ -103,7 +103,7 @@ class MorphPivot extends Pivot
         if (isset($this->attributes[$this->getKeyName()])) {
             return $this->getKey();
         }
-        return \sprintf('%s:%s:%s:%s:%s:%s', $this->foreignKey, $this->getAttribute($this->foreignKey), $this->relatedKey, $this->getAttribute($this->relatedKey), $this->morphType, $this->morphClass);
+        return sprintf('%s:%s:%s:%s:%s:%s', $this->foreignKey, $this->getAttribute($this->foreignKey), $this->relatedKey, $this->getAttribute($this->relatedKey), $this->morphType, $this->morphClass);
     }
     /**
      * Get a new query to restore one or more models by their queueable IDs.
@@ -113,13 +113,13 @@ class MorphPivot extends Pivot
      */
     public function newQueryForRestoration($ids)
     {
-        if (\is_array($ids)) {
+        if (is_array($ids)) {
             return $this->newQueryForCollectionRestoration($ids);
         }
         if (!Str::contains($ids, ':')) {
             return parent::newQueryForRestoration($ids);
         }
-        $segments = \explode(':', $ids);
+        $segments = explode(':', $ids);
         return $this->newQueryWithoutScopes()->where($segments[0], $segments[1])->where($segments[2], $segments[3])->where($segments[4], $segments[5]);
     }
     /**
@@ -130,14 +130,14 @@ class MorphPivot extends Pivot
      */
     protected function newQueryForCollectionRestoration(array $ids)
     {
-        $ids = \array_values($ids);
+        $ids = array_values($ids);
         if (!Str::contains($ids[0], ':')) {
             return parent::newQueryForRestoration($ids);
         }
         $query = $this->newQueryWithoutScopes();
         foreach ($ids as $id) {
-            $segments = \explode(':', $id);
-            $query->orWhere(function ($query) use($segments) {
+            $segments = explode(':', $id);
+            $query->orWhere(function ($query) use ($segments) {
                 return $query->where($segments[0], $segments[1])->where($segments[2], $segments[3])->where($segments[4], $segments[5]);
             });
         }

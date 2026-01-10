@@ -22,7 +22,7 @@ class SQLiteConnector extends Connector implements ConnectorInterface
         if ($config['database'] === ':memory:') {
             return $this->createConnection('sqlite::memory:', $config, $options);
         }
-        $path = \realpath($config['database']);
+        $path = realpath($config['database']);
         // Here we'll verify that the SQLite database exists before going any further
         // as the developer probably wants to know if the database exists and this
         // SQLite driver will not throw any exception if it does not by default.

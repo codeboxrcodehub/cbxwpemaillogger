@@ -47,7 +47,7 @@ class SQLiteConnection extends Connection
      */
     public function getSchemaBuilder()
     {
-        if (\is_null($this->schemaGrammar)) {
+        if (is_null($this->schemaGrammar)) {
             $this->useDefaultSchemaGrammar();
         }
         return new SQLiteBuilder($this);
@@ -89,7 +89,7 @@ class SQLiteConnection extends Connection
      */
     protected function getDoctrineDriver()
     {
-        return \class_exists(Version::class) ? new DoctrineDriver() : new SQLiteDriver();
+        return class_exists(Version::class) ? new DoctrineDriver() : new SQLiteDriver();
     }
     /**
      * Get the database connection foreign key constraints configuration option.

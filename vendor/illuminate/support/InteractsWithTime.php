@@ -15,7 +15,7 @@ trait InteractsWithTime
     protected function secondsUntil($delay)
     {
         $delay = $this->parseDateInterval($delay);
-        return $delay instanceof DateTimeInterface ? \max(0, $delay->getTimestamp() - $this->currentTime()) : (int) $delay;
+        return $delay instanceof DateTimeInterface ? max(0, $delay->getTimestamp() - $this->currentTime()) : (int) $delay;
     }
     /**
      * Get the "available at" UNIX timestamp.

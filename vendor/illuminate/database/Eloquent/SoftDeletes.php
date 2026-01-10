@@ -43,7 +43,7 @@ trait SoftDeletes
     public function forceDelete()
     {
         $this->forceDeleting = \true;
-        return \tap($this->delete(), function ($deleted) {
+        return tap($this->delete(), function ($deleted) {
             $this->forceDeleting = \false;
             if ($deleted) {
                 $this->fireModelEvent('forceDeleted', \false);
@@ -58,7 +58,7 @@ trait SoftDeletes
     protected function performDeleteOnModel()
     {
         if ($this->forceDeleting) {
-            return \tap($this->setKeysForSaveQuery($this->newModelQuery())->forceDelete(), function () {
+            return tap($this->setKeysForSaveQuery($this->newModelQuery())->forceDelete(), function () {
                 $this->exists = \false;
             });
         }
@@ -75,12 +75,12 @@ trait SoftDeletes
         $time = $this->freshTimestamp();
         $columns = [$this->getDeletedAtColumn() => $this->fromDateTime($time)];
         $this->{$this->getDeletedAtColumn()} = $time;
-        if ($this->timestamps && !\is_null($this->getUpdatedAtColumn())) {
+        if ($this->timestamps && !is_null($this->getUpdatedAtColumn())) {
             $this->{$this->getUpdatedAtColumn()} = $time;
             $columns[$this->getUpdatedAtColumn()] = $this->fromDateTime($time);
         }
         $query->update($columns);
-        $this->syncOriginalAttributes(\array_keys($columns));
+        $this->syncOriginalAttributes(array_keys($columns));
         $this->fireModelEvent('trashed', \false);
     }
     /**
@@ -112,7 +112,7 @@ trait SoftDeletes
      */
     public function trashed()
     {
-        return !\is_null($this->{$this->getDeletedAtColumn()});
+        return !is_null($this->{$this->getDeletedAtColumn()});
     }
     /**
      * Register a "softDeleted" model event callback with the dispatcher.
@@ -170,7 +170,7 @@ trait SoftDeletes
      */
     public function getDeletedAtColumn()
     {
-        return \defined('static::DELETED_AT') ? static::DELETED_AT : 'deleted_at';
+        return defined('static::DELETED_AT') ? static::DELETED_AT : 'deleted_at';
     }
     /**
      * Get the fully qualified "deleted at" column.

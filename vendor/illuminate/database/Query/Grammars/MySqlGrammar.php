@@ -112,7 +112,7 @@ class MySqlGrammar extends Grammar
      */
     protected function compileLock(Builder $query, $value)
     {
-        if (!\is_string($value)) {
+        if (!is_string($value)) {
             return $value ? 'for update' : 'lock in share mode';
         }
         return $value;
@@ -160,7 +160,7 @@ class MySqlGrammar extends Grammar
     {
         $sql = $this->compileInsert($query, $values) . ' on duplicate key update ';
         $columns = collect($update)->map(function ($value, $key) {
-            return \is_numeric($key) ? $this->wrap($value) . ' = values(' . $this->wrap($value) . ')' : $this->wrap($key) . ' = ' . $this->parameter($value);
+            return is_numeric($key) ? $this->wrap($value) . ' = values(' . $this->wrap($value) . ')' : $this->wrap($key) . ' = ' . $this->parameter($value);
         })->implode(', ');
         return $sql . $columns;
     }
@@ -173,9 +173,9 @@ class MySqlGrammar extends Grammar
      */
     protected function compileJsonUpdateColumn($key, $value)
     {
-        if (\is_bool($value)) {
+        if (is_bool($value)) {
             $value = $value ? 'true' : 'false';
-        } elseif (\is_array($value)) {
+        } elseif (is_array($value)) {
             $value = 'cast(? as json)';
         } else {
             $value = $this->parameter($value);
@@ -215,9 +215,9 @@ class MySqlGrammar extends Grammar
     public function prepareBindingsForUpdate(array $bindings, array $values)
     {
         $values = collect($values)->reject(function ($value, $column) {
-            return $this->isJsonSelector($column) && \is_bool($value);
+            return $this->isJsonSelector($column) && is_bool($value);
         })->map(function ($value) {
-            return \is_array($value) ? \json_encode($value) : $value;
+            return is_array($value) ? json_encode($value) : $value;
         })->all();
         return parent::prepareBindingsForUpdate($bindings, $values);
     }
@@ -251,7 +251,7 @@ class MySqlGrammar extends Grammar
      */
     protected function wrapValue($value)
     {
-        return $value === '*' ? $value : '`' . \str_replace('`', '``', $value) . '`';
+        return $value === '*' ? $value : '`' . str_replace('`', '``', $value) . '`';
     }
     /**
      * Wrap the given JSON selector.

@@ -103,7 +103,7 @@ class MorphTo extends BelongsTo
      */
     public function getEager()
     {
-        foreach (\array_keys($this->dictionary) as $type) {
+        foreach (array_keys($this->dictionary) as $type) {
             $this->matchToMorphParents($type, $this->getResultsByType($type));
         }
         return $this->models;
@@ -118,8 +118,8 @@ class MorphTo extends BelongsTo
     {
         $instance = $this->createModelByType($type);
         $ownerKey = $this->ownerKey ?? $instance->getKeyName();
-        $query = $this->replayMacros($instance->newQuery())->mergeConstraintsFrom($this->getQuery())->with(\array_merge($this->getQuery()->getEagerLoads(), (array) ($this->morphableEagerLoads[\get_class($instance)] ?? [])))->withCount((array) ($this->morphableEagerLoadCounts[\get_class($instance)] ?? []));
-        if ($callback = $this->morphableConstraints[\get_class($instance)] ?? null) {
+        $query = $this->replayMacros($instance->newQuery())->mergeConstraintsFrom($this->getQuery())->with(array_merge($this->getQuery()->getEagerLoads(), (array) ($this->morphableEagerLoads[get_class($instance)] ?? [])))->withCount((array) ($this->morphableEagerLoadCounts[get_class($instance)] ?? []));
+        if ($callback = $this->morphableConstraints[get_class($instance)] ?? null) {
             $callback($query);
         }
         $whereIn = $this->whereInMethod($instance, $ownerKey);
@@ -134,9 +134,9 @@ class MorphTo extends BelongsTo
      */
     protected function gatherKeysByType($type, $keyType)
     {
-        return $keyType !== 'string' ? \array_keys($this->dictionary[$type]) : \array_map(function ($modelId) {
+        return $keyType !== 'string' ? array_keys($this->dictionary[$type]) : array_map(function ($modelId) {
             return (string) $modelId;
-        }, \array_filter(\array_keys($this->dictionary[$type])));
+        }, array_filter(array_keys($this->dictionary[$type])));
     }
     /**
      * Create a new model instance by type.
@@ -147,7 +147,7 @@ class MorphTo extends BelongsTo
     public function createModelByType($type)
     {
         $class = Model::getActualClassNameForMorph($type);
-        return \tap(new $class(), function ($instance) {
+        return tap(new $class(), function ($instance) {
             if (!$instance->getConnectionName()) {
                 $instance->setConnection($this->getConnection()->getName());
             }
@@ -175,7 +175,7 @@ class MorphTo extends BelongsTo
     protected function matchToMorphParents($type, Collection $results)
     {
         foreach ($results as $result) {
-            $ownerKey = !\is_null($this->ownerKey) ? $this->getDictionaryKey($result->{$this->ownerKey}) : $result->getKey();
+            $ownerKey = !is_null($this->ownerKey) ? $this->getDictionaryKey($result->{$this->ownerKey}) : $result->getKey();
             if (isset($this->dictionary[$type][$ownerKey])) {
                 foreach ($this->dictionary[$type][$ownerKey] as $model) {
                     $model->setRelation($this->relationName, $result);
@@ -216,7 +216,7 @@ class MorphTo extends BelongsTo
      */
     public function touch()
     {
-        if (!\is_null($this->child->{$this->foreignKey})) {
+        if (!is_null($this->child->{$this->foreignKey})) {
             parent::touch();
         }
     }
@@ -256,7 +256,7 @@ class MorphTo extends BelongsTo
      */
     public function morphWith(array $with)
     {
-        $this->morphableEagerLoads = \array_merge($this->morphableEagerLoads, $with);
+        $this->morphableEagerLoads = array_merge($this->morphableEagerLoads, $with);
         return $this;
     }
     /**
@@ -267,7 +267,7 @@ class MorphTo extends BelongsTo
      */
     public function morphWithCount(array $withCount)
     {
-        $this->morphableEagerLoadCounts = \array_merge($this->morphableEagerLoadCounts, $withCount);
+        $this->morphableEagerLoadCounts = array_merge($this->morphableEagerLoadCounts, $withCount);
         return $this;
     }
     /**
@@ -278,7 +278,7 @@ class MorphTo extends BelongsTo
      */
     public function constrain(array $callbacks)
     {
-        $this->morphableConstraints = \array_merge($this->morphableConstraints, $callbacks);
+        $this->morphableConstraints = array_merge($this->morphableConstraints, $callbacks);
         return $this;
     }
     /**
@@ -305,12 +305,12 @@ class MorphTo extends BelongsTo
     {
         try {
             $result = parent::__call($method, $parameters);
-            if (\in_array($method, ['select', 'selectRaw', 'selectSub', 'addSelect', 'withoutGlobalScopes'])) {
-                $this->macroBuffer[] = \compact('method', 'parameters');
+            if (in_array($method, ['select', 'selectRaw', 'selectSub', 'addSelect', 'withoutGlobalScopes'])) {
+                $this->macroBuffer[] = compact('method', 'parameters');
             }
             return $result;
         } catch (BadMethodCallException $e) {
-            $this->macroBuffer[] = \compact('method', 'parameters');
+            $this->macroBuffer[] = compact('method', 'parameters');
             return $this;
         }
     }

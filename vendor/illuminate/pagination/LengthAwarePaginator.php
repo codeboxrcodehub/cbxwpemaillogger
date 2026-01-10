@@ -42,8 +42,8 @@ class LengthAwarePaginator extends AbstractPaginator implements Arrayable, Array
         }
         $this->total = $total;
         $this->perPage = $perPage;
-        $this->lastPage = \max((int) \ceil($total / $perPage), 1);
-        $this->path = $this->path !== '/' ? \rtrim($this->path, '/') : $this->path;
+        $this->lastPage = max((int) ceil($total / $perPage), 1);
+        $this->path = $this->path !== '/' ? rtrim($this->path, '/') : $this->path;
         $this->currentPage = $this->setCurrentPage($currentPage, $this->pageName);
         $this->items = $items instanceof Collection ? $items : Collection::make($items);
     }
@@ -79,7 +79,7 @@ class LengthAwarePaginator extends AbstractPaginator implements Arrayable, Array
      */
     public function render($view = null, $data = [])
     {
-        return static::viewFactory()->make($view ?: static::$defaultView, \array_merge($data, ['paginator' => $this, 'elements' => $this->elements()]));
+        return static::viewFactory()->make($view ?: static::$defaultView, array_merge($data, ['paginator' => $this, 'elements' => $this->elements()]));
     }
     /**
      * Get the paginator links as a collection (for JSON responses).
@@ -89,13 +89,13 @@ class LengthAwarePaginator extends AbstractPaginator implements Arrayable, Array
     public function linkCollection()
     {
         return collect($this->elements())->flatMap(function ($item) {
-            if (!\is_array($item)) {
+            if (!is_array($item)) {
                 return [['url' => null, 'label' => '...', 'active' => \false]];
             }
             return collect($item)->map(function ($url, $page) {
                 return ['url' => $url, 'label' => (string) $page, 'active' => $this->currentPage() === $page];
             });
-        })->prepend(['url' => $this->previousPageUrl(), 'label' => \function_exists('ComfortSmtpScoped\\__') ? __('pagination.previous') : 'Previous', 'active' => \false])->push(['url' => $this->nextPageUrl(), 'label' => \function_exists('ComfortSmtpScoped\\__') ? __('pagination.next') : 'Next', 'active' => \false]);
+        })->prepend(['url' => $this->previousPageUrl(), 'label' => function_exists('ComfortSmtpScoped\__') ? __('pagination.previous') : 'Previous', 'active' => \false])->push(['url' => $this->nextPageUrl(), 'label' => function_exists('ComfortSmtpScoped\__') ? __('pagination.next') : 'Next', 'active' => \false]);
     }
     /**
      * Get the array of elements to pass to the view.
@@ -105,7 +105,7 @@ class LengthAwarePaginator extends AbstractPaginator implements Arrayable, Array
     protected function elements()
     {
         $window = UrlWindow::make($this);
-        return \array_filter([$window['first'], \is_array($window['slider']) ? '...' : null, $window['slider'], \is_array($window['last']) ? '...' : null, $window['last']]);
+        return array_filter([$window['first'], is_array($window['slider']) ? '...' : null, $window['slider'], is_array($window['last']) ? '...' : null, $window['last']]);
     }
     /**
      * Get the total number of items being paginated.
@@ -172,6 +172,6 @@ class LengthAwarePaginator extends AbstractPaginator implements Arrayable, Array
      */
     public function toJson($options = 0)
     {
-        return \json_encode($this->jsonSerialize(), $options);
+        return json_encode($this->jsonSerialize(), $options);
     }
 }

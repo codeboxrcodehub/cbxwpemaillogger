@@ -55,7 +55,7 @@ class Stringable implements JsonSerializable
      */
     public function append(...$values)
     {
-        return new static($this->value . \implode('', $values));
+        return new static($this->value . implode('', $values));
     }
     /**
      * Transliterate a UTF-8 value to ASCII.
@@ -75,7 +75,7 @@ class Stringable implements JsonSerializable
      */
     public function basename($suffix = '')
     {
-        return new static(\basename($this->value, $suffix));
+        return new static(basename($this->value, $suffix));
     }
     /**
      * Get the basename of the class path.
@@ -84,7 +84,7 @@ class Stringable implements JsonSerializable
      */
     public function classBasename()
     {
-        return new static(\class_basename($this->value));
+        return new static(class_basename($this->value));
     }
     /**
      * Get the portion of a string before the first occurrence of a given value.
@@ -154,7 +154,7 @@ class Stringable implements JsonSerializable
      */
     public function dirname($levels = 1)
     {
-        return new static(\dirname($this->value, $levels));
+        return new static(dirname($this->value, $levels));
     }
     /**
      * Determine if a given string ends with a given substring.
@@ -185,7 +185,7 @@ class Stringable implements JsonSerializable
      */
     public function explode($delimiter, $limit = \PHP_INT_MAX)
     {
-        return collect(\explode($delimiter, $this->value, $limit));
+        return collect(explode($delimiter, $this->value, $limit));
     }
     /**
      * Split a string using a regular expression or by length.
@@ -197,10 +197,10 @@ class Stringable implements JsonSerializable
      */
     public function split($pattern, $limit = -1, $flags = 0)
     {
-        if (\filter_var($pattern, \FILTER_VALIDATE_INT) !== \false) {
-            return collect(\mb_str_split($this->value, $pattern));
+        if (filter_var($pattern, \FILTER_VALIDATE_INT) !== \false) {
+            return collect(mb_str_split($this->value, $pattern));
         }
-        $segments = \preg_split($pattern, $this->value, $limit, $flags);
+        $segments = preg_split($pattern, $this->value, $limit, $flags);
         return !empty($segments) ? collect($segments) : collect();
     }
     /**
@@ -402,7 +402,7 @@ class Stringable implements JsonSerializable
      */
     public function pipe(callable $callback)
     {
-        return new static(\call_user_func($callback, $this));
+        return new static(call_user_func($callback, $this));
     }
     /**
      * Get the plural form of an English word.
@@ -432,7 +432,7 @@ class Stringable implements JsonSerializable
      */
     public function prepend(...$values)
     {
-        return new static(\implode('', $values) . $this->value);
+        return new static(implode('', $values) . $this->value);
     }
     /**
      * Remove any occurrence of the given string in the subject.
@@ -519,9 +519,9 @@ class Stringable implements JsonSerializable
     public function replaceMatches($pattern, $replace, $limit = -1)
     {
         if ($replace instanceof Closure) {
-            return new static(\preg_replace_callback($pattern, $replace, $this->value, $limit));
+            return new static(preg_replace_callback($pattern, $replace, $this->value, $limit));
         }
-        return new static(\preg_replace($pattern, $replace, $this->value, $limit));
+        return new static(preg_replace($pattern, $replace, $this->value, $limit));
     }
     /**
      * Parse input from a string to a collection, according to a format.
@@ -531,7 +531,7 @@ class Stringable implements JsonSerializable
      */
     public function scan($format)
     {
-        return collect(\sscanf($this->value, $format));
+        return collect(sscanf($this->value, $format));
     }
     /**
      * Begin a string with a single instance of a given value.
@@ -551,7 +551,7 @@ class Stringable implements JsonSerializable
      */
     public function stripTags($allowedTags = null)
     {
-        return new static(\strip_tags($this->value, $allowedTags));
+        return new static(strip_tags($this->value, $allowedTags));
     }
     /**
      * Convert the given string to upper-case.
@@ -672,7 +672,7 @@ class Stringable implements JsonSerializable
      */
     public function swap(array $map)
     {
-        return new static(\strtr($this->value, $map));
+        return new static(strtr($this->value, $map));
     }
     /**
      * Trim the string of the given characters.
@@ -682,7 +682,7 @@ class Stringable implements JsonSerializable
      */
     public function trim($characters = null)
     {
-        return new static(\trim(...\array_merge([$this->value], \func_get_args())));
+        return new static(trim(...array_merge([$this->value], func_get_args())));
     }
     /**
      * Left trim the string of the given characters.
@@ -692,7 +692,7 @@ class Stringable implements JsonSerializable
      */
     public function ltrim($characters = null)
     {
-        return new static(\ltrim(...\array_merge([$this->value], \func_get_args())));
+        return new static(ltrim(...array_merge([$this->value], func_get_args())));
     }
     /**
      * Right trim the string of the given characters.
@@ -702,7 +702,7 @@ class Stringable implements JsonSerializable
      */
     public function rtrim($characters = null)
     {
-        return new static(\rtrim(...\array_merge([$this->value], \func_get_args())));
+        return new static(rtrim(...array_merge([$this->value], func_get_args())));
     }
     /**
      * Make a string's first character uppercase.
@@ -868,7 +868,7 @@ class Stringable implements JsonSerializable
      */
     public function wordCount()
     {
-        return \str_word_count($this->value);
+        return str_word_count($this->value);
     }
     /**
      * Convert the string into a `HtmlString` instance.

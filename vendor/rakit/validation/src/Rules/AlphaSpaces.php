@@ -13,11 +13,11 @@ class AlphaSpaces extends Rule
      * @param mixed $value
      * @return bool
      */
-    public function check($value) : bool
+    public function check($value): bool
     {
-        if (!\is_string($value)) {
+        if (!is_string($value)) {
             return \false;
         }
-        return \preg_match('/^[\\pL\\pM\\s]+$/u', $value) > 0;
+        return preg_match('/^[\pL\pM\s]+$/u', $value) > 0;
     }
 }

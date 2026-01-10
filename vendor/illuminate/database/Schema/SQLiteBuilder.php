@@ -59,6 +59,6 @@ class SQLiteBuilder extends Builder
      */
     public function refreshDatabaseFile()
     {
-        \file_put_contents($this->connection->getDatabaseName(), '');
+        file_put_contents($this->connection->getDatabaseName(), '');
     }
 }

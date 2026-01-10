@@ -53,7 +53,7 @@ class PruneCommand extends Command
         });
         $models->each(function ($model) {
             $instance = new $model();
-            $chunkSize = \property_exists($instance, 'prunableChunkSize') ? $instance->prunableChunkSize : $this->option('chunk');
+            $chunkSize = property_exists($instance, 'prunableChunkSize') ? $instance->prunableChunkSize : $this->option('chunk');
             $total = $this->isPrunable($model) ? $instance->pruneAll($chunkSize) : 0;
             if ($total == 0) {
                 $this->info("No prunable [{$model}] records found.");
@@ -70,7 +70,7 @@ class PruneCommand extends Command
     {
         if (!empty($models = $this->option('model'))) {
             return collect($models)->filter(function ($model) {
-                return \class_exists($model);
+                return class_exists($model);
             })->values();
         }
         $except = $this->option('except');
@@ -79,15 +79,15 @@ class PruneCommand extends Command
         }
         return collect((new Finder())->in($this->getDefaultPath())->files()->name('*.php'))->map(function ($model) {
             $namespace = $this->laravel->getNamespace();
-            return $namespace . \str_replace(['/', '.php'], ['\\', ''], Str::after($model->getRealPath(), \realpath(app_path()) . \DIRECTORY_SEPARATOR));
-        })->when(!empty($except), function ($models) use($except) {
-            return $models->reject(function ($model) use($except) {
-                return \in_array($model, $except);
+            return $namespace . str_replace(['/', '.php'], ['\\', ''], Str::after($model->getRealPath(), realpath(app_path()) . \DIRECTORY_SEPARATOR));
+        })->when(!empty($except), function ($models) use ($except) {
+            return $models->reject(function ($model) use ($except) {
+                return in_array($model, $except);
             });
         })->filter(function ($model) {
             return $this->isPrunable($model);
         })->filter(function ($model) {
-            return \class_exists($model);
+            return class_exists($model);
         })->values();
     }
     /**
@@ -107,8 +107,8 @@ class PruneCommand extends Command
      */
     protected function isPrunable($model)
     {
-        $uses = \class_uses_recursive($model);
-        return \in_array(Prunable::class, $uses) || \in_array(MassPrunable::class, $uses);
+        $uses = class_uses_recursive($model);
+        return in_array(Prunable::class, $uses) || in_array(MassPrunable::class, $uses);
     }
     /**
      * Display how many models will be pruned.
@@ -119,7 +119,7 @@ class PruneCommand extends Command
     protected function pretendToPrune($model)
     {
         $instance = new $model();
-        $count = $instance->prunable()->when(\in_array(SoftDeletes::class, \class_uses_recursive(\get_class($instance))), function ($query) {
+        $count = $instance->prunable()->when(in_array(SoftDeletes::class, class_uses_recursive(get_class($instance))), function ($query) {
             $query->withTrashed();
         })->count();
         if ($count === 0) {

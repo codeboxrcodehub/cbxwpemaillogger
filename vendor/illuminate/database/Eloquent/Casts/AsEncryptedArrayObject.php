@@ -20,20 +20,20 @@ class AsEncryptedArrayObject implements Castable
             public function get($model, $key, $value, $attributes)
             {
                 if (isset($attributes[$key])) {
-                    return new ArrayObject(\json_decode(Crypt::decryptString($attributes[$key]), \true));
+                    return new ArrayObject(json_decode(Crypt::decryptString($attributes[$key]), \true));
                 }
                 return null;
             }
             public function set($model, $key, $value, $attributes)
             {
-                if (!\is_null($value)) {
-                    return [$key => Crypt::encryptString(\json_encode($value))];
+                if (!is_null($value)) {
+                    return [$key => Crypt::encryptString(json_encode($value))];
                 }
                 return null;
             }
             public function serialize($model, string $key, $value, array $attributes)
             {
-                return !\is_null($value) ? $value->getArrayCopy() : null;
+                return !is_null($value) ? $value->getArrayCopy() : null;
             }
         };
     }

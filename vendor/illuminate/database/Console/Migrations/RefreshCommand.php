@@ -49,7 +49,7 @@ class RefreshCommand extends Command
         // The refresh command is essentially just a brief aggregate of a few other of
         // the migration commands and just provides a convenient wrapper to execute
         // them in succession. We'll also see if we need to re-seed the database.
-        $this->call('migrate', \array_filter(['--database' => $database, '--path' => $path, '--realpath' => $this->input->getOption('realpath'), '--force' => \true]));
+        $this->call('migrate', array_filter(['--database' => $database, '--path' => $path, '--realpath' => $this->input->getOption('realpath'), '--force' => \true]));
         if ($this->laravel->bound(Dispatcher::class)) {
             $this->laravel[Dispatcher::class]->dispatch(new DatabaseRefreshed());
         }
@@ -68,7 +68,7 @@ class RefreshCommand extends Command
      */
     protected function runRollback($database, $path, $step)
     {
-        $this->call('migrate:rollback', \array_filter(['--database' => $database, '--path' => $path, '--realpath' => $this->input->getOption('realpath'), '--step' => $step, '--force' => \true]));
+        $this->call('migrate:rollback', array_filter(['--database' => $database, '--path' => $path, '--realpath' => $this->input->getOption('realpath'), '--step' => $step, '--force' => \true]));
     }
     /**
      * Run the reset command.
@@ -79,7 +79,7 @@ class RefreshCommand extends Command
      */
     protected function runReset($database, $path)
     {
-        $this->call('migrate:reset', \array_filter(['--database' => $database, '--path' => $path, '--realpath' => $this->input->getOption('realpath'), '--force' => \true]));
+        $this->call('migrate:reset', array_filter(['--database' => $database, '--path' => $path, '--realpath' => $this->input->getOption('realpath'), '--force' => \true]));
     }
     /**
      * Determine if the developer has requested database seeding.
@@ -98,7 +98,7 @@ class RefreshCommand extends Command
      */
     protected function runSeeder($database)
     {
-        $this->call('db:seed', \array_filter(['--database' => $database, '--class' => $this->option('seeder') ?: 'Database\\Seeders\\DatabaseSeeder', '--force' => \true]));
+        $this->call('db:seed', array_filter(['--database' => $database, '--class' => $this->option('seeder') ?: 'Database\Seeders\DatabaseSeeder', '--force' => \true]));
     }
     /**
      * Get the console command options.

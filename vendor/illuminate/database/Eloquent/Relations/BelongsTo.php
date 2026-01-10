@@ -63,7 +63,7 @@ class BelongsTo extends Relation
      */
     public function getResults()
     {
-        if (\is_null($this->child->{$this->foreignKey})) {
+        if (is_null($this->child->{$this->foreignKey})) {
             return $this->getDefaultFor($this->parent);
         }
         return $this->query->first() ?: $this->getDefaultFor($this->parent);
@@ -111,12 +111,12 @@ class BelongsTo extends Relation
         // to query for via the eager loading query. We will add them to an array then
         // execute a "where in" statement to gather up all of those related records.
         foreach ($models as $model) {
-            if (!\is_null($value = $model->{$this->foreignKey})) {
+            if (!is_null($value = $model->{$this->foreignKey})) {
                 $keys[] = $value;
             }
         }
-        \sort($keys);
-        return \array_values(\array_unique($keys));
+        sort($keys);
+        return array_values(array_unique($keys));
     }
     /**
      * Initialize the relation on a set of models.
@@ -224,7 +224,7 @@ class BelongsTo extends Relation
      */
     public function getRelationExistenceQueryForSelfRelation(Builder $query, Builder $parentQuery, $columns = ['*'])
     {
-        $query->select($columns)->from($query->getModel()->getTable() . ' as ' . ($hash = $this->getRelationCountHash()));
+        $query->select($columns)->from($query->getModel()->getTable() . ' as ' . $hash = $this->getRelationCountHash());
         $query->getModel()->setTable($hash);
         return $query->whereColumn($hash . '.' . $this->ownerKey, '=', $this->getQualifiedForeignKeyName());
     }
@@ -235,7 +235,7 @@ class BelongsTo extends Relation
      */
     protected function relationHasIncrementingId()
     {
-        return $this->related->getIncrementing() && \in_array($this->related->getKeyType(), ['int', 'integer']);
+        return $this->related->getIncrementing() && in_array($this->related->getKeyType(), ['int', 'integer']);
     }
     /**
      * Make a new related instance for the given model.

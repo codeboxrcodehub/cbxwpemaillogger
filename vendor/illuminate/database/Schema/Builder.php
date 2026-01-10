@@ -70,7 +70,7 @@ class Builder
      */
     public static function defaultMorphKeyType(string $type)
     {
-        if (!\in_array($type, ['int', 'uuid'])) {
+        if (!in_array($type, ['int', 'uuid'])) {
             throw new InvalidArgumentException("Morph key type must be 'int' or 'uuid'.");
         }
         static::$defaultMorphKeyType = $type;
@@ -117,7 +117,7 @@ class Builder
     public function hasTable($table)
     {
         $table = $this->connection->getTablePrefix() . $table;
-        return \count($this->connection->selectFromWriteConnection($this->grammar->compileTableExists(), [$table])) > 0;
+        return count($this->connection->selectFromWriteConnection($this->grammar->compileTableExists(), [$table])) > 0;
     }
     /**
      * Determine if the given table has a given column.
@@ -128,7 +128,7 @@ class Builder
      */
     public function hasColumn($table, $column)
     {
-        return \in_array(\strtolower($column), \array_map('strtolower', $this->getColumnListing($table)));
+        return in_array(strtolower($column), array_map('strtolower', $this->getColumnListing($table)));
     }
     /**
      * Determine if the given table has given columns.
@@ -139,9 +139,9 @@ class Builder
      */
     public function hasColumns($table, array $columns)
     {
-        $tableColumns = \array_map('strtolower', $this->getColumnListing($table));
+        $tableColumns = array_map('strtolower', $this->getColumnListing($table));
         foreach ($columns as $column) {
-            if (!\in_array(\strtolower($column), $tableColumns)) {
+            if (!in_array(strtolower($column), $tableColumns)) {
                 return \false;
             }
         }
@@ -190,7 +190,7 @@ class Builder
      */
     public function create($table, Closure $callback)
     {
-        $this->build(\tap($this->createBlueprint($table), function ($blueprint) use($callback) {
+        $this->build(tap($this->createBlueprint($table), function ($blueprint) use ($callback) {
             $blueprint->create();
             $callback($blueprint);
         }));
@@ -203,7 +203,7 @@ class Builder
      */
     public function drop($table)
     {
-        $this->build(\tap($this->createBlueprint($table), function ($blueprint) {
+        $this->build(tap($this->createBlueprint($table), function ($blueprint) {
             $blueprint->drop();
         }));
     }
@@ -215,7 +215,7 @@ class Builder
      */
     public function dropIfExists($table)
     {
-        $this->build(\tap($this->createBlueprint($table), function ($blueprint) {
+        $this->build(tap($this->createBlueprint($table), function ($blueprint) {
             $blueprint->dropIfExists();
         }));
     }
@@ -228,7 +228,7 @@ class Builder
      */
     public function dropColumns($table, $columns)
     {
-        $this->table($table, function (Blueprint $blueprint) use($columns) {
+        $this->table($table, function (Blueprint $blueprint) use ($columns) {
             $blueprint->dropColumn($columns);
         });
     }
@@ -285,7 +285,7 @@ class Builder
      */
     public function rename($from, $to)
     {
-        $this->build(\tap($this->createBlueprint($from), function ($blueprint) use($to) {
+        $this->build(tap($this->createBlueprint($from), function ($blueprint) use ($to) {
             $blueprint->rename($to);
         }));
     }
@@ -328,9 +328,9 @@ class Builder
     {
         $prefix = $this->connection->getConfig('prefix_indexes') ? $this->connection->getConfig('prefix') : '';
         if (isset($this->resolver)) {
-            return \call_user_func($this->resolver, $table, $callback, $prefix);
+            return call_user_func($this->resolver, $table, $callback, $prefix);
         }
-        return Container::getInstance()->make(Blueprint::class, \compact('table', 'callback', 'prefix'));
+        return Container::getInstance()->make(Blueprint::class, compact('table', 'callback', 'prefix'));
     }
     /**
      * Register a custom Doctrine mapping type.

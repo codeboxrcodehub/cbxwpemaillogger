@@ -56,7 +56,7 @@ class Subject
         if ($level > $this->useNestingLimit) {
             throw new \ComfortSmtpScoped\enshrined\svgSanitize\Exceptions\NestingException('Nesting level too high, aborting', 1570713498, null, $this->getElement());
         }
-        if (\in_array($this, $subjects, \true)) {
+        if (in_array($this, $subjects, \true)) {
             return \true;
         }
         $subjects[] = $this;
@@ -106,7 +106,7 @@ class Subject
         $count = 0;
         foreach ($this->useCollection as $use) {
             $useCount = $use->getSubject()->countUse();
-            $count += $use->getCount() * ($accumulated ? 1 + $useCount : \max(1, $useCount));
+            $count += $use->getCount() * ($accumulated ? 1 + $useCount : max(1, $useCount));
         }
         return $count;
     }
@@ -117,7 +117,7 @@ class Subject
     {
         $count = 0;
         foreach ($this->usedInCollection as $usedIn) {
-            $count += $usedIn->getCount() * \max(1, $usedIn->getSubject()->countUsedIn());
+            $count += $usedIn->getCount() * max(1, $usedIn->getSubject()->countUsedIn());
         }
         return $count;
     }
@@ -129,7 +129,7 @@ class Subject
      */
     public function clearInternalAndGetAffectedElements()
     {
-        $elements = \array_map(function (Usage $usage) {
+        $elements = array_map(function (Usage $usage) {
             return $usage->getSubject()->getElement();
         }, $this->useCollection);
         $this->usedInCollection = [];

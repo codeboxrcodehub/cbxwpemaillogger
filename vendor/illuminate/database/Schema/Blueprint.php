@@ -79,7 +79,7 @@ class Blueprint
     {
         $this->table = $table;
         $this->prefix = $prefix;
-        if (!\is_null($callback)) {
+        if (!is_null($callback)) {
             $callback($this);
         }
     }
@@ -112,10 +112,10 @@ class Blueprint
         // the blueprint element, so we'll just call that compilers function.
         $this->ensureCommandsAreValid($connection);
         foreach ($this->commands as $command) {
-            $method = 'compile' . \ucfirst($command->name);
-            if (\method_exists($grammar, $method) || $grammar::hasMacro($method)) {
-                if (!\is_null($sql = $grammar->{$method}($this, $command, $connection))) {
-                    $statements = \array_merge($statements, (array) $sql);
+            $method = 'compile' . ucfirst($command->name);
+            if (method_exists($grammar, $method) || $grammar::hasMacro($method)) {
+                if (!is_null($sql = $grammar->{$method}($this, $command, $connection))) {
+                    $statements = array_merge($statements, (array) $sql);
                 }
             }
         }
@@ -148,8 +148,8 @@ class Blueprint
      */
     protected function commandsNamed(array $names)
     {
-        return collect($this->commands)->filter(function ($command) use($names) {
-            return \in_array($command->name, $names);
+        return collect($this->commands)->filter(function ($command) use ($names) {
+            return in_array($command->name, $names);
         });
     }
     /**
@@ -160,11 +160,11 @@ class Blueprint
      */
     protected function addImpliedCommands(Grammar $grammar)
     {
-        if (\count($this->getAddedColumns()) > 0 && !$this->creating()) {
-            \array_unshift($this->commands, $this->createCommand('add'));
+        if (count($this->getAddedColumns()) > 0 && !$this->creating()) {
+            array_unshift($this->commands, $this->createCommand('add'));
         }
-        if (\count($this->getChangedColumns()) > 0 && !$this->creating()) {
-            \array_unshift($this->commands, $this->createCommand('change'));
+        if (count($this->getChangedColumns()) > 0 && !$this->creating()) {
+            array_unshift($this->commands, $this->createCommand('change'));
         }
         $this->addFluentIndexes();
         $this->addFluentCommands($grammar);
@@ -203,12 +203,12 @@ class Blueprint
     {
         foreach ($this->columns as $column) {
             foreach ($grammar->getFluentCommands() as $commandName) {
-                $attributeName = \lcfirst($commandName);
+                $attributeName = lcfirst($commandName);
                 if (!isset($column->{$attributeName})) {
                     continue;
                 }
                 $value = $column->{$attributeName};
-                $this->addCommand($commandName, \compact('value', 'column'));
+                $this->addCommand($commandName, compact('value', 'column'));
             }
         }
     }
@@ -267,8 +267,8 @@ class Blueprint
      */
     public function dropColumn($columns)
     {
-        $columns = \is_array($columns) ? $columns : \func_get_args();
-        return $this->addCommand('dropColumn', \compact('columns'));
+        $columns = is_array($columns) ? $columns : func_get_args();
+        return $this->addCommand('dropColumn', compact('columns'));
     }
     /**
      * Indicate that the given columns should be renamed.
@@ -279,7 +279,7 @@ class Blueprint
      */
     public function renameColumn($from, $to)
     {
-        return $this->addCommand('renameColumn', \compact('from', 'to'));
+        return $this->addCommand('renameColumn', compact('from', 'to'));
     }
     /**
      * Indicate that the given primary key should be dropped.
@@ -361,7 +361,7 @@ class Blueprint
      */
     public function renameIndex($from, $to)
     {
-        return $this->addCommand('renameIndex', \compact('from', 'to'));
+        return $this->addCommand('renameIndex', compact('from', 'to'));
     }
     /**
      * Indicate that the timestamp columns should be dropped.
@@ -430,7 +430,7 @@ class Blueprint
      */
     public function rename($to)
     {
-        return $this->addCommand('rename', \compact('to'));
+        return $this->addCommand('rename', compact('to'));
     }
     /**
      * Specify the primary key(s) for the table.
@@ -512,7 +512,7 @@ class Blueprint
     public function foreign($columns, $name = null)
     {
         $command = new ForeignKeyDefinition($this->indexCommand('foreign', $columns, $name)->getAttributes());
-        $this->commands[\count($this->commands) - 1] = $command;
+        $this->commands[count($this->commands) - 1] = $command;
         return $command;
     }
     /**
@@ -595,7 +595,7 @@ class Blueprint
     public function char($column, $length = null)
     {
         $length = $length ?: Builder::$defaultStringLength;
-        return $this->addColumn('char', $column, \compact('length'));
+        return $this->addColumn('char', $column, compact('length'));
     }
     /**
      * Create a new string column on the table.
@@ -607,7 +607,7 @@ class Blueprint
     public function string($column, $length = null)
     {
         $length = $length ?: Builder::$defaultStringLength;
-        return $this->addColumn('string', $column, \compact('length'));
+        return $this->addColumn('string', $column, compact('length'));
     }
     /**
      * Create a new tiny text column on the table.
@@ -659,7 +659,7 @@ class Blueprint
      */
     public function integer($column, $autoIncrement = \false, $unsigned = \false)
     {
-        return $this->addColumn('integer', $column, \compact('autoIncrement', 'unsigned'));
+        return $this->addColumn('integer', $column, compact('autoIncrement', 'unsigned'));
     }
     /**
      * Create a new tiny integer (1-byte) column on the table.
@@ -671,7 +671,7 @@ class Blueprint
      */
     public function tinyInteger($column, $autoIncrement = \false, $unsigned = \false)
     {
-        return $this->addColumn('tinyInteger', $column, \compact('autoIncrement', 'unsigned'));
+        return $this->addColumn('tinyInteger', $column, compact('autoIncrement', 'unsigned'));
     }
     /**
      * Create a new small integer (2-byte) column on the table.
@@ -683,7 +683,7 @@ class Blueprint
      */
     public function smallInteger($column, $autoIncrement = \false, $unsigned = \false)
     {
-        return $this->addColumn('smallInteger', $column, \compact('autoIncrement', 'unsigned'));
+        return $this->addColumn('smallInteger', $column, compact('autoIncrement', 'unsigned'));
     }
     /**
      * Create a new medium integer (3-byte) column on the table.
@@ -695,7 +695,7 @@ class Blueprint
      */
     public function mediumInteger($column, $autoIncrement = \false, $unsigned = \false)
     {
-        return $this->addColumn('mediumInteger', $column, \compact('autoIncrement', 'unsigned'));
+        return $this->addColumn('mediumInteger', $column, compact('autoIncrement', 'unsigned'));
     }
     /**
      * Create a new big integer (8-byte) column on the table.
@@ -707,7 +707,7 @@ class Blueprint
      */
     public function bigInteger($column, $autoIncrement = \false, $unsigned = \false)
     {
-        return $this->addColumn('bigInteger', $column, \compact('autoIncrement', 'unsigned'));
+        return $this->addColumn('bigInteger', $column, compact('autoIncrement', 'unsigned'));
     }
     /**
      * Create a new unsigned integer (4-byte) column on the table.
@@ -783,7 +783,7 @@ class Blueprint
      */
     public function foreignIdFor($model, $column = null)
     {
-        if (\is_string($model)) {
+        if (is_string($model)) {
             $model = new $model();
         }
         return $model->getKeyType() === 'int' && $model->getIncrementing() ? $this->foreignId($column ?: $model->getForeignKey()) : $this->foreignUuid($column ?: $model->getForeignKey());
@@ -799,7 +799,7 @@ class Blueprint
      */
     public function float($column, $total = 8, $places = 2, $unsigned = \false)
     {
-        return $this->addColumn('float', $column, \compact('total', 'places', 'unsigned'));
+        return $this->addColumn('float', $column, compact('total', 'places', 'unsigned'));
     }
     /**
      * Create a new double column on the table.
@@ -812,7 +812,7 @@ class Blueprint
      */
     public function double($column, $total = null, $places = null, $unsigned = \false)
     {
-        return $this->addColumn('double', $column, \compact('total', 'places', 'unsigned'));
+        return $this->addColumn('double', $column, compact('total', 'places', 'unsigned'));
     }
     /**
      * Create a new decimal column on the table.
@@ -825,7 +825,7 @@ class Blueprint
      */
     public function decimal($column, $total = 8, $places = 2, $unsigned = \false)
     {
-        return $this->addColumn('decimal', $column, \compact('total', 'places', 'unsigned'));
+        return $this->addColumn('decimal', $column, compact('total', 'places', 'unsigned'));
     }
     /**
      * Create a new unsigned float column on the table.
@@ -882,7 +882,7 @@ class Blueprint
      */
     public function enum($column, array $allowed)
     {
-        return $this->addColumn('enum', $column, \compact('allowed'));
+        return $this->addColumn('enum', $column, compact('allowed'));
     }
     /**
      * Create a new set column on the table.
@@ -893,7 +893,7 @@ class Blueprint
      */
     public function set($column, array $allowed)
     {
-        return $this->addColumn('set', $column, \compact('allowed'));
+        return $this->addColumn('set', $column, compact('allowed'));
     }
     /**
      * Create a new json column on the table.
@@ -934,7 +934,7 @@ class Blueprint
      */
     public function dateTime($column, $precision = 0)
     {
-        return $this->addColumn('dateTime', $column, \compact('precision'));
+        return $this->addColumn('dateTime', $column, compact('precision'));
     }
     /**
      * Create a new date-time column (with time zone) on the table.
@@ -945,7 +945,7 @@ class Blueprint
      */
     public function dateTimeTz($column, $precision = 0)
     {
-        return $this->addColumn('dateTimeTz', $column, \compact('precision'));
+        return $this->addColumn('dateTimeTz', $column, compact('precision'));
     }
     /**
      * Create a new time column on the table.
@@ -956,7 +956,7 @@ class Blueprint
      */
     public function time($column, $precision = 0)
     {
-        return $this->addColumn('time', $column, \compact('precision'));
+        return $this->addColumn('time', $column, compact('precision'));
     }
     /**
      * Create a new time column (with time zone) on the table.
@@ -967,7 +967,7 @@ class Blueprint
      */
     public function timeTz($column, $precision = 0)
     {
-        return $this->addColumn('timeTz', $column, \compact('precision'));
+        return $this->addColumn('timeTz', $column, compact('precision'));
     }
     /**
      * Create a new timestamp column on the table.
@@ -978,7 +978,7 @@ class Blueprint
      */
     public function timestamp($column, $precision = 0)
     {
-        return $this->addColumn('timestamp', $column, \compact('precision'));
+        return $this->addColumn('timestamp', $column, compact('precision'));
     }
     /**
      * Create a new timestamp (with time zone) column on the table.
@@ -989,7 +989,7 @@ class Blueprint
      */
     public function timestampTz($column, $precision = 0)
     {
-        return $this->addColumn('timestampTz', $column, \compact('precision'));
+        return $this->addColumn('timestampTz', $column, compact('precision'));
     }
     /**
      * Add nullable creation and update timestamps to the table.
@@ -1126,7 +1126,7 @@ class Blueprint
      */
     public function point($column, $srid = null)
     {
-        return $this->addColumn('point', $column, \compact('srid'));
+        return $this->addColumn('point', $column, compact('srid'));
     }
     /**
      * Create a new linestring column on the table.
@@ -1207,7 +1207,7 @@ class Blueprint
      */
     public function computed($column, $expression)
     {
-        return $this->addColumn('computed', $column, \compact('expression'));
+        return $this->addColumn('computed', $column, compact('expression'));
     }
     /**
      * Add the proper columns for a polymorphic table.
@@ -1316,7 +1316,7 @@ class Blueprint
         // convention of the table name, followed by the columns, followed by an
         // index type, such as primary or index, which makes the index unique.
         $index = $index ?: $this->createIndexName($type, $columns);
-        return $this->addCommand($type, \compact('index', 'columns', 'algorithm'));
+        return $this->addCommand($type, compact('index', 'columns', 'algorithm'));
     }
     /**
      * Create a new drop index command on the blueprint.
@@ -1332,7 +1332,7 @@ class Blueprint
         // If the given "index" is actually an array of columns, the developer means
         // to drop an index merely by specifying the columns involved without the
         // conventional name, so we will build the index name from the columns.
-        if (\is_array($index)) {
+        if (is_array($index)) {
             $index = $this->createIndexName($type, $columns = $index);
         }
         return $this->indexCommand($command, $columns, $index);
@@ -1346,8 +1346,8 @@ class Blueprint
      */
     protected function createIndexName($type, array $columns)
     {
-        $index = \strtolower($this->prefix . $this->table . '_' . \implode('_', $columns) . '_' . $type);
-        return \str_replace(['-', '.'], '_', $index);
+        $index = strtolower($this->prefix . $this->table . '_' . implode('_', $columns) . '_' . $type);
+        return str_replace(['-', '.'], '_', $index);
     }
     /**
      * Add a new column to the blueprint.
@@ -1359,7 +1359,7 @@ class Blueprint
      */
     public function addColumn($type, $name, array $parameters = [])
     {
-        return $this->addColumnDefinition(new ColumnDefinition(\array_merge(\compact('type', 'name'), $parameters)));
+        return $this->addColumnDefinition(new ColumnDefinition(array_merge(compact('type', 'name'), $parameters)));
     }
     /**
      * Add a new column definition to the blueprint.
@@ -1397,7 +1397,7 @@ class Blueprint
      */
     public function removeColumn($name)
     {
-        $this->columns = \array_values(\array_filter($this->columns, function ($c) use($name) {
+        $this->columns = array_values(array_filter($this->columns, function ($c) use ($name) {
             return $c['name'] != $name;
         }));
         return $this;
@@ -1423,7 +1423,7 @@ class Blueprint
      */
     protected function createCommand($name, array $parameters = [])
     {
-        return new Fluent(\array_merge(\compact('name'), $parameters));
+        return new Fluent(array_merge(compact('name'), $parameters));
     }
     /**
      * Get the table the blueprint describes.
@@ -1459,7 +1459,7 @@ class Blueprint
      */
     public function getAddedColumns()
     {
-        return \array_filter($this->columns, function ($column) {
+        return array_filter($this->columns, function ($column) {
             return !$column->change;
         });
     }
@@ -1470,7 +1470,7 @@ class Blueprint
      */
     public function getChangedColumns()
     {
-        return \array_filter($this->columns, function ($column) {
+        return array_filter($this->columns, function ($column) {
             return (bool) $column->change;
         });
     }
@@ -1481,7 +1481,7 @@ class Blueprint
      */
     public function hasAutoIncrementColumn()
     {
-        return !\is_null(collect($this->getAddedColumns())->first(function ($column) {
+        return !is_null(collect($this->getAddedColumns())->first(function ($column) {
             return $column->autoIncrement === \true;
         }));
     }

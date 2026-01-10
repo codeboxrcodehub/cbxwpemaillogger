@@ -38,7 +38,7 @@ class NotACarbonClassException extends BaseInvalidArgumentException implements I
      *
      * @return string
      */
-    public function getClassName() : string
+    public function getClassName(): string
     {
         return $this->className;
     }

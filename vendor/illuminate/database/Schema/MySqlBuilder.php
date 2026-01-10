@@ -33,7 +33,7 @@ class MySqlBuilder extends Builder
     public function hasTable($table)
     {
         $table = $this->connection->getTablePrefix() . $table;
-        return \count($this->connection->select($this->grammar->compileTableExists(), [$this->connection->getDatabaseName(), $table])) > 0;
+        return count($this->connection->select($this->grammar->compileTableExists(), [$this->connection->getDatabaseName(), $table])) > 0;
     }
     /**
      * Get the column listing for a given table.
@@ -57,7 +57,7 @@ class MySqlBuilder extends Builder
         $tables = [];
         foreach ($this->getAllTables() as $row) {
             $row = (array) $row;
-            $tables[] = \reset($row);
+            $tables[] = reset($row);
         }
         if (empty($tables)) {
             return;
@@ -76,7 +76,7 @@ class MySqlBuilder extends Builder
         $views = [];
         foreach ($this->getAllViews() as $row) {
             $row = (array) $row;
-            $views[] = \reset($row);
+            $views[] = reset($row);
         }
         if (empty($views)) {
             return;

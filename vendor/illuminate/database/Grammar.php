@@ -21,7 +21,7 @@ abstract class Grammar
      */
     public function wrapArray(array $values)
     {
-        return \array_map([$this, 'wrap'], $values);
+        return array_map([$this, 'wrap'], $values);
     }
     /**
      * Wrap a table in keyword identifiers.
@@ -51,10 +51,10 @@ abstract class Grammar
         // If the value being wrapped has a column alias we will need to separate out
         // the pieces so we can wrap each of the segments of the expression on its
         // own, and then join these both back together using the "as" connector.
-        if (\stripos($value, ' as ') !== \false) {
+        if (stripos($value, ' as ') !== \false) {
             return $this->wrapAliasedValue($value, $prefixAlias);
         }
-        return $this->wrapSegments(\explode('.', $value));
+        return $this->wrapSegments(explode('.', $value));
     }
     /**
      * Wrap a value that has an alias.
@@ -65,7 +65,7 @@ abstract class Grammar
      */
     protected function wrapAliasedValue($value, $prefixAlias = \false)
     {
-        $segments = \preg_split('/\\s+as\\s+/i', $value);
+        $segments = preg_split('/\s+as\s+/i', $value);
         // If we are wrapping a table we need to prefix the alias with the table prefix
         // as well in order to generate proper syntax. If this is a column of course
         // no prefix is necessary. The condition will be true when from wrapTable.
@@ -82,8 +82,8 @@ abstract class Grammar
      */
     protected function wrapSegments($segments)
     {
-        return collect($segments)->map(function ($segment, $key) use($segments) {
-            return $key == 0 && \count($segments) > 1 ? $this->wrapTable($segment) : $this->wrapValue($segment);
+        return collect($segments)->map(function ($segment, $key) use ($segments) {
+            return $key == 0 && count($segments) > 1 ? $this->wrapTable($segment) : $this->wrapValue($segment);
         })->implode('.');
     }
     /**
@@ -95,7 +95,7 @@ abstract class Grammar
     protected function wrapValue($value)
     {
         if ($value !== '*') {
-            return '"' . \str_replace('"', '""', $value) . '"';
+            return '"' . str_replace('"', '""', $value) . '"';
         }
         return $value;
     }
@@ -107,7 +107,7 @@ abstract class Grammar
      */
     public function columnize(array $columns)
     {
-        return \implode(', ', \array_map([$this, 'wrap'], $columns));
+        return implode(', ', array_map([$this, 'wrap'], $columns));
     }
     /**
      * Create query parameter place-holders for an array.
@@ -117,7 +117,7 @@ abstract class Grammar
      */
     public function parameterize(array $values)
     {
-        return \implode(', ', \array_map([$this, 'parameter'], $values));
+        return implode(', ', array_map([$this, 'parameter'], $values));
     }
     /**
      * Get the appropriate query parameter place-holder for a value.
@@ -137,8 +137,8 @@ abstract class Grammar
      */
     public function quoteString($value)
     {
-        if (\is_array($value)) {
-            return \implode(', ', \array_map([$this, __FUNCTION__], $value));
+        if (is_array($value)) {
+            return implode(', ', array_map([$this, __FUNCTION__], $value));
         }
         return "'{$value}'";
     }

@@ -54,7 +54,7 @@ trait HasEvents
         // and determine if this observer has that method. If it does, we will hook
         // it into the model's event system, making it convenient to watch these.
         foreach ($this->getObservableEvents() as $event) {
-            if (\method_exists($class, $event)) {
+            if (method_exists($class, $event)) {
                 static::registerModelEvent($event, $className . '@' . $event);
             }
         }
@@ -69,10 +69,10 @@ trait HasEvents
      */
     private function resolveObserverClassName($class)
     {
-        if (\is_object($class)) {
-            return \get_class($class);
+        if (is_object($class)) {
+            return get_class($class);
         }
-        if (\class_exists($class)) {
+        if (class_exists($class)) {
             return $class;
         }
         throw new InvalidArgumentException('Unable to find observer: ' . $class);
@@ -84,7 +84,7 @@ trait HasEvents
      */
     public function getObservableEvents()
     {
-        return \array_merge(['retrieved', 'creating', 'created', 'updating', 'updated', 'saving', 'saved', 'restoring', 'restored', 'replicating', 'deleting', 'deleted', 'forceDeleted'], $this->observables);
+        return array_merge(['retrieved', 'creating', 'created', 'updating', 'updated', 'saving', 'saved', 'restoring', 'restored', 'replicating', 'deleting', 'deleted', 'forceDeleted'], $this->observables);
     }
     /**
      * Set the observable event names.
@@ -105,7 +105,7 @@ trait HasEvents
      */
     public function addObservableEvents($observables)
     {
-        $this->observables = \array_unique(\array_merge($this->observables, \is_array($observables) ? $observables : \func_get_args()));
+        $this->observables = array_unique(array_merge($this->observables, is_array($observables) ? $observables : func_get_args()));
     }
     /**
      * Remove an observable event name.
@@ -115,7 +115,7 @@ trait HasEvents
      */
     public function removeObservableEvents($observables)
     {
-        $this->observables = \array_diff($this->observables, \is_array($observables) ? $observables : \func_get_args());
+        $this->observables = array_diff($this->observables, is_array($observables) ? $observables : func_get_args());
     }
     /**
      * Register a model event with the dispatcher.
@@ -166,7 +166,7 @@ trait HasEvents
             return;
         }
         $result = static::$dispatcher->{$method}(new $this->dispatchesEvents[$event]($this));
-        if (!\is_null($result)) {
+        if (!is_null($result)) {
             return $result;
         }
     }
@@ -178,9 +178,9 @@ trait HasEvents
      */
     protected function filterModelEventResults($result)
     {
-        if (\is_array($result)) {
-            $result = \array_filter($result, function ($response) {
-                return !\is_null($response);
+        if (is_array($result)) {
+            $result = array_filter($result, function ($response) {
+                return !is_null($response);
             });
         }
         return $result;
@@ -299,7 +299,7 @@ trait HasEvents
         foreach ($instance->getObservableEvents() as $event) {
             static::$dispatcher->forget("eloquent.{$event}: " . static::class);
         }
-        foreach (\array_values($instance->dispatchesEvents) as $event) {
+        foreach (array_values($instance->dispatchesEvents) as $event) {
             static::$dispatcher->forget($event);
         }
     }

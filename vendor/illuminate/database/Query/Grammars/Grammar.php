@@ -43,13 +43,13 @@ class Grammar extends BaseGrammar
         // * character to just get all of the columns from the database. Then we
         // can build the query and concatenate all the pieces together as one.
         $original = $query->columns;
-        if (\is_null($query->columns)) {
+        if (is_null($query->columns)) {
             $query->columns = ['*'];
         }
         // To compile the query, we'll spin through each component of the query and
         // see if that component exists. If it does we'll just call the compiler
         // function for the component which is responsible for making the SQL.
-        $sql = \trim($this->concatenate($this->compileComponents($query)));
+        $sql = trim($this->concatenate($this->compileComponents($query)));
         if ($query->unions) {
             $sql = $this->wrapUnion($sql) . ' ' . $this->compileUnions($query);
         }
@@ -67,7 +67,7 @@ class Grammar extends BaseGrammar
         $sql = [];
         foreach ($this->selectComponents as $component) {
             if (isset($query->{$component})) {
-                $method = 'compile' . \ucfirst($component);
+                $method = 'compile' . ucfirst($component);
                 $sql[$component] = $this->{$method}($query, $query->{$component});
             }
         }
@@ -86,7 +86,7 @@ class Grammar extends BaseGrammar
         // If the query has a "distinct" constraint and we're not asking for all columns
         // we need to prepend "distinct" onto the column name so that the query takes
         // it into account when it performs the aggregating operations on the data.
-        if (\is_array($query->distinct)) {
+        if (is_array($query->distinct)) {
             $column = 'distinct ' . $this->columnize($query->distinct);
         } elseif ($query->distinct && $column !== '*') {
             $column = 'distinct ' . $column;
@@ -105,7 +105,7 @@ class Grammar extends BaseGrammar
         // If the query is actually performing an aggregating select, we will let that
         // compiler handle the building of the select clauses, as it will need some
         // more syntax that is best handled by that function to keep things neat.
-        if (!\is_null($query->aggregate)) {
+        if (!is_null($query->aggregate)) {
             return;
         }
         if ($query->distinct) {
@@ -135,11 +135,11 @@ class Grammar extends BaseGrammar
      */
     protected function compileJoins(Builder $query, $joins)
     {
-        return collect($joins)->map(function ($join) use($query) {
+        return collect($joins)->map(function ($join) use ($query) {
             $table = $this->wrapTable($join->table);
-            $nestedJoins = \is_null($join->joins) ? '' : ' ' . $this->compileJoins($query, $join->joins);
-            $tableAndNestedJoins = \is_null($join->joins) ? $table : '(' . $table . $nestedJoins . ')';
-            return \trim("{$join->type} join {$tableAndNestedJoins} {$this->compileWheres($join)}");
+            $nestedJoins = is_null($join->joins) ? '' : ' ' . $this->compileJoins($query, $join->joins);
+            $tableAndNestedJoins = is_null($join->joins) ? $table : '(' . $table . $nestedJoins . ')';
+            return trim("{$join->type} join {$tableAndNestedJoins} {$this->compileWheres($join)}");
         })->implode(' ');
     }
     /**
@@ -153,13 +153,13 @@ class Grammar extends BaseGrammar
         // Each type of where clauses has its own compiler function which is responsible
         // for actually creating the where clauses SQL. This helps keep the code nice
         // and maintainable since each clause has a very small method that it uses.
-        if (\is_null($query->wheres)) {
+        if (is_null($query->wheres)) {
             return '';
         }
         // If we actually have some where clauses, we will strip off the first boolean
         // operator, which is added by the query builders for convenience so we can
         // avoid checking for the first clauses in each of the compilers methods.
-        if (\count($sql = $this->compileWheresToArray($query)) > 0) {
+        if (count($sql = $this->compileWheresToArray($query)) > 0) {
             return $this->concatenateWhereClauses($query, $sql);
         }
         return '';
@@ -172,7 +172,7 @@ class Grammar extends BaseGrammar
      */
     protected function compileWheresToArray($query)
     {
-        return collect($query->wheres)->map(function ($where) use($query) {
+        return collect($query->wheres)->map(function ($where) use ($query) {
             return $where['boolean'] . ' ' . $this->{"where{$where['type']}"}($query, $where);
         })->all();
     }
@@ -186,7 +186,7 @@ class Grammar extends BaseGrammar
     protected function concatenateWhereClauses($query, $sql)
     {
         $conjunction = $query instanceof JoinClause ? 'on' : 'where';
-        return $conjunction . ' ' . $this->removeLeadingBoolean(\implode(' ', $sql));
+        return $conjunction . ' ' . $this->removeLeadingBoolean(implode(' ', $sql));
     }
     /**
      * Compile a raw where clause.
@@ -209,7 +209,7 @@ class Grammar extends BaseGrammar
     protected function whereBasic(Builder $query, $where)
     {
         $value = $this->parameter($where['value']);
-        $operator = \str_replace('?', '??', $where['operator']);
+        $operator = str_replace('?', '??', $where['operator']);
         return $this->wrap($where['column']) . ' ' . $operator . ' ' . $value;
     }
     /**
@@ -263,7 +263,7 @@ class Grammar extends BaseGrammar
     protected function whereNotInRaw(Builder $query, $where)
     {
         if (!empty($where['values'])) {
-            return $this->wrap($where['column']) . ' not in (' . \implode(', ', $where['values']) . ')';
+            return $this->wrap($where['column']) . ' not in (' . implode(', ', $where['values']) . ')';
         }
         return '1 = 1';
     }
@@ -279,7 +279,7 @@ class Grammar extends BaseGrammar
     protected function whereInRaw(Builder $query, $where)
     {
         if (!empty($where['values'])) {
-            return $this->wrap($where['column']) . ' in (' . \implode(', ', $where['values']) . ')';
+            return $this->wrap($where['column']) . ' in (' . implode(', ', $where['values']) . ')';
         }
         return '0 = 1';
     }
@@ -315,8 +315,8 @@ class Grammar extends BaseGrammar
     protected function whereBetween(Builder $query, $where)
     {
         $between = $where['not'] ? 'not between' : 'between';
-        $min = $this->parameter(\reset($where['values']));
-        $max = $this->parameter(\end($where['values']));
+        $min = $this->parameter(reset($where['values']));
+        $max = $this->parameter(end($where['values']));
         return $this->wrap($where['column']) . ' ' . $between . ' ' . $min . ' and ' . $max;
     }
     /**
@@ -329,8 +329,8 @@ class Grammar extends BaseGrammar
     protected function whereBetweenColumns(Builder $query, $where)
     {
         $between = $where['not'] ? 'not between' : 'between';
-        $min = $this->wrap(\reset($where['values']));
-        $max = $this->wrap(\end($where['values']));
+        $min = $this->wrap(reset($where['values']));
+        $max = $this->wrap(end($where['values']));
         return $this->wrap($where['column']) . ' ' . $between . ' ' . $min . ' and ' . $max;
     }
     /**
@@ -425,7 +425,7 @@ class Grammar extends BaseGrammar
         // is a join clause query, we need to remove the "on" portion of the SQL and
         // if it is a normal query we need to take the leading "where" of queries.
         $offset = $query instanceof JoinClause ? 3 : 6;
-        return '(' . \substr($this->compileWheres($where['query']), $offset) . ')';
+        return '(' . substr($this->compileWheres($where['query']), $offset) . ')';
     }
     /**
      * Compile a where condition with a sub-select.
@@ -520,7 +520,7 @@ class Grammar extends BaseGrammar
      */
     public function prepareBindingForJsonContains($binding)
     {
-        return \json_encode($binding);
+        return json_encode($binding);
     }
     /**
      * Compile a "where JSON length" clause.
@@ -578,7 +578,7 @@ class Grammar extends BaseGrammar
      */
     protected function compileHavings(Builder $query, $havings)
     {
-        $sql = \implode(' ', \array_map([$this, 'compileHaving'], $havings));
+        $sql = implode(' ', array_map([$this, 'compileHaving'], $havings));
         return 'having ' . $this->removeLeadingBoolean($sql);
     }
     /**
@@ -621,8 +621,8 @@ class Grammar extends BaseGrammar
     {
         $between = $having['not'] ? 'not between' : 'between';
         $column = $this->wrap($having['column']);
-        $min = $this->parameter(\head($having['values']));
-        $max = $this->parameter(\last($having['values']));
+        $min = $this->parameter(head($having['values']));
+        $max = $this->parameter(last($having['values']));
         return $having['boolean'] . ' ' . $column . ' ' . $between . ' ' . $min . ' and ' . $max;
     }
     /**
@@ -635,7 +635,7 @@ class Grammar extends BaseGrammar
     protected function compileOrders(Builder $query, $orders)
     {
         if (!empty($orders)) {
-            return 'order by ' . \implode(', ', $this->compileOrdersToArray($query, $orders));
+            return 'order by ' . implode(', ', $this->compileOrdersToArray($query, $orders));
         }
         return '';
     }
@@ -648,7 +648,7 @@ class Grammar extends BaseGrammar
      */
     protected function compileOrdersToArray(Builder $query, $orders)
     {
-        return \array_map(function ($order) {
+        return array_map(function ($order) {
             return $order['sql'] ?? $this->wrap($order['column']) . ' ' . $order['direction'];
         }, $orders);
     }
@@ -705,7 +705,7 @@ class Grammar extends BaseGrammar
         if (isset($query->unionOffset)) {
             $sql .= ' ' . $this->compileOffset($query, $query->unionOffset);
         }
-        return \ltrim($sql);
+        return ltrim($sql);
     }
     /**
      * Compile a single union statement.
@@ -767,10 +767,10 @@ class Grammar extends BaseGrammar
         if (empty($values)) {
             return "insert into {$table} default values";
         }
-        if (!\is_array(\reset($values))) {
+        if (!is_array(reset($values))) {
             $values = [$values];
         }
-        $columns = $this->columnize(\array_keys(\reset($values)));
+        $columns = $this->columnize(array_keys(reset($values)));
         // We need to build a list of parameter place-holders of values that are bound
         // to the query. Each insert should have the exact same amount of parameter
         // bindings so we will loop through the record and parameterize them all.
@@ -828,7 +828,7 @@ class Grammar extends BaseGrammar
         $table = $this->wrapTable($query->from);
         $columns = $this->compileUpdateColumns($query, $values);
         $where = $this->compileWheres($query);
-        return \trim(isset($query->joins) ? $this->compileUpdateWithJoins($query, $table, $columns, $where) : $this->compileUpdateWithoutJoins($query, $table, $columns, $where));
+        return trim(isset($query->joins) ? $this->compileUpdateWithJoins($query, $table, $columns, $where) : $this->compileUpdateWithoutJoins($query, $table, $columns, $where));
     }
     /**
      * Compile the columns for an update statement.
@@ -895,7 +895,7 @@ class Grammar extends BaseGrammar
     public function prepareBindingsForUpdate(array $bindings, array $values)
     {
         $cleanBindings = Arr::except($bindings, ['select', 'join']);
-        return \array_values(\array_merge($bindings['join'], $values, Arr::flatten($cleanBindings)));
+        return array_values(array_merge($bindings['join'], $values, Arr::flatten($cleanBindings)));
     }
     /**
      * Compile a delete statement into SQL.
@@ -907,7 +907,7 @@ class Grammar extends BaseGrammar
     {
         $table = $this->wrapTable($query->from);
         $where = $this->compileWheres($query);
-        return \trim(isset($query->joins) ? $this->compileDeleteWithJoins($query, $table, $where) : $this->compileDeleteWithoutJoins($query, $table, $where));
+        return trim(isset($query->joins) ? $this->compileDeleteWithJoins($query, $table, $where) : $this->compileDeleteWithoutJoins($query, $table, $where));
     }
     /**
      * Compile a delete statement without joins into SQL.
@@ -931,7 +931,7 @@ class Grammar extends BaseGrammar
      */
     protected function compileDeleteWithJoins(Builder $query, $table, $where)
     {
-        $alias = \last(\explode(' as ', $table));
+        $alias = last(explode(' as ', $table));
         $joins = $this->compileJoins($query, $query->joins);
         return "delete {$alias} from {$table} {$joins} {$where}";
     }
@@ -964,7 +964,7 @@ class Grammar extends BaseGrammar
      */
     protected function compileLock(Builder $query, $value)
     {
-        return \is_string($value) ? $value : '';
+        return is_string($value) ? $value : '';
     }
     /**
      * Determine if the grammar supports savepoints.
@@ -1010,7 +1010,7 @@ class Grammar extends BaseGrammar
         // If the value being wrapped has a column alias we will need to separate out
         // the pieces so we can wrap each of the segments of the expression on its
         // own, and then join these both back together using the "as" connector.
-        if (\stripos($value, ' as ') !== \false) {
+        if (stripos($value, ' as ') !== \false) {
             return $this->wrapAliasedValue($value, $prefixAlias);
         }
         // If the given value is a JSON selector we will wrap it differently than a
@@ -1019,7 +1019,7 @@ class Grammar extends BaseGrammar
         if ($this->isJsonSelector($value)) {
             return $this->wrapJsonSelector($value);
         }
-        return $this->wrapSegments(\explode('.', $value));
+        return $this->wrapSegments(explode('.', $value));
     }
     /**
      * Wrap the given JSON selector.
@@ -1061,9 +1061,9 @@ class Grammar extends BaseGrammar
      */
     protected function wrapJsonFieldAndPath($column)
     {
-        $parts = \explode('->', $column, 2);
+        $parts = explode('->', $column, 2);
         $field = $this->wrap($parts[0]);
-        $path = \count($parts) > 1 ? ', ' . $this->wrapJsonPath($parts[1], '->') : '';
+        $path = count($parts) > 1 ? ', ' . $this->wrapJsonPath($parts[1], '->') : '';
         return [$field, $path];
     }
     /**
@@ -1075,8 +1075,8 @@ class Grammar extends BaseGrammar
      */
     protected function wrapJsonPath($value, $delimiter = '->')
     {
-        $value = \preg_replace("/([\\\\]+)?\\'/", "''", $value);
-        return '\'$."' . \str_replace($delimiter, '"."', $value) . '"\'';
+        $value = preg_replace("/([\\\\]+)?\\'/", "''", $value);
+        return '\'$."' . str_replace($delimiter, '"."', $value) . '"\'';
     }
     /**
      * Determine if the given string is a JSON selector.
@@ -1096,7 +1096,7 @@ class Grammar extends BaseGrammar
      */
     protected function concatenate($segments)
     {
-        return \implode(' ', \array_filter($segments, function ($value) {
+        return implode(' ', array_filter($segments, function ($value) {
             return (string) $value !== '';
         }));
     }
@@ -1108,7 +1108,7 @@ class Grammar extends BaseGrammar
      */
     protected function removeLeadingBoolean($value)
     {
-        return \preg_replace('/and |or /i', '', $value, 1);
+        return preg_replace('/and |or /i', '', $value, 1);
     }
     /**
      * Get the grammar specific operators.

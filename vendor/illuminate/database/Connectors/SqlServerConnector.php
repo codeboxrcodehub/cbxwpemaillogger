@@ -37,7 +37,7 @@ class SqlServerConnector extends Connector implements ConnectorInterface
         if ($this->prefersOdbc($config)) {
             return $this->getOdbcDsn($config);
         }
-        if (\in_array('sqlsrv', $this->getAvailableDrivers())) {
+        if (in_array('sqlsrv', $this->getAvailableDrivers())) {
             return $this->getSqlSrvDsn($config);
         } else {
             return $this->getDblibDsn($config);
@@ -51,7 +51,7 @@ class SqlServerConnector extends Connector implements ConnectorInterface
      */
     protected function prefersOdbc(array $config)
     {
-        return \in_array('odbc', $this->getAvailableDrivers()) && ($config['odbc'] ?? null) === \true;
+        return in_array('odbc', $this->getAvailableDrivers()) && ($config['odbc'] ?? null) === \true;
     }
     /**
      * Get the DSN string for a DbLib connection.
@@ -61,7 +61,7 @@ class SqlServerConnector extends Connector implements ConnectorInterface
      */
     protected function getDblibDsn(array $config)
     {
-        return $this->buildConnectString('dblib', \array_merge(['host' => $this->buildHostString($config, ':'), 'dbname' => $config['database']], Arr::only($config, ['appname', 'charset', 'version'])));
+        return $this->buildConnectString('dblib', array_merge(['host' => $this->buildHostString($config, ':'), 'dbname' => $config['database']], Arr::only($config, ['appname', 'charset', 'version'])));
     }
     /**
      * Get the DSN string for an ODBC connection.
@@ -135,9 +135,9 @@ class SqlServerConnector extends Connector implements ConnectorInterface
      */
     protected function buildConnectString($driver, array $arguments)
     {
-        return $driver . ':' . \implode(';', \array_map(function ($key) use($arguments) {
-            return \sprintf('%s=%s', $key, $arguments[$key]);
-        }, \array_keys($arguments)));
+        return $driver . ':' . implode(';', array_map(function ($key) use ($arguments) {
+            return sprintf('%s=%s', $key, $arguments[$key]);
+        }, array_keys($arguments)));
     }
     /**
      * Build a host string from the given configuration.

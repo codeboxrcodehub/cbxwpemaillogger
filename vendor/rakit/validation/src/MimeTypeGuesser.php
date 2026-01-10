@@ -24,7 +24,7 @@ class MimeTypeGuesser
      */
     public function getMimeType(string $extension)
     {
-        $key = \array_search($extension, $this->mimeTypes);
+        $key = array_search($extension, $this->mimeTypes);
         return $key ?: null;
     }
 }

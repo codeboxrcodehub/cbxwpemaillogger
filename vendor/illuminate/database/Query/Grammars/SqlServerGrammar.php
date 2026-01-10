@@ -24,7 +24,7 @@ class SqlServerGrammar extends Grammar
         if (!$query->offset) {
             return parent::compileSelect($query);
         }
-        if (\is_null($query->columns)) {
+        if (is_null($query->columns)) {
             $query->columns = ['*'];
         }
         $components = $this->compileComponents($query);
@@ -45,14 +45,14 @@ class SqlServerGrammar extends Grammar
      */
     protected function compileColumns(Builder $query, $columns)
     {
-        if (!\is_null($query->aggregate)) {
+        if (!is_null($query->aggregate)) {
             return;
         }
         $select = $query->distinct ? 'select distinct ' : 'select ';
         // If there is a limit on the query, but not an offset, we will add the top
         // clause to the query, which serves as a "limit" type clause within the
         // SQL Server system similar to the limit keywords available in MySQL.
-        if (\is_numeric($query->limit) && $query->limit > 0 && $query->offset <= 0) {
+        if (is_numeric($query->limit) && $query->limit > 0 && $query->offset <= 0) {
             $select .= 'top ' . (int) $query->limit . ' ';
         }
         return $select . $this->columnize($columns);
@@ -67,10 +67,10 @@ class SqlServerGrammar extends Grammar
     protected function compileFrom(Builder $query, $table)
     {
         $from = parent::compileFrom($query, $table);
-        if (\is_string($query->lock)) {
+        if (is_string($query->lock)) {
             return $from . ' ' . $query->lock;
         }
-        if (!\is_null($query->lock)) {
+        if (!is_null($query->lock)) {
             return $from . ' with(rowlock,' . ($query->lock ? 'updlock,' : '') . 'holdlock)';
         }
         return $from;
@@ -85,7 +85,7 @@ class SqlServerGrammar extends Grammar
     protected function whereBitwise(Builder $query, $where)
     {
         $value = $this->parameter($where['value']);
-        $operator = \str_replace('?', '??', $where['operator']);
+        $operator = str_replace('?', '??', $where['operator']);
         return '(' . $this->wrap($where['column']) . ' ' . $operator . ' ' . $value . ') != 0';
     }
     /**
@@ -132,7 +132,7 @@ class SqlServerGrammar extends Grammar
      */
     public function prepareBindingForJsonContains($binding)
     {
-        return \is_bool($binding) ? \json_encode($binding) : $binding;
+        return is_bool($binding) ? json_encode($binding) : $binding;
     }
     /**
      * Compile a "JSON length" statement into SQL.
@@ -219,7 +219,7 @@ class SqlServerGrammar extends Grammar
      */
     protected function queryOrderContainsSubquery($query)
     {
-        if (!\is_array($query->orders)) {
+        if (!is_array($query->orders)) {
             return \false;
         }
         return Arr::first($query->orders, function ($value) {
@@ -235,7 +235,7 @@ class SqlServerGrammar extends Grammar
     protected function sortBindingsForSubqueryOrderBy($query)
     {
         return Arr::sort($query->bindings, function ($bindings, $key) {
-            return \array_search($key, ['select', 'order', 'from', 'join', 'where', 'groupBy', 'having', 'union', 'unionOrder']);
+            return array_search($key, ['select', 'order', 'from', 'join', 'where', 'groupBy', 'having', 'union', 'unionOrder']);
         });
     }
     /**
@@ -276,7 +276,7 @@ class SqlServerGrammar extends Grammar
     protected function compileDeleteWithoutJoins(Builder $query, $table, $where)
     {
         $sql = parent::compileDeleteWithoutJoins($query, $table, $where);
-        return !\is_null($query->limit) && $query->limit > 0 && $query->offset <= 0 ? Str::replaceFirst('delete', 'delete top (' . $query->limit . ')', $sql) : $sql;
+        return !is_null($query->limit) && $query->limit > 0 && $query->offset <= 0 ? Str::replaceFirst('delete', 'delete top (' . $query->limit . ')', $sql) : $sql;
     }
     /**
      * Compile the random statement into SQL.
@@ -354,7 +354,7 @@ class SqlServerGrammar extends Grammar
      */
     protected function compileUpdateWithJoins(Builder $query, $table, $columns, $where)
     {
-        $alias = \last(\explode(' as ', $table));
+        $alias = last(explode(' as ', $table));
         $joins = $this->compileJoins($query, $query->joins);
         return "update {$alias} set {$columns} from {$table} {$joins} {$where}";
     }
@@ -369,19 +369,19 @@ class SqlServerGrammar extends Grammar
      */
     public function compileUpsert(Builder $query, array $values, array $uniqueBy, array $update)
     {
-        $columns = $this->columnize(\array_keys(\reset($values)));
+        $columns = $this->columnize(array_keys(reset($values)));
         $sql = 'merge ' . $this->wrapTable($query->from) . ' ';
         $parameters = collect($values)->map(function ($record) {
             return '(' . $this->parameterize($record) . ')';
         })->implode(', ');
         $sql .= 'using (values ' . $parameters . ') ' . $this->wrapTable('laravel_source') . ' (' . $columns . ') ';
-        $on = collect($uniqueBy)->map(function ($column) use($query) {
+        $on = collect($uniqueBy)->map(function ($column) use ($query) {
             return $this->wrap('laravel_source.' . $column) . ' = ' . $this->wrap($query->from . '.' . $column);
         })->implode(' and ');
         $sql .= 'on ' . $on . ' ';
         if ($update) {
             $update = collect($update)->map(function ($value, $key) {
-                return \is_numeric($key) ? $this->wrap($value) . ' = ' . $this->wrap('laravel_source.' . $value) : $this->wrap($key) . ' = ' . $this->parameter($value);
+                return is_numeric($key) ? $this->wrap($value) . ' = ' . $this->wrap('laravel_source.' . $value) : $this->wrap($key) . ' = ' . $this->parameter($value);
             })->implode(', ');
             $sql .= 'when matched then update set ' . $update . ' ';
         }
@@ -398,7 +398,7 @@ class SqlServerGrammar extends Grammar
     public function prepareBindingsForUpdate(array $bindings, array $values)
     {
         $cleanBindings = Arr::except($bindings, 'select');
-        return \array_values(\array_merge($values, Arr::flatten($cleanBindings)));
+        return array_values(array_merge($values, Arr::flatten($cleanBindings)));
     }
     /**
      * Compile the SQL statement to define a savepoint.
@@ -437,7 +437,7 @@ class SqlServerGrammar extends Grammar
      */
     protected function wrapValue($value)
     {
-        return $value === '*' ? $value : '[' . \str_replace(']', ']]', $value) . ']';
+        return $value === '*' ? $value : '[' . str_replace(']', ']]', $value) . ']';
     }
     /**
      * Wrap the given JSON selector.
@@ -481,7 +481,7 @@ class SqlServerGrammar extends Grammar
      */
     protected function wrapTableValuedFunction($table)
     {
-        if (\preg_match('/^(.+?)(\\(.*?\\))]$/', $table, $matches) === 1) {
+        if (preg_match('/^(.+?)(\(.*?\))]$/', $table, $matches) === 1) {
             $table = $matches[1] . ']' . $matches[2];
         }
         return $table;

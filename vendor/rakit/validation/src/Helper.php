@@ -12,17 +12,17 @@ class Helper
      * @param  string $value
      * @return bool
      */
-    public static function strIs(string $pattern, string $value) : bool
+    public static function strIs(string $pattern, string $value): bool
     {
         if ($pattern == $value) {
             return \true;
         }
-        $pattern = \preg_quote($pattern, '#');
+        $pattern = preg_quote($pattern, '#');
         // Asterisks are translated into zero-or-more regular expression wildcards
         // to make it convenient to check if the strings starts with the given
         // pattern such as "library/*", making any string check convenient.
-        $pattern = \str_replace('\\*', '.*', $pattern);
-        return (bool) \preg_match('#^' . $pattern . '\\z#u', $value);
+        $pattern = str_replace('\*', '.*', $pattern);
+        return (bool) preg_match('#^' . $pattern . '\z#u', $value);
     }
     /**
      * Check if an item or items exist in an array using "dot" notation.
@@ -32,13 +32,13 @@ class Helper
      * @param  string $key
      * @return bool
      */
-    public static function arrayHas(array $array, string $key) : bool
+    public static function arrayHas(array $array, string $key): bool
     {
-        if (\array_key_exists($key, $array)) {
+        if (array_key_exists($key, $array)) {
             return \true;
         }
-        foreach (\explode('.', $key) as $segment) {
-            if (\is_array($array) && \array_key_exists($segment, $array)) {
+        foreach (explode('.', $key) as $segment) {
+            if (is_array($array) && array_key_exists($segment, $array)) {
                 $array = $array[$segment];
             } else {
                 return \false;
@@ -57,14 +57,14 @@ class Helper
      */
     public static function arrayGet(array $array, $key, $default = null)
     {
-        if (\is_null($key)) {
+        if (is_null($key)) {
             return $array;
         }
-        if (\array_key_exists($key, $array)) {
+        if (array_key_exists($key, $array)) {
             return $array[$key];
         }
-        foreach (\explode('.', $key) as $segment) {
-            if (\is_array($array) && \array_key_exists($segment, $array)) {
+        foreach (explode('.', $key) as $segment) {
+            if (is_array($array) && array_key_exists($segment, $array)) {
                 $array = $array[$segment];
             } else {
                 return $default;
@@ -80,12 +80,12 @@ class Helper
      * @param  string $prepend
      * @return array
      */
-    public static function arrayDot(array $array, string $prepend = '') : array
+    public static function arrayDot(array $array, string $prepend = ''): array
     {
         $results = [];
         foreach ($array as $key => $value) {
-            if (\is_array($value) && !empty($value)) {
-                $results = \array_merge($results, static::arrayDot($value, $prepend . $key . '.'));
+            if (is_array($value) && !empty($value)) {
+                $results = array_merge($results, static::arrayDot($value, $prepend . $key . '.'));
             } else {
                 $results[$prepend . $key] = $value;
             }
@@ -102,17 +102,17 @@ class Helper
      * @param bool              $overwrite
      * @return mixed
      */
-    public static function arraySet(&$target, $key, $value, $overwrite = \true) : array
+    public static function arraySet(&$target, $key, $value, $overwrite = \true): array
     {
-        if (\is_null($key)) {
+        if (is_null($key)) {
             if ($overwrite) {
-                return $target = \array_merge($target, $value);
+                return $target = array_merge($target, $value);
             }
-            return $target = \array_merge($value, $target);
+            return $target = array_merge($value, $target);
         }
-        $segments = \is_array($key) ? $key : \explode('.', $key);
-        if (($segment = \array_shift($segments)) === '*') {
-            if (!\is_array($target)) {
+        $segments = is_array($key) ? $key : explode('.', $key);
+        if (($segment = array_shift($segments)) === '*') {
+            if (!is_array($target)) {
                 $target = [];
             }
             if ($segments) {
@@ -124,13 +124,13 @@ class Helper
                     $inner = $value;
                 }
             }
-        } elseif (\is_array($target)) {
+        } elseif (is_array($target)) {
             if ($segments) {
-                if (!\array_key_exists($segment, $target)) {
+                if (!array_key_exists($segment, $target)) {
                     $target[$segment] = [];
                 }
                 static::arraySet($target[$segment], $segments, $value, $overwrite);
-            } elseif ($overwrite || !\array_key_exists($segment, $target)) {
+            } elseif ($overwrite || !array_key_exists($segment, $target)) {
                 $target[$segment] = $value;
             }
         } else {
@@ -152,18 +152,18 @@ class Helper
      */
     public static function arrayUnset(&$target, $key)
     {
-        if (!\is_array($target)) {
+        if (!is_array($target)) {
             return $target;
         }
-        $segments = \is_array($key) ? $key : \explode('.', $key);
-        $segment = \array_shift($segments);
+        $segments = is_array($key) ? $key : explode('.', $key);
+        $segment = array_shift($segments);
         if ($segment == '*') {
             $target = [];
         } elseif ($segments) {
-            if (\array_key_exists($segment, $target)) {
+            if (array_key_exists($segment, $target)) {
                 static::arrayUnset($target[$segment], $segments);
             }
-        } elseif (\array_key_exists($segment, $target)) {
+        } elseif (array_key_exists($segment, $target)) {
             unset($target[$segment]);
         }
         return $target;
@@ -175,11 +175,11 @@ class Helper
      * @param  string $delimiter
      * @return string
      */
-    public static function snakeCase(string $value, string $delimiter = '_') : string
+    public static function snakeCase(string $value, string $delimiter = '_'): string
     {
-        if (!\ctype_lower($value)) {
-            $value = \preg_replace('/\\s+/u', '', \ucwords($value));
-            $value = \strtolower(\preg_replace('/(.)(?=[A-Z])/u', '$1' . $delimiter, $value));
+        if (!ctype_lower($value)) {
+            $value = preg_replace('/\s+/u', '', ucwords($value));
+            $value = strtolower(preg_replace('/(.)(?=[A-Z])/u', '$1' . $delimiter, $value));
         }
         return $value;
     }
@@ -191,19 +191,19 @@ class Helper
      * @param  string|null  $lastSeparator
      * @return string
      */
-    public static function join(array $pieces, string $separator, string $lastSeparator = null) : string
+    public static function join(array $pieces, string $separator, string $lastSeparator = null): string
     {
-        if (\is_null($lastSeparator)) {
+        if (is_null($lastSeparator)) {
             $lastSeparator = $separator;
         }
-        $last = \array_pop($pieces);
-        switch (\count($pieces)) {
+        $last = array_pop($pieces);
+        switch (count($pieces)) {
             case 0:
                 return $last ?: '';
             case 1:
                 return $pieces[0] . $lastSeparator . $last;
             default:
-                return \implode($separator, $pieces) . $lastSeparator . $last;
+                return implode($separator, $pieces) . $lastSeparator . $last;
         }
     }
     /**
@@ -214,12 +214,12 @@ class Helper
      * @param  string|null  $suffix
      * @return array
      */
-    public static function wraps(array $strings, string $prefix, string $suffix = null) : array
+    public static function wraps(array $strings, string $prefix, string $suffix = null): array
     {
-        if (\is_null($suffix)) {
+        if (is_null($suffix)) {
             $suffix = $prefix;
         }
-        return \array_map(function ($str) use($prefix, $suffix) {
+        return array_map(function ($str) use ($prefix, $suffix) {
             return $prefix . $str . $suffix;
         }, $strings);
     }

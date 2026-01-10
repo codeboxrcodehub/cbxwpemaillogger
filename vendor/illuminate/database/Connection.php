@@ -249,7 +249,7 @@ class Connection implements ConnectionInterface
      */
     public function getSchemaBuilder()
     {
-        if (\is_null($this->schemaGrammar)) {
+        if (is_null($this->schemaGrammar)) {
             $this->useDefaultSchemaGrammar();
         }
         return new SchemaBuilder($this);
@@ -285,7 +285,7 @@ class Connection implements ConnectionInterface
     public function selectOne($query, $bindings = [], $useReadPdo = \true)
     {
         $records = $this->select($query, $bindings, $useReadPdo);
-        return \array_shift($records);
+        return array_shift($records);
     }
     /**
      * Run a select statement against the database.
@@ -308,7 +308,7 @@ class Connection implements ConnectionInterface
      */
     public function select($query, $bindings = [], $useReadPdo = \true)
     {
-        return $this->run($query, $bindings, function ($query, $bindings) use($useReadPdo) {
+        return $this->run($query, $bindings, function ($query, $bindings) use ($useReadPdo) {
             if ($this->pretending()) {
                 return [];
             }
@@ -331,7 +331,7 @@ class Connection implements ConnectionInterface
      */
     public function cursor($query, $bindings = [], $useReadPdo = \true)
     {
-        $statement = $this->run($query, $bindings, function ($query, $bindings) use($useReadPdo) {
+        $statement = $this->run($query, $bindings, function ($query, $bindings) use ($useReadPdo) {
             if ($this->pretending()) {
                 return [];
             }
@@ -347,7 +347,7 @@ class Connection implements ConnectionInterface
             return $statement;
         });
         while ($record = $statement->fetch()) {
-            (yield $record);
+            yield $record;
         }
     }
     /**
@@ -471,7 +471,7 @@ class Connection implements ConnectionInterface
      */
     public function pretend(Closure $callback)
     {
-        return $this->withFreshQueryLog(function () use($callback) {
+        return $this->withFreshQueryLog(function () use ($callback) {
             $this->pretending = \true;
             // Basically to make the database connection "pretend", we will just return
             // the default values for all the query methods, then we will return an
@@ -512,7 +512,7 @@ class Connection implements ConnectionInterface
     public function bindValues($statement, $bindings)
     {
         foreach ($bindings as $key => $value) {
-            $statement->bindValue(\is_string($key) ? $key : $key + 1, $value, \is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR);
+            $statement->bindValue(is_string($key) ? $key : $key + 1, $value, is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR);
         }
     }
     /**
@@ -530,7 +530,7 @@ class Connection implements ConnectionInterface
             // so we'll just ask the grammar for the format to get from the date.
             if ($value instanceof DateTimeInterface) {
                 $bindings[$key] = $value->format($grammar->getDateFormat());
-            } elseif (\is_bool($value)) {
+            } elseif (is_bool($value)) {
                 $bindings[$key] = (int) $value;
             }
         }
@@ -552,7 +552,7 @@ class Connection implements ConnectionInterface
             $beforeExecutingCallback($query, $bindings, $this);
         }
         $this->reconnectIfMissingConnection();
-        $start = \microtime(\true);
+        $start = microtime(\true);
         // Here we will run this query. If an exception occurs we'll determine if it was
         // caused by a connection that has been lost. If that is the cause, we'll try
         // to re-establish connection and re-run the query with a fresh connection.
@@ -600,7 +600,7 @@ class Connection implements ConnectionInterface
     {
         $this->event(new QueryExecuted($query, $bindings, $time, $this));
         if ($this->loggingQueries) {
-            $this->queryLog[] = \compact('query', 'bindings', 'time');
+            $this->queryLog[] = compact('query', 'bindings', 'time');
         }
     }
     /**
@@ -611,7 +611,7 @@ class Connection implements ConnectionInterface
      */
     protected function getElapsedTime($start)
     {
-        return \round((\microtime(\true) - $start) * 1000, 2);
+        return round((microtime(\true) - $start) * 1000, 2);
     }
     /**
      * Handle a query exception.
@@ -659,9 +659,9 @@ class Connection implements ConnectionInterface
      */
     public function reconnect()
     {
-        if (\is_callable($this->reconnector)) {
+        if (is_callable($this->reconnector)) {
             $this->doctrineConnection = null;
-            return \call_user_func($this->reconnector, $this);
+            return call_user_func($this->reconnector, $this);
         }
         throw new LogicException('Lost connection and no reconnector available.');
     }
@@ -672,7 +672,7 @@ class Connection implements ConnectionInterface
      */
     protected function reconnectIfMissingConnection()
     {
-        if (\is_null($this->pdo)) {
+        if (is_null($this->pdo)) {
             $this->reconnect();
         }
     }
@@ -810,7 +810,7 @@ class Connection implements ConnectionInterface
      */
     public function isDoctrineAvailable()
     {
-        return \class_exists('ComfortSmtpScoped\\Doctrine\\DBAL\\Connection');
+        return class_exists('ComfortSmtpScoped\Doctrine\DBAL\Connection');
     }
     /**
      * Get a Doctrine Schema Column instance.
@@ -842,9 +842,9 @@ class Connection implements ConnectionInterface
      */
     public function getDoctrineConnection()
     {
-        if (\is_null($this->doctrineConnection)) {
+        if (is_null($this->doctrineConnection)) {
             $driver = $this->getDoctrineDriver();
-            $this->doctrineConnection = new DoctrineConnection(\array_filter(['pdo' => $this->getPdo(), 'dbname' => $this->getDatabaseName(), 'driver' => \method_exists($driver, 'getName') ? $driver->getName() : null, 'serverVersion' => $this->getConfig('server_version')]), $driver);
+            $this->doctrineConnection = new DoctrineConnection(array_filter(['pdo' => $this->getPdo(), 'dbname' => $this->getDatabaseName(), 'driver' => method_exists($driver, 'getName') ? $driver->getName() : null, 'serverVersion' => $this->getConfig('server_version')]), $driver);
             foreach ($this->doctrineTypeMappings as $name => $type) {
                 $this->doctrineConnection->getDatabasePlatform()->registerDoctrineTypeMapping($type, $name);
             }
@@ -862,7 +862,7 @@ class Connection implements ConnectionInterface
      * @throws \Doctrine\DBAL\DBALException
      * @throws \RuntimeException
      */
-    public function registerDoctrineType(string $class, string $name, string $type) : void
+    public function registerDoctrineType(string $class, string $name, string $type): void
     {
         if (!$this->isDoctrineAvailable()) {
             throw new RuntimeException('Registering a custom Doctrine type requires Doctrine DBAL (doctrine/dbal).');
@@ -880,7 +880,7 @@ class Connection implements ConnectionInterface
     public function getPdo()
     {
         if ($this->pdo instanceof Closure) {
-            return $this->pdo = \call_user_func($this->pdo);
+            return $this->pdo = call_user_func($this->pdo);
         }
         return $this->pdo;
     }
@@ -907,7 +907,7 @@ class Connection implements ConnectionInterface
             return $this->getPdo();
         }
         if ($this->readPdo instanceof Closure) {
-            return $this->readPdo = \call_user_func($this->readPdo);
+            return $this->readPdo = call_user_func($this->readPdo);
         }
         return $this->readPdo ?: $this->getPdo();
     }

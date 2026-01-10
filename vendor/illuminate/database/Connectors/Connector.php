@@ -46,7 +46,7 @@ class Connector
      */
     protected function createPdoConnection($dsn, $username, $password, $options)
     {
-        if (\class_exists(PDOConnection::class) && !$this->isPersistentConnection($options)) {
+        if (class_exists(PDOConnection::class) && !$this->isPersistentConnection($options)) {
             return new PDOConnection($dsn, $username, $password, $options);
         }
         return new PDO($dsn, $username, $password, $options);
@@ -89,7 +89,7 @@ class Connector
     public function getOptions(array $config)
     {
         $options = $config['options'] ?? [];
-        return \array_diff_key($this->options, $options) + $options;
+        return array_diff_key($this->options, $options) + $options;
     }
     /**
      * Get the default PDO connection options.

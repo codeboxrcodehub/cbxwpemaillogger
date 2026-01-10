@@ -39,7 +39,7 @@ class SQLiteGrammar extends Grammar
      */
     public function compileColumnListing($table)
     {
-        return 'pragma table_info(' . $this->wrap(\str_replace('.', '__', $table)) . ')';
+        return 'pragma table_info(' . $this->wrap(str_replace('.', '__', $table)) . ')';
     }
     /**
      * Compile a create table command.
@@ -50,7 +50,7 @@ class SQLiteGrammar extends Grammar
      */
     public function compileCreate(Blueprint $blueprint, Fluent $command)
     {
-        return \sprintf('%s table %s (%s%s%s)', $blueprint->temporary ? 'create temporary' : 'create', $this->wrapTable($blueprint), \implode(', ', $this->getColumns($blueprint)), (string) $this->addForeignKeys($blueprint), (string) $this->addPrimaryKeys($blueprint));
+        return sprintf('%s table %s (%s%s%s)', $blueprint->temporary ? 'create temporary' : 'create', $this->wrapTable($blueprint), implode(', ', $this->getColumns($blueprint)), (string) $this->addForeignKeys($blueprint), (string) $this->addPrimaryKeys($blueprint));
     }
     /**
      * Get the foreign key syntax for a table creation statement.
@@ -66,13 +66,13 @@ class SQLiteGrammar extends Grammar
             // we'll loop through each of them and add them to the create table SQL we
             // are building, since SQLite needs foreign keys on the tables creation.
             $sql .= $this->getForeignKey($foreign);
-            if (!\is_null($foreign->onDelete)) {
+            if (!is_null($foreign->onDelete)) {
                 $sql .= " on delete {$foreign->onDelete}";
             }
             // If this foreign key specifies the action to be taken on update we will add
             // that to the statement here. We'll append it to this SQL and then return
             // the SQL so we can keep adding any other foreign constraints onto this.
-            if (!\is_null($foreign->onUpdate)) {
+            if (!is_null($foreign->onUpdate)) {
                 $sql .= " on update {$foreign->onUpdate}";
             }
             return $sql;
@@ -89,7 +89,7 @@ class SQLiteGrammar extends Grammar
         // We need to columnize the columns that the foreign key is being defined for
         // so that it is a properly formatted list. Once we have done this, we can
         // return the foreign key SQL declaration to the calling method for use.
-        return \sprintf(', foreign key(%s) references %s(%s)', $this->columnize($foreign->columns), $this->wrapTable($foreign->on), $this->columnize((array) $foreign->references));
+        return sprintf(', foreign key(%s) references %s(%s)', $this->columnize($foreign->columns), $this->wrapTable($foreign->on), $this->columnize((array) $foreign->references));
     }
     /**
      * Get the primary key syntax for a table creation statement.
@@ -99,7 +99,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function addPrimaryKeys(Blueprint $blueprint)
     {
-        if (!\is_null($primary = $this->getCommandByName($blueprint, 'primary'))) {
+        if (!is_null($primary = $this->getCommandByName($blueprint, 'primary'))) {
             return ", primary key ({$this->columnize($primary->columns)})";
         }
     }
@@ -114,8 +114,8 @@ class SQLiteGrammar extends Grammar
     {
         $columns = $this->prefixArray('add column', $this->getColumns($blueprint));
         return collect($columns)->reject(function ($column) {
-            return \preg_match('/as \\(.*\\) stored/', $column) > 0;
-        })->map(function ($column) use($blueprint) {
+            return preg_match('/as \(.*\) stored/', $column) > 0;
+        })->map(function ($column) use ($blueprint) {
             return 'alter table ' . $this->wrapTable($blueprint) . ' ' . $column;
         })->all();
     }
@@ -128,7 +128,7 @@ class SQLiteGrammar extends Grammar
      */
     public function compileUnique(Blueprint $blueprint, Fluent $command)
     {
-        return \sprintf('create unique index %s on %s (%s)', $this->wrap($command->index), $this->wrapTable($blueprint), $this->columnize($command->columns));
+        return sprintf('create unique index %s on %s (%s)', $this->wrap($command->index), $this->wrapTable($blueprint), $this->columnize($command->columns));
     }
     /**
      * Compile a plain index key command.
@@ -139,7 +139,7 @@ class SQLiteGrammar extends Grammar
      */
     public function compileIndex(Blueprint $blueprint, Fluent $command)
     {
-        return \sprintf('create index %s on %s (%s)', $this->wrap($command->index), $this->wrapTable($blueprint), $this->columnize($command->columns));
+        return sprintf('create index %s on %s (%s)', $this->wrap($command->index), $this->wrapTable($blueprint), $this->columnize($command->columns));
     }
     /**
      * Compile a spatial index key command.
@@ -495,7 +495,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function typeEnum(Fluent $column)
     {
-        return \sprintf('varchar check ("%s" in (%s))', $column->name, $this->quoteString($column->allowed));
+        return sprintf('varchar check ("%s" in (%s))', $column->name, $this->quoteString($column->allowed));
     }
     /**
      * Create the column definition for a json type.
@@ -742,7 +742,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function modifyVirtualAs(Blueprint $blueprint, Fluent $column)
     {
-        if (!\is_null($column->virtualAs)) {
+        if (!is_null($column->virtualAs)) {
             return " as ({$column->virtualAs})";
         }
     }
@@ -755,7 +755,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function modifyStoredAs(Blueprint $blueprint, Fluent $column)
     {
-        if (!\is_null($column->storedAs)) {
+        if (!is_null($column->storedAs)) {
             return " as ({$column->storedAs}) stored";
         }
     }
@@ -768,7 +768,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function modifyNullable(Blueprint $blueprint, Fluent $column)
     {
-        if (\is_null($column->virtualAs) && \is_null($column->storedAs)) {
+        if (is_null($column->virtualAs) && is_null($column->storedAs)) {
             return $column->nullable ? '' : ' not null';
         }
         if ($column->nullable === \false) {
@@ -784,7 +784,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function modifyDefault(Blueprint $blueprint, Fluent $column)
     {
-        if (!\is_null($column->default) && \is_null($column->virtualAs) && \is_null($column->storedAs)) {
+        if (!is_null($column->default) && is_null($column->virtualAs) && is_null($column->storedAs)) {
             return ' default ' . $this->getDefaultValue($column->default);
         }
     }
@@ -797,7 +797,7 @@ class SQLiteGrammar extends Grammar
      */
     protected function modifyIncrement(Blueprint $blueprint, Fluent $column)
     {
-        if (\in_array($column->type, $this->serials) && $column->autoIncrement) {
+        if (in_array($column->type, $this->serials) && $column->autoIncrement) {
             return ' primary key autoincrement';
         }
     }

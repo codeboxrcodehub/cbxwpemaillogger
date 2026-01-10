@@ -26,7 +26,7 @@ class ChangeColumn
     public static function compile($grammar, Blueprint $blueprint, Fluent $command, Connection $connection)
     {
         if (!$connection->isDoctrineAvailable()) {
-            throw new RuntimeException(\sprintf('Changing columns for table "%s" requires Doctrine DBAL. Please install the doctrine/dbal package.', $blueprint->getTable()));
+            throw new RuntimeException(sprintf('Changing columns for table "%s" requires Doctrine DBAL. Please install the doctrine/dbal package.', $blueprint->getTable()));
         }
         $schema = $connection->getDoctrineSchemaManager();
         $databasePlatform = $schema->getDatabasePlatform();
@@ -66,8 +66,8 @@ class ChangeColumn
             // Doctrine column definitions - which is necessary because Laravel and Doctrine
             // use some different terminology for various column attributes on the tables.
             foreach ($fluent->getAttributes() as $key => $value) {
-                if (!\is_null($option = static::mapFluentOptionToDoctrine($key))) {
-                    if (\method_exists($column, $method = 'set' . \ucfirst($option))) {
+                if (!is_null($option = static::mapFluentOptionToDoctrine($key))) {
+                    if (method_exists($column, $method = 'set' . ucfirst($option))) {
                         $column->{$method}(static::mapFluentValueToDoctrine($option, $value));
                         continue;
                     }
@@ -97,7 +97,7 @@ class ChangeColumn
     protected static function getDoctrineColumnChangeOptions(Fluent $fluent)
     {
         $options = ['type' => static::getDoctrineColumnType($fluent['type'])];
-        if (\in_array($fluent['type'], ['text', 'mediumText', 'longText'])) {
+        if (in_array($fluent['type'], ['text', 'mediumText', 'longText'])) {
             $options['length'] = static::calculateDoctrineTextLength($fluent['type']);
         }
         if (static::doesntNeedCharacterOptions($fluent['type'])) {
@@ -113,7 +113,7 @@ class ChangeColumn
      */
     protected static function getDoctrineColumnType($type)
     {
-        $type = \strtolower($type);
+        $type = strtolower($type);
         switch ($type) {
             case 'biginteger':
                 $type = 'bigint';
@@ -159,7 +159,7 @@ class ChangeColumn
      */
     protected static function doesntNeedCharacterOptions($type)
     {
-        return \in_array($type, ['bigInteger', 'binary', 'boolean', 'date', 'dateTime', 'decimal', 'double', 'float', 'integer', 'json', 'mediumInteger', 'smallInteger', 'time', 'tinyInteger']);
+        return in_array($type, ['bigInteger', 'binary', 'boolean', 'date', 'dateTime', 'decimal', 'double', 'float', 'integer', 'json', 'mediumInteger', 'smallInteger', 'time', 'tinyInteger']);
     }
     /**
      * Get the matching Doctrine option for a given Fluent attribute name.

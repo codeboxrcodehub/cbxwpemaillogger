@@ -13,8 +13,8 @@ class Integer extends Rule
      * @param mixed $value
      * @return bool
      */
-    public function check($value) : bool
+    public function check($value): bool
     {
-        return \filter_var($value, \FILTER_VALIDATE_INT) !== \false;
+        return filter_var($value, \FILTER_VALIDATE_INT) !== \false;
     }
 }

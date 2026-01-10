@@ -44,7 +44,7 @@ abstract class HasOneOrMany extends Relation
      */
     public function make(array $attributes = [])
     {
-        return \tap($this->related->newInstance($attributes), function ($instance) {
+        return tap($this->related->newInstance($attributes), function ($instance) {
             $this->setForeignAttributesForCreate($instance);
         });
     }
@@ -143,7 +143,7 @@ abstract class HasOneOrMany extends Relation
     protected function getRelationValue(array $dictionary, $key, $type)
     {
         $value = $dictionary[$key];
-        return $type === 'one' ? \reset($value) : $this->related->newCollection($value);
+        return $type === 'one' ? reset($value) : $this->related->newCollection($value);
     }
     /**
      * Build model dictionary keyed by the relation's foreign key.
@@ -154,7 +154,7 @@ abstract class HasOneOrMany extends Relation
     protected function buildDictionary(Collection $results)
     {
         $foreign = $this->getForeignKeyName();
-        return $results->mapToDictionary(function ($result) use($foreign) {
+        return $results->mapToDictionary(function ($result) use ($foreign) {
             return [$this->getDictionaryKey($result->{$foreign}) => $result];
         })->all();
     }
@@ -167,7 +167,7 @@ abstract class HasOneOrMany extends Relation
      */
     public function findOrNew($id, $columns = ['*'])
     {
-        if (\is_null($instance = $this->find($id, $columns))) {
+        if (is_null($instance = $this->find($id, $columns))) {
             $instance = $this->related->newInstance();
             $this->setForeignAttributesForCreate($instance);
         }
@@ -182,8 +182,8 @@ abstract class HasOneOrMany extends Relation
      */
     public function firstOrNew(array $attributes = [], array $values = [])
     {
-        if (\is_null($instance = $this->where($attributes)->first())) {
-            $instance = $this->related->newInstance(\array_merge($attributes, $values));
+        if (is_null($instance = $this->where($attributes)->first())) {
+            $instance = $this->related->newInstance(array_merge($attributes, $values));
             $this->setForeignAttributesForCreate($instance);
         }
         return $instance;
@@ -197,8 +197,8 @@ abstract class HasOneOrMany extends Relation
      */
     public function firstOrCreate(array $attributes = [], array $values = [])
     {
-        if (\is_null($instance = $this->where($attributes)->first())) {
-            $instance = $this->create(\array_merge($attributes, $values));
+        if (is_null($instance = $this->where($attributes)->first())) {
+            $instance = $this->create(array_merge($attributes, $values));
         }
         return $instance;
     }
@@ -211,7 +211,7 @@ abstract class HasOneOrMany extends Relation
      */
     public function updateOrCreate(array $attributes, array $values = [])
     {
-        return \tap($this->firstOrNew($attributes), function ($instance) use($values) {
+        return tap($this->firstOrNew($attributes), function ($instance) use ($values) {
             $instance->fill($values);
             $instance->save();
         });
@@ -248,7 +248,7 @@ abstract class HasOneOrMany extends Relation
      */
     public function create(array $attributes = [])
     {
-        return \tap($this->related->newInstance($attributes), function ($instance) {
+        return tap($this->related->newInstance($attributes), function ($instance) {
             $this->setForeignAttributesForCreate($instance);
             $instance->save();
         });
@@ -313,7 +313,7 @@ abstract class HasOneOrMany extends Relation
      */
     public function getRelationExistenceQueryForSelfRelation(Builder $query, Builder $parentQuery, $columns = ['*'])
     {
-        $query->from($query->getModel()->getTable() . ' as ' . ($hash = $this->getRelationCountHash()));
+        $query->from($query->getModel()->getTable() . ' as ' . $hash = $this->getRelationCountHash());
         $query->getModel()->setTable($hash);
         return $query->select($columns)->whereColumn($this->getQualifiedParentKeyName(), '=', $hash . '.' . $this->getForeignKeyName());
     }
@@ -351,8 +351,8 @@ abstract class HasOneOrMany extends Relation
      */
     public function getForeignKeyName()
     {
-        $segments = \explode('.', $this->getQualifiedForeignKeyName());
-        return \end($segments);
+        $segments = explode('.', $this->getQualifiedForeignKeyName());
+        return end($segments);
     }
     /**
      * Get the foreign key for the relationship.

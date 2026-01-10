@@ -103,7 +103,7 @@ trait AsPivot
             return 0;
         }
         $this->touchOwners();
-        return \tap($this->getDeleteQuery()->delete(), function () {
+        return tap($this->getDeleteQuery()->delete(), function () {
             $this->exists = \false;
             $this->fireModelEvent('deleted', \false);
         });
@@ -125,7 +125,7 @@ trait AsPivot
     public function getTable()
     {
         if (!isset($this->table)) {
-            $this->setTable(\str_replace('\\', '', Str::snake(Str::singular(\class_basename($this)))));
+            $this->setTable(str_replace('\\', '', Str::snake(Str::singular(class_basename($this)))));
         }
         return $this->table;
     }
@@ -177,7 +177,7 @@ trait AsPivot
      */
     public function hasTimestampAttributes($attributes = null)
     {
-        return \array_key_exists($this->getCreatedAtColumn(), $attributes ?? $this->attributes);
+        return array_key_exists($this->getCreatedAtColumn(), $attributes ?? $this->attributes);
     }
     /**
      * Get the name of the "created at" column.
@@ -207,7 +207,7 @@ trait AsPivot
         if (isset($this->attributes[$this->getKeyName()])) {
             return $this->getKey();
         }
-        return \sprintf('%s:%s:%s:%s', $this->foreignKey, $this->getAttribute($this->foreignKey), $this->relatedKey, $this->getAttribute($this->relatedKey));
+        return sprintf('%s:%s:%s:%s', $this->foreignKey, $this->getAttribute($this->foreignKey), $this->relatedKey, $this->getAttribute($this->relatedKey));
     }
     /**
      * Get a new query to restore one or more models by their queueable IDs.
@@ -217,13 +217,13 @@ trait AsPivot
      */
     public function newQueryForRestoration($ids)
     {
-        if (\is_array($ids)) {
+        if (is_array($ids)) {
             return $this->newQueryForCollectionRestoration($ids);
         }
         if (!Str::contains($ids, ':')) {
             return parent::newQueryForRestoration($ids);
         }
-        $segments = \explode(':', $ids);
+        $segments = explode(':', $ids);
         return $this->newQueryWithoutScopes()->where($segments[0], $segments[1])->where($segments[2], $segments[3]);
     }
     /**
@@ -234,14 +234,14 @@ trait AsPivot
      */
     protected function newQueryForCollectionRestoration(array $ids)
     {
-        $ids = \array_values($ids);
+        $ids = array_values($ids);
         if (!Str::contains($ids[0], ':')) {
             return parent::newQueryForRestoration($ids);
         }
         $query = $this->newQueryWithoutScopes();
         foreach ($ids as $id) {
-            $segments = \explode(':', $id);
-            $query->orWhere(function ($query) use($segments) {
+            $segments = explode(':', $id);
+            $query->orWhere(function ($query) use ($segments) {
                 return $query->where($segments[0], $segments[1])->where($segments[2], $segments[3]);
             });
         }

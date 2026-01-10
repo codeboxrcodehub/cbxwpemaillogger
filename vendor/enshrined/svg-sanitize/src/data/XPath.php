@@ -28,8 +28,8 @@ class XPath extends \DOMXPath
     protected function handleDefaultNamespace()
     {
         $rootElements = $this->getRootElements();
-        if (\count($rootElements) !== 1) {
-            throw new \LogicException(\sprintf('Got %d svg elements, expected exactly one', \count($rootElements)), 1570870568);
+        if (count($rootElements) !== 1) {
+            throw new \LogicException(sprintf('Got %d svg elements, expected exactly one', count($rootElements)), 1570870568);
         }
         $this->defaultNamespaceURI = (string) $rootElements[0]->namespaceURI;
         if ($this->defaultNamespaceURI !== '') {

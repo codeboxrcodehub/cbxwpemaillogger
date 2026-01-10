@@ -62,8 +62,8 @@ class RenameColumn
      */
     private static function getWritableColumnOptions(Column $column)
     {
-        return \array_filter($column->toArray(), function (string $name) use($column) {
-            return \method_exists($column, 'set' . $name);
+        return array_filter($column->toArray(), function (string $name) use ($column) {
+            return method_exists($column, 'set' . $name);
         }, \ARRAY_FILTER_USE_KEY);
     }
 }

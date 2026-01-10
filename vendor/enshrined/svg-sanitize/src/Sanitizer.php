@@ -77,8 +77,8 @@ class Sanitizer
     function __construct()
     {
         // Load default tags/attributes
-        $this->allowedAttrs = \array_map('strtolower', AllowedAttributes::getAttributes());
-        $this->allowedTags = \array_map('strtolower', AllowedTags::getTags());
+        $this->allowedAttrs = array_map('strtolower', AllowedAttributes::getAttributes());
+        $this->allowedTags = array_map('strtolower', AllowedTags::getTags());
     }
     /**
      * Set up the DOMDocument
@@ -126,7 +126,7 @@ class Sanitizer
      */
     public function setAllowedTags(TagInterface $allowedTags)
     {
-        $this->allowedTags = \array_map('strtolower', $allowedTags::getTags());
+        $this->allowedTags = array_map('strtolower', $allowedTags::getTags());
     }
     /**
      * Get the array of allowed attributes
@@ -144,7 +144,7 @@ class Sanitizer
      */
     public function setAllowedAttrs(AttributeInterface $allowedAttrs)
     {
-        $this->allowedAttrs = \array_map('strtolower', $allowedAttrs::getAttributes());
+        $this->allowedAttrs = array_map('strtolower', $allowedAttrs::getAttributes());
     }
     /**
      * Should we remove references to remote files?
@@ -199,8 +199,8 @@ class Sanitizer
              * recursively remove php tags because they can be hidden inside tags
              * i.e. <?p<?php test?>hp echo . ' danger! ';?>
              */
-            $dirty = \preg_replace('/<\\?(=|php)(.+?)\\?>/i', '', $dirty);
-        } while (\preg_match('/<\\?(=|php)(.+?)\\?>/i', $dirty) != 0);
+            $dirty = preg_replace('/<\?(=|php)(.+?)\?>/i', '', $dirty);
+        } while (preg_match('/<\?(=|php)(.+?)\?>/i', $dirty) != 0);
         $this->resetInternal();
         $this->setUpBefore();
         $loaded = $this->xmlDocument->loadXML($dirty, $this->getAllowHugeFiles() ? \LIBXML_PARSEHUGE : 0);
@@ -226,7 +226,7 @@ class Sanitizer
         $this->resetAfter();
         // Remove any extra whitespaces when minifying
         if ($this->minifyXML) {
-            $clean = \preg_replace('/\\s+/', ' ', $clean);
+            $clean = preg_replace('/\s+/', ' ', $clean);
         }
         // Return result
         return $clean;
@@ -240,11 +240,11 @@ class Sanitizer
         // disabled by default, so this function is no longer needed to protect against XXE attacks.
         if (\LIBXML_VERSION < 20900) {
             // Turn off the entity loader
-            $this->xmlLoaderValue = \libxml_disable_entity_loader(\true);
+            $this->xmlLoaderValue = libxml_disable_entity_loader(\true);
         }
         // Suppress the errors because we don't really have to worry about formation before cleansing.
         // See reset in resetAfter().
-        $this->xmlErrorHandlerPreviousValue = \libxml_use_internal_errors(\true);
+        $this->xmlErrorHandlerPreviousValue = libxml_use_internal_errors(\true);
         // Reset array of altered XML
         $this->xmlIssues = array();
     }
@@ -257,10 +257,10 @@ class Sanitizer
         // disabled by default, so this function is no longer needed to protect against XXE attacks.
         if (\LIBXML_VERSION < 20900) {
             // Reset the entity loader
-            \libxml_disable_entity_loader($this->xmlLoaderValue);
+            libxml_disable_entity_loader($this->xmlLoaderValue);
         }
-        \libxml_clear_errors();
-        \libxml_use_internal_errors($this->xmlErrorHandlerPreviousValue);
+        libxml_clear_errors();
+        libxml_use_internal_errors($this->xmlErrorHandlerPreviousValue);
     }
     /**
      * Start the cleaning with tags, then we move onto attributes and hrefs later
@@ -283,14 +283,14 @@ class Sanitizer
              * we should check what the element is before removing it. For now we'll only
              * remove <use> elements.
              */
-            if (\in_array($currentElement, $elementsToRemove) && 'use' === $currentElement->nodeName) {
+            if (in_array($currentElement, $elementsToRemove) && 'use' === $currentElement->nodeName) {
                 $currentElement->parentNode->removeChild($currentElement);
                 $this->xmlIssues[] = array('message' => 'Invalid \'' . $currentElement->tagName . '\'', 'line' => $currentElement->getLineNo());
                 continue;
             }
             if ($currentElement instanceof \DOMElement) {
                 // If the tag isn't in the whitelist, remove it and continue with next iteration
-                if (!\in_array(\strtolower($currentElement->tagName), $this->allowedTags)) {
+                if (!in_array(strtolower($currentElement->tagName), $this->allowedTags)) {
                     $currentElement->parentNode->removeChild($currentElement);
                     $this->xmlIssues[] = array('message' => 'Suspicious tag \'' . $currentElement->tagName . '\'', 'line' => $currentElement->getLineNo());
                     continue;
@@ -298,7 +298,7 @@ class Sanitizer
                 $this->cleanHrefs($currentElement);
                 $this->cleanXlinkHrefs($currentElement);
                 $this->cleanAttributesOnWhitelist($currentElement);
-                if (\strtolower($currentElement->tagName) === 'use') {
+                if (strtolower($currentElement->tagName) === 'use') {
                     if ($this->isUseTagDirty($currentElement) || $this->isUseTagExceedingThreshold($currentElement)) {
                         $currentElement->parentNode->removeChild($currentElement);
                         $this->xmlIssues[] = array('message' => 'Suspicious \'' . $currentElement->tagName . '\'', 'line' => $currentElement->getLineNo());
@@ -306,12 +306,12 @@ class Sanitizer
                     }
                 }
                 // Strip out font elements that will break out of foreign content.
-                if (\strtolower($currentElement->tagName) === 'font') {
+                if (strtolower($currentElement->tagName) === 'font') {
                     $breaksOutOfForeignContent = \false;
                     for ($x = $currentElement->attributes->length - 1; $x >= 0; $x--) {
                         // get attribute name
                         $attrName = $currentElement->attributes->item($x)->nodeName;
-                        if (\in_array(\strtolower($attrName), ['face', 'color', 'size'])) {
+                        if (in_array(strtolower($attrName), ['face', 'color', 'size'])) {
                             $breaksOutOfForeignContent = \true;
                         }
                     }
@@ -339,7 +339,7 @@ class Sanitizer
             // get attribute name
             $attrName = $element->attributes->item($x)->nodeName;
             // Remove attribute if not in whitelist
-            if (!\in_array(\strtolower($attrName), $this->allowedAttrs) && !$this->isAriaAttribute(\strtolower($attrName)) && !$this->isDataAttribute(\strtolower($attrName))) {
+            if (!in_array(strtolower($attrName), $this->allowedAttrs) && !$this->isAriaAttribute(strtolower($attrName)) && !$this->isDataAttribute(strtolower($attrName))) {
                 $element->removeAttribute($attrName);
                 $this->xmlIssues[] = array('message' => 'Suspicious attribute \'' . $attrName . '\'', 'line' => $element->getLineNo());
             }
@@ -348,7 +348,7 @@ class Sanitizer
              * Such as xlink:href when the xlink namespace isn't imported.
              * We have to do this as the link is still ran in this case.
              */
-            if (\false !== \stripos($attrName, 'href')) {
+            if (\false !== stripos($attrName, 'href')) {
                 $href = $element->getAttribute($attrName);
                 if (\false === $this->isHrefSafeValue($href)) {
                     $element->removeAttribute($attrName);
@@ -374,9 +374,9 @@ class Sanitizer
     {
         foreach ($element->attributes as $attribute) {
             // remove attributes with unexpected namespace prefix, e.g. `XLinK:href` (instead of `xlink:href`)
-            if ($attribute->prefix === '' && \strtolower($attribute->nodeName) === 'xlink:href') {
+            if ($attribute->prefix === '' && strtolower($attribute->nodeName) === 'xlink:href') {
                 $element->removeAttribute($attribute->nodeName);
-                $this->xmlIssues[] = array('message' => \sprintf('Unexpected attribute \'%s\'', $attribute->nodeName), 'line' => $element->getLineNo());
+                $this->xmlIssues[] = array('message' => sprintf('Unexpected attribute \'%s\'', $attribute->nodeName), 'line' => $element->getLineNo());
             }
         }
         $this->cleanHrefAttributes($element, 'xlink');
@@ -390,21 +390,21 @@ class Sanitizer
     {
         $this->cleanHrefAttributes($element);
     }
-    protected function cleanHrefAttributes(\DOMElement $element, string $prefix = '') : void
+    protected function cleanHrefAttributes(\DOMElement $element, string $prefix = ''): void
     {
-        $relevantAttributes = \array_filter(\iterator_to_array($element->attributes), static function (\DOMAttr $attr) use($prefix) {
-            return \strtolower($attr->name) === 'href' && \strtolower($attr->prefix) === $prefix;
+        $relevantAttributes = array_filter(iterator_to_array($element->attributes), static function (\DOMAttr $attr) use ($prefix) {
+            return strtolower($attr->name) === 'href' && strtolower($attr->prefix) === $prefix;
         });
         foreach ($relevantAttributes as $attribute) {
             if (!$this->isHrefSafeValue($attribute->value)) {
                 $element->removeAttribute($attribute->nodeName);
-                $this->xmlIssues[] = array('message' => \sprintf('Suspicious attribute \'%s\'', $attribute->nodeName), 'line' => $element->getLineNo());
+                $this->xmlIssues[] = array('message' => sprintf('Suspicious attribute \'%s\'', $attribute->nodeName), 'line' => $element->getLineNo());
                 continue;
             }
             // in case the attribute name is `HrEf`/`xlink:HrEf`, adjust it to `href`/`xlink:href`
-            if (!\in_array($attribute->nodeName, $this->allowedAttrs, \true) && \in_array(\strtolower($attribute->nodeName), $this->allowedAttrs, \true)) {
+            if (!in_array($attribute->nodeName, $this->allowedAttrs, \true) && in_array(strtolower($attribute->nodeName), $this->allowedAttrs, \true)) {
                 $element->removeAttribute($attribute->nodeName);
-                $element->setAttribute(\strtolower($attribute->nodeName), $attribute->value);
+                $element->setAttribute(strtolower($attribute->nodeName), $attribute->value);
             }
         }
     }
@@ -424,23 +424,23 @@ class Sanitizer
             return \true;
         }
         // Allow fragment identifiers.
-        if ('#' === \substr($value, 0, 1)) {
+        if ('#' === substr($value, 0, 1)) {
             return \true;
         }
         // Allow relative URIs.
-        if ('/' === \substr($value, 0, 1)) {
+        if ('/' === substr($value, 0, 1)) {
             return \true;
         }
         // Allow HTTPS domains.
-        if ('https://' === \substr($value, 0, 8)) {
+        if ('https://' === substr($value, 0, 8)) {
             return \true;
         }
         // Allow HTTP domains.
-        if ('http://' === \substr($value, 0, 7)) {
+        if ('http://' === substr($value, 0, 7)) {
             return \true;
         }
         // Allow known data URIs.
-        if (\in_array(\substr($value, 0, 14), array(
+        if (in_array(substr($value, 0, 14), array(
             'data:image/png',
             // PNG
             'data:image/gif',
@@ -454,7 +454,7 @@ class Sanitizer
             return \true;
         }
         // Allow known short data URIs.
-        if (\in_array(\substr($value, 0, 12), array(
+        if (in_array(substr($value, 0, 12), array(
             'data:img/png',
             // PNG
             'data:img/gif',
@@ -477,7 +477,7 @@ class Sanitizer
      */
     protected function removeNonPrintableCharacters($value)
     {
-        return \trim(\preg_replace('/[^ -~]/xu', '', $value));
+        return trim(preg_replace('/[^ -~]/xu', '', $value));
     }
     /**
      * Does this attribute value have a remote reference?
@@ -488,12 +488,12 @@ class Sanitizer
     protected function hasRemoteReference($value)
     {
         $value = $this->removeNonPrintableCharacters($value);
-        $wrapped_in_url = \preg_match('~^url\\(\\s*[\'"]\\s*(.*)\\s*[\'"]\\s*\\)$~xi', $value, $match);
+        $wrapped_in_url = preg_match('~^url\(\s*[\'"]\s*(.*)\s*[\'"]\s*\)$~xi', $value, $match);
         if (!$wrapped_in_url) {
             return \false;
         }
-        $value = \trim($match[1], '\'"');
-        return \preg_match('~^((https?|ftp|file):)?//~xi', $value);
+        $value = trim($match[1], '\'"');
+        return preg_match('~^((https?|ftp|file):)?//~xi', $value);
     }
     /**
      * Should we minify the output?
@@ -532,7 +532,7 @@ class Sanitizer
      */
     protected function isAriaAttribute($attributeName)
     {
-        return \strpos($attributeName, 'aria-') === 0;
+        return strpos($attributeName, 'aria-') === 0;
     }
     /**
      * Check to see if an attribute is an data attribute or not
@@ -543,7 +543,7 @@ class Sanitizer
      */
     protected function isDataAttribute($attributeName)
     {
-        return \strpos($attributeName, 'data-') === 0;
+        return strpos($attributeName, 'data-') === 0;
     }
     /**
      * Make sure our use tag is only referencing internal resources
@@ -554,7 +554,7 @@ class Sanitizer
     protected function isUseTagDirty(\DOMElement $element)
     {
         $href = Helper::getElementHref($element);
-        return $href && \strpos($href, '#') !== 0;
+        return $href && strpos($href, '#') !== 0;
     }
     /**
      * Determines whether `<use ... xlink:href="#identifier">` is expanded
@@ -621,8 +621,8 @@ class Sanitizer
     private static function getXmlErrors()
     {
         $errors = [];
-        foreach (\libxml_get_errors() as $error) {
-            $errors[] = ['message' => \trim($error->message), 'line' => $error->line];
+        foreach (libxml_get_errors() as $error) {
+            $errors[] = ['message' => trim($error->message), 'line' => $error->line];
         }
         return $errors;
     }

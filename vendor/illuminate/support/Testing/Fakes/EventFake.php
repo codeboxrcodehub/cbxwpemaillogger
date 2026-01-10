@@ -53,7 +53,7 @@ class EventFake implements Dispatcher
     {
         foreach ($this->dispatcher->getListeners($expectedEvent) as $listenerClosure) {
             $actualListener = (new ReflectionFunction($listenerClosure))->getStaticVariables()['listener'];
-            if (\is_string($actualListener) && Str::endsWith($actualListener, '@handle')) {
+            if (is_string($actualListener) && Str::endsWith($actualListener, '@handle')) {
                 $actualListener = Str::parseCallback($actualListener)[0];
             }
             if ($actualListener === $expectedListener || $actualListener instanceof Closure && $expectedListener === Closure::class) {
@@ -61,7 +61,7 @@ class EventFake implements Dispatcher
                 return;
             }
         }
-        PHPUnit::assertTrue(\false, \sprintf('Event [%s] does not have the [%s] listener attached to it', $expectedEvent, \print_r($expectedListener, \true)));
+        PHPUnit::assertTrue(\false, sprintf('Event [%s] does not have the [%s] listener attached to it', $expectedEvent, print_r($expectedListener, \true)));
     }
     /**
      * Assert if an event was dispatched based on a truth-test callback.
@@ -75,7 +75,7 @@ class EventFake implements Dispatcher
         if ($event instanceof Closure) {
             [$event, $callback] = [$this->firstClosureParameterType($event), $event];
         }
-        if (\is_int($callback)) {
+        if (is_int($callback)) {
             return $this->assertDispatchedTimes($event, $callback);
         }
         PHPUnit::assertTrue($this->dispatched($event, $callback)->count() > 0, "The expected [{$event}] event was not dispatched.");
@@ -113,7 +113,7 @@ class EventFake implements Dispatcher
      */
     public function assertNothingDispatched()
     {
-        $count = \count(Arr::flatten($this->events));
+        $count = count(Arr::flatten($this->events));
         PHPUnit::assertSame(0, $count, "{$count} unexpected events were dispatched.");
     }
     /**
@@ -131,7 +131,7 @@ class EventFake implements Dispatcher
         $callback = $callback ?: function () {
             return \true;
         };
-        return collect($this->events[$event])->filter(function ($arguments) use($callback) {
+        return collect($this->events[$event])->filter(function ($arguments) use ($callback) {
             return $callback(...$arguments);
         });
     }
@@ -207,9 +207,9 @@ class EventFake implements Dispatcher
      */
     public function dispatch($event, $payload = [], $halt = \false)
     {
-        $name = \is_object($event) ? \get_class($event) : (string) $event;
+        $name = is_object($event) ? get_class($event) : (string) $event;
         if ($this->shouldFakeEvent($name, $payload)) {
-            $this->events[$name][] = \func_get_args();
+            $this->events[$name][] = func_get_args();
         } else {
             return $this->dispatcher->dispatch($event, $payload, $halt);
         }
@@ -226,7 +226,7 @@ class EventFake implements Dispatcher
         if (empty($this->eventsToFake)) {
             return \true;
         }
-        return collect($this->eventsToFake)->filter(function ($event) use($eventName, $payload) {
+        return collect($this->eventsToFake)->filter(function ($event) use ($eventName, $payload) {
             return $event instanceof Closure ? $event($eventName, $payload) : $event === $eventName;
         })->isNotEmpty();
     }

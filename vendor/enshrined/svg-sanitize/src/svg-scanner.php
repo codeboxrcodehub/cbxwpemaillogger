@@ -86,14 +86,12 @@ foreach ($files_to_scan as $file_name) {
      */
     if (empty($xml_issues) && \false !== $sanitize_status) {
         $results['files'][$file_name] = array('errors' => 0, 'messages' => array());
+    } else if ('' === $sanitize_status || \false === $sanitize_status) {
+        $results['totals']['errors']++;
+        $results['files'][$file_name] = array('errors' => 1, 'messages' => array(array('message' => 'Unable to sanitize file \'' . $file_name . '\'', 'line' => null)));
     } else {
-        if ('' === $sanitize_status || \false === $sanitize_status) {
-            $results['totals']['errors']++;
-            $results['files'][$file_name] = array('errors' => 1, 'messages' => array(array('message' => 'Unable to sanitize file \'' . $file_name . '\'', 'line' => null)));
-        } else {
-            $results['totals']['errors'] += \count($xml_issues);
-            $results['files'][$file_name] = array('errors' => \count($xml_issues), 'messages' => $xml_issues);
-        }
+        $results['totals']['errors'] += \count($xml_issues);
+        $results['files'][$file_name] = array('errors' => \count($xml_issues), 'messages' => $xml_issues);
     }
     unset($svg_file);
     unset($xml_issues);

@@ -29,7 +29,7 @@ class QueueFake extends QueueManager implements Queue
         if ($job instanceof Closure) {
             [$job, $callback] = [$this->firstClosureParameterType($job), $job];
         }
-        if (\is_numeric($callback)) {
+        if (is_numeric($callback)) {
             return $this->assertPushedTimes($job, $callback);
         }
         PHPUnit::assertTrue($this->pushed($job, $callback)->count() > 0, "The expected [{$job}] job was not pushed.");
@@ -59,11 +59,11 @@ class QueueFake extends QueueManager implements Queue
         if ($job instanceof Closure) {
             [$job, $callback] = [$this->firstClosureParameterType($job), $job];
         }
-        $this->assertPushed($job, function ($job, $pushedQueue) use($callback, $queue) {
+        $this->assertPushed($job, function ($job, $pushedQueue) use ($callback, $queue) {
             if ($pushedQueue !== $queue) {
                 return \false;
             }
-            return $callback ? $callback(...\func_get_args()) : \true;
+            return $callback ? $callback(...func_get_args()) : \true;
         });
     }
     /**
@@ -103,9 +103,9 @@ class QueueFake extends QueueManager implements Queue
     protected function assertPushedWithChainOfObjects($job, $expectedChain, $callback)
     {
         $chain = collect($expectedChain)->map(function ($job) {
-            return \serialize($job);
+            return serialize($job);
         })->all();
-        PHPUnit::assertTrue($this->pushed($job, $callback)->filter(function ($job) use($chain) {
+        PHPUnit::assertTrue($this->pushed($job, $callback)->filter(function ($job) use ($chain) {
             return $job->chained == $chain;
         })->isNotEmpty(), 'The expected chain was not pushed.');
     }
@@ -121,9 +121,9 @@ class QueueFake extends QueueManager implements Queue
     {
         $matching = $this->pushed($job, $callback)->map->chained->map(function ($chain) {
             return collect($chain)->map(function ($job) {
-                return \get_class(\unserialize($job));
+                return get_class(unserialize($job));
             });
-        })->filter(function ($chain) use($expectedChain) {
+        })->filter(function ($chain) use ($expectedChain) {
             return $chain->all() === $expectedChain;
         });
         PHPUnit::assertTrue($matching->isNotEmpty(), 'The expected chain was not pushed.');
@@ -137,7 +137,7 @@ class QueueFake extends QueueManager implements Queue
     protected function isChainOfObjects($chain)
     {
         return !collect($chain)->contains(function ($job) {
-            return !\is_object($job);
+            return !is_object($job);
         });
     }
     /**
@@ -178,7 +178,7 @@ class QueueFake extends QueueManager implements Queue
         $callback = $callback ?: function () {
             return \true;
         };
-        return collect($this->jobs[$job])->filter(function ($data) use($callback) {
+        return collect($this->jobs[$job])->filter(function ($data) use ($callback) {
             return $callback($data['job'], $data['queue']);
         })->pluck('job');
     }
@@ -210,7 +210,7 @@ class QueueFake extends QueueManager implements Queue
      */
     public function size($queue = null)
     {
-        return collect($this->jobs)->flatten(1)->filter(function ($job) use($queue) {
+        return collect($this->jobs)->flatten(1)->filter(function ($job) use ($queue) {
             return $job['queue'] === $queue;
         })->count();
     }
@@ -224,7 +224,7 @@ class QueueFake extends QueueManager implements Queue
      */
     public function push($job, $data = '', $queue = null)
     {
-        $this->jobs[\is_object($job) ? \get_class($job) : $job][] = ['job' => $job, 'queue' => $queue];
+        $this->jobs[is_object($job) ? get_class($job) : $job][] = ['job' => $job, 'queue' => $queue];
     }
     /**
      * Push a raw payload onto the queue.
@@ -339,6 +339,6 @@ class QueueFake extends QueueManager implements Queue
      */
     public function __call($method, $parameters)
     {
-        throw new BadMethodCallException(\sprintf('Call to undefined method %s::%s()', static::class, $method));
+        throw new BadMethodCallException(sprintf('Call to undefined method %s::%s()', static::class, $method));
     }
 }

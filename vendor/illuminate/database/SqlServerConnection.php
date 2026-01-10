@@ -60,7 +60,7 @@ class SqlServerConnection extends Connection
      */
     public function getSchemaBuilder()
     {
-        if (\is_null($this->schemaGrammar)) {
+        if (is_null($this->schemaGrammar)) {
             $this->useDefaultSchemaGrammar();
         }
         return new SqlServerBuilder($this);
@@ -102,6 +102,6 @@ class SqlServerConnection extends Connection
      */
     protected function getDoctrineDriver()
     {
-        return \class_exists(Version::class) ? new DoctrineDriver() : new SqlServerDriver();
+        return class_exists(Version::class) ? new DoctrineDriver() : new SqlServerDriver();
     }
 }

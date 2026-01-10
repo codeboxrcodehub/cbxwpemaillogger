@@ -112,18 +112,18 @@ abstract class Grammar extends BaseGrammar
         // We need to prepare several of the elements of the foreign key definition
         // before we can create the SQL, such as wrapping the tables and convert
         // an array of columns to comma-delimited strings for the SQL queries.
-        $sql = \sprintf('alter table %s add constraint %s ', $this->wrapTable($blueprint), $this->wrap($command->index));
+        $sql = sprintf('alter table %s add constraint %s ', $this->wrapTable($blueprint), $this->wrap($command->index));
         // Once we have the initial portion of the SQL statement we will add on the
         // key name, table name, and referenced columns. These will complete the
         // main portion of the SQL statement and this SQL will almost be done.
-        $sql .= \sprintf('foreign key (%s) references %s (%s)', $this->columnize($command->columns), $this->wrapTable($command->on), $this->columnize((array) $command->references));
+        $sql .= sprintf('foreign key (%s) references %s (%s)', $this->columnize($command->columns), $this->wrapTable($command->on), $this->columnize((array) $command->references));
         // Once we have the basic foreign key creation statement constructed we can
         // build out the syntax for what should happen on an update or delete of
         // the affected columns, which will get something like "cascade", etc.
-        if (!\is_null($command->onDelete)) {
+        if (!is_null($command->onDelete)) {
             $sql .= " on delete {$command->onDelete}";
         }
-        if (!\is_null($command->onUpdate)) {
+        if (!is_null($command->onUpdate)) {
             $sql .= " on update {$command->onUpdate}";
         }
         return $sql;
@@ -154,7 +154,7 @@ abstract class Grammar extends BaseGrammar
      */
     protected function getType(Fluent $column)
     {
-        return $this->{'type' . \ucfirst($column->type)}($column);
+        return $this->{'type' . ucfirst($column->type)}($column);
     }
     /**
      * Create the column definition for a generated, computed column type.
@@ -179,7 +179,7 @@ abstract class Grammar extends BaseGrammar
     protected function addModifiers($sql, Blueprint $blueprint, Fluent $column)
     {
         foreach ($this->modifiers as $modifier) {
-            if (\method_exists($this, $method = "modify{$modifier}")) {
+            if (method_exists($this, $method = "modify{$modifier}")) {
                 $sql .= $this->{$method}($blueprint, $column);
             }
         }
@@ -195,8 +195,8 @@ abstract class Grammar extends BaseGrammar
     protected function getCommandByName(Blueprint $blueprint, $name)
     {
         $commands = $this->getCommandsByName($blueprint, $name);
-        if (\count($commands) > 0) {
-            return \reset($commands);
+        if (count($commands) > 0) {
+            return reset($commands);
         }
     }
     /**
@@ -208,7 +208,7 @@ abstract class Grammar extends BaseGrammar
      */
     protected function getCommandsByName(Blueprint $blueprint, $name)
     {
-        return \array_filter($blueprint->getCommands(), function ($value) use($name) {
+        return array_filter($blueprint->getCommands(), function ($value) use ($name) {
             return $value->name == $name;
         });
     }
@@ -221,7 +221,7 @@ abstract class Grammar extends BaseGrammar
      */
     public function prefixArray($prefix, array $values)
     {
-        return \array_map(function ($value) use($prefix) {
+        return array_map(function ($value) use ($prefix) {
             return $prefix . ' ' . $value;
         }, $values);
     }
@@ -257,7 +257,7 @@ abstract class Grammar extends BaseGrammar
         if ($value instanceof Expression) {
             return $value;
         }
-        return \is_bool($value) ? "'" . (int) $value . "'" : "'" . (string) $value . "'";
+        return is_bool($value) ? "'" . (int) $value . "'" : "'" . (string) $value . "'";
     }
     /**
      * Create an empty Doctrine DBAL TableDiff from the Blueprint.
@@ -269,7 +269,7 @@ abstract class Grammar extends BaseGrammar
     public function getDoctrineTableDiff(Blueprint $blueprint, SchemaManager $schema)
     {
         $table = $this->getTablePrefix() . $blueprint->getTable();
-        return \tap(new TableDiff($table), function ($tableDiff) use($schema, $table) {
+        return tap(new TableDiff($table), function ($tableDiff) use ($schema, $table) {
             $tableDiff->fromTable = $schema->listTableDetails($table);
         });
     }

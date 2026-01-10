@@ -25,6 +25,6 @@ class RateLimiter extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'ComfortSmtpScoped\\Illuminate\\Cache\\RateLimiter';
+        return 'ComfortSmtpScoped\Illuminate\Cache\RateLimiter';
     }
 }

@@ -152,8 +152,8 @@ class SQLiteGrammar extends Grammar
         $jsonGroups = $this->groupJsonColumnsForUpdate($values);
         return collect($values)->reject(function ($value, $key) {
             return $this->isJsonSelector($key);
-        })->merge($jsonGroups)->map(function ($value, $key) use($jsonGroups) {
-            $column = \last(\explode('.', $key));
+        })->merge($jsonGroups)->map(function ($value, $key) use ($jsonGroups) {
+            $column = last(explode('.', $key));
             $value = isset($jsonGroups[$key]) ? $this->compileJsonPatch($column, $value) : $this->parameter($value);
             return $this->wrap($column) . ' = ' . $value;
         })->implode(', ');
@@ -172,7 +172,7 @@ class SQLiteGrammar extends Grammar
         $sql = $this->compileInsert($query, $values);
         $sql .= ' on conflict (' . $this->columnize($uniqueBy) . ') do update set ';
         $columns = collect($update)->map(function ($value, $key) {
-            return \is_numeric($key) ? $this->wrap($value) . ' = ' . $this->wrapValue('excluded') . '.' . $this->wrap($value) : $this->wrap($key) . ' = ' . $this->parameter($value);
+            return is_numeric($key) ? $this->wrap($value) . ' = ' . $this->wrapValue('excluded') . '.' . $this->wrap($value) : $this->wrap($key) . ' = ' . $this->parameter($value);
         })->implode(', ');
         return $sql . $columns;
     }
@@ -187,7 +187,7 @@ class SQLiteGrammar extends Grammar
         $groups = [];
         foreach ($values as $key => $value) {
             if ($this->isJsonSelector($key)) {
-                Arr::set($groups, \str_replace('->', '.', Str::after($key, '.')), $value);
+                Arr::set($groups, str_replace('->', '.', Str::after($key, '.')), $value);
             }
         }
         return $groups;
@@ -214,7 +214,7 @@ class SQLiteGrammar extends Grammar
     {
         $table = $this->wrapTable($query->from);
         $columns = $this->compileUpdateColumns($query, $values);
-        $alias = \last(\preg_split('/\\s+as\\s+/i', $query->from));
+        $alias = last(preg_split('/\s+as\s+/i', $query->from));
         $selectSql = $this->compileSelect($query->select($alias . '.rowid'));
         return "update {$table} set {$columns} where {$this->wrap('rowid')} in ({$selectSql})";
     }
@@ -231,10 +231,10 @@ class SQLiteGrammar extends Grammar
         $values = collect($values)->reject(function ($value, $key) {
             return $this->isJsonSelector($key);
         })->merge($groups)->map(function ($value) {
-            return \is_array($value) ? \json_encode($value) : $value;
+            return is_array($value) ? json_encode($value) : $value;
         })->all();
         $cleanBindings = Arr::except($bindings, 'select');
-        return \array_values(\array_merge($values, Arr::flatten($cleanBindings)));
+        return array_values(array_merge($values, Arr::flatten($cleanBindings)));
     }
     /**
      * Compile a delete statement into SQL.
@@ -258,7 +258,7 @@ class SQLiteGrammar extends Grammar
     protected function compileDeleteWithJoinsOrLimit(Builder $query)
     {
         $table = $this->wrapTable($query->from);
-        $alias = \last(\preg_split('/\\s+as\\s+/i', $query->from));
+        $alias = last(preg_split('/\s+as\s+/i', $query->from));
         $selectSql = $this->compileSelect($query->select($alias . '.rowid'));
         return "delete from {$table} where {$this->wrap('rowid')} in ({$selectSql})";
     }

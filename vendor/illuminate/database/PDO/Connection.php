@@ -36,7 +36,7 @@ class Connection implements ServerInfoAwareConnection
      * @param  string  $statement
      * @return int
      */
-    public function exec(string $statement) : int
+    public function exec(string $statement): int
     {
         try {
             $result = $this->connection->exec($statement);
@@ -52,7 +52,7 @@ class Connection implements ServerInfoAwareConnection
      * @param  string  $sql
      * @return \Doctrine\DBAL\Driver\Statement
      */
-    public function prepare(string $sql) : StatementInterface
+    public function prepare(string $sql): StatementInterface
     {
         try {
             return $this->createStatement($this->connection->prepare($sql));
@@ -66,7 +66,7 @@ class Connection implements ServerInfoAwareConnection
      * @param  string  $sql
      * @return \Doctrine\DBAL\Driver\Result
      */
-    public function query(string $sql) : ResultInterface
+    public function query(string $sql): ResultInterface
     {
         try {
             $stmt = $this->connection->query($sql);
@@ -99,7 +99,7 @@ class Connection implements ServerInfoAwareConnection
      * @param  \PDOStatement  $stmt
      * @return \Doctrine\DBAL\Driver\PDO\Statement
      */
-    protected function createStatement(PDOStatement $stmt) : Statement
+    protected function createStatement(PDOStatement $stmt): Statement
     {
         return new Statement($stmt);
     }
@@ -155,7 +155,7 @@ class Connection implements ServerInfoAwareConnection
      *
      * @return \PDO
      */
-    public function getWrappedConnection() : PDO
+    public function getWrappedConnection(): PDO
     {
         return $this->connection;
     }

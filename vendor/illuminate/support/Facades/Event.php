@@ -49,8 +49,8 @@ class Event extends Facade
      */
     public static function fakeExcept($eventsToAllow)
     {
-        return static::fake([function ($eventName) use($eventsToAllow) {
-            return !\in_array($eventName, (array) $eventsToAllow);
+        return static::fake([function ($eventName) use ($eventsToAllow) {
+            return !in_array($eventName, (array) $eventsToAllow);
         }]);
     }
     /**
@@ -64,7 +64,7 @@ class Event extends Facade
     {
         $originalDispatcher = static::getFacadeRoot();
         static::fake($eventsToFake);
-        return \tap($callable(), function () use($originalDispatcher) {
+        return tap($callable(), function () use ($originalDispatcher) {
             static::swap($originalDispatcher);
             Model::setEventDispatcher($originalDispatcher);
             Cache::refreshEventDispatcher();
@@ -81,7 +81,7 @@ class Event extends Facade
     {
         $originalDispatcher = static::getFacadeRoot();
         static::fakeExcept($eventsToAllow);
-        return \tap($callable(), function () use($originalDispatcher) {
+        return tap($callable(), function () use ($originalDispatcher) {
             static::swap($originalDispatcher);
             Model::setEventDispatcher($originalDispatcher);
             Cache::refreshEventDispatcher();

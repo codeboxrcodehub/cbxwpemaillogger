@@ -40,7 +40,7 @@ class Composer
     public function dumpAutoloads($extra = '')
     {
         $extra = $extra ? (array) $extra : [];
-        $command = \array_merge($this->findComposer(), ['dump-autoload'], $extra);
+        $command = array_merge($this->findComposer(), ['dump-autoload'], $extra);
         return $this->getProcess($command)->run();
     }
     /**
@@ -91,7 +91,7 @@ class Composer
      */
     public function setWorkingPath($path)
     {
-        $this->workingPath = \realpath($path);
+        $this->workingPath = realpath($path);
         return $this;
     }
 }

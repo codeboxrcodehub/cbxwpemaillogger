@@ -33,9 +33,9 @@ trait ManagesTransactions
                 if ($this->transactions == 1) {
                     $this->getPdo()->commit();
                 }
-                $this->transactions = \max(0, $this->transactions - 1);
+                $this->transactions = max(0, $this->transactions - 1);
                 if ($this->transactions == 0) {
-                    \optional($this->transactionsManager)->commit($this->getName());
+                    optional($this->transactionsManager)->commit($this->getName());
                 }
             } catch (Throwable $e) {
                 $this->handleCommitTransactionException($e, $currentAttempt, $attempts);
@@ -62,7 +62,7 @@ trait ManagesTransactions
         // let the developer handle it in another way. We will decrement too.
         if ($this->causedByConcurrencyError($e) && $this->transactions > 1) {
             $this->transactions--;
-            \optional($this->transactionsManager)->rollback($this->getName(), $this->transactions);
+            optional($this->transactionsManager)->rollback($this->getName(), $this->transactions);
             throw $e;
         }
         // If there was an exception we will rollback this transaction and then we
@@ -85,7 +85,7 @@ trait ManagesTransactions
     {
         $this->createTransaction();
         $this->transactions++;
-        \optional($this->transactionsManager)->begin($this->getName(), $this->transactions);
+        optional($this->transactionsManager)->begin($this->getName(), $this->transactions);
         $this->fireConnectionEvent('beganTransaction');
     }
     /**
@@ -148,9 +148,9 @@ trait ManagesTransactions
         if ($this->transactions == 1) {
             $this->getPdo()->commit();
         }
-        $this->transactions = \max(0, $this->transactions - 1);
+        $this->transactions = max(0, $this->transactions - 1);
         if ($this->transactions == 0) {
-            \optional($this->transactionsManager)->commit($this->getName());
+            optional($this->transactionsManager)->commit($this->getName());
         }
         $this->fireConnectionEvent('committed');
     }
@@ -166,7 +166,7 @@ trait ManagesTransactions
      */
     protected function handleCommitTransactionException(Throwable $e, $currentAttempt, $maxAttempts)
     {
-        $this->transactions = \max(0, $this->transactions - 1);
+        $this->transactions = max(0, $this->transactions - 1);
         if ($this->causedByConcurrencyError($e) && $currentAttempt < $maxAttempts) {
             return;
         }
@@ -188,7 +188,7 @@ trait ManagesTransactions
         // We allow developers to rollback to a certain transaction level. We will verify
         // that this given transaction level is valid before attempting to rollback to
         // that level. If it's not we will just return out and not attempt anything.
-        $toLevel = \is_null($toLevel) ? $this->transactions - 1 : $toLevel;
+        $toLevel = is_null($toLevel) ? $this->transactions - 1 : $toLevel;
         if ($toLevel < 0 || $toLevel >= $this->transactions) {
             return;
         }
@@ -201,7 +201,7 @@ trait ManagesTransactions
             $this->handleRollBackException($e);
         }
         $this->transactions = $toLevel;
-        \optional($this->transactionsManager)->rollback($this->getName(), $this->transactions);
+        optional($this->transactionsManager)->rollback($this->getName(), $this->transactions);
         $this->fireConnectionEvent('rollingBack');
     }
     /**
@@ -232,7 +232,7 @@ trait ManagesTransactions
     {
         if ($this->causedByLostConnection($e)) {
             $this->transactions = 0;
-            \optional($this->transactionsManager)->rollback($this->getName(), $this->transactions);
+            optional($this->transactionsManager)->rollback($this->getName(), $this->transactions);
         }
         throw $e;
     }

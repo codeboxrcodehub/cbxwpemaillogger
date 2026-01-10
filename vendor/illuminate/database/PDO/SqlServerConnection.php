@@ -32,7 +32,7 @@ class SqlServerConnection implements ServerInfoAwareConnection
      * @param  string  $sql
      * @return \Doctrine\DBAL\Driver\Statement
      */
-    public function prepare(string $sql) : StatementInterface
+    public function prepare(string $sql): StatementInterface
     {
         return new Statement($this->connection->prepare($sql));
     }
@@ -42,7 +42,7 @@ class SqlServerConnection implements ServerInfoAwareConnection
      * @param  string  $sql
      * @return \Doctrine\DBAL\Driver\Result
      */
-    public function query(string $sql) : Result
+    public function query(string $sql): Result
     {
         return $this->connection->query($sql);
     }
@@ -52,7 +52,7 @@ class SqlServerConnection implements ServerInfoAwareConnection
      * @param  string  $statement
      * @return int
      */
-    public function exec(string $statement) : int
+    public function exec(string $statement): int
     {
         return $this->connection->exec($statement);
     }
@@ -126,7 +126,7 @@ class SqlServerConnection implements ServerInfoAwareConnection
      *
      * @return \PDO
      */
-    public function getWrappedConnection() : PDO
+    public function getWrappedConnection(): PDO
     {
         return $this->connection->getWrappedConnection();
     }

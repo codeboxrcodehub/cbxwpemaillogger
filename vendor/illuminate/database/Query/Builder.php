@@ -198,9 +198,9 @@ class Builder
     {
         $this->columns = [];
         $this->bindings['select'] = [];
-        $columns = \is_array($columns) ? $columns : \func_get_args();
+        $columns = is_array($columns) ? $columns : func_get_args();
         foreach ($columns as $as => $column) {
-            if (\is_string($as) && $this->isQueryable($column)) {
+            if (is_string($as) && $this->isQueryable($column)) {
                 $this->selectSub($column, $as);
             } else {
                 $this->columns[] = $column;
@@ -294,7 +294,7 @@ class Builder
         if ($query instanceof self || $query instanceof EloquentBuilder || $query instanceof Relation) {
             $query = $this->prependDatabaseNameIfCrossDatabaseQuery($query);
             return [$query->toSql(), $query->getBindings()];
-        } elseif (\is_string($query)) {
+        } elseif (is_string($query)) {
             return [$query, []];
         } else {
             throw new InvalidArgumentException('A subquery must be a query builder instance, a Closure, or a string.');
@@ -310,7 +310,7 @@ class Builder
     {
         if ($query->getConnection()->getDatabaseName() !== $this->getConnection()->getDatabaseName()) {
             $databaseName = $query->getConnection()->getDatabaseName();
-            if (\strpos($query->from, $databaseName) !== 0 && \strpos($query->from, '.') === \false) {
+            if (strpos($query->from, $databaseName) !== 0 && strpos($query->from, '.') === \false) {
                 $query->from($databaseName . '.' . $query->from);
             }
         }
@@ -324,10 +324,10 @@ class Builder
      */
     public function addSelect($column)
     {
-        $columns = \is_array($column) ? $column : \func_get_args();
+        $columns = is_array($column) ? $column : func_get_args();
         foreach ($columns as $as => $column) {
-            if (\is_string($as) && $this->isQueryable($column)) {
-                if (\is_null($this->columns)) {
+            if (is_string($as) && $this->isQueryable($column)) {
+                if (is_null($this->columns)) {
                     $this->select($this->from . '.*');
                 }
                 $this->selectSub($column, $as);
@@ -345,9 +345,9 @@ class Builder
      */
     public function distinct()
     {
-        $columns = \func_get_args();
-        if (\count($columns) > 0) {
-            $this->distinct = \is_array($columns[0]) || \is_bool($columns[0]) ? $columns[0] : $columns;
+        $columns = func_get_args();
+        if (count($columns) > 0) {
+            $this->distinct = is_array($columns[0]) || is_bool($columns[0]) ? $columns[0] : $columns;
         } else {
             $this->distinct = \true;
         }
@@ -564,8 +564,8 @@ class Builder
      */
     public function mergeWheres($wheres, $bindings)
     {
-        $this->wheres = \array_merge($this->wheres, (array) $wheres);
-        $this->bindings['where'] = \array_values(\array_merge($this->bindings['where'], (array) $bindings));
+        $this->wheres = array_merge($this->wheres, (array) $wheres);
+        $this->bindings['where'] = array_values(array_merge($this->bindings['where'], (array) $bindings));
     }
     /**
      * Add a basic where clause to the query.
@@ -581,23 +581,23 @@ class Builder
         // If the column is an array, we will assume it is an array of key-value pairs
         // and can add them each as a where clause. We will maintain the boolean we
         // received when the method was called and pass it into the nested where.
-        if (\is_array($column)) {
+        if (is_array($column)) {
             return $this->addArrayOfWheres($column, $boolean);
         }
         // Here we will make some assumptions about the operator. If only 2 values are
         // passed to the method, we will assume that the operator is an equals sign
         // and keep going. Otherwise, we'll require the operator to be passed in.
-        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, \func_num_args() === 2);
+        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, func_num_args() === 2);
         // If the columns is actually a Closure instance, we will assume the developer
         // wants to begin a nested where statement which is wrapped in parenthesis.
         // We'll add that Closure to the query then return back out immediately.
-        if ($column instanceof Closure && \is_null($operator)) {
+        if ($column instanceof Closure && is_null($operator)) {
             return $this->whereNested($column, $boolean);
         }
         // If the column is a Closure instance and there is an operator value, we will
         // assume the developer wants to run a subquery and then compare the result
         // of that subquery with the given value that was provided to the method.
-        if ($this->isQueryable($column) && !\is_null($operator)) {
+        if ($this->isQueryable($column) && !is_null($operator)) {
             [$sub, $bindings] = $this->createSub($column);
             return $this->addBinding($bindings, 'where')->where(new Expression('(' . $sub . ')'), $operator, $value, $boolean);
         }
@@ -616,16 +616,16 @@ class Builder
         // If the value is "null", we will just assume the developer wants to add a
         // where null clause to the query. So, we will allow a short-cut here to
         // that method for convenience so the developer doesn't have to check.
-        if (\is_null($value)) {
+        if (is_null($value)) {
             return $this->whereNull($column, $boolean, $operator !== '=');
         }
         $type = 'Basic';
         // If the column is making a JSON reference we'll check to see if the value
         // is a boolean. If it is, we'll add the raw boolean string as an actual
         // value to the query to ensure this is properly handled by the query.
-        if (Str::contains($column, '->') && \is_bool($value)) {
+        if (Str::contains($column, '->') && is_bool($value)) {
             $value = new Expression($value ? 'true' : 'false');
-            if (\is_string($column)) {
+            if (is_string($column)) {
                 $type = 'JsonBoolean';
             }
         }
@@ -635,7 +635,7 @@ class Builder
         // Now that we are working with just a simple query we can put the elements
         // in our array and add the query binding to our array of bindings that
         // will be bound to each SQL statements when it is finally executed.
-        $this->wheres[] = \compact('type', 'column', 'operator', 'value', 'boolean');
+        $this->wheres[] = compact('type', 'column', 'operator', 'value', 'boolean');
         if (!$value instanceof Expression) {
             $this->addBinding($this->flattenValue($value), 'where');
         }
@@ -651,10 +651,10 @@ class Builder
      */
     protected function addArrayOfWheres($column, $boolean, $method = 'where')
     {
-        return $this->whereNested(function ($query) use($column, $method, $boolean) {
+        return $this->whereNested(function ($query) use ($column, $method, $boolean) {
             foreach ($column as $key => $value) {
-                if (\is_numeric($key) && \is_array($value)) {
-                    $query->{$method}(...\array_values($value));
+                if (is_numeric($key) && is_array($value)) {
+                    $query->{$method}(...array_values($value));
                 } else {
                     $query->{$method}($key, '=', $value, $boolean);
                 }
@@ -691,7 +691,7 @@ class Builder
      */
     protected function invalidOperatorAndValue($operator, $value)
     {
-        return \is_null($value) && \in_array($operator, $this->operators) && !\in_array($operator, ['=', '<>', '!=']);
+        return is_null($value) && in_array($operator, $this->operators) && !in_array($operator, ['=', '<>', '!=']);
     }
     /**
      * Determine if the given operator is supported.
@@ -701,7 +701,7 @@ class Builder
      */
     protected function invalidOperator($operator)
     {
-        return !\is_string($operator) || !\in_array(\strtolower($operator), $this->operators, \true) && !\in_array(\strtolower($operator), $this->grammar->getOperators(), \true);
+        return !is_string($operator) || !in_array(strtolower($operator), $this->operators, \true) && !in_array(strtolower($operator), $this->grammar->getOperators(), \true);
     }
     /**
      * Determine if the operator is a bitwise operator.
@@ -711,7 +711,7 @@ class Builder
      */
     protected function isBitwiseOperator($operator)
     {
-        return \in_array(\strtolower($operator), $this->bitwiseOperators, \true) || \in_array(\strtolower($operator), $this->grammar->getBitwiseOperators(), \true);
+        return in_array(strtolower($operator), $this->bitwiseOperators, \true) || in_array(strtolower($operator), $this->grammar->getBitwiseOperators(), \true);
     }
     /**
      * Add an "or where" clause to the query.
@@ -723,7 +723,7 @@ class Builder
      */
     public function orWhere($column, $operator = null, $value = null)
     {
-        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, \func_num_args() === 2);
+        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, func_num_args() === 2);
         return $this->where($column, $operator, $value, 'or');
     }
     /**
@@ -740,7 +740,7 @@ class Builder
         // If the column is an array, we will assume it is an array of key-value pairs
         // and can add them each as a where clause. We will maintain the boolean we
         // received when the method was called and pass it into the nested where.
-        if (\is_array($first)) {
+        if (is_array($first)) {
             return $this->addArrayOfWheres($first, $boolean, 'whereColumn');
         }
         // If the given operator is not found in the list of valid operators we will
@@ -753,7 +753,7 @@ class Builder
         // are building for the query. All of them will be compiled via a grammar
         // once the query is about to be executed and run against the database.
         $type = 'Column';
-        $this->wheres[] = \compact('type', 'first', 'operator', 'second', 'boolean');
+        $this->wheres[] = compact('type', 'first', 'operator', 'second', 'boolean');
         return $this;
     }
     /**
@@ -819,7 +819,7 @@ class Builder
         if ($values instanceof Arrayable) {
             $values = $values->toArray();
         }
-        $this->wheres[] = \compact('type', 'column', 'values', 'boolean');
+        $this->wheres[] = compact('type', 'column', 'values', 'boolean');
         // Finally we'll add a binding for each values unless that value is an expression
         // in which case we will just skip over it since it will be the query as a raw
         // string and not as a parameterized place-holder to be replaced by the PDO.
@@ -878,7 +878,7 @@ class Builder
         foreach ($values as &$value) {
             $value = (int) $value;
         }
-        $this->wheres[] = \compact('type', 'column', 'values', 'boolean');
+        $this->wheres[] = compact('type', 'column', 'values', 'boolean');
         return $this;
     }
     /**
@@ -927,7 +927,7 @@ class Builder
     {
         $type = $not ? 'NotNull' : 'Null';
         foreach (Arr::wrap($columns) as $column) {
-            $this->wheres[] = \compact('type', 'column', 'boolean');
+            $this->wheres[] = compact('type', 'column', 'boolean');
         }
         return $this;
     }
@@ -964,8 +964,8 @@ class Builder
     public function whereBetween($column, array $values, $boolean = 'and', $not = \false)
     {
         $type = 'between';
-        $this->wheres[] = \compact('type', 'column', 'values', 'boolean', 'not');
-        $this->addBinding(\array_slice($this->cleanBindings(Arr::flatten($values)), 0, 2), 'where');
+        $this->wheres[] = compact('type', 'column', 'values', 'boolean', 'not');
+        $this->addBinding(array_slice($this->cleanBindings(Arr::flatten($values)), 0, 2), 'where');
         return $this;
     }
     /**
@@ -980,7 +980,7 @@ class Builder
     public function whereBetweenColumns($column, array $values, $boolean = 'and', $not = \false)
     {
         $type = 'betweenColumns';
-        $this->wheres[] = \compact('type', 'column', 'values', 'boolean', 'not');
+        $this->wheres[] = compact('type', 'column', 'values', 'boolean', 'not');
         return $this;
     }
     /**
@@ -1072,7 +1072,7 @@ class Builder
      */
     public function whereDate($column, $operator, $value = null, $boolean = 'and')
     {
-        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, \func_num_args() === 2);
+        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, func_num_args() === 2);
         $value = $this->flattenValue($value);
         if ($value instanceof DateTimeInterface) {
             $value = $value->format('Y-m-d');
@@ -1089,7 +1089,7 @@ class Builder
      */
     public function orWhereDate($column, $operator, $value = null)
     {
-        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, \func_num_args() === 2);
+        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, func_num_args() === 2);
         return $this->whereDate($column, $operator, $value, 'or');
     }
     /**
@@ -1103,7 +1103,7 @@ class Builder
      */
     public function whereTime($column, $operator, $value = null, $boolean = 'and')
     {
-        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, \func_num_args() === 2);
+        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, func_num_args() === 2);
         $value = $this->flattenValue($value);
         if ($value instanceof DateTimeInterface) {
             $value = $value->format('H:i:s');
@@ -1120,7 +1120,7 @@ class Builder
      */
     public function orWhereTime($column, $operator, $value = null)
     {
-        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, \func_num_args() === 2);
+        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, func_num_args() === 2);
         return $this->whereTime($column, $operator, $value, 'or');
     }
     /**
@@ -1134,13 +1134,13 @@ class Builder
      */
     public function whereDay($column, $operator, $value = null, $boolean = 'and')
     {
-        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, \func_num_args() === 2);
+        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, func_num_args() === 2);
         $value = $this->flattenValue($value);
         if ($value instanceof DateTimeInterface) {
             $value = $value->format('d');
         }
         if (!$value instanceof Expression) {
-            $value = \str_pad($value, 2, '0', \STR_PAD_LEFT);
+            $value = str_pad($value, 2, '0', \STR_PAD_LEFT);
         }
         return $this->addDateBasedWhere('Day', $column, $operator, $value, $boolean);
     }
@@ -1154,7 +1154,7 @@ class Builder
      */
     public function orWhereDay($column, $operator, $value = null)
     {
-        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, \func_num_args() === 2);
+        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, func_num_args() === 2);
         return $this->whereDay($column, $operator, $value, 'or');
     }
     /**
@@ -1168,13 +1168,13 @@ class Builder
      */
     public function whereMonth($column, $operator, $value = null, $boolean = 'and')
     {
-        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, \func_num_args() === 2);
+        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, func_num_args() === 2);
         $value = $this->flattenValue($value);
         if ($value instanceof DateTimeInterface) {
             $value = $value->format('m');
         }
         if (!$value instanceof Expression) {
-            $value = \str_pad($value, 2, '0', \STR_PAD_LEFT);
+            $value = str_pad($value, 2, '0', \STR_PAD_LEFT);
         }
         return $this->addDateBasedWhere('Month', $column, $operator, $value, $boolean);
     }
@@ -1188,7 +1188,7 @@ class Builder
      */
     public function orWhereMonth($column, $operator, $value = null)
     {
-        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, \func_num_args() === 2);
+        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, func_num_args() === 2);
         return $this->whereMonth($column, $operator, $value, 'or');
     }
     /**
@@ -1202,7 +1202,7 @@ class Builder
      */
     public function whereYear($column, $operator, $value = null, $boolean = 'and')
     {
-        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, \func_num_args() === 2);
+        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, func_num_args() === 2);
         $value = $this->flattenValue($value);
         if ($value instanceof DateTimeInterface) {
             $value = $value->format('Y');
@@ -1219,7 +1219,7 @@ class Builder
      */
     public function orWhereYear($column, $operator, $value = null)
     {
-        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, \func_num_args() === 2);
+        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, func_num_args() === 2);
         return $this->whereYear($column, $operator, $value, 'or');
     }
     /**
@@ -1234,7 +1234,7 @@ class Builder
      */
     protected function addDateBasedWhere($type, $column, $operator, $value, $boolean = 'and')
     {
-        $this->wheres[] = \compact('column', 'type', 'boolean', 'operator', 'value');
+        $this->wheres[] = compact('column', 'type', 'boolean', 'operator', 'value');
         if (!$value instanceof Expression) {
             $this->addBinding($value, 'where');
         }
@@ -1249,7 +1249,7 @@ class Builder
      */
     public function whereNested(Closure $callback, $boolean = 'and')
     {
-        \call_user_func($callback, $query = $this->forNestedWhere());
+        call_user_func($callback, $query = $this->forNestedWhere());
         return $this->addNestedWhereQuery($query, $boolean);
     }
     /**
@@ -1270,9 +1270,9 @@ class Builder
      */
     public function addNestedWhereQuery($query, $boolean = 'and')
     {
-        if (\count($query->wheres)) {
+        if (count($query->wheres)) {
             $type = 'Nested';
-            $this->wheres[] = \compact('type', 'query', 'boolean');
+            $this->wheres[] = compact('type', 'query', 'boolean');
             $this->addBinding($query->getRawBindings()['where'], 'where');
         }
         return $this;
@@ -1292,8 +1292,8 @@ class Builder
         // Once we have the query instance we can simply execute it so it can add all
         // of the sub-select's conditions to itself, and then we can cache it off
         // in the array of where clauses for the "main" parent query instance.
-        \call_user_func($callback, $query = $this->forSubQuery());
-        $this->wheres[] = \compact('type', 'column', 'operator', 'query', 'boolean');
+        call_user_func($callback, $query = $this->forSubQuery());
+        $this->wheres[] = compact('type', 'column', 'operator', 'query', 'boolean');
         $this->addBinding($query->getBindings(), 'where');
         return $this;
     }
@@ -1311,7 +1311,7 @@ class Builder
         // Similar to the sub-select clause, we will create a new query instance so
         // the developer may cleanly specify the entire exists query and we will
         // compile the whole thing in the grammar and insert it into the SQL.
-        \call_user_func($callback, $query);
+        call_user_func($callback, $query);
         return $this->addWhereExistsQuery($query, $boolean, $not);
     }
     /**
@@ -1357,7 +1357,7 @@ class Builder
     public function addWhereExistsQuery(self $query, $boolean = 'and', $not = \false)
     {
         $type = $not ? 'NotExists' : 'Exists';
-        $this->wheres[] = \compact('type', 'query', 'boolean');
+        $this->wheres[] = compact('type', 'query', 'boolean');
         $this->addBinding($query->getBindings(), 'where');
         return $this;
     }
@@ -1374,11 +1374,11 @@ class Builder
      */
     public function whereRowValues($columns, $operator, $values, $boolean = 'and')
     {
-        if (\count($columns) !== \count($values)) {
+        if (count($columns) !== count($values)) {
             throw new InvalidArgumentException('The number of columns must match the number of values');
         }
         $type = 'RowValues';
-        $this->wheres[] = \compact('type', 'columns', 'operator', 'values', 'boolean');
+        $this->wheres[] = compact('type', 'columns', 'operator', 'values', 'boolean');
         $this->addBinding($this->cleanBindings($values));
         return $this;
     }
@@ -1406,7 +1406,7 @@ class Builder
     public function whereJsonContains($column, $value, $boolean = 'and', $not = \false)
     {
         $type = 'JsonContains';
-        $this->wheres[] = \compact('type', 'column', 'value', 'boolean', 'not');
+        $this->wheres[] = compact('type', 'column', 'value', 'boolean', 'not');
         if (!$value instanceof Expression) {
             $this->addBinding($this->grammar->prepareBindingForJsonContains($value));
         }
@@ -1458,8 +1458,8 @@ class Builder
     public function whereJsonLength($column, $operator, $value = null, $boolean = 'and')
     {
         $type = 'JsonLength';
-        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, \func_num_args() === 2);
-        $this->wheres[] = \compact('type', 'column', 'operator', 'value', 'boolean');
+        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, func_num_args() === 2);
+        $this->wheres[] = compact('type', 'column', 'operator', 'value', 'boolean');
         if (!$value instanceof Expression) {
             $this->addBinding((int) $this->flattenValue($value));
         }
@@ -1475,7 +1475,7 @@ class Builder
      */
     public function orWhereJsonLength($column, $operator, $value = null)
     {
-        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, \func_num_args() === 2);
+        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, func_num_args() === 2);
         return $this->whereJsonLength($column, $operator, $value, 'or');
     }
     /**
@@ -1487,8 +1487,8 @@ class Builder
      */
     public function dynamicWhere($method, $parameters)
     {
-        $finder = \substr($method, 5);
-        $segments = \preg_split('/(And|Or)(?=[A-Z])/', $finder, -1, \PREG_SPLIT_DELIM_CAPTURE);
+        $finder = substr($method, 5);
+        $segments = preg_split('/(And|Or)(?=[A-Z])/', $finder, -1, \PREG_SPLIT_DELIM_CAPTURE);
         // The connector variable will determine which connector will be used for the
         // query condition. We will change it as we come across new boolean values
         // in the dynamic method strings, which could contain a number of these.
@@ -1521,7 +1521,7 @@ class Builder
         // Once we have parsed out the columns and formatted the boolean operators we
         // are ready to add it to this query as a where clause just like any other
         // clause on the query. Then we'll increment the parameter index values.
-        $bool = \strtolower($connector);
+        $bool = strtolower($connector);
         $this->where(Str::snake($segment), '=', $parameters[$index], $bool);
     }
     /**
@@ -1536,7 +1536,7 @@ class Builder
     {
         $type = 'Fulltext';
         $columns = (array) $columns;
-        $this->wheres[] = \compact('type', 'columns', 'value', 'options', 'boolean');
+        $this->wheres[] = compact('type', 'columns', 'value', 'options', 'boolean');
         $this->addBinding($value);
         return $this;
     }
@@ -1560,7 +1560,7 @@ class Builder
     public function groupBy(...$groups)
     {
         foreach ($groups as $group) {
-            $this->groups = \array_merge((array) $this->groups, Arr::wrap($group));
+            $this->groups = array_merge((array) $this->groups, Arr::wrap($group));
         }
         return $this;
     }
@@ -1592,7 +1592,7 @@ class Builder
         // Here we will make some assumptions about the operator. If only 2 values are
         // passed to the method, we will assume that the operator is an equals sign
         // and keep going. Otherwise, we'll require the operator to be passed in.
-        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, \func_num_args() === 2);
+        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, func_num_args() === 2);
         // If the given operator is not found in the list of valid operators we will
         // assume that the developer is just short-cutting the '=' operators and
         // we will set the operators to '=' and set the values appropriately.
@@ -1602,7 +1602,7 @@ class Builder
         if ($this->isBitwiseOperator($operator)) {
             $type = 'Bitwise';
         }
-        $this->havings[] = \compact('type', 'column', 'operator', 'value', 'boolean');
+        $this->havings[] = compact('type', 'column', 'operator', 'value', 'boolean');
         if (!$value instanceof Expression) {
             $this->addBinding($this->flattenValue($value), 'having');
         }
@@ -1618,7 +1618,7 @@ class Builder
      */
     public function orHaving($column, $operator = null, $value = null)
     {
-        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, \func_num_args() === 2);
+        [$value, $operator] = $this->prepareValueAndOperator($value, $operator, func_num_args() === 2);
         return $this->having($column, $operator, $value, 'or');
     }
     /**
@@ -1633,8 +1633,8 @@ class Builder
     public function havingBetween($column, array $values, $boolean = 'and', $not = \false)
     {
         $type = 'between';
-        $this->havings[] = \compact('type', 'column', 'values', 'boolean', 'not');
-        $this->addBinding(\array_slice($this->cleanBindings(Arr::flatten($values)), 0, 2), 'having');
+        $this->havings[] = compact('type', 'column', 'values', 'boolean', 'not');
+        $this->addBinding(array_slice($this->cleanBindings(Arr::flatten($values)), 0, 2), 'having');
         return $this;
     }
     /**
@@ -1648,7 +1648,7 @@ class Builder
     public function havingRaw($sql, array $bindings = [], $boolean = 'and')
     {
         $type = 'Raw';
-        $this->havings[] = \compact('type', 'sql', 'boolean');
+        $this->havings[] = compact('type', 'sql', 'boolean');
         $this->addBinding($bindings, 'having');
         return $this;
     }
@@ -1679,8 +1679,8 @@ class Builder
             $column = new Expression('(' . $query . ')');
             $this->addBinding($bindings, $this->unions ? 'unionOrder' : 'order');
         }
-        $direction = \strtolower($direction);
-        if (!\in_array($direction, ['asc', 'desc'], \true)) {
+        $direction = strtolower($direction);
+        if (!in_array($direction, ['asc', 'desc'], \true)) {
             throw new InvalidArgumentException('Order direction must be "asc" or "desc".');
         }
         $this->{$this->unions ? 'unionOrders' : 'orders'}[] = ['column' => $column, 'direction' => $direction];
@@ -1736,7 +1736,7 @@ class Builder
     public function orderByRaw($sql, $bindings = [])
     {
         $type = 'Raw';
-        $this->{$this->unions ? 'unionOrders' : 'orders'}[] = \compact('type', 'sql');
+        $this->{$this->unions ? 'unionOrders' : 'orders'}[] = compact('type', 'sql');
         $this->addBinding($bindings, $this->unions ? 'unionOrder' : 'order');
         return $this;
     }
@@ -1759,7 +1759,7 @@ class Builder
     public function offset($value)
     {
         $property = $this->unions ? 'unionOffset' : 'offset';
-        $this->{$property} = \max(0, (int) $value);
+        $this->{$property} = max(0, (int) $value);
         return $this;
     }
     /**
@@ -1782,7 +1782,7 @@ class Builder
     {
         $property = $this->unions ? 'unionLimit' : 'limit';
         if ($value >= 0) {
-            $this->{$property} = !\is_null($value) ? (int) $value : null;
+            $this->{$property} = !is_null($value) ? (int) $value : null;
         }
         return $this;
     }
@@ -1808,7 +1808,7 @@ class Builder
     public function forPageBeforeId($perPage = 15, $lastId = 0, $column = 'id')
     {
         $this->orders = $this->removeExistingOrdersFor($column);
-        if (!\is_null($lastId)) {
+        if (!is_null($lastId)) {
             $this->where($column, '<', $lastId);
         }
         return $this->orderBy($column, 'desc')->limit($perPage);
@@ -1824,7 +1824,7 @@ class Builder
     public function forPageAfterId($perPage = 15, $lastId = 0, $column = 'id')
     {
         $this->orders = $this->removeExistingOrdersFor($column);
-        if (!\is_null($lastId)) {
+        if (!is_null($lastId)) {
             $this->where($column, '>', $lastId);
         }
         return $this->orderBy($column, 'asc')->limit($perPage);
@@ -1855,7 +1855,7 @@ class Builder
      */
     protected function removeExistingOrdersFor($column)
     {
-        return Collection::make($this->orders)->reject(function ($order) use($column) {
+        return Collection::make($this->orders)->reject(function ($order) use ($column) {
             return isset($order['column']) ? $order['column'] === $column : \false;
         })->values()->all();
     }
@@ -1869,9 +1869,9 @@ class Builder
     public function union($query, $all = \false)
     {
         if ($query instanceof Closure) {
-            \call_user_func($query, $query = $this->newQuery());
+            call_user_func($query, $query = $this->newQuery());
         }
-        $this->unions[] = \compact('query', 'all');
+        $this->unions[] = compact('query', 'all');
         $this->addBinding($query->getBindings(), 'union');
         return $this;
     }
@@ -1894,7 +1894,7 @@ class Builder
     public function lock($value = \true)
     {
         $this->lock = $value;
-        if (!\is_null($this->lock)) {
+        if (!is_null($this->lock)) {
             $this->useWritePdo();
         }
         return $this;
@@ -1970,7 +1970,7 @@ class Builder
     public function value($column)
     {
         $result = (array) $this->first([$column]);
-        return \count($result) > 0 ? \reset($result) : null;
+        return count($result) > 0 ? reset($result) : null;
     }
     /**
      * Execute the query as a "select" statement.
@@ -2073,10 +2073,10 @@ class Builder
         // just return the count of the entire results set since that will be correct.
         if (!isset($results[0])) {
             return 0;
-        } elseif (\is_object($results[0])) {
+        } elseif (is_object($results[0])) {
             return (int) $results[0]->aggregate;
         }
-        return (int) \array_change_key_case((array) $results[0])['aggregate'];
+        return (int) array_change_key_case((array) $results[0])['aggregate'];
     }
     /**
      * Run a pagination count query.
@@ -2088,7 +2088,7 @@ class Builder
     {
         if ($this->groups || $this->havings) {
             $clone = $this->cloneForPaginationCount();
-            if (\is_null($clone->columns) && !empty($this->joins)) {
+            if (is_null($clone->columns) && !empty($this->joins)) {
                 $clone->select($this->from . '.*');
             }
             return $this->newQuery()->from(new Expression('(' . $clone->toSql() . ') as ' . $this->grammar->wrap('aggregate_table')))->mergeBindings($clone)->setAggregate('count', $this->withoutSelectAliases($columns))->get()->all();
@@ -2113,8 +2113,8 @@ class Builder
      */
     protected function withoutSelectAliases(array $columns)
     {
-        return \array_map(function ($column) {
-            return \is_string($column) && ($aliasPosition = \stripos($column, ' as ')) !== \false ? \substr($column, 0, $aliasPosition) : $column;
+        return array_map(function ($column) {
+            return is_string($column) && ($aliasPosition = stripos($column, ' as ')) !== \false ? substr($column, 0, $aliasPosition) : $column;
         }, $columns);
     }
     /**
@@ -2124,7 +2124,7 @@ class Builder
      */
     public function cursor()
     {
-        if (\is_null($this->columns)) {
+        if (is_null($this->columns)) {
             $this->columns = ['*'];
         }
         return new LazyCollection(function () {
@@ -2156,7 +2156,7 @@ class Builder
         // First, we will need to select the results of the query accounting for the
         // given columns / key. Once we have the results, we will be able to take
         // the results and get the exact data that was requested for the query.
-        $queryResult = $this->onceWithColumns(\is_null($key) ? [$column] : [$column, $key], function () {
+        $queryResult = $this->onceWithColumns(is_null($key) ? [$column] : [$column, $key], function () {
             return $this->processor->processSelect($this, $this->runSelect());
         });
         if (empty($queryResult)) {
@@ -2167,7 +2167,7 @@ class Builder
         // are only keyed by the column itself. We'll strip the table out here.
         $column = $this->stripTableForPluck($column);
         $key = $this->stripTableForPluck($key);
-        return \is_array($queryResult[0]) ? $this->pluckFromArrayColumn($queryResult, $column, $key) : $this->pluckFromObjectColumn($queryResult, $column, $key);
+        return is_array($queryResult[0]) ? $this->pluckFromArrayColumn($queryResult, $column, $key) : $this->pluckFromObjectColumn($queryResult, $column, $key);
     }
     /**
      * Strip off the table name or alias from a column identifier.
@@ -2177,11 +2177,11 @@ class Builder
      */
     protected function stripTableForPluck($column)
     {
-        if (\is_null($column)) {
+        if (is_null($column)) {
             return $column;
         }
-        $separator = \strpos(\strtolower($column), ' as ') !== \false ? ' as ' : '\\.';
-        return \last(\preg_split('~' . $separator . '~i', $column));
+        $separator = strpos(strtolower($column), ' as ') !== \false ? ' as ' : '\.';
+        return last(preg_split('~' . $separator . '~i', $column));
     }
     /**
      * Retrieve column values from rows represented as objects.
@@ -2194,7 +2194,7 @@ class Builder
     protected function pluckFromObjectColumn($queryResult, $column, $key)
     {
         $results = [];
-        if (\is_null($key)) {
+        if (is_null($key)) {
             foreach ($queryResult as $row) {
                 $results[] = $row->{$column};
             }
@@ -2216,7 +2216,7 @@ class Builder
     protected function pluckFromArrayColumn($queryResult, $column, $key)
     {
         $results = [];
-        if (\is_null($key)) {
+        if (is_null($key)) {
             foreach ($queryResult as $row) {
                 $results[] = $row[$column];
             }
@@ -2357,7 +2357,7 @@ class Builder
     {
         $results = $this->cloneWithout($this->unions || $this->havings ? [] : ['columns'])->cloneWithoutBindings($this->unions || $this->havings ? [] : ['select'])->setAggregate($function, $columns)->get($columns);
         if (!$results->isEmpty()) {
-            return \array_change_key_case((array) $results[0])['aggregate'];
+            return array_change_key_case((array) $results[0])['aggregate'];
         }
     }
     /**
@@ -2376,13 +2376,13 @@ class Builder
         if (!$result) {
             return 0;
         }
-        if (\is_int($result) || \is_float($result)) {
+        if (is_int($result) || is_float($result)) {
             return $result;
         }
         // If the result doesn't contain a decimal place, we will assume it is an int then
         // cast it to one. When it does we will cast it to a float since it needs to be
         // cast to the expected data type for the developers out of pure convenience.
-        return \strpos((string) $result, '.') === \false ? (int) $result : (float) $result;
+        return strpos((string) $result, '.') === \false ? (int) $result : (float) $result;
     }
     /**
      * Set the aggregate property without running the query.
@@ -2393,7 +2393,7 @@ class Builder
      */
     protected function setAggregate($function, $columns)
     {
-        $this->aggregate = \compact('function', 'columns');
+        $this->aggregate = compact('function', 'columns');
         if (empty($this->groups)) {
             $this->orders = null;
             $this->bindings['order'] = [];
@@ -2412,7 +2412,7 @@ class Builder
     protected function onceWithColumns($columns, $callback)
     {
         $original = $this->columns;
-        if (\is_null($original)) {
+        if (is_null($original)) {
             $this->columns = $columns;
         }
         $result = $callback();
@@ -2433,11 +2433,11 @@ class Builder
         if (empty($values)) {
             return \true;
         }
-        if (!\is_array(\reset($values))) {
+        if (!is_array(reset($values))) {
             $values = [$values];
         } else {
             foreach ($values as $key => $value) {
-                \ksort($value);
+                ksort($value);
                 $values[$key] = $value;
             }
         }
@@ -2458,11 +2458,11 @@ class Builder
         if (empty($values)) {
             return 0;
         }
-        if (!\is_array(\reset($values))) {
+        if (!is_array(reset($values))) {
             $values = [$values];
         } else {
             foreach ($values as $key => $value) {
-                \ksort($value);
+                ksort($value);
                 $values[$key] = $value;
             }
         }
@@ -2516,7 +2516,7 @@ class Builder
      */
     public function updateFrom(array $values)
     {
-        if (!\method_exists($this->grammar, 'compileUpdateFrom')) {
+        if (!method_exists($this->grammar, 'compileUpdateFrom')) {
             throw new LogicException('This database engine does not support the updateFrom method.');
         }
         $this->applyBeforeQueryCallbacks();
@@ -2533,7 +2533,7 @@ class Builder
     public function updateOrInsert(array $attributes, array $values = [])
     {
         if (!$this->where($attributes)->exists()) {
-            return $this->insert(\array_merge($attributes, $values));
+            return $this->insert(array_merge($attributes, $values));
         }
         if (empty($values)) {
             return \true;
@@ -2555,20 +2555,20 @@ class Builder
         } elseif ($update === []) {
             return (int) $this->insert($values);
         }
-        if (!\is_array(\reset($values))) {
+        if (!is_array(reset($values))) {
             $values = [$values];
         } else {
             foreach ($values as $key => $value) {
-                \ksort($value);
+                ksort($value);
                 $values[$key] = $value;
             }
         }
-        if (\is_null($update)) {
-            $update = \array_keys(\reset($values));
+        if (is_null($update)) {
+            $update = array_keys(reset($values));
         }
         $this->applyBeforeQueryCallbacks();
-        $bindings = $this->cleanBindings(\array_merge(Arr::flatten($values, 1), collect($update)->reject(function ($value, $key) {
-            return \is_int($key);
+        $bindings = $this->cleanBindings(array_merge(Arr::flatten($values, 1), collect($update)->reject(function ($value, $key) {
+            return is_int($key);
         })->all()));
         return $this->connection->affectingStatement($this->grammar->compileUpsert($this, $values, (array) $uniqueBy, $update), $bindings);
     }
@@ -2584,11 +2584,11 @@ class Builder
      */
     public function increment($column, $amount = 1, array $extra = [])
     {
-        if (!\is_numeric($amount)) {
+        if (!is_numeric($amount)) {
             throw new InvalidArgumentException('Non-numeric value passed to increment method.');
         }
         $wrapped = $this->grammar->wrap($column);
-        $columns = \array_merge([$column => $this->raw("{$wrapped} + {$amount}")], $extra);
+        $columns = array_merge([$column => $this->raw("{$wrapped} + {$amount}")], $extra);
         return $this->update($columns);
     }
     /**
@@ -2603,11 +2603,11 @@ class Builder
      */
     public function decrement($column, $amount = 1, array $extra = [])
     {
-        if (!\is_numeric($amount)) {
+        if (!is_numeric($amount)) {
             throw new InvalidArgumentException('Non-numeric value passed to decrement method.');
         }
         $wrapped = $this->grammar->wrap($column);
-        $columns = \array_merge([$column => $this->raw("{$wrapped} - {$amount}")], $extra);
+        $columns = array_merge([$column => $this->raw("{$wrapped} - {$amount}")], $extra);
         return $this->update($columns);
     }
     /**
@@ -2621,7 +2621,7 @@ class Builder
         // If an ID is passed to the method, we will set the where clause to check the
         // ID to let developers to simply and quickly remove a single row from this
         // database without manually specifying the "where" clauses on the query.
-        if (!\is_null($id)) {
+        if (!is_null($id)) {
             $this->where($this->from . '.id', '=', $id);
         }
         $this->applyBeforeQueryCallbacks();
@@ -2696,7 +2696,7 @@ class Builder
      */
     public function setBindings(array $bindings, $type = 'where')
     {
-        if (!\array_key_exists($type, $this->bindings)) {
+        if (!array_key_exists($type, $this->bindings)) {
             throw new InvalidArgumentException("Invalid binding type: {$type}.");
         }
         $this->bindings[$type] = $bindings;
@@ -2713,11 +2713,11 @@ class Builder
      */
     public function addBinding($value, $type = 'where')
     {
-        if (!\array_key_exists($type, $this->bindings)) {
+        if (!array_key_exists($type, $this->bindings)) {
             throw new InvalidArgumentException("Invalid binding type: {$type}.");
         }
-        if (\is_array($value)) {
-            $this->bindings[$type] = \array_values(\array_map([$this, 'castBinding'], \array_merge($this->bindings[$type], $value)));
+        if (is_array($value)) {
+            $this->bindings[$type] = array_values(array_map([$this, 'castBinding'], array_merge($this->bindings[$type], $value)));
         } else {
             $this->bindings[$type][] = $this->castBinding($value);
         }
@@ -2731,7 +2731,7 @@ class Builder
      */
     public function castBinding($value)
     {
-        if (\function_exists('enum_exists') && $value instanceof BackedEnum) {
+        if (function_exists('enum_exists') && $value instanceof BackedEnum) {
             return $value->value;
         }
         return $value;
@@ -2744,7 +2744,7 @@ class Builder
      */
     public function mergeBindings(self $query)
     {
-        $this->bindings = \array_merge_recursive($this->bindings, $query->bindings);
+        $this->bindings = array_merge_recursive($this->bindings, $query->bindings);
         return $this;
     }
     /**
@@ -2767,7 +2767,7 @@ class Builder
      */
     protected function flattenValue($value)
     {
-        return \is_array($value) ? \head(Arr::flatten($value)) : $value;
+        return is_array($value) ? head(Arr::flatten($value)) : $value;
     }
     /**
      * Get the default key name of the table.
@@ -2842,7 +2842,7 @@ class Builder
      */
     public function cloneWithout(array $properties)
     {
-        return \tap($this->clone(), function ($clone) use($properties) {
+        return tap($this->clone(), function ($clone) use ($properties) {
             foreach ($properties as $property) {
                 $clone->{$property} = null;
             }
@@ -2856,7 +2856,7 @@ class Builder
      */
     public function cloneWithoutBindings(array $except)
     {
-        return \tap($this->clone(), function ($clone) use($except) {
+        return tap($this->clone(), function ($clone) use ($except) {
             foreach ($except as $type) {
                 $clone->bindings[$type] = [];
             }

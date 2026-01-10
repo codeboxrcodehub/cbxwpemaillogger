@@ -15,7 +15,7 @@ class RequiredWithoutAll extends Required
      * @param array $params
      * @return self
      */
-    public function fillParameters(array $params) : Rule
+    public function fillParameters(array $params): Rule
     {
         $this->params['fields'] = $params;
         return $this;
@@ -26,7 +26,7 @@ class RequiredWithoutAll extends Required
      * @param mixed $value
      * @return bool
      */
-    public function check($value) : bool
+    public function check($value): bool
     {
         $this->requireParameters(['fields']);
         $fields = $this->parameter('fields');

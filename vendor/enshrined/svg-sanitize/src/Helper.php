@@ -24,10 +24,10 @@ class Helper
      */
     public static function extractIdReferenceFromHref($href)
     {
-        if (!\is_string($href) || \strpos($href, '#') !== 0) {
+        if (!is_string($href) || strpos($href, '#') !== 0) {
             return null;
         }
-        return \substr($href, 1);
+        return substr($href, 1);
     }
     /**
      * @param \DOMElement $needle

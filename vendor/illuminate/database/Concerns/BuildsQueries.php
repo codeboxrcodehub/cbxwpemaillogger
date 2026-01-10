@@ -59,8 +59,8 @@ trait BuildsQueries
     public function chunkMap(callable $callback, $count = 1000)
     {
         $collection = Collection::make();
-        $this->chunk($count, function ($items) use($collection, $callback) {
-            $items->each(function ($item) use($collection, $callback) {
+        $this->chunk($count, function ($items) use ($collection, $callback) {
+            $items->each(function ($item) use ($collection, $callback) {
                 $collection->push($callback($item));
             });
         });
@@ -77,7 +77,7 @@ trait BuildsQueries
      */
     public function each(callable $callback, $count = 1000)
     {
-        return $this->chunk($count, function ($results) use($callback) {
+        return $this->chunk($count, function ($results) use ($callback) {
             foreach ($results as $key => $value) {
                 if ($callback($value, $key) === \false) {
                     return \false;
@@ -136,7 +136,7 @@ trait BuildsQueries
      */
     public function eachById(callable $callback, $count = 1000, $column = null, $alias = null)
     {
-        return $this->chunkById($count, function ($results, $page) use($callback, $count) {
+        return $this->chunkById($count, function ($results, $page) use ($callback, $count) {
             foreach ($results as $key => $value) {
                 if ($callback($value, ($page - 1) * $count + $key) === \false) {
                     return \false;
@@ -158,12 +158,12 @@ trait BuildsQueries
             throw new InvalidArgumentException('The chunk size should be at least 1');
         }
         $this->enforceOrderBy();
-        return LazyCollection::make(function () use($chunkSize) {
+        return LazyCollection::make(function () use ($chunkSize) {
             $page = 1;
             while (\true) {
                 $results = $this->forPage($page++, $chunkSize)->get();
                 foreach ($results as $result) {
-                    (yield $result);
+                    yield $result;
                 }
                 if ($results->count() < $chunkSize) {
                     return;
@@ -217,7 +217,7 @@ trait BuildsQueries
         }
         $column = $column ?? $this->defaultKeyName();
         $alias = $alias ?? $column;
-        return LazyCollection::make(function () use($chunkSize, $column, $alias, $descending) {
+        return LazyCollection::make(function () use ($chunkSize, $column, $alias, $descending) {
             $lastId = null;
             while (\true) {
                 $clone = clone $this;
@@ -227,7 +227,7 @@ trait BuildsQueries
                     $results = $clone->forPageAfterId($chunkSize, $lastId, $column)->get();
                 }
                 foreach ($results as $result) {
-                    (yield $result);
+                    yield $result;
                 }
                 if ($results->count() < $chunkSize) {
                     return;
@@ -278,32 +278,32 @@ trait BuildsQueries
     protected function paginateUsingCursor($perPage, $columns = ['*'], $cursorName = 'cursor', $cursor = null)
     {
         if (!$cursor instanceof Cursor) {
-            $cursor = \is_string($cursor) ? Cursor::fromEncoded($cursor) : CursorPaginator::resolveCurrentCursor($cursorName, $cursor);
+            $cursor = is_string($cursor) ? Cursor::fromEncoded($cursor) : CursorPaginator::resolveCurrentCursor($cursorName, $cursor);
         }
-        $orders = $this->ensureOrderForCursorPagination(!\is_null($cursor) && $cursor->pointsToPreviousItems());
-        if (!\is_null($cursor)) {
-            $addCursorConditions = function (self $builder, $previousColumn, $i) use(&$addCursorConditions, $cursor, $orders) {
+        $orders = $this->ensureOrderForCursorPagination(!is_null($cursor) && $cursor->pointsToPreviousItems());
+        if (!is_null($cursor)) {
+            $addCursorConditions = function (self $builder, $previousColumn, $i) use (&$addCursorConditions, $cursor, $orders) {
                 $unionBuilders = isset($builder->unions) ? collect($builder->unions)->pluck('query') : collect();
-                if (!\is_null($previousColumn)) {
+                if (!is_null($previousColumn)) {
                     $builder->where($this->getOriginalColumnNameForCursorPagination($this, $previousColumn), '=', $cursor->parameter($previousColumn));
-                    $unionBuilders->each(function ($unionBuilder) use($previousColumn, $cursor) {
+                    $unionBuilders->each(function ($unionBuilder) use ($previousColumn, $cursor) {
                         $unionBuilder->where($this->getOriginalColumnNameForCursorPagination($this, $previousColumn), '=', $cursor->parameter($previousColumn));
                         $this->addBinding($unionBuilder->getRawBindings()['where'], 'union');
                     });
                 }
-                $builder->where(function (self $builder) use($addCursorConditions, $cursor, $orders, $i, $unionBuilders) {
+                $builder->where(function (self $builder) use ($addCursorConditions, $cursor, $orders, $i, $unionBuilders) {
                     ['column' => $column, 'direction' => $direction] = $orders[$i];
                     $builder->where($this->getOriginalColumnNameForCursorPagination($this, $column), $direction === 'asc' ? '>' : '<', $cursor->parameter($column));
                     if ($i < $orders->count() - 1) {
-                        $builder->orWhere(function (self $builder) use($addCursorConditions, $column, $i) {
+                        $builder->orWhere(function (self $builder) use ($addCursorConditions, $column, $i) {
                             $addCursorConditions($builder, $column, $i + 1);
                         });
                     }
-                    $unionBuilders->each(function ($unionBuilder) use($column, $direction, $cursor, $i, $orders, $addCursorConditions) {
-                        $unionBuilder->where(function ($unionBuilder) use($column, $direction, $cursor, $i, $orders, $addCursorConditions) {
+                    $unionBuilders->each(function ($unionBuilder) use ($column, $direction, $cursor, $i, $orders, $addCursorConditions) {
+                        $unionBuilder->where(function ($unionBuilder) use ($column, $direction, $cursor, $i, $orders, $addCursorConditions) {
                             $unionBuilder->where($this->getOriginalColumnNameForCursorPagination($this, $column), $direction === 'asc' ? '>' : '<', $cursor->parameter($column));
                             if ($i < $orders->count() - 1) {
-                                $unionBuilder->orWhere(function (self $builder) use($addCursorConditions, $column, $i) {
+                                $unionBuilder->orWhere(function (self $builder) use ($addCursorConditions, $column, $i) {
                                     $addCursorConditions($builder, $column, $i + 1);
                                 });
                             }
@@ -327,11 +327,11 @@ trait BuildsQueries
     protected function getOriginalColumnNameForCursorPagination($builder, string $parameter)
     {
         $columns = $builder instanceof Builder ? $builder->getQuery()->columns : $builder->columns;
-        if (!\is_null($columns)) {
+        if (!is_null($columns)) {
             foreach ($columns as $column) {
-                if (($position = \stripos($column, ' as ')) !== \false) {
-                    $as = \substr($column, $position, 4);
-                    [$original, $alias] = \explode($as, $column);
+                if (($position = stripos($column, ' as ')) !== \false) {
+                    $as = substr($column, $position, 4);
+                    [$original, $alias] = explode($as, $column);
                     if ($parameter === $alias) {
                         return $original;
                     }
@@ -352,7 +352,7 @@ trait BuildsQueries
      */
     protected function paginator($items, $total, $perPage, $currentPage, $options)
     {
-        return Container::getInstance()->makeWith(LengthAwarePaginator::class, \compact('items', 'total', 'perPage', 'currentPage', 'options'));
+        return Container::getInstance()->makeWith(LengthAwarePaginator::class, compact('items', 'total', 'perPage', 'currentPage', 'options'));
     }
     /**
      * Create a new simple paginator instance.
@@ -365,7 +365,7 @@ trait BuildsQueries
      */
     protected function simplePaginator($items, $perPage, $currentPage, $options)
     {
-        return Container::getInstance()->makeWith(Paginator::class, \compact('items', 'perPage', 'currentPage', 'options'));
+        return Container::getInstance()->makeWith(Paginator::class, compact('items', 'perPage', 'currentPage', 'options'));
     }
     /**
      * Create a new cursor paginator instance.
@@ -378,7 +378,7 @@ trait BuildsQueries
      */
     protected function cursorPaginator($items, $perPage, $cursor, $options)
     {
-        return Container::getInstance()->makeWith(CursorPaginator::class, \compact('items', 'perPage', 'cursor', 'options'));
+        return Container::getInstance()->makeWith(CursorPaginator::class, compact('items', 'perPage', 'cursor', 'options'));
     }
     /**
      * Pass the query to a given callback.

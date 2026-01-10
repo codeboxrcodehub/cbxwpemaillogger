@@ -11,9 +11,9 @@ trait DateUtilsTrait
      * @param string $date
      * @return bool
      */
-    protected function isValidDate(string $date) : bool
+    protected function isValidDate(string $date): bool
     {
-        return \strtotime($date) !== \false;
+        return strtotime($date) !== \false;
     }
     /**
      * Throw exception
@@ -32,8 +32,8 @@ trait DateUtilsTrait
      * @param mixed $date
      * @return int
      */
-    protected function getTimeStamp($date) : int
+    protected function getTimeStamp($date): int
     {
-        return \strtotime($date);
+        return strtotime($date);
     }
 }

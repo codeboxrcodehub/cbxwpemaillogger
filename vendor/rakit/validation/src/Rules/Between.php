@@ -16,13 +16,13 @@ class Between extends Rule
      * @param mixed $value
      * @return bool
      */
-    public function check($value) : bool
+    public function check($value): bool
     {
         $this->requireParameters($this->fillableParams);
         $min = $this->getBytesSize($this->parameter('min'));
         $max = $this->getBytesSize($this->parameter('max'));
         $valueSize = $this->getValueSize($value);
-        if (!\is_numeric($valueSize)) {
+        if (!is_numeric($valueSize)) {
             return \false;
         }
         return $valueSize >= $min && $valueSize <= $max;

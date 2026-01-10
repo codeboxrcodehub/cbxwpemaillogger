@@ -77,7 +77,7 @@ class Validation
     {
         $this->errors = new ErrorBag();
         // reset error bag
-        $this->inputs = \array_merge($this->inputs, $this->resolveInputAttributes($inputs));
+        $this->inputs = array_merge($this->inputs, $this->resolveInputAttributes($inputs));
         // Before validation hooks
         foreach ($this->attributes as $attributeKey => $attribute) {
             foreach ($attribute->getRules() as $rule) {
@@ -95,7 +95,7 @@ class Validation
      *
      * @return \Rakit\Validation\ErrorBag
      */
-    public function errors() : ErrorBag
+    public function errors(): ErrorBag
     {
         return $this->errors;
     }
@@ -152,10 +152,10 @@ class Validation
      * @param \Rakit\Validation\Attribute $attribute
      * @return bool
      */
-    protected function isArrayAttribute(Attribute $attribute) : bool
+    protected function isArrayAttribute(Attribute $attribute): bool
     {
         $key = $attribute->getKey();
-        return \strpos($key, '*') !== \false;
+        return strpos($key, '*') !== \false;
     }
     /**
      * Parse array attribute into it's child attributes
@@ -163,18 +163,18 @@ class Validation
      * @param \Rakit\Validation\Attribute $attribute
      * @return array
      */
-    protected function parseArrayAttribute(Attribute $attribute) : array
+    protected function parseArrayAttribute(Attribute $attribute): array
     {
         $attributeKey = $attribute->getKey();
         $data = Helper::arrayDot($this->initializeAttributeOnData($attributeKey));
-        $pattern = \str_replace('\\*', '([^\\.]+)', \preg_quote($attributeKey));
-        $data = \array_merge($data, $this->extractValuesForWildcards($data, $attributeKey));
+        $pattern = str_replace('\*', '([^\.]+)', preg_quote($attributeKey));
+        $data = array_merge($data, $this->extractValuesForWildcards($data, $attributeKey));
         $attributes = [];
         foreach ($data as $key => $value) {
-            if ((bool) \preg_match('/^' . $pattern . '\\z/', $key, $match)) {
+            if ((bool) preg_match('/^' . $pattern . '\z/', $key, $match)) {
                 $attr = new Attribute($this, $key, null, $attribute->getRules());
                 $attr->setPrimaryAttribute($attribute);
-                $attr->setKeyIndexes(\array_slice($match, 1));
+                $attr->setKeyIndexes(array_slice($match, 1));
                 $attributes[] = $attr;
             }
         }
@@ -193,12 +193,12 @@ class Validation
      * @param  string  $attribute
      * @return array
      */
-    protected function initializeAttributeOnData(string $attributeKey) : array
+    protected function initializeAttributeOnData(string $attributeKey): array
     {
         $explicitPath = $this->getLeadingExplicitAttributePath($attributeKey);
         $data = $this->extractDataFromPath($explicitPath);
-        $asteriskPos = \strpos($attributeKey, '*');
-        if (\false === $asteriskPos || $asteriskPos === \mb_strlen($attributeKey, 'UTF-8') - 1) {
+        $asteriskPos = strpos($attributeKey, '*');
+        if (\false === $asteriskPos || $asteriskPos === mb_strlen($attributeKey, 'UTF-8') - 1) {
             return $data;
         }
         return Helper::arraySet($data, $attributeKey, null, \true);
@@ -211,16 +211,16 @@ class Validation
      * @param  string  $attributeKey
      * @return array
      */
-    public function extractValuesForWildcards(array $data, string $attributeKey) : array
+    public function extractValuesForWildcards(array $data, string $attributeKey): array
     {
         $keys = [];
-        $pattern = \str_replace('\\*', '[^\\.]+', \preg_quote($attributeKey));
+        $pattern = str_replace('\*', '[^\.]+', preg_quote($attributeKey));
         foreach ($data as $key => $value) {
-            if ((bool) \preg_match('/^' . $pattern . '/', $key, $matches)) {
+            if ((bool) preg_match('/^' . $pattern . '/', $key, $matches)) {
                 $keys[] = $matches[0];
             }
         }
-        $keys = \array_unique($keys);
+        $keys = array_unique($keys);
         $data = [];
         foreach ($keys as $key) {
             $data[$key] = Helper::arrayGet($this->inputs, $key);
@@ -240,7 +240,7 @@ class Validation
      */
     protected function getLeadingExplicitAttributePath(string $attributeKey)
     {
-        return \rtrim(\explode('*', $attributeKey)[0], '.') ?: null;
+        return rtrim(explode('*', $attributeKey)[0], '.') ?: null;
     }
     /**
      * Extract data based on the given dot-notated path.
@@ -251,7 +251,7 @@ class Validation
      * @param  string|null $attributeKey
      * @return array
      */
-    protected function extractDataFromPath($attributeKey) : array
+    protected function extractDataFromPath($attributeKey): array
     {
         $results = [];
         $value = Helper::arrayGet($this->inputs, $attributeKey, '__missing__');
@@ -280,7 +280,7 @@ class Validation
      * @param mixed $value
      * @return boolean
      */
-    protected function isEmptyValue($value) : bool
+    protected function isEmptyValue($value): bool
     {
         $requiredValidator = new Required();
         return \false === $requiredValidator->check($value, []);
@@ -292,7 +292,7 @@ class Validation
      * @param \Rakit\Validation\Rule $rule
      * @return bool
      */
-    protected function ruleIsOptional(Attribute $attribute, Rule $rule) : bool
+    protected function ruleIsOptional(Attribute $attribute, Rule $rule): bool
     {
         return \false === $attribute->isRequired() and \false === $rule->isImplicit() and \false === $rule instanceof Required;
     }
@@ -302,7 +302,7 @@ class Validation
      * @param \Rakit\Validation\Attribute $attribute
      * @return string
      */
-    protected function resolveAttributeName(Attribute $attribute) : string
+    protected function resolveAttributeName(Attribute $attribute): string
     {
         $primaryAttribute = $attribute->getPrimaryAttribute();
         if (isset($this->aliases[$attribute->getKey()])) {
@@ -323,10 +323,10 @@ class Validation
      * @param \Rakit\Validation\Rule $validator
      * @return mixed
      */
-    protected function resolveMessage(Attribute $attribute, $value, Rule $validator) : string
+    protected function resolveMessage(Attribute $attribute, $value, Rule $validator): string
     {
         $primaryAttribute = $attribute->getPrimaryAttribute();
-        $params = \array_merge($validator->getParameters(), $validator->getParametersTexts());
+        $params = array_merge($validator->getParameters(), $validator->getParametersTexts());
         $attributeKey = $attribute->getKey();
         $ruleKey = $validator->getKey();
         $alias = $attribute->getAlias() ?: $this->resolveAttributeName($attribute);
@@ -343,8 +343,8 @@ class Validation
             //     $ruleKey
             // ];
             $primaryAttributeKey = $primaryAttribute->getKey();
-            \array_splice($messageKeys, 1, 0, $primaryAttributeKey . $this->messageSeparator . $ruleKey);
-            \array_splice($messageKeys, 3, 0, $primaryAttributeKey);
+            array_splice($messageKeys, 1, 0, $primaryAttributeKey . $this->messageSeparator . $ruleKey);
+            array_splice($messageKeys, 3, 0, $primaryAttributeKey);
         }
         foreach ($messageKeys as $key) {
             if (isset($this->messages[$key])) {
@@ -353,19 +353,19 @@ class Validation
             }
         }
         // Replace message params
-        $vars = \array_merge($params, ['attribute' => $alias, 'value' => $value]);
+        $vars = array_merge($params, ['attribute' => $alias, 'value' => $value]);
         foreach ($vars as $key => $value) {
             $value = $this->stringify($value);
-            $message = \str_replace(':' . $key, $value, $message);
+            $message = str_replace(':' . $key, $value, $message);
         }
         // Replace key indexes
         $keyIndexes = $attribute->getKeyIndexes();
         foreach ($keyIndexes as $pathIndex => $index) {
             $replacers = ["[{$pathIndex}]" => $index];
-            if (\is_numeric($index)) {
+            if (is_numeric($index)) {
                 $replacers["{{$pathIndex}}"] = $index + 1;
             }
-            $message = \str_replace(\array_keys($replacers), \array_values($replacers), $message);
+            $message = str_replace(array_keys($replacers), array_values($replacers), $message);
         }
         return $message;
     }
@@ -375,12 +375,12 @@ class Validation
      * @param mixed $value
      * @return string
      */
-    protected function stringify($value) : string
+    protected function stringify($value): string
     {
-        if (\is_string($value) || \is_numeric($value)) {
+        if (is_string($value) || is_numeric($value)) {
             return $value;
-        } elseif (\is_array($value) || \is_object($value)) {
-            return \json_encode($value);
+        } elseif (is_array($value) || is_object($value)) {
+            return json_encode($value);
         } else {
             return '';
         }
@@ -391,10 +391,10 @@ class Validation
      * @param mixed $rules
      * @return array
      */
-    protected function resolveRules($rules) : array
+    protected function resolveRules($rules): array
     {
-        if (\is_string($rules)) {
-            $rules = \explode('|', $rules);
+        if (is_string($rules)) {
+            $rules = explode('|', $rules);
         }
         $resolvedRules = [];
         $validatorFactory = $this->getValidator();
@@ -403,15 +403,15 @@ class Validation
                 continue;
             }
             $params = [];
-            if (\is_string($rule)) {
+            if (is_string($rule)) {
                 list($rulename, $params) = $this->parseRule($rule);
-                $validator = \call_user_func_array($validatorFactory, \array_merge([$rulename], $params));
+                $validator = call_user_func_array($validatorFactory, array_merge([$rulename], $params));
             } elseif ($rule instanceof Rule) {
                 $validator = $rule;
             } elseif ($rule instanceof Closure) {
-                $validator = \call_user_func_array($validatorFactory, ['ComfortSmtpScoped\\callback', $rule]);
+                $validator = call_user_func_array($validatorFactory, ['ComfortSmtpScoped\callback', $rule]);
             } else {
-                $ruleName = \is_object($rule) ? \get_class($rule) : \gettype($rule);
+                $ruleName = is_object($rule) ? get_class($rule) : gettype($rule);
                 $message = "Rule must be a string, Closure or '" . Rule::class . "' instance. " . $ruleName . " given";
                 throw new \Exception();
             }
@@ -425,12 +425,12 @@ class Validation
      * @param string $rule
      * @return array
      */
-    protected function parseRule(string $rule) : array
+    protected function parseRule(string $rule): array
     {
-        $exp = \explode(':', $rule, 2);
+        $exp = explode(':', $rule, 2);
         $rulename = $exp[0];
         if ($rulename !== 'regex') {
-            $params = isset($exp[1]) ? \explode(',', $exp[1]) : [];
+            $params = isset($exp[1]) ? explode(',', $exp[1]) : [];
         } else {
             $params = [$exp[1]];
         }
@@ -465,14 +465,14 @@ class Validation
      */
     public function setAliases(array $aliases)
     {
-        $this->aliases = \array_merge($this->aliases, $aliases);
+        $this->aliases = array_merge($this->aliases, $aliases);
     }
     /**
      * Check validations are passed
      *
      * @return bool
      */
-    public function passes() : bool
+    public function passes(): bool
     {
         return $this->errors->count() == 0;
     }
@@ -481,7 +481,7 @@ class Validation
      *
      * @return bool
      */
-    public function fails() : bool
+    public function fails(): bool
     {
         return !$this->passes();
     }
@@ -512,7 +512,7 @@ class Validation
      * @param string $key
      * @return boolean
      */
-    public function hasValue(string $key) : bool
+    public function hasValue(string $key): bool
     {
         return Helper::arrayHas($this->inputs, $key);
     }
@@ -521,7 +521,7 @@ class Validation
      *
      * @return \Rakit\Validation\Validator
      */
-    public function getValidator() : Validator
+    public function getValidator(): Validator
     {
         return $this->validator;
     }
@@ -531,12 +531,12 @@ class Validation
      * @param array $inputs
      * @return array
      */
-    protected function resolveInputAttributes(array $inputs) : array
+    protected function resolveInputAttributes(array $inputs): array
     {
         $resolvedInputs = [];
         foreach ($inputs as $key => $rules) {
-            $exp = \explode(':', $key);
-            if (\count($exp) > 1) {
+            $exp = explode(':', $key);
+            if (count($exp) > 1) {
                 // set attribute alias
                 $this->aliases[$exp[0]] = $exp[1];
             }
@@ -549,9 +549,9 @@ class Validation
      *
      * @return array
      */
-    public function getValidatedData() : array
+    public function getValidatedData(): array
     {
-        return \array_merge($this->validData, $this->invalidData);
+        return array_merge($this->validData, $this->invalidData);
     }
     /**
      * Set valid data
@@ -575,7 +575,7 @@ class Validation
      *
      * @return array
      */
-    public function getValidData() : array
+    public function getValidData(): array
     {
         return $this->validData;
     }
@@ -601,7 +601,7 @@ class Validation
      *
      * @return void
      */
-    public function getInvalidData() : array
+    public function getInvalidData(): array
     {
         return $this->invalidData;
     }

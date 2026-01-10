@@ -19,7 +19,7 @@ trait ReflectsClosures
      */
     protected function firstClosureParameterType(Closure $closure)
     {
-        $types = \array_values($this->closureParameterTypes($closure));
+        $types = array_values($this->closureParameterTypes($closure));
         if (!$types) {
             throw new RuntimeException('The given Closure has no parameters.');
         }

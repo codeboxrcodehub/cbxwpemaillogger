@@ -20,7 +20,7 @@ class PostgresSchemaState extends SchemaState
         })->map(function ($table) {
             return '--exclude-table-data="*.' . $table . '"';
         })->implode(' ');
-        $this->makeProcess($this->baseDumpCommand() . ' --file="${:LARAVEL_LOAD_PATH}" ' . $excludedTables)->mustRun($this->output, \array_merge($this->baseVariables($this->connection->getConfig()), ['LARAVEL_LOAD_PATH' => $path]));
+        $this->makeProcess($this->baseDumpCommand() . ' --file="${:LARAVEL_LOAD_PATH}" ' . $excludedTables)->mustRun($this->output, array_merge($this->baseVariables($this->connection->getConfig()), ['LARAVEL_LOAD_PATH' => $path]));
     }
     /**
      * Load the given schema file into the database.
@@ -35,7 +35,7 @@ class PostgresSchemaState extends SchemaState
             $command = 'psql --file="${:LARAVEL_LOAD_PATH}" --host="${:LARAVEL_LOAD_HOST}" --port="${:LARAVEL_LOAD_PORT}" --username="${:LARAVEL_LOAD_USER}" --dbname="${:LARAVEL_LOAD_DATABASE}"';
         }
         $process = $this->makeProcess($command);
-        $process->mustRun(null, \array_merge($this->baseVariables($this->connection->getConfig()), ['LARAVEL_LOAD_PATH' => $path]));
+        $process->mustRun(null, array_merge($this->baseVariables($this->connection->getConfig()), ['LARAVEL_LOAD_PATH' => $path]));
     }
     /**
      * Get the base dump command arguments for PostgreSQL as a string.
@@ -55,6 +55,6 @@ class PostgresSchemaState extends SchemaState
     protected function baseVariables(array $config)
     {
         $config['host'] = $config['host'] ?? '';
-        return ['LARAVEL_LOAD_HOST' => \is_array($config['host']) ? $config['host'][0] : $config['host'], 'LARAVEL_LOAD_PORT' => $config['port'], 'LARAVEL_LOAD_USER' => $config['username'], 'PGPASSWORD' => $config['password'], 'LARAVEL_LOAD_DATABASE' => $config['database']];
+        return ['LARAVEL_LOAD_HOST' => is_array($config['host']) ? $config['host'][0] : $config['host'], 'LARAVEL_LOAD_PORT' => $config['port'], 'LARAVEL_LOAD_USER' => $config['username'], 'PGPASSWORD' => $config['password'], 'LARAVEL_LOAD_DATABASE' => $config['database']];
     }
 }

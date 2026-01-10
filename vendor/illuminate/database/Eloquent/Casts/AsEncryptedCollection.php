@@ -21,14 +21,14 @@ class AsEncryptedCollection implements Castable
             public function get($model, $key, $value, $attributes)
             {
                 if (isset($attributes[$key])) {
-                    return new Collection(\json_decode(Crypt::decryptString($attributes[$key]), \true));
+                    return new Collection(json_decode(Crypt::decryptString($attributes[$key]), \true));
                 }
                 return null;
             }
             public function set($model, $key, $value, $attributes)
             {
-                if (!\is_null($value)) {
-                    return [$key => Crypt::encryptString(\json_encode($value))];
+                if (!is_null($value)) {
+                    return [$key => Crypt::encryptString(json_encode($value))];
                 }
                 return null;
             }

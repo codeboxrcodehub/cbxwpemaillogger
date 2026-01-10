@@ -75,7 +75,7 @@ class MigrateCommand extends BaseCommand
             // seed task to re-populate the database, which is convenient when adding
             // a migration and a seed at the same time, as it is only this command.
             if ($this->option('seed') && !$this->option('pretend')) {
-                $this->call('db:seed', ['--class' => $this->option('seeder') ?: 'Database\\Seeders\\DatabaseSeeder', '--force' => \true]);
+                $this->call('db:seed', ['--class' => $this->option('seeder') ?: 'Database\Seeders\DatabaseSeeder', '--force' => \true]);
             }
         });
         return 0;
@@ -88,7 +88,7 @@ class MigrateCommand extends BaseCommand
     protected function prepareDatabase()
     {
         if (!$this->migrator->repositoryExists()) {
-            $this->call('migrate:install', \array_filter(['--database' => $this->option('database')]));
+            $this->call('migrate:install', array_filter(['--database' => $this->option('database')]));
         }
         if (!$this->migrator->hasRunAnyMigrations() && !$this->option('pretend')) {
             $this->loadSchemaState();
@@ -105,11 +105,11 @@ class MigrateCommand extends BaseCommand
         // First, we will make sure that the connection supports schema loading and that
         // the schema file exists before we proceed any further. If not, we will just
         // continue with the standard migration operation as normal without errors.
-        if ($connection instanceof SqlServerConnection || !\is_file($path = $this->schemaPath($connection))) {
+        if ($connection instanceof SqlServerConnection || !is_file($path = $this->schemaPath($connection))) {
             return;
         }
         $this->line('<info>Loading stored database schema:</info> ' . $path);
-        $startTime = \microtime(\true);
+        $startTime = microtime(\true);
         // Since the schema file will create the "migrations" table and reload it to its
         // proper state, we need to delete it here so we don't get an error that this
         // table already exists when the stored database schema file gets executed.
@@ -117,7 +117,7 @@ class MigrateCommand extends BaseCommand
         $connection->getSchemaState()->handleOutputUsing(function ($type, $buffer) {
             $this->output->write($buffer);
         })->load($path);
-        $runTime = \number_format((\microtime(\true) - $startTime) * 1000, 2);
+        $runTime = number_format((microtime(\true) - $startTime) * 1000, 2);
         // Finally, we will fire an event that this schema has been loaded so developers
         // can perform any post schema load tasks that are necessary in listeners for
         // this event, which may seed the database tables with some necessary data.
@@ -135,7 +135,7 @@ class MigrateCommand extends BaseCommand
         if ($this->option('schema-path')) {
             return $this->option('schema-path');
         }
-        if (\file_exists($path = database_path('schema/' . $connection->getName() . '-schema.dump'))) {
+        if (file_exists($path = database_path('schema/' . $connection->getName() . '-schema.dump'))) {
             return $path;
         }
         return database_path('schema/' . $connection->getName() . '-schema.sql');

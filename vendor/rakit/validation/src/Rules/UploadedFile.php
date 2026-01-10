@@ -23,10 +23,10 @@ class UploadedFile extends Rule implements BeforeValidate
      * @param array $params
      * @return self
      */
-    public function fillParameters(array $params) : Rule
+    public function fillParameters(array $params): Rule
     {
-        $this->minSize(\array_shift($params));
-        $this->maxSize(\array_shift($params));
+        $this->minSize(array_shift($params));
+        $this->maxSize(array_shift($params));
         $this->fileTypes($params);
         return $this;
     }
@@ -36,7 +36,7 @@ class UploadedFile extends Rule implements BeforeValidate
      * @param string|int $size
      * @return self
      */
-    public function maxSize($size) : Rule
+    public function maxSize($size): Rule
     {
         $this->params['max_size'] = $size;
         return $this;
@@ -47,7 +47,7 @@ class UploadedFile extends Rule implements BeforeValidate
      * @param string|int $size
      * @return self
      */
-    public function minSize($size) : Rule
+    public function minSize($size): Rule
     {
         $this->params['min_size'] = $size;
         return $this;
@@ -59,7 +59,7 @@ class UploadedFile extends Rule implements BeforeValidate
      * @param string|int $max
      * @return self
      */
-    public function sizeBetween($min, $max) : Rule
+    public function sizeBetween($min, $max): Rule
     {
         $this->minSize($min);
         $this->maxSize($max);
@@ -71,10 +71,10 @@ class UploadedFile extends Rule implements BeforeValidate
      * @param mixed $types
      * @return self
      */
-    public function fileTypes($types) : Rule
+    public function fileTypes($types): Rule
     {
-        if (\is_string($types)) {
-            $types = \explode('|', $types);
+        if (is_string($types)) {
+            $types = explode('|', $types);
         }
         $this->params['allowed_types'] = $types;
         return $this;
@@ -90,8 +90,8 @@ class UploadedFile extends Rule implements BeforeValidate
         if (!$attribute->isUsingDotNotation()) {
             return;
         }
-        $keys = \explode(".", $attribute->getKey());
-        $firstKey = \array_shift($keys);
+        $keys = explode(".", $attribute->getKey());
+        $firstKey = array_shift($keys);
         $firstKeyValue = $this->validation->getValue($firstKey);
         $resolvedValue = $this->resolveUploadedFileValue($firstKeyValue);
         // Return original value if $value can't be resolved as uploaded file value
@@ -106,7 +106,7 @@ class UploadedFile extends Rule implements BeforeValidate
      * @param mixed $value
      * @return bool
      */
-    public function check($value) : bool
+    public function check($value): bool
     {
         $minSize = $this->parameter('min_size');
         $maxSize = $this->parameter('max_size');
@@ -144,7 +144,7 @@ class UploadedFile extends Rule implements BeforeValidate
             $guesser = new MimeTypeGuesser();
             $ext = $guesser->getExtension($value['type']);
             unset($guesser);
-            if (!\in_array($ext, $allowedTypes)) {
+            if (!in_array($ext, $allowedTypes)) {
                 $this->setMessage('The :attribute file type must be :allowed_types');
                 return \false;
             }

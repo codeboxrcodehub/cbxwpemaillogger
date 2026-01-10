@@ -17,7 +17,7 @@ class Callback extends Rule
      * @param Closure $callback
      * @return self
      */
-    public function setCallback(Closure $callback) : Rule
+    public function setCallback(Closure $callback): Rule
     {
         return $this->setParameter('callback', $callback);
     }
@@ -28,7 +28,7 @@ class Callback extends Rule
      * @return bool
      * @throws \Exception
      */
-    public function check($value) : bool
+    public function check($value): bool
     {
         $this->requireParameters($this->fillableParams);
         $callback = $this->parameter('callback');
@@ -38,7 +38,7 @@ class Callback extends Rule
         }
         $callback = $callback->bindTo($this);
         $invalidMessage = $callback($value);
-        if (\is_string($invalidMessage)) {
+        if (is_string($invalidMessage)) {
             $this->setMessage($invalidMessage);
             return \false;
         } elseif (\false === $invalidMessage) {

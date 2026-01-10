@@ -34,8 +34,8 @@ class ValidatedInput implements ValidatedData
         $results = [];
         $input = $this->input;
         $placeholder = new stdClass();
-        foreach (\is_array($keys) ? $keys : \func_get_args() as $key) {
-            $value = \data_get($input, $key, $placeholder);
+        foreach (is_array($keys) ? $keys : func_get_args() as $key) {
+            $value = data_get($input, $key, $placeholder);
             if ($value !== $placeholder) {
                 Arr::set($results, $key, $value);
             }
@@ -50,7 +50,7 @@ class ValidatedInput implements ValidatedData
      */
     public function except($keys)
     {
-        $keys = \is_array($keys) ? $keys : \func_get_args();
+        $keys = is_array($keys) ? $keys : func_get_args();
         $results = $this->input;
         Arr::forget($results, $keys);
         return $results;
@@ -63,7 +63,7 @@ class ValidatedInput implements ValidatedData
      */
     public function merge(array $items)
     {
-        return new static(\array_merge($this->input, $items));
+        return new static(array_merge($this->input, $items));
     }
     /**
      * Get the input as a collection.
@@ -164,7 +164,7 @@ class ValidatedInput implements ValidatedData
     #[\ReturnTypeWillChange]
     public function offsetSet($key, $value)
     {
-        if (\is_null($key)) {
+        if (is_null($key)) {
             $this->input[] = $value;
         } else {
             $this->input[$key] = $value;

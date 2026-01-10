@@ -41,11 +41,11 @@ class MailFake implements Factory, Mailer, MailQueue
     public function assertSent($mailable, $callback = null)
     {
         [$mailable, $callback] = $this->prepareMailableAndCallback($mailable, $callback);
-        if (\is_numeric($callback)) {
+        if (is_numeric($callback)) {
             return $this->assertSentTimes($mailable, $callback);
         }
         $message = "The expected [{$mailable}] mailable was not sent.";
-        if (\count($this->queuedMailables) > 0) {
+        if (count($this->queuedMailables) > 0) {
             $message .= ' Did you mean to use assertQueued() instead?';
         }
         PHPUnit::assertTrue($this->sent($mailable, $callback)->count() > 0, $message);
@@ -104,7 +104,7 @@ class MailFake implements Factory, Mailer, MailQueue
     public function assertNothingSent()
     {
         $mailableNames = collect($this->mailables)->map(function ($mailable) {
-            return \get_class($mailable);
+            return get_class($mailable);
         })->join(', ');
         PHPUnit::assertEmpty($this->mailables, 'The following mailables were sent unexpectedly: ' . $mailableNames);
     }
@@ -118,7 +118,7 @@ class MailFake implements Factory, Mailer, MailQueue
     public function assertQueued($mailable, $callback = null)
     {
         [$mailable, $callback] = $this->prepareMailableAndCallback($mailable, $callback);
-        if (\is_numeric($callback)) {
+        if (is_numeric($callback)) {
             return $this->assertQueuedTimes($mailable, $callback);
         }
         PHPUnit::assertTrue($this->queued($mailable, $callback)->count() > 0, "The expected [{$mailable}] mailable was not queued.");
@@ -155,7 +155,7 @@ class MailFake implements Factory, Mailer, MailQueue
     public function assertNothingQueued()
     {
         $mailableNames = collect($this->queuedMailables)->map(function ($mailable) {
-            return \get_class($mailable);
+            return get_class($mailable);
         })->join(', ');
         PHPUnit::assertEmpty($this->queuedMailables, 'The following mailables were queued unexpectedly: ' . $mailableNames);
     }
@@ -175,7 +175,7 @@ class MailFake implements Factory, Mailer, MailQueue
         $callback = $callback ?: function () {
             return \true;
         };
-        return $this->mailablesOf($mailable)->filter(function ($mailable) use($callback) {
+        return $this->mailablesOf($mailable)->filter(function ($mailable) use ($callback) {
             return $callback($mailable);
         });
     }
@@ -205,7 +205,7 @@ class MailFake implements Factory, Mailer, MailQueue
         $callback = $callback ?: function () {
             return \true;
         };
-        return $this->queuedMailablesOf($mailable)->filter(function ($mailable) use($callback) {
+        return $this->queuedMailablesOf($mailable)->filter(function ($mailable) use ($callback) {
             return $callback($mailable);
         });
     }
@@ -227,7 +227,7 @@ class MailFake implements Factory, Mailer, MailQueue
      */
     protected function mailablesOf($type)
     {
-        return collect($this->mailables)->filter(function ($mailable) use($type) {
+        return collect($this->mailables)->filter(function ($mailable) use ($type) {
             return $mailable instanceof $type;
         });
     }
@@ -239,7 +239,7 @@ class MailFake implements Factory, Mailer, MailQueue
      */
     protected function queuedMailablesOf($type)
     {
-        return collect($this->queuedMailables)->filter(function ($mailable) use($type) {
+        return collect($this->queuedMailables)->filter(function ($mailable) use ($type) {
             return $mailable instanceof $type;
         });
     }

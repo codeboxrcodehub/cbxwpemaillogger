@@ -20,7 +20,7 @@ class BaseCommand extends Command
                 return !$this->usingRealPath() ? $this->laravel->basePath() . '/' . $path : $path;
             })->all();
         }
-        return \array_merge($this->migrator->paths(), [$this->getMigrationPath()]);
+        return array_merge($this->migrator->paths(), [$this->getMigrationPath()]);
     }
     /**
      * Determine if the given path(s) are pre-resolved "real" paths.

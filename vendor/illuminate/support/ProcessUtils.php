@@ -27,15 +27,15 @@ class ProcessUtils
             }
             $escapedArgument = '';
             $quote = \false;
-            foreach (\preg_split('/(")/', $argument, -1, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE) as $part) {
+            foreach (preg_split('/(")/', $argument, -1, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE) as $part) {
                 if ('"' === $part) {
-                    $escapedArgument .= '\\"';
+                    $escapedArgument .= '\"';
                 } elseif (self::isSurroundedBy($part, '%')) {
                     // Avoid environment variable expansion
-                    $escapedArgument .= '^%"' . \substr($part, 1, -1) . '"^%';
+                    $escapedArgument .= '^%"' . substr($part, 1, -1) . '"^%';
                 } else {
                     // escape trailing backslash
-                    if ('\\' === \substr($part, -1)) {
+                    if ('\\' === substr($part, -1)) {
                         $part .= '\\';
                     }
                     $quote = \true;
@@ -47,7 +47,7 @@ class ProcessUtils
             }
             return $escapedArgument;
         }
-        return "'" . \str_replace("'", "'\\''", $argument) . "'";
+        return "'" . str_replace("'", "'\\''", $argument) . "'";
     }
     /**
      * Is the given string surrounded by the given character?
@@ -58,6 +58,6 @@ class ProcessUtils
      */
     protected static function isSurroundedBy($arg, $char)
     {
-        return 2 < \strlen($arg) && $char === $arg[0] && $char === $arg[\strlen($arg) - 1];
+        return 2 < strlen($arg) && $char === $arg[0] && $char === $arg[strlen($arg) - 1];
     }
 }

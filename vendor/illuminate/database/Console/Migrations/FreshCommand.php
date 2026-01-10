@@ -33,8 +33,8 @@ class FreshCommand extends Command
             return 1;
         }
         $database = $this->input->getOption('database');
-        $this->call('db:wipe', \array_filter(['--database' => $database, '--drop-views' => $this->option('drop-views'), '--drop-types' => $this->option('drop-types'), '--force' => \true]));
-        $this->call('migrate', \array_filter(['--database' => $database, '--path' => $this->input->getOption('path'), '--realpath' => $this->input->getOption('realpath'), '--schema-path' => $this->input->getOption('schema-path'), '--force' => \true, '--step' => $this->option('step')]));
+        $this->call('db:wipe', array_filter(['--database' => $database, '--drop-views' => $this->option('drop-views'), '--drop-types' => $this->option('drop-types'), '--force' => \true]));
+        $this->call('migrate', array_filter(['--database' => $database, '--path' => $this->input->getOption('path'), '--realpath' => $this->input->getOption('realpath'), '--schema-path' => $this->input->getOption('schema-path'), '--force' => \true, '--step' => $this->option('step')]));
         if ($this->laravel->bound(Dispatcher::class)) {
             $this->laravel[Dispatcher::class]->dispatch(new DatabaseRefreshed());
         }
@@ -60,7 +60,7 @@ class FreshCommand extends Command
      */
     protected function runSeeder($database)
     {
-        $this->call('db:seed', \array_filter(['--database' => $database, '--class' => $this->option('seeder') ?: 'Database\\Seeders\\DatabaseSeeder', '--force' => \true]));
+        $this->call('db:seed', array_filter(['--database' => $database, '--class' => $this->option('seeder') ?: 'Database\Seeders\DatabaseSeeder', '--force' => \true]));
     }
     /**
      * Get the console command options.

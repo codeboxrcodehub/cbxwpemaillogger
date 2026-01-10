@@ -21,7 +21,7 @@ abstract class Rule
     protected $fillableParams = [];
     /** @var string */
     protected $message = "The :attribute is invalid";
-    public abstract function check($value) : bool;
+    abstract public function check($value): bool;
     /**
      * Set Validation class instance
      *
@@ -49,7 +49,7 @@ abstract class Rule
      */
     public function getKey()
     {
-        return $this->key ?: \get_class($this);
+        return $this->key ?: get_class($this);
     }
     /**
      * Set attribute
@@ -75,7 +75,7 @@ abstract class Rule
      *
      * @return array
      */
-    public function getParameters() : array
+    public function getParameters(): array
     {
         return $this->params;
     }
@@ -85,9 +85,9 @@ abstract class Rule
      * @param array $params
      * @return \Rakit\Validation\Rule
      */
-    public function setParameters(array $params) : Rule
+    public function setParameters(array $params): Rule
     {
-        $this->params = \array_merge($this->params, $params);
+        $this->params = array_merge($this->params, $params);
         return $this;
     }
     /**
@@ -97,7 +97,7 @@ abstract class Rule
      * @param mixed $value
      * @return \Rakit\Validation\Rule
      */
-    public function setParameter(string $key, $value) : Rule
+    public function setParameter(string $key, $value): Rule
     {
         $this->params[$key] = $value;
         return $this;
@@ -108,13 +108,13 @@ abstract class Rule
      * @param array $params
      * @return \Rakit\Validation\Rule
      */
-    public function fillParameters(array $params) : Rule
+    public function fillParameters(array $params): Rule
     {
         foreach ($this->fillableParams as $key) {
             if (empty($params)) {
                 break;
             }
-            $this->params[$key] = \array_shift($params);
+            $this->params[$key] = array_shift($params);
         }
         return $this;
     }
@@ -144,7 +144,7 @@ abstract class Rule
      *
      * @return array
      */
-    public function getParametersTexts() : array
+    public function getParametersTexts(): array
     {
         return $this->paramsTexts;
     }
@@ -153,7 +153,7 @@ abstract class Rule
      *
      * @return boolean
      */
-    public function isImplicit() : bool
+    public function isImplicit(): bool
     {
         return $this->implicit;
     }
@@ -163,7 +163,7 @@ abstract class Rule
      * @param string $message
      * @return \Rakit\Validation\Rule
      */
-    public function message(string $message) : Rule
+    public function message(string $message): Rule
     {
         return $this->setMessage($message);
     }
@@ -173,7 +173,7 @@ abstract class Rule
      * @param string $message
      * @return \Rakit\Validation\Rule
      */
-    public function setMessage(string $message) : Rule
+    public function setMessage(string $message): Rule
     {
         $this->message = $message;
         return $this;
@@ -183,7 +183,7 @@ abstract class Rule
      *
      * @return string
      */
-    public function getMessage() : string
+    public function getMessage(): string
     {
         return $this->message;
     }

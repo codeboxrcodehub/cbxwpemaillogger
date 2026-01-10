@@ -48,7 +48,7 @@ class RewindableGenerator implements Countable, IteratorAggregate
     #[\ReturnTypeWillChange]
     public function count()
     {
-        if (\is_callable($count = $this->count)) {
+        if (is_callable($count = $this->count)) {
             $this->count = $count();
         }
         return $this->count;

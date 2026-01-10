@@ -17,7 +17,7 @@ class After extends Rule
      * @return bool
      * @throws \Exception
      */
-    public function check($value) : bool
+    public function check($value): bool
     {
         $this->requireParameters($this->fillableParams);
         $time = $this->parameter('time');

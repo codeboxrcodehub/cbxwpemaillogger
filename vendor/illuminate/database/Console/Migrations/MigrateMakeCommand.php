@@ -59,13 +59,13 @@ class MigrateMakeCommand extends BaseCommand
         // It's possible for the developer to specify the tables to modify in this
         // schema operation. The developer may also specify if this table needs
         // to be freshly created so we can create the appropriate migrations.
-        $name = Str::snake(\trim($this->input->getArgument('name')));
+        $name = Str::snake(trim($this->input->getArgument('name')));
         $table = $this->input->getOption('table');
         $create = $this->input->getOption('create') ?: \false;
         // If no table was given as an option but a create option is given then we
         // will use the "create" option as the table name. This allows the devs
         // to pass a table name into this option as a short-cut for creating.
-        if (!$table && \is_string($create)) {
+        if (!$table && is_string($create)) {
             $table = $create;
             $create = \true;
         }
@@ -93,7 +93,7 @@ class MigrateMakeCommand extends BaseCommand
     {
         $file = $this->creator->create($name, $this->getMigrationPath(), $table, $create);
         if (!$this->option('fullpath')) {
-            $file = \pathinfo($file, \PATHINFO_FILENAME);
+            $file = pathinfo($file, \PATHINFO_FILENAME);
         }
         $this->line("<info>Created Migration:</info> {$file}");
     }
@@ -104,7 +104,7 @@ class MigrateMakeCommand extends BaseCommand
      */
     protected function getMigrationPath()
     {
-        if (!\is_null($targetPath = $this->input->getOption('path'))) {
+        if (!is_null($targetPath = $this->input->getOption('path'))) {
             return !$this->usingRealPath() ? $this->laravel->basePath() . '/' . $targetPath : $targetPath;
         }
         return parent::getMigrationPath();

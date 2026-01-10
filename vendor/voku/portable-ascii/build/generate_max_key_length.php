@@ -7,7 +7,7 @@ $languages = \ComfortSmtpScoped\voku\helper\ASCII::getAllLanguages();
 $languagesKeyLengths = [];
 foreach ($languages as $language) {
     $langSpecific = \ComfortSmtpScoped\voku\helper\ASCII::charsArrayWithOneLanguage($language, \false, \false);
-    $langSpecificKeyLength = \array_map('\\mb_strlen', \array_keys($langSpecific));
+    $langSpecificKeyLength = \array_map('\mb_strlen', \array_keys($langSpecific));
     if (\count($langSpecificKeyLength) === 0) {
         $languagesKeyLengths[$language] = 0;
     } else {

@@ -113,7 +113,7 @@ abstract class AbstractPaginator implements Htmlable
      */
     protected function isValidPageNumber($page)
     {
-        return $page >= 1 && \filter_var($page, \FILTER_VALIDATE_INT) !== \false;
+        return $page >= 1 && filter_var($page, \FILTER_VALIDATE_INT) !== \false;
     }
     /**
      * Get the URL for the previous page.
@@ -135,7 +135,7 @@ abstract class AbstractPaginator implements Htmlable
      */
     public function getUrlRange($start, $end)
     {
-        return collect(\range($start, $end))->mapWithKeys(function ($page) {
+        return collect(range($start, $end))->mapWithKeys(function ($page) {
             return [$page => $this->url($page)];
         })->all();
     }
@@ -154,8 +154,8 @@ abstract class AbstractPaginator implements Htmlable
         // onto the URL, we will put them in query string form and then attach it
         // to the URL. This allows for extra information like sortings storage.
         $parameters = [$this->pageName => $page];
-        if (\count($this->query) > 0) {
-            $parameters = \array_merge($this->query, $parameters);
+        if (count($this->query) > 0) {
+            $parameters = array_merge($this->query, $parameters);
         }
         return $this->path() . (Str::contains($this->path(), '?') ? '&' : '?') . Arr::query($parameters) . $this->buildFragment();
     }
@@ -167,7 +167,7 @@ abstract class AbstractPaginator implements Htmlable
      */
     public function fragment($fragment = null)
     {
-        if (\is_null($fragment)) {
+        if (is_null($fragment)) {
             return $this->fragment;
         }
         $this->fragment = $fragment;
@@ -182,10 +182,10 @@ abstract class AbstractPaginator implements Htmlable
      */
     public function appends($key, $value = null)
     {
-        if (\is_null($key)) {
+        if (is_null($key)) {
             return $this;
         }
-        if (\is_array($key)) {
+        if (is_array($key)) {
             return $this->appendArray($key);
         }
         return $this->addQuery($key, $value);
@@ -211,7 +211,7 @@ abstract class AbstractPaginator implements Htmlable
     public function withQueryString()
     {
         if (isset(static::$queryStringResolver)) {
-            return $this->appends(\call_user_func(static::$queryStringResolver));
+            return $this->appends(call_user_func(static::$queryStringResolver));
         }
         return $this;
     }
@@ -278,7 +278,7 @@ abstract class AbstractPaginator implements Htmlable
      */
     public function firstItem()
     {
-        return \count($this->items) > 0 ? ($this->currentPage - 1) * $this->perPage + 1 : null;
+        return count($this->items) > 0 ? ($this->currentPage - 1) * $this->perPage + 1 : null;
     }
     /**
      * Get the number of the last item in the slice.
@@ -287,7 +287,7 @@ abstract class AbstractPaginator implements Htmlable
      */
     public function lastItem()
     {
-        return \count($this->items) > 0 ? $this->firstItem() + $this->count() - 1 : null;
+        return count($this->items) > 0 ? $this->firstItem() + $this->count() - 1 : null;
     }
     /**
      * Transform each item in the slice of items using a callback.
@@ -415,7 +415,7 @@ abstract class AbstractPaginator implements Htmlable
     public static function resolveCurrentPath($default = '/')
     {
         if (isset(static::$currentPathResolver)) {
-            return \call_user_func(static::$currentPathResolver);
+            return call_user_func(static::$currentPathResolver);
         }
         return $default;
     }
@@ -439,7 +439,7 @@ abstract class AbstractPaginator implements Htmlable
     public static function resolveCurrentPage($pageName = 'page', $default = 1)
     {
         if (isset(static::$currentPageResolver)) {
-            return (int) \call_user_func(static::$currentPageResolver, $pageName);
+            return (int) call_user_func(static::$currentPageResolver, $pageName);
         }
         return $default;
     }
@@ -483,7 +483,7 @@ abstract class AbstractPaginator implements Htmlable
      */
     public static function viewFactory()
     {
-        return \call_user_func(static::$viewFactoryResolver);
+        return call_user_func(static::$viewFactoryResolver);
     }
     /**
      * Set the view factory resolver callback.

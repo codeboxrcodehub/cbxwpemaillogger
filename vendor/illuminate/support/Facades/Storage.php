@@ -61,7 +61,7 @@ class Storage extends Facade
             $root = "{$root}_test_{$token}";
         }
         (new Filesystem())->cleanDirectory($root);
-        static::set($disk, $fake = static::createLocalDriver(\array_merge($config, ['root' => $root])));
+        static::set($disk, $fake = static::createLocalDriver(array_merge($config, ['root' => $root])));
         return $fake;
     }
     /**
@@ -74,7 +74,7 @@ class Storage extends Facade
     public static function persistentFake($disk = null, array $config = [])
     {
         $disk = $disk ?: static::$app['config']->get('filesystems.default');
-        static::set($disk, $fake = static::createLocalDriver(\array_merge($config, ['root' => storage_path('framework/testing/disks/' . $disk)])));
+        static::set($disk, $fake = static::createLocalDriver(array_merge($config, ['root' => storage_path('framework/testing/disks/' . $disk)])));
         return $fake;
     }
     /**

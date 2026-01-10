@@ -54,7 +54,7 @@ class Validator
      * @param array $messages
      * @return Validation
      */
-    public function validate(array $inputs, array $rules, array $messages = []) : Validation
+    public function validate(array $inputs, array $rules, array $messages = []): Validation
     {
         $validation = $this->make($inputs, $rules, $messages);
         $validation->validate();
@@ -68,9 +68,9 @@ class Validator
      * @param array $messages
      * @return Validation
      */
-    public function make(array $inputs, array $rules, array $messages = []) : Validation
+    public function make(array $inputs, array $rules, array $messages = []): Validation
     {
-        $messages = \array_merge($this->messages, $messages);
+        $messages = array_merge($this->messages, $messages);
         $validation = new Validation($this, $inputs, $rules, $messages);
         $validation->setTranslations($this->getTranslations());
         return $validation;
@@ -82,10 +82,10 @@ class Validator
      * @return Rule
      * @throws RuleNotFoundException
      */
-    public function __invoke(string $rule) : Rule
+    public function __invoke(string $rule): Rule
     {
-        $args = \func_get_args();
-        $rule = \array_shift($args);
+        $args = func_get_args();
+        $rule = array_shift($args);
         $params = $args;
         $validator = $this->getValidator($rule);
         if (!$validator) {
@@ -163,7 +163,7 @@ class Validator
      */
     public function addValidator(string $ruleName, Rule $rule)
     {
-        if (!$this->allowRuleOverride && \array_key_exists($ruleName, $this->validators)) {
+        if (!$this->allowRuleOverride && array_key_exists($ruleName, $this->validators)) {
             throw new RuleQuashException("You cannot override a built in rule. You have to rename your rule");
         }
         $this->setValidator($ruleName, $rule);
@@ -193,7 +193,7 @@ class Validator
      *
      * @return void
      */
-    public function isUsingHumanizedKey() : bool
+    public function isUsingHumanizedKey(): bool
     {
         return $this->useHumanizedKeys;
     }

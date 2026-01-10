@@ -21,10 +21,10 @@ class Pluralizer
      */
     public static function plural($value, $count = 2)
     {
-        if (\is_countable($count)) {
-            $count = \count($count);
+        if (is_countable($count)) {
+            $count = count($count);
         }
-        if ((int) \abs($count) === 1 || static::uncountable($value) || \preg_match('/^(.*)[A-Za-z0-9\\x{0080}-\\x{FFFF}]$/u', $value) == 0) {
+        if ((int) abs($count) === 1 || static::uncountable($value) || preg_match('/^(.*)[A-Za-z0-9\x{0080}-\x{FFFF}]$/u', $value) == 0) {
             return $value;
         }
         $plural = static::inflector()->pluralize($value);
@@ -49,7 +49,7 @@ class Pluralizer
      */
     protected static function uncountable($value)
     {
-        return \in_array(\strtolower($value), static::$uncountable);
+        return in_array(strtolower($value), static::$uncountable);
     }
     /**
      * Attempt to match the case on two strings.
@@ -76,7 +76,7 @@ class Pluralizer
     public static function inflector()
     {
         static $inflector;
-        if (\is_null($inflector)) {
+        if (is_null($inflector)) {
             $inflector = InflectorFactory::createForLanguage('english')->build();
         }
         return $inflector;

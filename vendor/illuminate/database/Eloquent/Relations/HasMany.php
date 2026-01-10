@@ -12,7 +12,7 @@ class HasMany extends HasOneOrMany
      */
     public function getResults()
     {
-        return !\is_null($this->getParentKey()) ? $this->query->get() : $this->related->newCollection();
+        return !is_null($this->getParentKey()) ? $this->query->get() : $this->related->newCollection();
     }
     /**
      * Initialize the relation on a set of models.

@@ -34,7 +34,7 @@ class PostgresBuilder extends Builder
     {
         [$schema, $table] = $this->parseSchemaAndTable($table);
         $table = $this->connection->getTablePrefix() . $table;
-        return \count($this->connection->select($this->grammar->compileTableExists(), [$schema, $table])) > 0;
+        return count($this->connection->select($this->grammar->compileTableExists(), [$schema, $table])) > 0;
     }
     /**
      * Drop all tables from the database.
@@ -47,8 +47,8 @@ class PostgresBuilder extends Builder
         $excludedTables = $this->connection->getConfig('dont_drop') ?? ['spatial_ref_sys'];
         foreach ($this->getAllTables() as $row) {
             $row = (array) $row;
-            $table = \reset($row);
-            if (!\in_array($table, $excludedTables)) {
+            $table = reset($row);
+            if (!in_array($table, $excludedTables)) {
                 $tables[] = $table;
             }
         }
@@ -67,7 +67,7 @@ class PostgresBuilder extends Builder
         $views = [];
         foreach ($this->getAllViews() as $row) {
             $row = (array) $row;
-            $views[] = \reset($row);
+            $views[] = reset($row);
         }
         if (empty($views)) {
             return;
@@ -84,7 +84,7 @@ class PostgresBuilder extends Builder
         $types = [];
         foreach ($this->getAllTypes() as $row) {
             $row = (array) $row;
-            $types[] = \reset($row);
+            $types[] = reset($row);
         }
         if (empty($types)) {
             return;
@@ -139,13 +139,13 @@ class PostgresBuilder extends Builder
      */
     protected function parseSchemaAndTable($table)
     {
-        $table = \explode('.', $table);
-        if (\is_array($schema = $this->connection->getConfig('schema'))) {
-            if (\in_array($table[0], $schema)) {
-                return [\array_shift($table), \implode('.', $table)];
+        $table = explode('.', $table);
+        if (is_array($schema = $this->connection->getConfig('schema'))) {
+            if (in_array($table[0], $schema)) {
+                return [array_shift($table), implode('.', $table)];
             }
-            $schema = \head($schema);
+            $schema = head($schema);
         }
-        return [$schema ?: 'public', \implode('.', $table)];
+        return [$schema ?: 'public', implode('.', $table)];
     }
 }
