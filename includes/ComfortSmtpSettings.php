@@ -938,9 +938,12 @@ class ComfortSmtpSettings {
 	 * @return void
 	 */
 	function callback_password( $args ) {
+        //write_log($args);
 
 		$value = esc_attr( $this->get_field( $args['id'], $args['section'], $args['default'] ) );
 		$size  = isset( $args['size'] ) && ! is_null( $args['size'] ) ? $args['size'] : 'regular';
+
+        write_log($value);
 
 		$html = sprintf( '<input type="password" class="%1$s-text" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s"/>',
 			$size, $args['section'], $args['id'], $value );

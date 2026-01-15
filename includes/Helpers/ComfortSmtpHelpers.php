@@ -908,7 +908,7 @@ class ComfortSmtpHelpers {
 						'smtp_email_password' => [
 							'name'              => 'smtp_email_password',
 							'label'             => esc_html__( 'SMTP Password', 'cbxwpemaillogger' ),
-							'type'              => 'password',
+							'type'              => 'text',
 							'default'           => '',
 							'sanitize_callback' => 'sanitize_text_field',
 						],

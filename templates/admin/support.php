@@ -90,6 +90,14 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                     <div class="content">
                         <div class="cbx-backend-settings-row">
                             <p>
+                                Version - 2.0.12
+                            </p>
+                            <ul>
+                                <li>[fixed] SMTP Password field not text field than type password</li>
+                            </ul>
+                        </div>
+                        <div class="cbx-backend-settings-row">
+                            <p>
                                 Version - 2.0.11
                             </p>
                             <ul>
