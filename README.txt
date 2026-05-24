@@ -4,7 +4,7 @@ Tags: wordpress smtp,wordpress email log,smtp
 Requires at least: 5.3
 Requires PHP: 7.4
 Tested up to: 7.0
-Stable tag: 2.1.0
+Stable tag: 2.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,9 @@ e.g.
 
 
 == Changelog ==
+= 2.1.1 =
+* [fixed] Fixed select field in repeatable field used for plugin settings.
+
 = 2.1.0 =
 * [new] Email notification system added which 3rd party can hook and send email via Comfort SMTP's notification system
 * [new] Two html email template added

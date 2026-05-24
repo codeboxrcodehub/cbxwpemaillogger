@@ -673,9 +673,11 @@ class ComfortSmtpSettings
      *
      * @return void
      */
-    function callback_select($args)
+    function callback_select($args, $value = null)
     {
-        $value = $this->get_option($args['id'], $args['section'], $args['default']);
+        if ($value === null) {
+            $value = $this->get_option($args['id'], $args['section'], $args['default']);
+        }
 
         $multi      = isset($args['multi']) ? absint($args['multi']) : 0;
         $multi_name = ($multi) ? '[]' : '';

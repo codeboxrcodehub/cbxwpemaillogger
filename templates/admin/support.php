@@ -90,6 +90,14 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                     <div class="content">
                         <div class="cbx-backend-settings-row">
                             <p>
+                                Version - 2.1.1
+                            </p>
+                            <ul>
+                                <li>[fixed] Fixed select field in repeatable field used for plugin settings.</li>
+                            </ul>
+                        </div>
+                        <div class="cbx-backend-settings-row">
+                            <p>
                                 Version - 2.1.0
                             </p>
                             <ul>
