@@ -13,6 +13,7 @@ class ComposerStaticInitad00a5861b26299dd1f8f968c389d418
         '72579e7bd17821bb1321b87411366eae' => __DIR__ . '/..' . '/illuminate/support/helpers.php',
         '136b2e26fee4f7ad4cd4183e2d4b8b98' => __DIR__ . '/../..' . '/includes/Helpers/comfortsmtp-functions.php',
         '3f73052929bf458937d9f36cebb87fd0' => __DIR__ . '/../..' . '/includes/Helpers/comfortsmtp-tpl-loader.php',
+        '405a95103c103182b01cde299fdaf2fe' => __DIR__ . '/../..' . '/includes/Helpers/ComfortSmtpEmailFunctions.php',
     );
 
     public static $prefixLengthsPsr4 = array (

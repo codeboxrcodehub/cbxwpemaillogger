@@ -2,6 +2,9 @@
 
 namespace Comfort\Crm\Smtp\Controllers;
 
+use ComfortSmtpEmail;
+use ComfortSmtpEmails;
+
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
@@ -56,17 +59,17 @@ class LogController {
 
 
 			$order_by = $filter['order_by']; //todo: check if $order_by is within any allowed list
-			$sort     = strtolower($filter['sort']);
+			$sort     = strtolower( $filter['sort'] );
 
-			if(!in_array($sort, ['asc', 'desc']))
-
-			if ( isset( $data['date'] ) && $data['date'] !== '' ) {
-				if ( str_contains( $data['date'], ' to ' ) ) {
-					$dates = explode( ' to ', $data['date'] );
-				} else {
-					$dates = $data['date'];
+			if ( ! in_array( $sort, [ 'asc', 'desc' ] ) ) {
+				if ( isset( $data['date'] ) && $data['date'] !== '' ) {
+					if ( str_contains( $data['date'], ' to ' ) ) {
+						$dates = explode( ' to ', $data['date'] );
+					} else {
+						$dates = $data['date'];
+					}
+					$filter['date'] = $dates;
 				}
-				$filter['date'] = $dates;
 			}
 
 
@@ -127,7 +130,7 @@ class LogController {
 	/**
 	 * Get log fields data
 	 *
-	 * @param WP_REST_Request $request
+	 * @param  WP_REST_Request  $request
 	 *
 	 * @return WP_REST_Response
 	 * @throws Exception
@@ -147,7 +150,7 @@ class LogController {
 		}
 
 		if ( isset( $request['id'] ) ) {
-			$log = SmtpLog::where( 'id', absint($request['id']) )->first();
+			$log = SmtpLog::where( 'id', absint( $request['id'] ) )->first();
 
 			if ( $log ) {
 				$response->set_data( $log );
@@ -162,7 +165,7 @@ class LogController {
 	/**
 	 * Log delete
 	 *
-	 * @param WP_REST_Request $request
+	 * @param  WP_REST_Request  $request
 	 *
 	 * @return WP_REST_Response
 	 */
@@ -288,7 +291,7 @@ class LogController {
 			}
 
 			$settings = new ComfortSmtpSettings();
-			$old_days = absint($settings->get_field('log_old_days', 'comfortsmtp_log', 30));
+			$old_days = absint( $settings->get_field( 'log_old_days', 'comfortsmtp_log', 30 ) );
 
 
 			ComfortSmtpHelpers::delete_old_log( $old_days );
@@ -307,7 +310,7 @@ class LogController {
 	/**
 	 * send test email
 	 *
-	 * @param WP_REST_Request $request
+	 * @param  WP_REST_Request  $request
 	 *
 	 * @return WP_REST_Response
 	 */
@@ -326,11 +329,11 @@ class LogController {
 			$post_data = $request->get_params();
 
 			$to      = isset( $post_data['to'] ) ? sanitize_email( $post_data['to'] ) : '';
-			$subject = isset( $post_data['subject'] ) ? sanitize_text_field( wp_unslash($post_data['subject']) ) : '';
-			$message = isset( $post_data['message'] ) ? sanitize_textarea_field( wp_unslash($post_data['message']) ) : '';
+			$subject = isset( $post_data['subject'] ) ? sanitize_text_field( wp_unslash( $post_data['subject'] ) ) : '';
+			$message = isset( $post_data['message'] ) ? sanitize_textarea_field( wp_unslash( $post_data['message'] ) ) : '';
 
-			$cc  = isset( $post_data['cc'] ) ? sanitize_text_field( wp_unslash($post_data['cc']) ) : '';
-			$bcc = isset( $post_data['bcc'] ) ? sanitize_text_field( wp_unslash($post_data['bcc']) ) : '';
+			$cc  = isset( $post_data['cc'] ) ? sanitize_text_field( wp_unslash( $post_data['cc'] ) ) : '';
+			$bcc = isset( $post_data['bcc'] ) ? sanitize_text_field( wp_unslash( $post_data['bcc'] ) ) : '';
 
 			// Split the CC and BCC into arrays by comma
 			$cc  = array_filter( array_map( 'sanitize_email', explode( ',', $cc ) ) );
@@ -412,7 +415,25 @@ class LogController {
 				// \Comfort\Crm\SmtpPro\Helpers\ComfortSmtpProHelpers::send_email_via_sendgrid($to, $subject, $message, $headers);
 
 				//send email
-				$status = wp_mail( $to, $subject, $message, $headers, $attachments );
+				//$status = wp_mail( $to, $subject, $message, $headers, $attachments );
+
+				//$email        = new ComfortSmtpEmails();
+				$email        = comfortsmtp_mailer();
+				$heading      = esc_html__( 'Test Email', 'cbxwpemaillogger' );
+
+
+
+				$message = '<div class="content-section">
+							<h1 class="heading">'.esc_html__('Test Notification', 'cbxwpemaillogger').'</h1>
+							<p class="message">
+								'.$message.'
+							</p>														
+						</div>';
+
+				$message = $email->wrap_message( $heading, $message );
+
+
+				$status = $email->send( $to, $subject, $message, $headers, $attachments );
 
 				if ( $status ) {
 					$response->set_data( [
@@ -437,7 +458,7 @@ class LogController {
 			} catch ( Exception $e ) {
 				$response->set_data( [
 					'success' => false,
-					'info'    => esc_html__( 'Email sent failed. Error:', 'cbxwpemaillogger' ).esc_html($e->getMessage())
+					'info'    => esc_html__( 'Email sent failed. Error:', 'cbxwpemaillogger' ) . esc_html( $e->getMessage() )
 				] );
 			}
 
@@ -544,7 +565,7 @@ class LogController {
 	/**
 	 * Send email same origin content type format while resending
 	 *
-	 * @param string $content_type
+	 * @param  string  $content_type
 	 *
 	 * @return mixed|string
 	 */

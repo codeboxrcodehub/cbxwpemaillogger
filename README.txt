@@ -3,8 +3,8 @@ Contributors: codeboxr, manchumahara
 Tags: wordpress smtp,wordpress email log,smtp
 Requires at least: 5.3
 Requires PHP: 7.4
-Tested up to: 6.9
-Stable tag: 2.0.12
+Tested up to: 7.0
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,19 @@ e.g.
 
 
 == Changelog ==
+= 2.1.0 =
+* [new] Email notification system added which 3rd party can hook and send email via Comfort SMTP's notification system
+* [new] Two html email template added
+* [new] New html template for test email
+* [updated] Pro addon plugin 1.0.9 released
+* [updated] Plugin Check 1.9.0 Compatible
+* [updated] Style & Misc changes
+* [new] WordPress 7.0 Compatible
+
+
+= 2.0.14 =
+* [fixed] Html type email now sends as proper html if not set content type correctly
+
 = 2.0.12 =
 * [fixed] SMTP Password field not text field than type password
 

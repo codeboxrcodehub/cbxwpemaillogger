@@ -90,6 +90,20 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                     <div class="content">
                         <div class="cbx-backend-settings-row">
                             <p>
+                                Version - 2.1.0
+                            </p>
+                            <ul>
+                                <li>[new] Email notification system added which 3rd party can hook and send email via Comfort SMTP&#39;s notification system</li>
+                                <li>[new] Two html email template added</li>
+                                <li>[new] New html template for test email</li>
+                                <li>[updated] Pro addon plugin 1.0.9 released</li>
+                                <li>[updated] Plugin Check 1.9.0 Compatible</li>
+                                <li>[updated] Style &amp; Misc changes</li>
+                                <li>[new] WordPress 7.0 Compatible</li>
+                            </ul>
+                        </div>
+                        <div class="cbx-backend-settings-row">
+                            <p>
                                 Version - 2.0.12
                             </p>
                             <ul>
@@ -107,26 +121,7 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                                 <li>[updated] Misc changes</li>
                             </ul>
                         </div>
-                        <div class="cbx-backend-settings-row">
-                            <p>
-                                Version - 2.0.10
-                            </p>
-                            <ul>
-                                <li>[updated] Pro addon V1.0.7 released</li>
-                                <li>[fixed] Composer platform check issue fixed</li>
-                                <li>[fixed] Custom db connect issue solved if mysql port not default</li>
-                                <li>[improvement] DB Table name escape improved</li>
-                                <li>[updated] Plugin Check V1.7.0 compatible</li>
-                            </ul>
-                        </div>
-                        <div class="cbx-backend-settings-row">
-                            <p>
-                                Version - 2.0.9
-                            </p>
-                            <ul>
-                                <li>[fixed] [fixed] Fixed method callback for 'custom_robots_txt'</li>
-                            </ul>
-                        </div>
+
                     </div>
                 </div>
                 <div class="cbx-backend-card dashboard-changelog">
@@ -136,6 +131,16 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                         </div>
                     </div>
                     <div class="content">
+                        <div class="cbx-backend-settings-row">
+                            <p>
+                                Version - 1.0.9
+                            </p>
+                            <ul>
+                                <li>[updated] Core plugin 2.1.0 released</li>
+                                <li>[updated] Plugin Check 1.9.0 Compatible</li>
+                                <li>[updated] Misc changes</li>
+                            </ul>
+                        </div>
                         <div class="cbx-backend-settings-row">
                             <p>
                                 Version - 1.0.8
@@ -156,15 +161,6 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                                 <li>[fixed] Composer platform check issue fixed</li>
                                 <li>[improvement] DB Table name escape improved</li>
                                 <li>[updated] Plugin Check V1.7.0 compatible</li>
-                            </ul>
-                        </div>
-                        <div class="cbx-backend-settings-row">
-                            <p>
-                                Version - 1.0.6
-                            </p>
-                            <ul>
-                                <li>[updated] PHP version compatibility check</li>
-                                <li>[new] Core plugin V2.0.8 released</li>
                             </ul>
                         </div>
                     </div>

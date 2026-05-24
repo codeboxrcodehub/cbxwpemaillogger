@@ -111,7 +111,7 @@ final class ComfortSmtp {
 	 */
 	private function include_files() {
 		require_once __DIR__ . '/../vendor/autoload.php';
-		// include_once __DIR__ . '/ComfortSmtpEmails.php';
+		include_once __DIR__ . '/ComfortSmtpEmails.php';
 	}//end method include_files
 
 	/**

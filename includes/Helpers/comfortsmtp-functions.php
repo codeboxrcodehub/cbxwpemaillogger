@@ -246,3 +246,17 @@ if(!function_exists('comfortsmtp_deprecated_function')){
 		}
 	}//end function comfortsmtp_deprecated_function
 }
+
+if ( ! function_exists( 'comfortsmtp_mailer' ) ) {
+	/**
+	 * Init the comfortsmtp_mailer
+	 *
+	 */
+	function comfortsmtp_mailer() {
+		if ( ! class_exists( 'ComfortSmtpEmails' ) ) {
+			include_once __DIR__ . '/../ComfortSmtpEmails.php';
+		}
+
+		return ComfortSmtpEmails::instance();
+	}//end method comfortsmtp_mailer
+}

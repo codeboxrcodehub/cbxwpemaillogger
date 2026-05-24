@@ -10,6 +10,7 @@ if ( ! defined( 'WPINC' ) ) {
 use Comfort\Crm\Smtp\ComfortSmtpSettings;
 
 use Comfort\Crm\Smtp\Models\SmtpLog;
+
 //use Exception;
 use ComfortSmtpScoped\Illuminate\Database\Capsule\Manager;
 use Comfort\Crm\Smtp\MigrationManage;
@@ -105,9 +106,9 @@ class ComfortSmtpHelpers {
 	/**
 	 * Get the user roles for voting purpose
 	 *
-	 * @param bool $plain
-	 * @param bool $include_guest
-	 * @param array $ignore
+	 * @param  bool  $plain
+	 * @param  bool  $include_guest
+	 * @param  array  $ignore
 	 *
 	 * @return array
 	 * @since 1.0.0
@@ -157,8 +158,8 @@ class ComfortSmtpHelpers {
 	/**
 	 * common js translation and variable used resume plugin
 	 *
-	 * @param string $current_user
-	 * @param string $blog_id
+	 * @param  string  $current_user
+	 * @param  string  $blog_id
 	 *
 	 * @return mixed|void
 	 * @since 1.0.0
@@ -171,13 +172,13 @@ class ComfortSmtpHelpers {
 		}
 
 		$js_translations = [
-			'icons_url'       => COMFORTSMTP_ROOT_URL . '/assets/icons/',
-			'nonce'           => wp_create_nonce( 'comfortsmtp' ),
-			'rest_nonce'      => wp_create_nonce( 'wp_rest' ),
-			'dashboard_menus' => self::dashboard_menus(),
-			'site_url'        => site_url(),
-			'site_email'        => get_option('admin_email'),
-			'translations'    => [
+			'icons_url'                => COMFORTSMTP_ROOT_URL . '/assets/icons/',
+			'nonce'                    => wp_create_nonce( 'comfortsmtp' ),
+			'rest_nonce'               => wp_create_nonce( 'wp_rest' ),
+			'dashboard_menus'          => self::dashboard_menus(),
+			'site_url'                 => site_url(),
+			'site_email'               => get_option( 'admin_email' ),
+			'translations'             => [
 				'buttons'                   => [
 					'close'  => [
 						'title'    => esc_attr__( 'Click to close', 'cbxwpemaillogger' ),
@@ -255,8 +256,8 @@ class ComfortSmtpHelpers {
 					'copy_after'  => esc_html__( 'Copied', 'cbxwpemaillogger' )
 				],
 			],
-			'user_roles'      => ComfortSmtpHelpers::user_roles( true, true ),
-			'rest_end_points' => [
+			'user_roles'               => ComfortSmtpHelpers::user_roles( true, true ),
+			'rest_end_points'          => [
 				'get_log'      => esc_url_raw( get_rest_url( $blog_id, 'comfortsmtp/v1/log-data' ) ),
 				'get_log_list' => esc_url_raw( get_rest_url( $blog_id, 'comfortsmtp/v1/log-list' ) ),
 
@@ -268,8 +269,8 @@ class ComfortSmtpHelpers {
 				'reset_option'  => esc_url_raw( get_rest_url( $blog_id, 'comfortsmtp/v1/reset-option' ) ),
 				'migrate_table' => esc_url_raw( get_rest_url( $blog_id, 'comfortsmtp/v1/migrate-table' ) ),
 			],
-			'cbx_table_lite'  => self::table_light_translation(),
-			'mail_statuses'     => self::mailStatuses(),
+			'cbx_table_lite'           => self::table_light_translation(),
+			'mail_statuses'            => self::mailStatuses(),
 			'is_comfortsmtppro_active' => self::is_comfortsmtppro_active(),
 		];
 
@@ -631,6 +632,10 @@ class ComfortSmtpHelpers {
 					'id'    => 'comfortsmtp_smtps',
 					'title' => esc_html__( 'Email Sending', 'cbxwpemaillogger' ),
 				],
+				[
+					'id'    => 'comfortsmtp_email_tpl',
+					'title' => esc_html__( 'Email Template', 'cbxwpemaillogger' )
+				]
 			] );
 	} //end method get_settings_sections
 
@@ -650,7 +655,7 @@ class ComfortSmtpHelpers {
 	/**
 	 * Returns list of custom smtp host servers
 	 *
-	 * @param bool $enabled_only
+	 * @param  bool  $enabled_only
 	 *
 	 * @return array
 	 */
@@ -667,9 +672,9 @@ class ComfortSmtpHelpers {
 			$index = 0;
 
 			foreach ( $smtp_email_servers as $smtp_email_server ) {
-				$smtp_email_enable = isset( $smtp_email_server['smtp_email_enable'] ) ? intval( $smtp_email_server['smtp_email_enable'] ) : 0;
+				$smtp_email_enable = isset( $smtp_email_server['smtp_email_enable'] ) ? absint( $smtp_email_server['smtp_email_enable'] ) : 0;
 				$smtp_email_host   = isset( $smtp_email_server['smtp_email_host'] ) ? esc_attr( $smtp_email_server['smtp_email_host'] ) : '';
-				$smtp_email_port   = isset( $smtp_email_server['smtp_email_port'] ) ? intval( $smtp_email_server['smtp_email_port'] ) : 0;
+				$smtp_email_port   = isset( $smtp_email_server['smtp_email_port'] ) ? absint( $smtp_email_server['smtp_email_port'] ) : 0;
 
 				if ( $enabled_only && $smtp_email_enable ) {
 					/* translators: 1: index no 2. host name 3. port no  */
@@ -706,13 +711,18 @@ class ComfortSmtpHelpers {
 	public static function get_settings_fields() {
 		$custom_mailer = self::getCustomMailer();
 
+		$templates = [
+			'tpl-general'    => esc_html__( 'General Template', 'cbxwpemaillogger' ),
+			'tpl-clean'      => esc_html__( 'Clean Template', 'cbxwpemaillogger' ),
+		];
+
 
 		//$smtp_email_servers_default = CBXWPEmailLoggerHelper::smtp_email_servers_default(  );
 		$smtp_email_servers_list = self::getSMTPHostServers( true );
 
 		$settings_builtin_fields = [
-			'comfortsmtp_log'   => [
-				'log_heading' => [
+			'comfortsmtp_log'       => [
+				'log_heading'             => [
 					'name'    => 'log_heading',
 					'label'   => esc_html__( 'Email Log Control', 'cbxwpemaillogger' ),
 					'type'    => 'heading',
@@ -761,14 +771,14 @@ class ComfortSmtpHelpers {
 					'default' => 0,
 				],
 			],
-			'comfortsmtp_email' => [
+			'comfortsmtp_email'     => [
 				'email_control_settings_heading' => [
 					'name'    => 'email_control_settings_heading',
 					'label'   => esc_html__( 'Email Control Settings', 'cbxwpemaillogger' ),
 					'type'    => 'heading',
 					'default' => '',
 				],
-				'email_smtp_enable'     => [
+				'email_smtp_enable'              => [
 					'name'    => 'email_smtp_enable',
 					'label'   => esc_html__( 'Control Email Sending', 'cbxwpemaillogger' ),
 					'desc'    => '<p>' . __( 'Control email sending, default is disabled on after plugin activated. <strong>If disabled, this plugin will not touch any email sending feature.</strong>', 'cbxwpemaillogger' ) . '</p>',
@@ -779,7 +789,7 @@ class ComfortSmtpHelpers {
 					],
 					'default' => 0,
 				],
-				'smtp_from_email'       => [
+				'smtp_from_email'                => [
 					'name'              => 'smtp_from_email',
 					'label'             => esc_html__( 'Override From Email', 'cbxwpemaillogger' ),
 					'desc'              => '<p>' . esc_html__( 'Leave blank/empty to use default', 'cbxwpemaillogger' ) . '</p>',
@@ -787,7 +797,7 @@ class ComfortSmtpHelpers {
 					'default'           => sanitize_email( get_option( 'admin_email' ) ),
 					'sanitize_callback' => 'sanitize_email',
 				],
-				'smtp_from_name'        => [
+				'smtp_from_name'                 => [
 					'name'              => 'smtp_from_name',
 					'label'             => esc_html__( 'Override From Name', 'cbxwpemaillogger' ),
 					'desc'              => '<p>' . esc_html__( 'Leave blank/empty to use default', 'cbxwpemaillogger' ) . '</p>',
@@ -795,7 +805,7 @@ class ComfortSmtpHelpers {
 					'default'           => esc_html( get_option( 'blogname' ) ),
 					'sanitize_callback' => 'sanitize_text_field',
 				],
-				'smtp_email_returnpath' => [
+				'smtp_email_returnpath'          => [
 					'name'              => 'smtp_email_returnpath',
 					'label'             => esc_html__( 'Email Return path', 'cbxwpemaillogger' ),
 					'desc'              => '<p>' . esc_html__( 'If blank will ignore', 'cbxwpemaillogger' ) . '</p>',
@@ -803,7 +813,7 @@ class ComfortSmtpHelpers {
 					'default'           => '',
 					'sanitize_callback' => 'sanitize_email',
 				],
-				'mailer'                => [
+				'mailer'                         => [
 					'name'    => 'mailer',
 					'label'   => esc_html__( 'Emailer', 'cbxwpemaillogger' ),
 					'desc'    => '<p>' . esc_html__( 'Default is wordpress default', 'cbxwpemaillogger' ) . '</p>',
@@ -816,14 +826,14 @@ class ComfortSmtpHelpers {
 				],
 
 			],
-			'comfortsmtp_smtps' => [
-				'mailer_settings_heading' => [
+			'comfortsmtp_smtps'     => [
+				'mailer_settings_heading'        => [
 					'name'    => 'mailer_settings_heading',
 					'label'   => esc_html__( 'Mailer Settings', 'cbxwpemaillogger' ),
 					'type'    => 'heading',
 					'default' => '',
 				],
-				'custom_mailer'        => [
+				'custom_mailer'                  => [
 					'name'              => 'custom_mailer',
 					'label'             => esc_html__( 'Choose Custom Mailer', 'cbxwpemaillogger' ),
 					'type'              => 'radio',
@@ -837,7 +847,7 @@ class ComfortSmtpHelpers {
 					'type'    => 'heading',
 					'default' => '',
 				],
-				'smtp_email_servers' => [
+				'smtp_email_servers'             => [
 					'name'      => 'smtp_email_servers',
 					'label'     => esc_html__( 'SMTP Host Servers', 'cbxwpemaillogger' ),
 					'type'      => 'repeat',
@@ -915,7 +925,7 @@ class ComfortSmtpHelpers {
 
 					]
 				],
-				'smtp_email_server'  => [
+				'smtp_email_server'              => [
 					'name'    => 'smtp_email_server',
 					'label'   => esc_html__( 'Choose SMTP Server', 'cbxwpemaillogger' ),
 					'desc'    => esc_html__( 'List is showing only enabled servers', 'cbxwpemaillogger' ),
@@ -924,6 +934,80 @@ class ComfortSmtpHelpers {
 					'options' => $smtp_email_servers_list
 				],
 			],
+			'comfortsmtp_email_tpl' => [
+				'comfortsmtp_email_tpl_heading' => [
+					'name'    => 'comfortsmtp_email_tpl_heading',
+					'label'   => esc_html__( 'Email Template', 'cbxwpemaillogger' ),
+					'type'    => 'heading',
+					'default' => '',
+				],
+                'selected_template'             => [
+                    'name'              => 'selected_template',
+                    'label'             => esc_html__( 'Email Template', 'cbxwpemaillogger' ),
+                    'type'              => 'select',
+                    'default'           => 'tpl-general',
+                    'options'           => $templates,
+                    'sanitize_callback' => 'sanitize_text_field'
+                ],
+				'headerimage'                   => [
+					'name'    => 'headerimage',
+					'label'   => esc_html__( 'Header Image', 'cbxwpemaillogger' ),
+					'type'    => 'file',
+					'default' => ''
+				],
+				'footertext'                    => [
+					'name'    => 'footertext',
+					'label'   => esc_html__( 'Footer Text', 'cbxwpemaillogger' ),
+					'desc'    => wp_kses( __( 'The text to appear at the email footer. Syntax available - <code>{site_title}</code>',
+						'cbxwpemaillogger' ), [ 'code' => [] ] ),
+					'type'    => 'wysiwyg',
+					'default' => '{site_title}'
+				],
+				/*'basecolor'                     => [
+					'name'    => 'basecolor',
+					'label'   => esc_html__( 'Base Color', 'cbxwpemaillogger' ),
+					'desc'    => esc_html__( 'The base color of the email.', 'cbxwpemaillogger' ),
+					'type'    => 'color',
+					'default' => '#557da1'
+				],
+				'backgroundcolor'               => [
+					'name'    => 'backgroundcolor',
+					'label'   => esc_html__( 'Background Color', 'cbxwpemaillogger' ),
+					'desc'    => esc_html__( 'The background color of the email.', 'cbxwpemaillogger' ),
+					'type'    => 'color',
+					'default' => '#f5f5f5'
+				],
+				'bodybackgroundcolor'           => [
+					'name'    => 'bodybackgroundcolor',
+					'label'   => esc_html__( 'Body Background Color', 'cbxwpemaillogger' ),
+					'desc'    => esc_html__( 'The background colour of the main body of email.',
+						'cbxwpemaillogger' ),
+					'type'    => 'color',
+					'default' => '#fdfdfd'
+				],
+				'headingcolor'                  => [
+					'name'    => 'headingcolor',
+					'label'   => esc_html__( 'Email Heading Color', 'cbxwpemaillogger' ),
+					'type'    => 'color',
+					'default' => '#ffffff'
+				],
+				'bodytextcolor'                 => [
+					'name'    => 'bodytextcolor',
+					'label'   => esc_html__( 'Body Text Color', 'cbxwpemaillogger' ),
+					'desc'    => esc_html__( 'The body text colour of the main body of email.',
+						'cbxwpemaillogger' ),
+					'type'    => 'color',
+					'default' => '#505050'
+				],
+				'footertextcolor'               => [
+					'name'    => 'footertextcolor',
+					'label'   => esc_html__( 'Footer Text Color', 'cbxwpemaillogger' ),
+					'desc'    => esc_html__( 'The footer text colour of the footer of email.', 'cbxwpemaillogger' ),
+					'type'    => 'color',
+					'default' => '#3c3c3c'
+				],*/
+
+			]
 		];
 
 		$settings_builtin_fields = apply_filters( 'comfortsmtp_settings_fields', $settings_builtin_fields );
@@ -1081,7 +1165,7 @@ class ComfortSmtpHelpers {
 	/**
 	 * Add utm params to any url
 	 *
-	 * @param string $url
+	 * @param  string  $url
 	 *
 	 * @return string
 	 * @since 1.0.0
@@ -1184,7 +1268,7 @@ class ComfortSmtpHelpers {
 	/**
 	 * delete uploaded photos of the petition
 	 *
-	 * @param int $log_id
+	 * @param  int  $log_id
 	 *
 	 */
 	public static function deleteLogFolder( $log_id = 0 ) {
@@ -1207,8 +1291,8 @@ class ComfortSmtpHelpers {
 				return true;
 			}
 		} catch ( \Exception $e ) {
-			if(function_exists('write_log')){
-				write_log( $e->getMessage());
+			if ( function_exists( 'write_log' ) ) {
+				write_log( $e->getMessage() );
 			}
 
 			return false;
@@ -1220,7 +1304,7 @@ class ComfortSmtpHelpers {
 	/**
 	 * Delete old logs based on the age in days
 	 *
-	 * @param int $log_old_days
+	 * @param  int  $log_old_days
 	 */
 	public static function delete_old_log( $log_old_days = 30 ) {
 		// Get the date threshold
@@ -1340,7 +1424,7 @@ class ComfortSmtpHelpers {
 	 */
 	public static function mailStatuses() {
 
-		$statuses = [ 
+		$statuses = [
 			0 => esc_html__( 'Failed', 'cbxwpemaillogger' ),
 			1 => esc_html__( 'Sent', 'cbxwpemaillogger' ),
 			2 => esc_html__( 'Pending', 'cbxwpemaillogger' )
@@ -1384,10 +1468,10 @@ class ComfortSmtpHelpers {
 
 			$feed->init();
 
-			$feed->set_output_encoding( 'UTF-8' );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        // this is the encoding parameter, and can be left unchanged in almost every case
-			$feed->handle_content_type();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                // this double-checks the encoding type
-			$feed->set_cache_duration( 21600 );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          // 21,600 seconds is six hours
-			$limit  = $feed->get_item_quantity( 10 );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     // fetches the 18 most recent RSS feed stories
+			$feed->set_output_encoding( 'UTF-8' );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               // this is the encoding parameter, and can be left unchanged in almost every case
+			$feed->handle_content_type();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  // this double-checks the encoding type
+			$feed->set_cache_duration( 21600 );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            // 21,600 seconds is six hours
+			$limit  = $feed->get_item_quantity( 10 );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       // fetches the 18 most recent RSS feed stories
 			$items  = $feed->get_items( 0, $limit );
 			$blocks = array_slice( $items, 0, 10 );
 
@@ -1397,7 +1481,7 @@ class ComfortSmtpHelpers {
 				$url   = ComfortSmtpHelpers::url_utmy( esc_url( $url ) );
 				$title = $block->get_title();
 
-				$news[] = ['url' => $url, 'title' => $title];
+				$news[] = [ 'url' => $url, 'title' => $title ];
 			}
 
 			set_transient( $cache_key, $news, HOUR_IN_SECONDS * 6 ); // Cache for 6 hours
@@ -1413,12 +1497,12 @@ class ComfortSmtpHelpers {
 	 */
 	public static function activate() {
 		//set the current version
-		update_option('comfortsmtp_version', COMFORTSMTP_PLUGIN_VERSION);
+		update_option( 'comfortsmtp_version', COMFORTSMTP_PLUGIN_VERSION );
 
 		ComfortSmtpHelpers::migration_and_defaults();
 		ComfortSmtpHelpers::create_cron_job();
 
-		set_transient('comfortsmtp_activated_notice', 1);
+		set_transient( 'comfortsmtp_activated_notice', 1 );
 	}//end method activate
 
 	/**
@@ -1462,7 +1546,7 @@ class ComfortSmtpHelpers {
 			}
 
 			//update the same cap for the current user who is installing or updating if logged in
-			ComfortSmtpHelpers::update_user_capability($cap);
+			ComfortSmtpHelpers::update_user_capability( $cap );
 		}
 	}//end method defaultRoleCapability
 
@@ -1529,4 +1613,42 @@ class ComfortSmtpHelpers {
 			}
 		}
 	}//end method create_cron_job
+
+	/**
+	 * HTML elements, attributes, and attribute values will occur in your output
+	 *
+	 * @return array
+	 * @since 2.0.0
+	 */
+	public static function allowedHtmlTags() {
+		$allowed_html_tags = [
+			'a'      => [
+				'href'  => [],
+				'title' => [],
+				//'class' => array(),
+				//'data'  => array(),
+				//'rel'   => array(),
+			],
+			'br'     => [],
+			'em'     => [],
+			'ul'     => [//'class' => array(),
+			],
+			'ol'     => [//'class' => array(),
+			],
+			'li'     => [//'class' => array(),
+			],
+			'strong' => [],
+			'p'      => [
+				//'class' => array(),
+				//'data'  => array(),
+				//'style' => array(),
+			],
+			'span'   => [
+				//					'class' => array(),
+				//'style' => array(),
+			],
+		];
+
+		return apply_filters( 'comfortsmtp_allowed_html_tags', $allowed_html_tags );
+	}//end method allowedHtmlTags
 }//end class ComfortSmtpHelpers

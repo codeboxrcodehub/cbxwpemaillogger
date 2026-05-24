@@ -56,6 +56,14 @@ class ComfortSmtpAdmin {
                 'comfortsmtp_emailtesting',
                 [ $this, 'display_plugin_admin_email_testing' ] );
 
+        add_submenu_page( 'comfortsmtp_log',
+			esc_html__( 'Email SMTP: Email Manager', 'cbxwpemaillogger' ),
+			esc_html__( 'Email Notifications', 'cbxwpemaillogger' ),
+			'comfortsmtp_settings_manage',
+			'comfortsmtp-emails',
+			[ $this, 'admin_menu_display_emails' ], 8
+		);
+
         // Tools submenu add
         add_submenu_page(
                 'comfortsmtp_log',
@@ -133,6 +141,8 @@ class ComfortSmtpAdmin {
         wp_register_style( 'comfortsmtp-admin', $css_url_part . 'comfortsmtp-admin.css', [], $version, 'all' );
         wp_register_style( 'comfortsmtp-builder', $css_url_part . 'comfortsmtp-builder.css', [], $version, 'all' );
 
+        wp_register_style( 'comfortsmtp-email-manager', plugin_dir_url( __FILE__ ) . '../assets/css/comfortsmtp-email-manager.css', [], $this->version, 'all' );
+
         wp_register_style( 'select2', $vendors_url_part . 'select2/select2.min.css', [], $version );
         wp_register_style( 'pickr', $vendors_url_part . 'pickr/classic.min.css', [], $version );
         wp_register_style( 'awesome-notifications', $vendors_url_part . 'awesome-notifications/style.css', [],
@@ -168,6 +178,10 @@ class ComfortSmtpAdmin {
             wp_enqueue_style( 'comfortsmtp-admin' );
             //wp_enqueue_style( 'comfortsmtp-settings' );
         }
+
+        if ( $page === 'comfortsmtp-emails' ) {
+			wp_enqueue_style( 'comfortsmtp-email-manager' );
+		}
 
         // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
         wp_register_style( 'comfortsmtp-menuhandle', false );
@@ -363,6 +377,29 @@ class ComfortSmtpAdmin {
     public function display_comfortsmtp_listing_page() {
         echo comfortsmtp_get_template_html( 'admin/email-logs.php' );//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     } //end method display_comfortsmtp_listing_page
+
+    /**
+	 * Loads emails menu template
+	 *
+	 * @since 2.0.0
+	 */
+	public function admin_menu_display_emails() {
+		$settings = $this->settings;
+
+		$mail_helper = comfortsmtp_mailer();
+		$emails      = $mail_helper->emails;
+
+		$template_data = [ 'settings' => $settings, 'emails' => $emails, 'edit' => 0 ];
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended 
+		if ( isset( $_REQUEST['edit'] ) && $_REQUEST['edit'] != '' ) {
+			$email_id              = sanitize_text_field( wp_unslash( $_REQUEST['edit'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$template_data['edit'] = 1;
+			$template_data['id']   = $email_id;
+		}
+
+		echo comfortsmtp_get_template_html( 'admin/email_manager.php', $template_data );//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}//end method admin_menu_display_emails
 
     /**
      * Display the form settings page
@@ -832,13 +869,13 @@ class ComfortSmtpAdmin {
                 $phpmailer->Sender = $smtp_email_return_path;
             }
 
-            if ( $mailer == 'custom' ) {
+            if ( $mailer === 'custom' ) {
                 //if custom emailer then we need to choose which emailer we can use
 
                 $custom_mailer = esc_attr( sanitize_text_field( $setting->get_option( 'custom_mailer',
                         'comfortsmtp_smtps', 'custom_smtp' ) ) );
 
-                if ( $custom_mailer == 'custom_smtp' ) {
+                if ( $custom_mailer === 'custom_smtp' ) {
 
                     $custom_mailer      = $setting->get_field( 'custom_mailer', 'comfortsmtp_smtps', '' );
                     $smtp_email_servers = $setting->get_field( 'smtp_email_servers', 'comfortsmtp_smtps', '' );
@@ -851,15 +888,30 @@ class ComfortSmtpAdmin {
                         $smtp_config       = ComfortSmtpHelpers::getSMTPHostServer( $smtp_email_server );
                         $phpmailer->Mailer = 'smtp';
 
+
+                        // Decode HTML entities if body is already escaped
+                        /*if ( $phpmailer->Body !== html_entity_decode( $phpmailer->Body, ENT_QUOTES | ENT_HTML5, 'UTF-8' ) ) {
+                            $phpmailer->Body = html_entity_decode( $phpmailer->Body, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+                        }
+
+                        if ( stripos( $phpmailer->Body, '<html' ) !== false || stripos( $phpmailer->Body, '<p' ) !== false ) {
+                            $phpmailer->isHTML( true );
+                            $phpmailer->ContentType = 'text/html';
+                        }
+
+                        if ( empty( $phpmailer->AltBody ) ) {
+                            $phpmailer->AltBody = wp_strip_all_tags( $phpmailer->Body );
+                        }*/
+
                         $host = isset( $smtp_config['smtp_email_host'] ) ? sanitize_text_field( $smtp_config['smtp_email_host'] ) : 'localhost';
-                        $port = isset( $smtp_config['smtp_email_port'] ) ? intval( $smtp_config['smtp_email_port'] ) : 25;
+                        $port = isset( $smtp_config['smtp_email_port'] ) ? absint( $smtp_config['smtp_email_port'] ) : 25;
 
                         $secure = isset( $smtp_config['smtp_email_secure'] ) ? esc_attr( sanitize_text_field( $smtp_config['smtp_email_secure'] ) ) : 'none';
-                        if ( $secure == 'none' ) {
+                        if ( $secure === 'none' ) {
                             $secure = '';
                         }
 
-                        $auth = isset( $smtp_config['smtp_email_auth'] ) ? intval( $smtp_config['smtp_email_auth'] ) : 0;
+                        $auth = isset( $smtp_config['smtp_email_auth'] ) ? absint( $smtp_config['smtp_email_auth'] ) : 0;
 
                         $username = isset( $smtp_config['smtp_email_username'] ) ? sanitize_text_field( $smtp_config['smtp_email_username'] ) : '';
                         $password = isset( $smtp_config['smtp_email_password'] ) ? sanitize_text_field( $smtp_config['smtp_email_password'] ) : '';
@@ -886,7 +938,7 @@ class ComfortSmtpAdmin {
      * @param  array  $attachments
      */
     public function store_email_attachments( $log_id = 0, $attachments = [] ) {
-        $log_id = intval( $log_id );
+        $log_id = absint( $log_id );
         if ( $log_id > 0 && is_array( $attachments ) && sizeof( $attachments ) > 0 ) {
             $dir_info = ComfortSmtpHelpers::checkUploadDir( $log_id );
 
@@ -921,7 +973,7 @@ class ComfortSmtpAdmin {
     public function wp_mail_from_name_custom( $original_email_name ) {
         $setting = $this->settings;
 
-        $email_smtp_enable = intval( $setting->get_option( 'email_smtp_enable', 'comfortsmtp_email', 0 ) );
+        $email_smtp_enable = absint( $setting->get_option( 'email_smtp_enable', 'comfortsmtp_email', 0 ) );
 
         $smtp_from_name = sanitize_text_field( $setting->get_option( 'smtp_from_name', 'comfortsmtp_email',
                 sanitize_text_field( get_option( 'blogname' ) ) ) );
@@ -1238,7 +1290,7 @@ class ComfortSmtpAdmin {
         //$index = 1;
         $html = '';
 
-        if ( $section_name != '' && $option_name != '' ) {
+        if ( $section_name !== '' && $option_name !== '' ) {
             $all_fields     = $this->get_settings_fields();
             $section_fields = isset( $all_fields[ $section_name ] ) ? $all_fields[ $section_name ] : [];
 
@@ -1327,6 +1379,59 @@ class ComfortSmtpAdmin {
 
         wp_send_json( $msg );
     }//end add_new_repeat_field
+
+    /**
+	 * Save email/notification setting
+	 *
+	 * @return void
+	 */
+	public function save_email_setting() {
+        
+		if ( isset( $_REQUEST['comfortsmtp_email_edit'] ) ) {
+			$email_id = isset( $_POST['email_id'] ) ? sanitize_text_field( wp_unslash( $_POST['email_id'] ) ) : '';
+			$nonce    = isset( $_POST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			if ( $email_id !== '' ) {
+				if ( ! wp_verify_nonce( $nonce, 'comfortsmtp_email_edit_' . $email_id ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+					die( esc_html__( 'Security check failed!', 'cbxwpemaillogger' ) );
+				} else {
+					// Do stuff here.
+					$admin_url    = admin_url( 'admin.php?page=comfortsmtp-emails' );
+					$redirect_url = add_query_arg( [ 'edit' => $email_id ], $admin_url );
+
+					$mail_helper = comfortsmtp_mailer();
+					$emails      = $mail_helper->emails;
+					$email       = $emails[ $email_id ];
+					$form_fields = $email->form_fields;
+					$settings    = $email->settings;
+
+					foreach ( $form_fields as $field_key => $form_field ) {
+						if ( isset( $_POST[ $field_key ] ) ) {
+							$type = $form_field['type'];
+							if ( $type === 'checkbox' ) {
+								$settings[ $field_key ] = sanitize_text_field( wp_unslash( $_POST[ $field_key ] ) );
+							} elseif ( $type === 'textarea' ) {
+								$settings[ $field_key ] = sanitize_textarea_field( wp_unslash( $_POST[ $field_key ] ) );
+							} else {
+								$settings[ $field_key ] = sanitize_text_field( wp_unslash( $_POST[ $field_key ] ) );
+							}
+						} else {
+							$settings[ $field_key ] = $form_field['default'];
+						}
+					}
+
+					$email_options = get_option( 'comfortsmtp_emails', [] );
+
+					$email_options[ $email_id ] = $settings;
+					update_option( 'comfortsmtp_emails', $email_options );
+
+					wp_safe_redirect( $redirect_url );
+					exit;
+				}
+			} else {
+				die( esc_html__( 'Sorry, invalid email id', 'cbxwpemaillogger' ) );
+			}
+		}
+	}//end method save_email_setting
 }//end class ComfortSmtpAdmin
 
 //phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound

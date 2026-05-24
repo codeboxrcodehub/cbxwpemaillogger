@@ -12,4 +12,5 @@ return array(
     '72579e7bd17821bb1321b87411366eae' => $vendorDir . '/illuminate/support/helpers.php',
     '136b2e26fee4f7ad4cd4183e2d4b8b98' => $baseDir . '/includes/Helpers/comfortsmtp-functions.php',
     '3f73052929bf458937d9f36cebb87fd0' => $baseDir . '/includes/Helpers/comfortsmtp-tpl-loader.php',
+    '405a95103c103182b01cde299fdaf2fe' => $baseDir . '/includes/Helpers/ComfortSmtpEmailFunctions.php',
 );

@@ -41,6 +41,7 @@ class ComfortSmtpHooks {
 		add_action( 'rest_api_init', [ $route, 'init' ] );
 		add_action( 'init', [ $helper, 'load_orm' ] );
 		add_filter( 'robots_txt', [ $this, 'custom_robots_txt' ] );
+		add_action( 'init', [ $this, 'load_emails' ] );
 	} //end method define_common_hooks
 
 	/**
@@ -100,6 +101,8 @@ class ComfortSmtpHooks {
 		add_action( 'wp_ajax_comfortsmtp_settings_reset_load', [ $plugin_admin, 'settings_reset_load' ] );
 		add_action( 'wp_ajax_comfortsmtp_settings_reset', [ $plugin_admin, 'plugin_options_reset' ] );
 		add_action( 'comfortsmtp_before_vuejs_mount_after', [ $plugin_admin, 'dropdown_menu_focusout_js' ] );
+
+		add_action( 'admin_init', [ $plugin_admin, 'save_email_setting' ] );
 	}//end method define_admin_hooks
 
 	/**
@@ -216,7 +219,7 @@ class ComfortSmtpHooks {
 		$pro_addon_version = ComfortSmtpHelpers::get_any_plugin_version('cbxwpemailloggerpro/cbxwpemailloggerpro.php');
 		$pro_latest_version  = COMFORTSMTP_PRO_VERSION;
 
-		if($pro_addon_version != '' && version_compare( $pro_addon_version, $pro_latest_version, '<' ) ){
+		if($pro_addon_version !== '' && version_compare( $pro_addon_version, $pro_latest_version, '<' ) ){
 
 			$plugin_manual_update = 'https://codeboxr.com/manual-update-pro-addon/';
 
@@ -234,4 +237,12 @@ class ComfortSmtpHooks {
           </tr>';
 		}
 	}//end method custom_message_after_plugin_row_proaddon
-}//end class ComfortSmtpAdmin
+
+	/**
+	 * load emails
+	 */
+	public function load_emails() {
+		comfortsmtp_mailer();
+	} //end method load_emails
+
+}//end class ComfortSmtpHooks

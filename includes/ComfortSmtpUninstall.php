@@ -64,7 +64,7 @@ class ComfortSmtpUninstall {
 		$settings             = new ComfortSmtpSettings();
 		$delete_global_config = $settings->get_field( 'delete_global_config', 'comfortsmtp_general', 'no' );
 
-		if ( $delete_global_config == 'yes' ) {
+		if ( $delete_global_config === 'yes' ) {
 			//before hook
 			do_action( 'comfortsmtp_plugin_uninstall_before' );
 
