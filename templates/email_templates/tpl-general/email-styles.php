@@ -66,14 +66,12 @@ if ( ! defined( 'ABSPATH' ) ) {
         .logo-image {
             width: 50px;
             height: 50px;
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: #ffffff;
+            border-radius: 0;
+            font-size: 20px;
+            color: #000000;
             font-weight: 700;
+            text-align: center;
+            line-height: 50px;
         }
         .content {
             padding: 50px 40px;

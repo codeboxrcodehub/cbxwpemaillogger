@@ -201,31 +201,34 @@ class ComfortSmtpHooks {
 	}//end method custom_robots_txt
 
 	/**
-	 * Show plugin update
+	 * Show plugin update if pro addon exists but not active
 	 *
 	 * @param $plugin_file
 	 * @param $plugin_data
 	 *
 	 * @return void
 	 */
-	public function custom_message_after_plugin_row_proaddon($plugin_file, $plugin_data){
+	public function custom_message_after_plugin_row_proaddon( $plugin_file, $plugin_data ) {
 		if ( $plugin_file !== 'cbxwpemailloggerpro/cbxwpemailloggerpro.php' ) {
 			return;
 		}
 
 		//if pro addon is active then ignore this notification from core
-		if(defined('COMFORTSMTPPRO_PLUGIN_NAME')) return;
+		if ( defined( 'COMFORTSMTPPRO_PLUGIN_NAME' ) ) {
+			return;
+		}
 
-		$pro_addon_version = ComfortSmtpHelpers::get_any_plugin_version('cbxwpemailloggerpro/cbxwpemailloggerpro.php');
-		$pro_latest_version  = COMFORTSMTP_PRO_VERSION;
+		$pro_addon_version  = ComfortSmtpHelpers::get_any_plugin_version( 'cbxwpemailloggerpro/cbxwpemailloggerpro.php' );
+		$pro_latest_version = COMFORTSMTP_PRO_VERSION; //this constant is from core plugin main file
 
-		if($pro_addon_version !== '' && version_compare( $pro_addon_version, $pro_latest_version, '<' ) ){
+		if ( $pro_addon_version !== '' && version_compare( $pro_addon_version, $pro_latest_version, '<' ) ) {
 
 			$plugin_manual_update = 'https://codeboxr.com/manual-update-pro-addon/';
 
 
 			/* translators:translators: %s: plugin setting url for licence */
-			$custom_message     = wp_kses(sprintf( __( '<strong>Note:</strong> Comfort Email SMTP, Logger & Email Api Pro Addon is custom plugin. This plugin can not be auto update from dashboard/plugin manager. For manual update please check <a target="_blank" href="%1$s">documentation</a>. <strong style="color: red;">It seems this plugin\'s current version is older than %2$s . To get the latest pro addon features, this plugin needs to upgrade to %2$s or later.</strong>', 'cbxwpemaillogger' ), esc_url( $plugin_manual_update ), $pro_latest_version ), ['strong' => ['style' => []],'a' => ['href' => [], 'target' => []]]);
+			$custom_message = wp_kses( sprintf( __( '<strong>Note:</strong> Comfort Email SMTP, Logger & Email Api Pro Addon is custom plugin. This plugin can not be auto update from dashboard/plugin manager. For manual update please check <a target="_blank" href="%1$s">documentation</a>. <strong style="color: red;">It seems this plugin\'s current version is older than %2$s . To get the latest pro addon features, this plugin needs to upgrade to %2$s or later.</strong>',
+				'cbxwpemaillogger' ), esc_url( $plugin_manual_update ), $pro_latest_version ), [ 'strong' => [ 'style' => [] ], 'a' => [ 'href' => [], 'target' => [] ] ] );
 
 			// Output a row with custom content
 			echo '<tr class="plugin-update-tr">
@@ -244,5 +247,4 @@ class ComfortSmtpHooks {
 	public function load_emails() {
 		comfortsmtp_mailer();
 	} //end method load_emails
-
 }//end class ComfortSmtpHooks

@@ -15,8 +15,8 @@
  * @wordpress-plugin
  * Plugin Name:       Comfort Email SMTP, Logger & Email Api
  * Plugin URI:        https://codeboxr.com/product/cbx-email-logger-for-wordpress/
- * Description:       Various SMTP protocol, Logs email, tracks sent or failed status and more.
- * Version:           2.1.1
+ * Description:       SMTP for WordPress with email logging, delivery tracking, failed email monitoring, and debugging tools.
+ * Version:           2.1.3
  * Requires at least: 5.3
  * Requires PHP:      7.4
  * Author:            Codeboxr
@@ -35,7 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 defined( 'COMFORTSMTP_PLUGIN_NAME' ) or define( 'COMFORTSMTP_PLUGIN_NAME', 'cbxwpemaillogger' );
-defined( 'COMFORTSMTP_PLUGIN_VERSION' ) or define( 'COMFORTSMTP_PLUGIN_VERSION', '2.1.1' );
+defined( 'COMFORTSMTP_PLUGIN_VERSION' ) or define( 'COMFORTSMTP_PLUGIN_VERSION', '2.1.3' );
 defined( 'COMFORTSMTP_BASE_NAME' ) or define( 'COMFORTSMTP_BASE_NAME', plugin_basename( __FILE__ ) );
 defined( 'COMFORTSMTP_ROOT_PATH' ) or define( 'COMFORTSMTP_ROOT_PATH', plugin_dir_path( __FILE__ ) );
 defined( 'COMFORTSMTP_ROOT_URL' ) or define( 'COMFORTSMTP_ROOT_URL', plugin_dir_url( __FILE__ ) );

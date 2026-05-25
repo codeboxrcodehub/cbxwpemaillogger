@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Comfort Email SMTP, Logger & Email Api\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-07 07:19+0000\n"
+"POT-Creation-Date: 2026-05-25 18:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -41,7 +41,7 @@ msgid ""
 msgstr ""
 
 #. translators:translators: %s: plugin setting url for licence
-#: includes/ComfortSmtpHooks.php:228
+#: includes/ComfortSmtpHooks.php:230
 #, php-format
 msgid ""
 "<strong>Note:</strong> Comfort Email SMTP, Logger & Email Api Pro Addon is "
@@ -61,7 +61,7 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-#: includes/ComfortSmtpSettings.php:1037
+#: includes/ComfortSmtpSettings.php:1045
 #: includes/Helpers/ComfortSmtpHelpers.php:309
 msgid "Add New"
 msgstr ""
@@ -135,7 +135,7 @@ msgstr ""
 msgid "CC"
 msgstr ""
 
-#: includes/ComfortSmtpSettings.php:627
+#: includes/ComfortSmtpSettings.php:635
 #: includes/Helpers/ComfortSmtpHelpers.php:389
 #: includes/Helpers/ComfortSmtpHelpers.php:1049
 msgid "Check All"
@@ -150,7 +150,7 @@ msgid ""
 "Documentation</a>"
 msgstr ""
 
-#: includes/ComfortSmtpSettings.php:919
+#: includes/ComfortSmtpSettings.php:929
 msgid "Choose Color"
 msgstr ""
 
@@ -158,7 +158,7 @@ msgstr ""
 msgid "Choose Custom Mailer"
 msgstr ""
 
-#: includes/ComfortSmtpSettings.php:887
+#: includes/ComfortSmtpSettings.php:897
 msgid "Choose File"
 msgstr ""
 
@@ -218,7 +218,7 @@ msgstr ""
 msgid "Click to search"
 msgstr ""
 
-#: includes/ComfortSmtpSettings.php:381
+#: includes/ComfortSmtpSettings.php:389
 msgid "Click to show hide"
 msgstr ""
 
@@ -244,7 +244,7 @@ msgstr ""
 msgid "Codeboxr"
 msgstr ""
 
-#: templates/admin/support.php:288
+#: templates/admin/support.php:313
 msgid "Codeboxr News Updates"
 msgstr ""
 
@@ -273,7 +273,7 @@ msgstr ""
 msgid "Comfort Email SMTP, Logger & Email Api"
 msgstr ""
 
-#: templates/admin/support.php:183
+#: templates/admin/support.php:208
 msgid "Comfort Email SMTP, Logger & Email Api Details"
 msgstr ""
 
@@ -359,7 +359,7 @@ msgstr ""
 msgid "Core Plugin Changelog"
 msgstr ""
 
-#: templates/admin/support.php:211
+#: templates/admin/support.php:236
 msgid "Core Plugin Support"
 msgstr ""
 
@@ -445,7 +445,7 @@ msgstr ""
 msgid "Documentation"
 msgstr ""
 
-#: templates/admin/support.php:193
+#: templates/admin/support.php:218
 msgid "Documentation & User Guide"
 msgstr ""
 
@@ -453,7 +453,7 @@ msgstr ""
 msgid "Done"
 msgstr ""
 
-#: includes/ComfortSmtpSettings.php:817
+#: includes/ComfortSmtpSettings.php:827
 #: includes/Helpers/ComfortSmtpHelpers.php:209
 #: includes/Helpers/ComfortSmtpHelpers.php:313
 #: templates/admin/email_manager_list.php:89
@@ -701,11 +701,11 @@ msgstr ""
 msgid "From name"
 msgstr ""
 
-#: includes/Emails/ComfortSmtpGeneralAdminEmail.php:29
+#: includes/Emails/ComfortSmtpGeneralAdminEmail.php:30
 msgid "General notification for admin"
 msgstr ""
 
-#: includes/Emails/ComfortSmtpGeneralUserEmail.php:29
+#: includes/Emails/ComfortSmtpGeneralUserEmail.php:30
 msgid "General notification for user"
 msgstr ""
 
@@ -738,7 +738,7 @@ msgstr ""
 msgid "Header Image"
 msgstr ""
 
-#: templates/admin/support.php:172
+#: templates/admin/support.php:197
 msgid "Help & Supports"
 msgstr ""
 
@@ -758,7 +758,7 @@ msgid ""
 "of not."
 msgstr ""
 
-#: templates/admin/support.php:228
+#: templates/admin/support.php:253
 msgid "HRM & ERP Solutions for WordPress "
 msgstr ""
 
@@ -956,12 +956,12 @@ msgstr ""
 msgid "None(Port: 25)"
 msgstr ""
 
-#: includes/Emails/ComfortSmtpGeneralAdminEmail.php:192
-#: includes/Emails/ComfortSmtpGeneralAdminEmail.php:202
+#: includes/Emails/ComfortSmtpGeneralAdminEmail.php:193
+#: includes/Emails/ComfortSmtpGeneralAdminEmail.php:203
 msgid "Notification for admin"
 msgstr ""
 
-#: includes/Emails/ComfortSmtpGeneralUserEmail.php:189
+#: includes/Emails/ComfortSmtpGeneralUserEmail.php:190
 msgid "Notification for User"
 msgstr ""
 
@@ -975,7 +975,7 @@ msgstr ""
 msgid "Notification Name: %s"
 msgstr ""
 
-#: includes/Emails/ComfortSmtpGeneralUserEmail.php:199
+#: includes/Emails/ComfortSmtpGeneralUserEmail.php:200
 msgid "Notification User"
 msgstr ""
 
@@ -1019,7 +1019,7 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
-#: templates/admin/support.php:253
+#: templates/admin/support.php:278
 msgid "Other WordPress Plugins"
 msgstr ""
 
@@ -1051,8 +1051,8 @@ msgstr ""
 msgid "Plain text"
 msgstr ""
 
-#: includes/ComfortSmtpAdmin.php:276 includes/ComfortSmtpSettings.php:683
-#: includes/ComfortSmtpSettings.php:828
+#: includes/ComfortSmtpAdmin.php:276 includes/ComfortSmtpSettings.php:693
+#: includes/ComfortSmtpSettings.php:838
 msgid "Please Select"
 msgstr ""
 
@@ -1072,11 +1072,11 @@ msgstr ""
 msgid "Preview"
 msgstr ""
 
-#: templates/admin/support.php:129
+#: templates/admin/support.php:154
 msgid "Pro Addon Changelog"
 msgstr ""
 
-#: templates/admin/support.php:221
+#: templates/admin/support.php:246
 msgid "Pro Addon Support"
 msgstr ""
 
@@ -1113,7 +1113,7 @@ msgstr ""
 msgid "Reset option data"
 msgstr ""
 
-#: templates/admin/support.php:201
+#: templates/admin/support.php:226
 msgid "Review & Rate Comfort Email SMTP, Logger & Email Api Plugin"
 msgstr ""
 
@@ -1149,7 +1149,7 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: includes/ComfortSmtpSettings.php:1243 templates/admin/settings.php:57
+#: includes/ComfortSmtpSettings.php:1271 templates/admin/settings.php:57
 msgid "Save Settings"
 msgstr ""
 
@@ -1186,11 +1186,11 @@ msgstr ""
 msgid "Send"
 msgstr ""
 
-#: includes/Emails/ComfortSmtpGeneralAdminEmail.php:30
+#: includes/Emails/ComfortSmtpGeneralAdminEmail.php:31
 msgid "Sends notification to admin on general purpose."
 msgstr ""
 
-#: includes/Emails/ComfortSmtpGeneralUserEmail.php:30
+#: includes/Emails/ComfortSmtpGeneralUserEmail.php:31
 msgid "Sends notification to user on general purpose."
 msgstr ""
 
@@ -1218,6 +1218,12 @@ msgstr ""
 
 #: includes/Helpers/ComfortSmtpHelpers.php:903
 msgid "SMTP Authentication"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"SMTP for WordPress with email logging, delivery tracking, failed email "
+"monitoring, and debugging tools."
 msgstr ""
 
 #: includes/Helpers/ComfortSmtpHelpers.php:879
@@ -1348,13 +1354,13 @@ msgid ""
 msgstr ""
 
 #. %s: Shortcode name
-#: includes/ComfortSmtpSettings.php:811
+#: includes/ComfortSmtpSettings.php:821
 #, php-format
 msgid "This page doesn't have shortcode %s"
 msgstr ""
 
 #. %s: Shortcode name
-#: includes/ComfortSmtpSettings.php:807
+#: includes/ComfortSmtpSettings.php:817
 #, php-format
 msgid "This page has shortcode %s"
 msgstr ""
@@ -1383,7 +1389,7 @@ msgstr ""
 msgid "To"
 msgstr ""
 
-#: includes/ComfortSmtpSettings.php:1220
+#: includes/ComfortSmtpSettings.php:1248
 msgid "Toggle All Sections"
 msgstr ""
 
@@ -1425,7 +1431,7 @@ msgstr ""
 msgid "Unauthorized request"
 msgstr ""
 
-#: includes/ComfortSmtpSettings.php:627
+#: includes/ComfortSmtpSettings.php:635
 #: includes/Helpers/ComfortSmtpHelpers.php:390
 #: includes/Helpers/ComfortSmtpHelpers.php:1050
 msgid "Uncheck All"
@@ -1472,12 +1478,7 @@ msgstr ""
 msgid "Value"
 msgstr ""
 
-#. Description of the plugin
-msgid ""
-"Various SMTP protocol, Logs email, tracks sent or failed status and more."
-msgstr ""
-
-#: includes/ComfortSmtpSettings.php:821
+#: includes/ComfortSmtpSettings.php:831
 #: includes/Helpers/ComfortSmtpHelpers.php:201
 msgid "View"
 msgstr ""

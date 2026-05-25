@@ -5,9 +5,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Comfort\Crm\Smtp\Helpers\ComfortSmtpHelpers;
-use Pelago\Emogrifier\CssInliner;
-use Pelago\Emogrifier\HtmlProcessor\CssToAttributeConverter;
-use Pelago\Emogrifier\HtmlProcessor\HtmlPruner;
+use ComfortSmtpScoped\Pelago\Emogrifier\CssInliner;
+use ComfortSmtpScoped\Pelago\Emogrifier\HtmlProcessor\CssToAttributeConverter;
+use ComfortSmtpScoped\Pelago\Emogrifier\HtmlProcessor\HtmlPruner;
 
 if ( class_exists( 'ComfortSmtpEmail', false ) ) {
 	return;
@@ -846,9 +846,8 @@ class ComfortSmtpEmail {
 			 */
 			$css = apply_filters( 'cbxwpemaillogger_email_styles', $css, $this );
 
-			$css_inliner_class = CssInliner::class;
 
-			if ( $this->supports_emogrifier() && class_exists( $css_inliner_class ) ) {
+			if ( $this->supports_emogrifier()) {
 				try {
 					$css_inliner = CssInliner::fromHtml( $content )->inlineCss( $css );
 
@@ -861,11 +860,18 @@ class ComfortSmtpEmail {
 					                                  ->convertCssToVisualAttributes()
 					                                  ->render();
 				} catch ( Exception $e ) {
-					//$logger = wc_get_logger();
-					//$logger->error( $e->getMessage(), array( 'source' => 'emogrifier' ) );
+					/*if(function_exists('write_log')){
+						write_log( $e->getMessage() );
+					}*/
 				}
 			} else {
-				$content = '<style>' . $css . '</style>' . $content;
+				//$content = '<style>' . $css . '</style>' . $content;
+				$content = preg_replace(
+					'/(<head[^>]*>)/i',
+					'$1<style>' . $css . '</style>',
+					$content,
+					1
+				);
 			}
 		}
 

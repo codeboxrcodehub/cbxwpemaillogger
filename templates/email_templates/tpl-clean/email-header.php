@@ -39,16 +39,20 @@ if ( ! defined( 'ABSPATH' ) ) {
                                 <td style="width: 70%; vertical-align: middle;">
                                     <div class="logo-text"><?php echo get_bloginfo( 'name', 'display' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped?></div>
                                 </td>
-                                <td style="width: 30%; text-align: right; vertical-align: middle;">
-                                    <div class="logo-image">
-                                        <?php
-                                        $logo_img = isset( $template_settings['headerimage'] ) ? $template_settings['headerimage'] : '';
+                                <td width="30%" align="right" valign="middle">
+                                    <table role="presentation" cellpadding="0" cellspacing="0" align="right">
+                                        <tr>
+                                            <td class="logo-image" align="center" valign="middle">
+                                                    <?php
+                                                    $logo_img = isset( $template_settings['headerimage'] ) ? $template_settings['headerimage'] : '';
 
-                                        if ( $logo_img ) {
-                                            echo '<img style="display:inline-block; max-width: 50px; height: auto;" src="' . esc_url( $logo_img ) . '" alt="' . esc_attr( get_bloginfo( 'name', 'display' ) ) . '" />'; // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
-                                        }
-                                        ?>
-                                    </div>
+                                                    if ( $logo_img ) {
+                                                        echo '<img style="display:inline-block; max-width: 50px; height: auto;" src="' . esc_url( $logo_img ) . '" alt="' . esc_attr( get_bloginfo( 'name', 'display' ) ) . '" />'; // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
+                                                    }
+                                                    ?>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </td>
                             </tr>
                         </table>

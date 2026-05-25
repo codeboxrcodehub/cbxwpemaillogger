@@ -24,38 +24,43 @@ if ( ! defined( 'ABSPATH' ) ) {
     <title><?php echo get_bloginfo( 'name', 'display' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped?></title>
 </head>
 <body>
-    <!-- Preheader text for better inbox preview -->
-    <div class="preheader">
-        Important notification: Review your account summary and recent updates
-    </div>
+<!-- Preheader text for better inbox preview -->
+<div class="preheader">
+    Important notification: Review your account summary and recent updates
+</div>
 
-    <table role="presentation" class="wrapper" width="100%" cellpadding="0" cellspacing="0" >
-        <tr>
-            <td align="center">
-                <table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0">
-                    <!-- Header with Logo and Brand Name -->
-                    <tr>
-                        <td class="header">
-                            <table role="presentation" class="header-table" cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td style="width: 70%; vertical-align: middle;">
-                                        <div class="logo-text"><?php echo get_bloginfo( 'name', 'display' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped?></div>
-                                    </td>
-                                    <td style="width: 30%; text-align: right; vertical-align: middle;">
-                                        <?php
-                                        $logo_img = isset( $template_settings['headerimage'] ) ? $template_settings['headerimage'] : '';
+<table role="presentation" class="wrapper" width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+        <td align="center">
+            <table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0">
+                <!-- Header with Logo and Brand Name -->
+                <tr>
+                    <td class="header">
+                        <table role="presentation" class="header-table" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td style="width: 70%; vertical-align: middle;">
+                                    <div class="logo-text"><?php echo get_bloginfo( 'name', 'display' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped?></div>
+                                </td>
+                                <td width="30%" align="right" valign="middle">
+                                    <table role="presentation" cellpadding="0" cellspacing="0" align="right">
+                                        <tr>
+                                            <td class="logo-image" align="center" valign="middle">
+                                                <?php
+                                                $logo_img = isset( $template_settings['headerimage'] ) ? $template_settings['headerimage'] : '';
 
-                                        if ( $logo_img ) {
-                                            echo '<img style="display:inline-block; max-width: 50px; height: auto;" src="' . esc_url( $logo_img ) . '" alt="' . esc_attr( get_bloginfo( 'name', 'display' ) ) . '" />'; // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
-                                        }
-                                        ?>
-                                        <!-- Replace with: <img src="https://yoursite.com/logo.png" alt="YourBrand Logo" width="50" height="50" style="border-radius: 10px;"> -->
-                                        <!-- <div class="logo-image">YB</div> -->
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <!-- Content Section 1 -->
-                    <tr>
-                        <td class="content">
+                                                if ( $logo_img ) {
+                                                    echo '<img style="display:inline-block; max-width: 50px; height: auto;" src="' . esc_url( $logo_img ) . '" alt="' . esc_attr( get_bloginfo( 'name',
+                                                                    'display' ) ) . '" />'; // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
+                                                }
+                                                ?>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <!-- Content Section 1 -->
+                <tr>
+                    <td class="content">

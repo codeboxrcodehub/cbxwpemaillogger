@@ -24,6 +24,7 @@ if ( ! class_exists( 'ComfortSmtpGeneralUserEmail', false ) ) :
 		public function __construct() {
 			$this->id          = 'generic_email_user';
 			$this->type        = 2;
+			$this->email_type = 'html';
 			$this->enabled     = 'yes';
 			$this->user_email  = true; //alert for user
 			$this->title       = esc_html__( 'General notification for user', 'cbxwpemaillogger' );

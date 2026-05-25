@@ -90,6 +90,22 @@ $doc_url    = ComfortSmtpHelpers::url_utmy( 'https://codeboxr.com/product/cbx-em
                     <div class="content">
                         <div class="cbx-backend-settings-row">
                             <p>
+                                Version - 2.1.3
+                            </p>
+                            <ul>
+                                <li>[fixed] Email style adjustment related class not found is fixed.Sorry.</li>
+                            </ul>
+                        </div>
+                        <div class="cbx-backend-settings-row">
+                            <p>
+                                Version - 2.1.2
+                            </p>
+                            <ul>
+                                <li>[fixed] Pro plugin update checker issue fixed.</li>
+                            </ul>
+                        </div>
+                        <div class="cbx-backend-settings-row">
+                            <p>
                                 Version - 2.1.1
                             </p>
                             <ul>

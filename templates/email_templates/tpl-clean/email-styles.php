@@ -61,10 +61,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     .logo-image {
         width: 50px;
         height: 50px;
-        background-color: #000000;
         border-radius: 0;
         font-size: 20px;
-        color: #ffffff;
+        color: #000000;
         font-weight: 700;
         text-align: center;
         line-height: 50px;

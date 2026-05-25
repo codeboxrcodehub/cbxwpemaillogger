@@ -25,6 +25,7 @@ if ( ! class_exists( 'ComfortSmtpGeneralAdminEmail', false ) ) :
 			$this->id          = 'generic_email_admin';
 			$this->type        = 2;
 			$this->enabled     = 'yes';
+			$this->email_type = 'html';
 			$this->user_email  = false; //alert for admin
 			$this->title       = esc_html__( 'General notification for admin', 'cbxwpemaillogger' );
 			$this->description = esc_html__( 'Sends notification to admin on general purpose.', 'cbxwpemaillogger' );
